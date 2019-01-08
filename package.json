@@ -23,22 +23,21 @@
   "author": "hobigo",
   "license": "MIT",
   "dependencies": {
-    "debug": "^4.1.0",
-    "webdav": "^2.2.0"
-  },
-  "devDependencies": {
-    "@types/body-parser": "^1.17.0",
     "@types/chai": "^4.1.7",
-    "@types/debug": "0.0.31",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.9.5",
     "chai": "^4.2.0",
-    "cross-env": "^5.2.0",
+    "debug": "^4.1.0",
+    "webdav": "^2.2.0",
     "mocha": "^5.2.0",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/debug": "0.0.31",
+    "cross-env": "^5.2.0",
     "ts-loader": "^4.4.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typedoc": "^0.14.0",
-    "typescript": "^3.2.2"
+    "typedoc": "^0.14.0"
   }
 }
