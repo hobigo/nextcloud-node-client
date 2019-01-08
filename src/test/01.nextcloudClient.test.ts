@@ -6,6 +6,7 @@ import {
     NCFile,
     NCFolder,
 } from "../ncClient";
+import NCTag from "../ncTag";
 
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT", function() {
@@ -368,6 +369,19 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const file: NCFile | null = await client.getFile(fileName);
 
         expect(file, "expect file to be null").to.be.equal(null);
+    });
+
+    it.only("20 get tags", async () => {
+
+        const client = await NCClient.clientFactory();
+
+        const tags: NCTag[] = await client.getTags();
+
+        for (const x of tags) {
+            // tslint:disable-next-line:no-console
+            console.log("--- " + x);
+        }
+        expect(tags, "expect tags to be an array").to.be.a("array");
     });
 
     it("99 delete directory", async () => {

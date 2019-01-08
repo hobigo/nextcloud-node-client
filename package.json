@@ -12,7 +12,7 @@
     "postinstall": "npm run build",
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
     "build": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
-    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"*\" mocha -r ts-node/register src/**/*test.ts",
+    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" mocha -r ts-node/register src/**/*test.ts",
     "test": "cross-env NODE_ENV=\"development\" mocha -r ts-node/register src/**/*test.ts",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
@@ -26,15 +26,18 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.9.5",
+    "@types/node-fetch": "^2.1.4",
     "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
     "debug": "^4.1.0",
-    "webdav": "^2.2.0",
+    "fast-xml-parser": "^3.12.11",
     "mocha": "^5.2.0",
-    "typescript": "^3.2.2"
+    "node-fetch": "^2.3.0",
+    "typescript": "^3.2.2",
+    "webdav": "^2.2.0"
   },
   "devDependencies": {
     "@types/debug": "0.0.31",
-    "cross-env": "^5.2.0",
     "ts-loader": "^4.4.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",

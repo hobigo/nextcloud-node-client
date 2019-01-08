@@ -1,16 +1,33 @@
 // tslint:disable-next-line:no-var-requires
-const debug = require("debug").debug("NCFlient");
+const debug = require("debug").debug("NCClient");
+
+import {
+    Body,
+    FetchError,
+    Headers,
+    Request,
+    RequestInit,
+    Response,
+} from "node-fetch";
+
+import { URL } from "url";
 
 import path from "path";
+
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
+import NCTag from "./ncTag";
+
+import fetch from "node-fetch";
+
+import parser from "fast-xml-parser";
 
 export {
     NCClient,
     NCError,
     NCFolder,
-    NCFile
+    NCFile,
 };
 
 export default class NCClient {
@@ -88,6 +105,8 @@ export default class NCClient {
     }
 
     private webDAVClient: any;
+    private nextcloudOrigin: string;
+    private nextcloudAuthHeader: string;
 
     /**
      * the constructor is private - the factory method should be used to get instances
@@ -100,13 +119,65 @@ export default class NCClient {
         const { createClient } = require("webdav");
         this.webDAVClient = createClient(webDavUrl, { username, password });
         // debug("webdav client %O", this.client);
+
+        this.nextcloudOrigin = new URL(NCClient.getCredentials().url).origin;
+        this.nextcloudAuthHeader = "Basic " + new Buffer(username + ":" + password).toString("base64");
     }
 
+    /**
+     * returns the used and free quota of the nextcloud account
+     */
     public async getQuota() {
         debug("getQuota");
         const q = await this.webDAVClient.getQuota();
         debug("getQuota = %O", q);
         return q;
+    }
+
+    public async getTags(): Promise<NCTag[]> {
+        debug("getTags");
+        debug("getTags new endpoint %O");
+
+        const body: string = `
+        <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+            <d:prop>
+                <oc:display-name/>
+                <oc:user-visible/>
+                <oc:user-assignable/>
+                <oc:id/>
+            </d:prop>
+        </d:propfind>
+        `;
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/remote.php/dav/systemtags",
+            "PROPFIND",
+            [207],
+            body);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+
+        if (!responseObject.multistatus) {
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+        }
+
+        const tags: NCTag[] = [];
+        for (const res of responseObject.multistatus.response) {
+            if (res.propstat) {
+                if (res.propstat.status === "HTTP/1.1 200 OK") {
+                    debug(res.href);
+                    // debug(res.propstat);
+                    debug(res.propstat.prop["display-name"]);
+                    tags.push(new NCTag(this,
+                        res.href,
+                        res.propstat.prop["display-name"]));
+                }
+            }
+
+        }
+
+        return tags;
     }
 
     /**
@@ -187,6 +258,15 @@ export default class NCClient {
             debug("deleteFile: exception occurred %O", e);
             throw e;
         }
+    }
+
+    /**
+     * deletes a tag
+     * @param tagName name of the tag
+     */
+    public async deleteTag(tagName: string): Promise<void> {
+        debug("deleteTag");
+        // @todo to be implemented delete tag
     }
 
     /**
@@ -447,6 +527,61 @@ export default class NCClient {
             }
         }
         return link;
+    }
+
+    private async getParseXMLFromResponse(response: Response): Promise<any> {
+        const responseContentType: string | null = response.headers.get("content-type");
+
+        if (!responseContentType) {
+            throw new NCError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
+        }
+
+        if (responseContentType.indexOf("application/xml") === -1) {
+            throw new NCError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
+        }
+
+        const xmlBody: string = await response.text();
+
+        if (parser.validate(xmlBody) !== true) {
+            throw new NCError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
+        }
+        const options: any = {
+            ignoreNameSpace: true,
+        };
+        const responseObject: any = parser.parse(xmlBody, options);
+        return responseObject;
+    }
+
+    private async getHttpResponse(url: string, method: string, expectedHttpStatusCode: number[], body?: string): Promise<Response> {
+        const initReq: RequestInit = {
+            method,
+        };
+
+        const headers: { [index: string]: string } = {};
+        headers.Authorization = this.nextcloudAuthHeader;
+        headers["User-Agent"] = "nextcloud-node-client";
+
+        initReq.headers = headers;
+
+        if (initReq.headers && initReq.headers instanceof Object) {
+            initReq.headers["User-Agent"] = "nextcloud-node-client";
+        }
+
+        if (body) {
+            initReq.body = body;
+        }
+
+        const response: Response = await fetch(url, initReq);
+        const responseContentType: string | null = response.headers.get("content-type");
+
+        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
+            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")}`);
+        }
+        if (!responseContentType) {
+            throw new Error("Content type missing in response");
+        }
+
+        return response;
     }
 
     /**
