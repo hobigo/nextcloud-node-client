@@ -1,0 +1,44 @@
+{
+  "name": "nextcloud-node-client",
+  "version": "1.0.0",
+  "description": "Nextcloud client api for node.js",
+  "main": "dist/ncClient.js",
+  "types": "dist/ncClient.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
+  },
+  "scripts": {
+    "postinstall": "npm run build",
+    "build-watch": "node ./node_modules/typescript/bin/tsc -w",
+    "build": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
+    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"*\" mocha -r ts-node/register src/**/*test.ts",
+    "test": "cross-env NODE_ENV=\"development\" mocha -r ts-node/register src/**/*test.ts",
+    "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
+  },
+  "engines": {
+    "node": "8.x",
+    "npm": "6.4.1"
+  },
+  "author": "hobigo",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^4.1.0",
+    "webdav": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/chai": "^4.1.7",
+    "@types/debug": "0.0.31",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.9.5",
+    "chai": "^4.2.0",
+    "cross-env": "^5.2.0",
+    "mocha": "^5.2.0",
+    "ts-loader": "^4.4.1",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typedoc": "^0.14.0",
+    "typescript": "^3.2.2"
+  }
+}
