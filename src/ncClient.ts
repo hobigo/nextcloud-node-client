@@ -26,9 +26,29 @@ export {
     NCFile,
 };
 
+export interface IBasicAuth {
+    "username": string;
+    "password": string;
+}
+
+export interface ICredentials {
+    "url": string;
+    "basicAuth": IBasicAuth;
+}
+
 export default class NCClient {
 
-    public static getCredentials(): { username: string, password: string, url: string } {
+    /**
+     * NODE_ENV === "development":
+     *   environment variable: NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE json file name that contains the credentials
+     *     url, username, password
+     *    standard file: ./../userProvidedService.json
+     * NODE_ENV !== "development":
+     *    environment variable: VCAP_SERVICES user-provided first entry
+     * @returns the credentials from the environment (user provided service or use a local file in dev mode)
+     */
+    public static getCredentialsFromEnv(): ICredentials {
+        let result: ICredentials;
         let credentials:
             {
                 "url": string;
@@ -37,7 +57,11 @@ export default class NCClient {
             };
 
         if (process.env.NODE_ENV === "development") {
-            credentials = require("./../userProvidedService.json");
+            if (process.env.NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE) {
+                credentials = require(process.env.NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE);
+            } else {
+                credentials = require("./../userProvidedService.json");
+            }
 
         } else {
             if (!process.env.VCAP_SERVICES) {
@@ -73,27 +97,38 @@ export default class NCClient {
                 }
 
                 credentials = vcapServices["user-provided"][0];
+
             } else {
                 throw new NCError("NCClient getCredentials user provided services not found",
                     "ERR_USER_PROVIDED_SERVICES_NOT_FOUND");
 
             }
         }
-        return credentials;
+
+        result = {
+            basicAuth: {
+                password: credentials.password,
+                username: credentials.username,
+            },
+            url: credentials.url,
+        };
+
+        return result;
     }
 
     /**
-     * create a new instance of a nextcloud client
+     * creates a new instance of a nextcloud client
+     * if credentials are not provided, the credentials are used from the environment (user provided service cloud foundry)
+     * @param credentials credentials of the nextcloud server and webdav url
+     * @throws Error
      */
-    public static async clientFactory(): Promise<NCClient> {
-        const credentials:
-            {
-                "url": string;
-                "username": string;
-                "password": string;
-            } = NCClient.getCredentials();
+    public static async clientFactory(credentials?: ICredentials): Promise<NCClient> {
 
-        const client: NCClient = new NCClient(credentials.url, credentials.username, credentials.password);
+        if (!credentials) {
+            credentials = NCClient.getCredentialsFromEnv();
+        }
+
+        const client: NCClient = new NCClient(credentials);
 
         // ensure that the client is working
         await client.getQuota();
@@ -111,14 +146,14 @@ export default class NCClient {
      * @param username basic auth username
      * @param password basic auth password
      */
-    private constructor(webDavUrl: string, username: string, password: string) {
+    private constructor(credentials: ICredentials) {
         debug("constructor");
         const { createClient } = require("webdav");
-        this.webDAVClient = createClient(webDavUrl, { username, password });
+        this.webDAVClient = createClient(credentials.url, { username: credentials.basicAuth.username, password: credentials.basicAuth.password });
         // debug("webdav client %O", this.client);
 
-        this.nextcloudOrigin = new URL(NCClient.getCredentials().url).origin;
-        this.nextcloudAuthHeader = "Basic " + new Buffer(username + ":" + password).toString("base64");
+        this.nextcloudOrigin = new URL(credentials.url).origin;
+        this.nextcloudAuthHeader = "Basic " + new Buffer(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
         this.nextcloudRequestToken = "";
     }
 

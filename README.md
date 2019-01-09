@@ -56,6 +56,51 @@ Please refer to test file and the docs folder with the generated documentation.
 npm install nextcloud-node-client
 ``
 
+## Creating a client
+Creating a client with credentials
+
+```typescript
+  import { ICredentials, NCClient } from "nextcloud-node-client";
+
+  (async() => {
+    const credentials: ICredentials = {
+            basicAuth:
+            {
+                password: "<your password>",
+                username: "<your user>",
+            },
+            url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
+        };
+    try {
+        const client = await NCClient.clientFactory(credentials);
+        //  do cool stuff with the client
+    } catch (e) {
+          // some error handling
+    }
+ })();
+```
+
+```javascript
+  const NCClient = require("nextcloud-node-client");
+
+  (async() => {
+    const credentials = {
+            basicAuth:
+            {
+                password: "<your password>",
+                username: "<your user>",
+            },
+            url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
+        };
+    try {
+        const client = await NCClient.clientFactory(credentials);
+        //  do cool stuff with the client
+    } catch (e) {
+          // some error handling
+    }
+ })();
+```
+
 ## CloudFoundry Integration
 Cloud foundry apps use the credentials provided in the environment.
 Create a user provided service from a json file to store the credentials securely in the environment.

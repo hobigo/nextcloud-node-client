@@ -2,6 +2,7 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
+    ICredentials,
     NCClient,
     NCFile,
     NCFolder,
@@ -508,6 +509,24 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
             file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
         } catch (e) {
             expect(true, "we do not expect an exception adding tags").to.be.equal(false);
+        }
+
+    });
+
+    it.skip("28 client factory with explicit credentials", async () => {
+
+        const credentials: ICredentials = {
+            basicAuth:
+            {
+                password: "<your password>",
+                username: "<your user>",
+            },
+            url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
+        };
+        try {
+            const client = await NCClient.clientFactory(credentials);
+        } catch (e) {
+            expect(true, "we do not expect an exception").to.be.equal(false);
         }
 
     });
