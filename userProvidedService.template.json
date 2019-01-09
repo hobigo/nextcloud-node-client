@@ -1,0 +1,5 @@
+{
+    "url": "<your nextcloud url like https://myNextcloudServer.com/remote.php/webdav/>",
+    "username": "<your user name>",
+    "password": "<your password>"
+}

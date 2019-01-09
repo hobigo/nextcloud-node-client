@@ -1,6 +1,6 @@
 {
   "name": "nextcloud-node-client",
-  "version": "1.0.0",
+  "version": "0.9.1",
   "description": "Nextcloud client api for node.js",
   "main": "dist/ncClient.js",
   "types": "dist/ncClient.d.ts",
@@ -31,7 +31,6 @@
     "cross-env": "^5.2.0",
     "debug": "^4.1.0",
     "fast-xml-parser": "^3.12.11",
-    "fetch-cookie": "^0.7.2",
     "mocha": "^5.2.0",
     "node-fetch": "^2.3.0",
     "typescript": "^3.2.2",

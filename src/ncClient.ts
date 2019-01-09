@@ -1,31 +1,23 @@
 // tslint:disable-next-line:no-var-requires
 const debug = require("debug").debug("NCClient");
 
-import {
-    Body,
-    FetchError,
-    Headers,
-    Request,
-    RequestInit,
-    Response,
-} from "node-fetch";
-
-import { URL } from "url";
-
 import path from "path";
+import { URL } from "url";
 
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
 
-import nodeFetch from "node-fetch";
-
 import parser from "fast-xml-parser";
-import { request } from "http";
 
-// tslint:disable-next-line:no-var-requires
-const fetch = require("fetch-cookie")(nodeFetch);
+import {
+    Headers,
+    RequestInit,
+    Response,
+} from "node-fetch";
+
+import fetch from "node-fetch";
 
 export {
     NCClient,
@@ -671,6 +663,43 @@ export default class NCClient {
         }
         return link;
     }
+    /**
+     * adds a tag to a file or folder
+     * if the tag does not exist, it is automatically created
+     * if the tag is created, the user must have damin privileges
+     * @param fileId the id of the file
+     * @param tagName the name of the tag
+     * @returns nothing
+     * @throws Error
+     */
+    public async addTagToFile(fileId: number, tagName: string): Promise<void> {
+        debug("addTagToFile file:%s tag:%s", fileId, tagName);
+        const tag: NCTag | null = await this.createTag(tagName);
+
+        if (!tag) {
+            return;
+        }
+
+        const addTagBody: any = {
+            canAssign: true,
+            id: tag.idNumber,
+            name: tagName,
+            userAssignable: true,
+            userVisible: true,
+
+        };
+
+        const requestInit: RequestInit = {
+            body: JSON.stringify(addTagBody, null, 4),
+            headers: new Headers({ "Content-Type": "application/json" }),
+            method: "PUT",
+        };
+
+        await this.getHttpResponse(
+            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.idNumber}`,
+            requestInit,
+            [201]);
+    }
 
     // ***************************************************************************************
     // private methods
@@ -763,6 +792,7 @@ export default class NCClient {
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
             debug("getHttpResponse unexpected status response headers %O", response.headers);
+            debug("getHttpResponse unexpected status response text %s", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
         if (!responseContentType) {

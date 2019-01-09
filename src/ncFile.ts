@@ -1,5 +1,5 @@
 
-import NCClient from "./ncClient";
+import NCClient, { NCError } from "./ncClient";
 
 export default class NCFile {
     public name: string;
@@ -49,6 +49,9 @@ export default class NCFile {
     public async getId(): Promise<number> {
         if (this.id === -1) {
             this.id = await this.client.getFileId(this.getUrl());
+            if (this.id === -1) {
+                throw new NCError("Error file has been deleted - no id", "ERR_FILE_WITHOUT_ID");
+            }
         }
         return this.id;
     }
@@ -67,5 +70,13 @@ export default class NCFile {
      */
     public getUrl(): string {
         return this.client.getLink(this.name);
+    }
+
+    /**
+     * adds a tag name to the file
+     * @param tagName name of the tag
+     */
+    public async addTag(tagName: string): Promise<void> {
+        return this.client.addTagToFile(await this.getId(), tagName);
     }
 }

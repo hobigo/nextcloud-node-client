@@ -9,7 +9,7 @@ import {
 import NCTag from "../ncTag";
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT", function () {
+describe("NEXCLOUD-NODE-CLIENT", function() {
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 
@@ -468,7 +468,7 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it.only("26 get folder id", async () => {
+    it("26 get folder id", async () => {
 
         const client = await NCClient.clientFactory();
 
@@ -480,6 +480,35 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
+
+    });
+
+    it("27 add tag to file", async () => {
+
+        const client = await NCClient.clientFactory();
+
+        const dirName = "/test/fileTagging";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        await baseDir.createFile(fileName1, new Buffer("File 1"));
+
+        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+
+        const id: number = await file!.getId();
+
+        expect(id, "expect id to be a number").to.be.a("number");
+        expect(id, "expect id to be not -1").to.be.not.equal(-1);
+
+        try {
+            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
+            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
+        } catch (e) {
+            expect(true, "we do not expect an exception adding tags").to.be.equal(false);
+        }
 
     });
 

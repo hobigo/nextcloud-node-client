@@ -50,5 +50,34 @@ The file is the representation of a nextcloud file. Every file is contained in a
 ### Tag
 Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.
 
-## API
-@todo 
+## API overview
+The api usage is currently not yet documented. 
+Please refer to test file and the docs folder with the generated documentation.
+
+### Client
+- factory method for client 
+- create folder
+- get folder
+- create file
+- get file
+- create tags
+- get tags, by name, by id
+- get quota
+### Folder
+- get name, id, base name, url
+- delete
+- create sub folders 
+- get sub folder
+- create file
+- get files
+- add tag
+- move/rename
+### File
+- get name, id, base name, url
+- get content
+- delete
+- add tag
+- move/rename
+
+## License
+Apache
