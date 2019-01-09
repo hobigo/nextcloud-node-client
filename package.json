@@ -9,7 +9,7 @@
     "url": "https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
-    "_postinstall": "npm run build",
+    "postinstall": "npm run build",
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
     "build": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
     "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" mocha -r ts-node/register src/**/*test.ts",
