@@ -4,39 +4,6 @@ The nextcloud node client provides a TypeScript/JavaScript api for node applicat
 The client supports basic file and folder operations and tagging. 
 The usage within browsers is not supported
 
-# Installation
-``
-npm install nextcloud-node-client
-``
-
-## CloudFoundry Integration
-Cloud foundry apps use the credentials provided in the environment.
-Create a user provided service from a json file to store the credentials securely in the environment.
-
-``
-cf create-user-provided-service ups-nextcloud -p ./userProvidedService.json
-``
-
-Structure of the userProvidedService.json file
-
-```
-{
-    "url": "<url endpoint of the WebDAV server>",
-    "username": "<user name>",
-    "password": "<password>"
-}
-```
-
-## Development
-set the NODE_ENV to "development" and locate the userProvidedService.json file in the root directory for local development.
-
-Use ``npm run build-watch`` to build js files.
-
-## Test
-
-Use ``npm run test`` to execute automated tests
-Use ``npm run test-d`` to execute automated tests with debug information
-
 ## Concepts
 ### Client 
 The client is the root object and represents the connection to the nextcloud server.
@@ -78,6 +45,39 @@ Please refer to test file and the docs folder with the generated documentation.
 - delete
 - add tag
 - move/rename
+
+## Installation
+``
+npm install nextcloud-node-client
+``
+
+## CloudFoundry Integration
+Cloud foundry apps use the credentials provided in the environment.
+Create a user provided service from a json file to store the credentials securely in the environment.
+
+``
+cf create-user-provided-service ups-nextcloud -p ./userProvidedService.json
+``
+
+Structure of the userProvidedService.json file
+
+```
+{
+    "url": "<url endpoint of the WebDAV server>",
+    "username": "<user name>",
+    "password": "<password>"
+}
+```
+
+## Development
+set the NODE_ENV to "development" and locate the userProvidedService.json file in the root directory for local development.
+
+Use ``npm run build-watch`` to build js files.
+
+## Test
+
+Use ``npm run test`` to execute automated tests
+Use ``npm run test-d`` to execute automated tests with debug information
 
 ## License
 Apache
