@@ -6,7 +6,7 @@
   "types": "dist/ncClient.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
+    "url": "https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
     "postinstall": "npm run build",
@@ -16,12 +16,22 @@
     "test": "cross-env NODE_ENV=\"development\" mocha -r ts-node/register src/**/*test.ts",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
+  "keywords": [
+    "nextcloud",
+    "api",
+    "file",
+    "folder",
+    "tag",
+    "tagging",
+    "nodejs",
+    "node"
+  ],
   "engines": {
     "node": "8.x",
     "npm": "6.4.1"
   },
-  "author": "hobigo",
-  "license": "MIT",
+  "author": "Holger Gockel",
+  "license": "Apache-2.0",
   "dependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
@@ -42,5 +52,9 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
     "typedoc": "^0.14.0"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/hobigo/nextcloud-node-client/issues"
+  },
+  "homepage": "https://github.com/hobigo/nextcloud-node-client"
 }

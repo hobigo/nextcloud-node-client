@@ -27,7 +27,7 @@ Please refer to test file and the docs folder with the generated documentation.
 - get folder
 - create file
 - get file
-- create tags
+- create tag*
 - get tags, by name, by id
 - get quota
 ### Folder
@@ -45,6 +45,11 @@ Please refer to test file and the docs folder with the generated documentation.
 - delete
 - add tag
 - move/rename
+### Tag
+- get name, id
+- delete*
+
+\* admin permissions required
 
 ## Installation
 ``
