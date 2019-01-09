@@ -68,7 +68,7 @@ Structure of the userProvidedService.json file
 
 ```
 {
-    "url": "<url endpoint of the WebDAV server>",
+    "url": "<url - WebDAV endpoint of the nextcloud server>",
     "username": "<user name>",
     "password": "<password>"
 }
