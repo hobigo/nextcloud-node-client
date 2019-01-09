@@ -19,9 +19,13 @@ import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
 
-import fetch from "node-fetch";
+import nodeFetch from "node-fetch";
 
 import parser from "fast-xml-parser";
+import { request } from "http";
+
+// tslint:disable-next-line:no-var-requires
+const fetch = require("fetch-cookie")(nodeFetch);
 
 export {
     NCClient,
@@ -107,6 +111,7 @@ export default class NCClient {
     private webDAVClient: any;
     private nextcloudOrigin: string;
     private nextcloudAuthHeader: string;
+    private nextcloudRequestToken: string;
 
     /**
      * the constructor is private - the factory method should be used to get instances
@@ -122,6 +127,7 @@ export default class NCClient {
 
         this.nextcloudOrigin = new URL(NCClient.getCredentials().url).origin;
         this.nextcloudAuthHeader = "Basic " + new Buffer(username + ":" + password).toString("base64");
+        this.nextcloudRequestToken = "";
     }
 
     /**
@@ -134,26 +140,126 @@ export default class NCClient {
         return q;
     }
 
+    /**
+     * creates a new tag, if not already existing
+     * this function will fail with http 403 if the user does not have admin privileges
+     * @param tagName the name of the tag
+     * @returns tagId
+     */
+    public async createTag(tagName: string): Promise<NCTag> {
+
+        debug("createTag");
+        let tag: NCTag | null;
+        // is the tag already existing?
+        tag = await this.getTagByName(tagName);
+        if (tag) {
+            return tag;
+        }
+        // tag does not exist, create tag
+
+        const requestInit: RequestInit = {
+            body: `{"name": "${tagName}", "userVisible": true, "userAssignable": true, "canAssign": true}`,
+            headers: new Headers({ "Content-Type": "application/json" }),
+            method: "POST",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/remote.php/dav/systemtags/",
+            requestInit,
+            [201],
+        );
+
+        const tagId: string | null = response.headers.get("Content-Location");
+        debug("createTag new tagId %s, tagName %s", tagId, tagName);
+        if (tagId === "" || tagId === null) {
+            throw new NCError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
+        }
+
+        tag = new NCTag(this, tagId, tagName);
+        return tag;
+    }
+
+    /**
+     * returns a tag identified by the name or null if not found
+     * @param tagName the name of the tag
+     * @returns tag or null
+     */
+    public async getTagByName(tagName: string): Promise<NCTag | null> {
+
+        debug("getTag");
+
+        const tags: NCTag[] = await this.getTags();
+        for (const tag of tags) {
+            if (tag.name === tagName) {
+                return tag;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * returns a tag identified by the id or null if not found
+     * @param tagId the id of the tag
+     * @returns tag or null
+     */
+    public async getTagById(tagId: string): Promise<NCTag | null> {
+
+        debug("getTagById");
+
+        const tags: NCTag[] = await this.getTags();
+        for (const tag of tags) {
+            if (tag.id === tagId) {
+                return tag;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * deletes the tag by id
+     * this function will fail with http 403 if the user does not have admin privileges
+     * @param tagId the id of the tag like "/remote.php/dav/systemtags/234"
+     */
+    public async deleteTag(tagId: string): Promise<void> {
+
+        debug("deleteTag");
+
+        const requestInit: RequestInit = {
+            method: "DELETE",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + tagId,
+            requestInit,
+            [204, 404]);
+
+        // const responseObject: any = await this.getParseXMLFromResponse(response);
+    }
+
+    /**
+     * returns a list of tags
+     * @returns array of tags
+     */
     public async getTags(): Promise<NCTag[]> {
         debug("getTags");
         debug("getTags new endpoint %O");
-
-        const body: string = `
-        <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
-            <d:prop>
-                <oc:display-name/>
-                <oc:user-visible/>
-                <oc:user-assignable/>
-                <oc:id/>
-            </d:prop>
-        </d:propfind>
-        `;
+        const requestInit: RequestInit = {
+            body: `
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+                <d:prop>
+                    <oc:display-name/>
+                    <oc:user-visible/>
+                    <oc:user-assignable/>
+                    <oc:id/>
+                </d:prop>
+            </d:propfind>`,
+            method: "PROPFIND",
+        };
 
         const response: Response = await this.getHttpResponse(
             this.nextcloudOrigin + "/remote.php/dav/systemtags",
-            "PROPFIND",
-            [207],
-            body);
+            requestInit,
+            [207]);
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
@@ -178,6 +284,52 @@ export default class NCClient {
         }
 
         return tags;
+    }
+
+    /**
+     * returns the id of the file or -1 of not found
+     * @returns id of the file or -1 if not found
+     */
+    public async getFileId(fileUrl: string): Promise<number> {
+        debug("getFileId");
+
+        const requestInit: RequestInit = {
+            body: `
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+              <d:prop>
+                  <oc:fileid />
+              </d:prop>
+            </d:propfind>`,
+            method: "PROPFIND",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            fileUrl,
+            requestInit,
+            [207]);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+        debug("getFileId parsed response body %O", responseObject);
+        if (!responseObject.multistatus) {
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+        }
+
+        const tags: NCTag[] = [];
+        if (responseObject.multistatus.response &&
+            responseObject.multistatus.response.propstat &&
+            responseObject.multistatus.response.propstat.status &&
+            responseObject.multistatus.response.propstat.prop &&
+            responseObject.multistatus.response.propstat.prop.fileid) {
+            const propstat = responseObject.multistatus.response.propstat;
+            if (propstat.status === "HTTP/1.1 200 OK") {
+                debug("getFileId file id for %s is %s", fileUrl, propstat.prop.fileid);
+                return propstat.prop.fileid;
+            }
+        }
+
+        debug("getFileId no file id found for %s", fileUrl);
+        return -1;
     }
 
     /**
@@ -258,15 +410,6 @@ export default class NCClient {
             debug("deleteFile: exception occurred %O", e);
             throw e;
         }
-    }
-
-    /**
-     * deletes a tag
-     * @param tagName name of the tag
-     */
-    public async deleteTag(tagName: string): Promise<void> {
-        debug("deleteTag");
-        // @todo to be implemented delete tag
     }
 
     /**
@@ -529,6 +672,16 @@ export default class NCClient {
         return link;
     }
 
+    // ***************************************************************************************
+    // private methods
+    // ***************************************************************************************
+
+    /**
+     * ckecks of the response has a body containing valid xml and returns the json representation
+     * @param response the http response
+     * @returns the parsed object
+     * @throws NCError
+     */
     private async getParseXMLFromResponse(response: Response): Promise<any> {
         const responseContentType: string | null = response.headers.get("content-type");
 
@@ -552,30 +705,65 @@ export default class NCClient {
         return responseObject;
     }
 
-    private async getHttpResponse(url: string, method: string, expectedHttpStatusCode: number[], body?: string): Promise<Response> {
-        const initReq: RequestInit = {
-            method,
+    /**
+     * nextcloud creates a csrf token and stores it in the html header attribute
+     * data-requesttoken
+     * this function is currently not used
+     * @returns the csrf token / requesttoken
+     */
+    private async getCSRFToken(): Promise<string> {
+
+        const requestInit: RequestInit = {
+            method: "GET",
         };
 
-        const headers: { [index: string]: string } = {};
-        headers.Authorization = this.nextcloudAuthHeader;
-        headers["User-Agent"] = "nextcloud-node-client";
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin,
+            requestInit,
+            [200]);
 
-        initReq.headers = headers;
+        const html = await response.text();
 
-        if (initReq.headers && initReq.headers instanceof Object) {
-            initReq.headers["User-Agent"] = "nextcloud-node-client";
+        const requestToken: string = html.substr(html.indexOf("data-requesttoken=") + 19, 89);
+        debug("getCSRFToken  %s", requestToken);
+        return requestToken;
+    }
+
+    private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[]): Promise<Response> {
+
+        if (!requestInit.headers) {
+            requestInit.headers = new Headers();
         }
 
-        if (body) {
-            initReq.body = body;
+        if (requestInit.headers instanceof Headers) {
+            requestInit.headers.append("Authorization", this.nextcloudAuthHeader);
+            requestInit.headers.append("User-Agent", "nextcloud-node-client");
+        } else {
+            throw Error("getHTTPResponse: Error headers is not a Headers object");
         }
 
-        const response: Response = await fetch(url, initReq);
+        //        const headers: { [index: string]: string } = requestInit.headers;
+        // headers.Authorization = this.nextcloudAuthHeader;
+        // headers["User-Agent"] = "nextcloud-node-client";
+
+        if (this.nextcloudRequestToken === "" && requestInit.method !== "GET") {
+            // this.nextcloudRequestToken = await this.getCSRFToken();
+        }
+        if (requestInit.method !== "GET") {
+            // requestInit.headers.append("requesttoken", this.nextcloudRequestToken);
+        }
+
+        debug("getHttpResponse request header %O", requestInit.headers);
+
+        requestInit.headers.append("User-Agent", "nextcloud-node-client");
+
+        debug("getHttpResponse url:%s, %O", url, requestInit);
+        const response: Response = await fetch(url, requestInit);
         const responseContentType: string | null = response.headers.get("content-type");
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")}`);
+            debug("getHttpResponse unexpected status response headers %O", response.headers);
+            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
         if (!responseContentType) {
             throw new Error("Content type missing in response");
