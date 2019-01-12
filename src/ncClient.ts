@@ -316,9 +316,7 @@ export default class NCClient {
                         res.propstat.prop["display-name"]));
                 }
             }
-
         }
-
         return tags;
     }
 
@@ -377,6 +375,13 @@ export default class NCClient {
         folderName = this.sanitizeFolderName(folderName);
         debug("createFolder: folderName=%s", folderName);
 
+        const parts: string[] = folderName.split("/");
+        for (const part of parts) {
+            if ((part) === "." || part === "..") {
+                throw new NCError(`Error creating folder, folder name "${folderName}" invalid`, "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME");
+            }
+        }
+
         let folder: NCFolder | null;
 
         folder = await this.getFolder(folderName);
@@ -396,6 +401,7 @@ export default class NCClient {
                 debug("createFolder: parts = %O", parts);
 
                 for (const part of parts) {
+
                     debug("createFolder: part = %O", part);
                     folderPath += "/" + part;
                     folder = await this.getFolder(folderPath);
@@ -468,7 +474,7 @@ export default class NCClient {
      * @param folderName Name of the folder like "/company/branches/germany"
      * @returns null if the folder does not exist or an folder object
      */
-    public async getFolder(folderName: string): Promise<NCFolder | null> {
+    public async getFolder_obsolete(folderName: string): Promise<NCFolder | null> {
         folderName = this.sanitizeFolderName(folderName);
 
         // return root folder
@@ -476,24 +482,24 @@ export default class NCClient {
             return new NCFolder(this, "/", "", "");
         }
 
-        debug("getFolder folderName=%s", folderName);
+        debug(" folderName=%s", folderName);
 
         const parts: string[] = folderName.split("/");
         let folderPath: string = "";
 
-        debug("getFolder: parts = %O", parts);
+        debug(": parts = %O", parts);
 
         for (const part of parts) {
-            debug("getFolder:part = %O", part);
+            debug(":part = %O", part);
             let folderContentsArray;
             folderPath += "/" + part;
             try {
                 folderContentsArray = await this.webDAVClient.getDirectoryContents(folderPath);
                 for (const folderElement of folderContentsArray) {
                     if (folderElement.type === "directory") {
-                        debug("getFolder:folder element %s", folderElement.filename);
+                        debug(":folder element %s", folderElement.filename);
                         if (folderElement.filename === folderName) {
-                            debug("getFolder: SUCCESS!!");
+                            debug(": SUCCESS!!");
                             return new NCFolder(this,
                                 folderElement.filename.replace(/\\/g, "/"),
                                 folderElement.basename,
@@ -502,12 +508,45 @@ export default class NCClient {
                     }
                 }
             } catch (e) {
-                debug("getFolder: exception occurred calling getFolderContents %O", e.message);
+                debug(": exception occurred calling Contents %O", e.message);
                 return null;
             }
         }
 
         return null;
+    }
+
+    /**
+     * get a folder object from a path string
+     * @param folderName Name of the folder like "/company/branches/germany"
+     * @returns null if the folder does not exist or an folder object
+     */
+    public async getFolder(folderName: string): Promise<NCFolder | null> {
+        folderName = this.sanitizeFolderName(folderName);
+
+        // return root folder
+        if (folderName === "/") {
+            return new NCFolder(this, "/", "", "");
+        }
+
+        debug(" folderName=%s", folderName);
+
+        try {
+            const stat: any = await this.webDAVClient.stat(folderName);
+            debug(": SUCCESS!!");
+            if (stat.type !== "file") {
+                return new NCFolder(this,
+                    stat.filename.replace(/\\/g, "/"),
+                    stat.basename,
+                    stat.lastmod);
+            } else {
+                debug("getFolder: found object is file not a fplder");
+                return null;
+            }
+        } catch (e) {
+            debug("getFolder: exception occurred calling stat %O", e.message);
+            return null;
+        }
     }
 
     /**
@@ -520,7 +559,7 @@ export default class NCClient {
         const folders: NCFolder[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
-        const folderElements: any[] = await this.getFolderContents(folderName, true);
+        const folderElements: any[] = await this.Contents(folderName, true);
 
         for (const folderElement of folderElements) {
             debug("getSubFolders: adding subfolders %s", folderElement.filename);
@@ -543,7 +582,7 @@ export default class NCClient {
         const files: NCFile[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
-        const fileElements: any[] = await this.getFolderContents(folderName, false);
+        const fileElements: any[] = await this.Contents(folderName, false);
 
         for (const folderElement of fileElements) {
             debug("getFiles: adding file %s", folderElement.filename);
@@ -609,6 +648,33 @@ export default class NCClient {
      */
     public async getFile(fileName: string): Promise<NCFile | null> {
         debug("getFile fileName = %s", fileName);
+
+        try {
+            const stat: any = await this.webDAVClient.stat(fileName);
+            debug(": SUCCESS!!");
+            if (stat.type === "file") {
+                return new NCFile(this,
+                    stat.filename.replace(/\\/g, "/"),
+                    stat.basename,
+                    stat.lastmod,
+                    stat.size,
+                    stat.mime);
+            } else {
+                debug("getFolder: found object is a folder not a file");
+                return null;
+            }
+        } catch (e) {
+            debug("getFolder: exception occurred calling stat %O", e.message);
+            return null;
+        }
+    }
+
+    /**
+     * returns a nextcloud file object
+     * @param fileName the full file name /folder1/folder2/file.pdf
+     */
+    public async getFile_obsolete(fileName: string): Promise<NCFile | null> {
+        debug("getFile fileName = %s", fileName);
         const client = this;
         let folderContentsArray;
 
@@ -659,24 +725,24 @@ export default class NCClient {
     /**
      * renames the folder or moves it to an other location
      * @param sourceFolderName source folder name
-     * @param targetFolderName target folder name
+     * @param tarName target folder name
      */
-    public async moveFolder(sourceFolderName: string, targetFolderName: string): Promise<NCFolder> {
-        debug("moveFolder from '%s' to '%s'", sourceFolderName, targetFolderName);
+    public async moveFolder(sourceFolderName: string, tarName: string): Promise<NCFolder> {
+        debug("moveFolder from '%s' to '%s'", sourceFolderName, tarName);
         let res: any;
         try {
-            res = await this.webDAVClient.moveFile(sourceFolderName, targetFolderName);
+            res = await this.webDAVClient.moveFile(sourceFolderName, tarName);
         } catch (e) {
             debug("moveFolder exception occurred %s", e.message);
-            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + targetFolderName + " - " + e.message, "ERR_FOLDER_MOVE_FAILED");
+            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + e.message, "ERR_FOLDER_MOVE_FAILED");
         }
 
-        const targetFolder: NCFolder | null = await this.getFolder(targetFolderName);
-        if (!targetFolder) {
-            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + targetFolderName, "ERR_FOLDER_MOVE_FAILED");
+        const tar: NCFolder | null = await this.getFolder(tarName);
+        if (!tar) {
+            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
         }
 
-        return targetFolder;
+        return tar;
     }
 
     /**
@@ -855,16 +921,16 @@ export default class NCClient {
      * @param folderIndicator true if folders are requested otherwise files
      * @returns array of folder contents meta data
      */
-    private async getFolderContents(folderName: string, folderIndicator: boolean): Promise<any[]> {
-        debug("getFolderContents: folder %s", folderName);
+    private async Contents(folderName: string, folderIndicator: boolean): Promise<any[]> {
+        debug("Contents: folder %s", folderName);
         const folders: NCFolder[] = [];
         folderName = this.sanitizeFolderName(folderName);
         const resultArray: any[] = [];
 
         if (folderIndicator === true) {
-            debug("getFolderContents: get folders");
+            debug("Contents: get folders");
         } else {
-            debug("getFolderContents: get files");
+            debug("Contents: get files");
         }
         try {
             const folderContentsArray = await this.webDAVClient.getDirectoryContents(folderName);
@@ -876,13 +942,13 @@ export default class NCClient {
                     }
                 } else {
                     if (folderIndicator === false) {
-                        debug("getFolderContents folder element file %O ", folderElement);
+                        debug("Contents folder element file %O ", folderElement);
                         resultArray.push(folderElement);
                     }
                 }
             }
         } catch (e) {
-            debug("getFolderContents: exception occurred %s", e.message);
+            debug("Contents: exception occurred %s", e.message);
         }
 
         return resultArray;

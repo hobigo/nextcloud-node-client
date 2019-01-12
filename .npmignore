@@ -1,6 +1,7 @@
-src/
+src
 # service defs
 userProvidedService.json
 node_modules
 tsconfig.json
 tslint.json
+dist/test

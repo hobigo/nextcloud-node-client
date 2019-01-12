@@ -10,7 +10,7 @@ import {
 import NCTag from "../ncTag";
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT", function() {
+describe("NEXCLOUD-NODE-CLIENT", function () {
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 
@@ -135,16 +135,20 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const client = await NCClient.clientFactory();
 
         let errorOccurred;
-        let directory: NCFolder | null = null;
-        const dirName = ".";
+        let folder: NCFolder | null = null;
+        const dirName = "/test/aa/..";
 
         try {
-            directory = await client.createFolder(dirName);
+            folder = await client.createFolder(dirName);
             errorOccurred = false;
         } catch (e) {
             errorOccurred = true;
         }
-        expect(directory, "expect directory to a null").to.be.equal(null);
+
+        // tslint:disable-next-line:no-console
+        console.log("folder", folder);
+
+        expect(folder, "expect directory to a null").to.be.equal(null);
 
     });
 
