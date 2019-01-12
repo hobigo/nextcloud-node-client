@@ -6,14 +6,15 @@
   "types": "dist/ncClient.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hobigo/nextcloud-node-client.git"
+    "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
     "_postinstall": "npm run build",
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
-    "build": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
-    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" mocha -r ts-node/register src/**/*test.ts",
-    "test": "cross-env NODE_ENV=\"development\" mocha -r ts-node/register src/**/*test.ts",
+    "build": "node ./node_modules/typescript/bin/tsc",
+    "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
+    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
+    "test": "cross-env NODE_ENV=\"development\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
   "keywords": [
@@ -33,25 +34,25 @@
   "author": "Holger Gockel",
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "@types/node": "^8.9.5",
+    "@types/debug": "0.0.31",
     "@types/node-fetch": "^2.1.4",
-    "chai": "^4.2.0",
     "cross-env": "^5.2.0",
     "debug": "^4.1.0",
-    "fast-xml-parser": "^3.12.11",
-    "mocha": "^5.2.0",
+    "fast-xml-parser": "^3.12.12",
     "node-fetch": "^2.3.0",
-    "typescript": "^3.2.2",
-    "webdav": "^2.2.0"
+    "webdav": "^2.2.1"
   },
   "devDependencies": {
-    "@types/debug": "0.0.31",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^8.10.39",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
     "ts-loader": "^4.4.1",
     "ts-node": "^7.0.1",
-    "tslint": "^5.11.0",
-    "typedoc": "^0.14.0"
+    "tslint": "^5.12.1",
+    "typedoc": "^0.14.1",
+    "typescript": "^3.2.2"
   },
   "bugs": {
     "url": "https://github.com/hobigo/nextcloud-node-client/issues"

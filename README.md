@@ -4,6 +4,8 @@ The nextcloud node client provides a TypeScript/JavaScript api for node applicat
 The client supports basic file and folder operations and tagging. 
 The usage within browsers is not supported
 
+Tested with nextcloud 15.0.0
+
 ## Concepts
 ### Client 
 The client is the root object and represents the connection to the nextcloud server.

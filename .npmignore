@@ -1,6 +1,6 @@
+src/
 # service defs
 userProvidedService.json
-# Dependency directories
 node_modules
 tsconfig.json
 tslint.json

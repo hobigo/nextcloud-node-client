@@ -151,8 +151,17 @@ export default class NCClient {
         const { createClient } = require("webdav");
         this.webDAVClient = createClient(credentials.url, { username: credentials.basicAuth.username, password: credentials.basicAuth.password });
         // debug("webdav client %O", this.client);
+        debug("constructor: webdav url %s", credentials.url);
 
-        this.nextcloudOrigin = new URL(credentials.url).origin;
+        if (credentials.url.indexOf("remote.php/webdav") === -1) {
+            // not a valid nextcloud url
+            throw new NCError(`The provided nextcloud url "${credentials.url}" does not comply to the nextcloud url standard, "remote.php/webdav" is missing`,
+                "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
+        }
+        this.nextcloudOrigin = credentials.url.substr(0, credentials.url.indexOf("/remote.php/webdav"));
+
+        debug("constructor: nextcloud url %s", this.nextcloudOrigin);
+
         this.nextcloudAuthHeader = "Basic " + new Buffer(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
         this.nextcloudRequestToken = "";
     }
@@ -185,7 +194,7 @@ export default class NCClient {
         // tag does not exist, create tag
 
         const requestInit: RequestInit = {
-            body: `{"name": "${tagName}", "userVisible": true, "userAssignable": true, "canAssign": true}`,
+            body: `{ "name": "${tagName}", "userVisible": true, "userAssignable": true, "canAssign": true }`,
             headers: new Headers({ "Content-Type": "application/json" }),
             method: "POST",
         };
@@ -272,19 +281,19 @@ export default class NCClient {
         debug("getTags new endpoint %O");
         const requestInit: RequestInit = {
             body: `
-            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
-                <d:prop>
-                    <oc:display-name/>
-                    <oc:user-visible/>
-                    <oc:user-assignable/>
-                    <oc:id/>
-                </d:prop>
-            </d:propfind>`,
+                < d: propfind  xmlns: d = "DAV:" xmlns: oc = "http://owncloud.org/ns" xmlns: nc = "http://nextcloud.org/ns" >
+                    <d: prop >
+                        <oc: display - name />
+                            <oc: user - visible />
+                                <oc: user - assignable />
+                                    <oc: id />
+                                        </d:prop>
+                                        < /d:propfind>`,
             method: "PROPFIND",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/remote.php/dav/systemtags",
+            this.nextcloudOrigin + "/remote.php/dav/systemtags/",
             requestInit,
             [207]);
 
@@ -826,8 +835,11 @@ export default class NCClient {
         const responseContentType: string | null = response.headers.get("content-type");
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response headers %O", response.headers);
-            debug("getHttpResponse unexpected status response text %s", await response.text());
+            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
+            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
+            debug("getHttpResponse headers %O", response.headers);
+            debug("getHttpResponse request body %s", requestInit.body);
+            debug("getHttpResponse text %s", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
         if (!responseContentType) {
