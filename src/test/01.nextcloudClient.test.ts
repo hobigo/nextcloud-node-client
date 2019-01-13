@@ -10,7 +10,7 @@ import {
 import NCTag from "../ncTag";
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT", function () {
+describe("NEXCLOUD-NODE-CLIENT", function() {
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 
@@ -376,82 +376,7 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
         expect(file, "expect file to be null").to.be.equal(null);
     });
 
-    it("20 get tags", async () => {
-
-        const client = await NCClient.clientFactory();
-
-        const tags: NCTag[] = await client.getTags();
-
-        for (const x of tags) {
-            // tslint:disable-next-line:no-console
-            //     console.log("--- " + x);
-        }
-        expect(tags, "expect tags to be an array").to.be.a("array");
-    });
-
-    it("21 create tag", async () => {
-
-        const client = await NCClient.clientFactory();
-        const tagName: string = "Tag1";
-        const tag: NCTag = await client.createTag(tagName);
-
-        expect(tag, "expect tag to be an object").to.be.a("object");
-        expect(tag.name).to.be.equal(tagName);
-
-        // await client.deleteTag("/remote.php/dav/systemtags/11");
-
-    });
-
-    it("22 delete tag", async () => {
-
-        const client = await NCClient.clientFactory();
-        const tagName: string = "Tag-to-be-deleted";
-        const tag: NCTag = await client.createTag(tagName);
-
-        expect(tag, "expect tag to be an object").to.be.a("object");
-        expect(tag.name).to.be.equal(tagName);
-        await tag.delete();
-
-        const deletedTag: NCTag | null = await client.getTagByName(tagName);
-        expect(deletedTag).to.be.equal(null);
-
-    });
-
-    it("23 get tag by name", async () => {
-
-        const client = await NCClient.clientFactory();
-        const tagName: string = "get-Tag-by-name";
-        const tag: NCTag = await client.createTag(tagName);
-
-        expect(tag, "expect tag to be an object").to.be.a("object");
-        expect(tag.name).to.be.equal(tagName);
-
-        const getTag: NCTag | null = await client.getTagByName(tagName);
-        expect(getTag).not.to.be.equal(null);
-        expect(getTag!.name).to.be.equal(tagName);
-
-        await tag.delete();
-
-    });
-
-    it("24 get tag by id", async () => {
-
-        const client = await NCClient.clientFactory();
-        const tagName: string = "get-Tag-by-id";
-        const tag: NCTag = await client.createTag(tagName);
-
-        expect(tag, "expect tag to be an object").to.be.a("object");
-        expect(tag.name).to.be.equal(tagName);
-
-        const getTag: NCTag | null = await client.getTagById(tag.id);
-        expect(getTag).not.to.be.equal(null);
-        expect(getTag!.name).to.be.equal(tagName);
-
-        await tag.delete();
-
-    });
-
-    it("25 get file id", async () => {
+    it("20 get file id", async () => {
 
         const client = await NCClient.clientFactory();
 
@@ -473,7 +398,7 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it("26 get folder id", async () => {
+    it("21 get folder id", async () => {
 
         const client = await NCClient.clientFactory();
 
@@ -488,36 +413,7 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it("27 add tag to file", async () => {
-
-        const client = await NCClient.clientFactory();
-
-        const dirName = "/test/fileTagging";
-        const fileName1 = "file1.txt";
-
-        const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
-
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
-
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
-        expect(file, "expect file not to be null").to.be.not.equal(null);
-
-        const id: number = await file!.getId();
-
-        expect(id, "expect id to be a number").to.be.a("number");
-        expect(id, "expect id to be not -1").to.be.not.equal(-1);
-
-        try {
-            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
-            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
-        } catch (e) {
-            expect(true, "we do not expect an exception adding tags").to.be.equal(false);
-        }
-
-    });
-
-    it.skip("28 client factory with explicit credentials", async () => {
+    it.skip("22 client factory with explicit credentials", async () => {
 
         const credentials: ICredentials = {
             basicAuth:

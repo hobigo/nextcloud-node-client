@@ -205,13 +205,16 @@ export default class NCClient {
             [201],
         );
 
-        const tagId: string | null = response.headers.get("Content-Location");
-        debug("createTag new tagId %s, tagName %s", tagId, tagName);
-        if (tagId === "" || tagId === null) {
+        const tagString: string | null = response.headers.get("Content-Location");
+        debug("createTag new tagId %s, tagName %s", tagString, tagName);
+        if (tagString === "" || tagString === null) {
             throw new NCError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
         }
 
-        tag = new NCTag(this, tagId, tagName);
+        // the number id of the tag is the last element in the id (path)
+        const tagId: number = this.getTagIdFromHref(tagString);
+
+        tag = new NCTag(this, tagId, tagName, true, true, true);
         return tag;
     }
 
@@ -238,7 +241,7 @@ export default class NCClient {
      * @param tagId the id of the tag
      * @returns tag or null
      */
-    public async getTagById(tagId: string): Promise<NCTag | null> {
+    public async getTagById(tagId: number): Promise<NCTag | null> {
 
         debug("getTagById");
 
@@ -256,20 +259,36 @@ export default class NCClient {
      * this function will fail with http 403 if the user does not have admin privileges
      * @param tagId the id of the tag like "/remote.php/dav/systemtags/234"
      */
-    public async deleteTag(tagId: string): Promise<void> {
+    public async deleteTag(tagId: number): Promise<void> {
 
-        debug("deleteTag");
+        debug("deleteTag tagId: $s", tagId);
 
         const requestInit: RequestInit = {
             method: "DELETE",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + tagId,
+            `${this.nextcloudOrigin}/remote.php/dav/systemtags/${tagId}`,
             requestInit,
             [204, 404]);
 
         // const responseObject: any = await this.getParseXMLFromResponse(response);
+    }
+
+    /**
+     * deletes all visible assignable tags
+     * @throws Error
+     */
+    public async deleteAllTags(): Promise<void> {
+
+        debug("deleteAllTags");
+
+        const tags: NCTag[] = await this.getTags();
+
+        for (const tag of tags) {
+            debug("deleteAllTags tag: %O", tag);
+            await tag.delete();
+        }
     }
 
     /**
@@ -280,15 +299,16 @@ export default class NCClient {
         debug("getTags");
         debug("getTags new endpoint %O");
         const requestInit: RequestInit = {
-            body: `
-                < d: propfind  xmlns: d = "DAV:" xmlns: oc = "http://owncloud.org/ns" xmlns: nc = "http://nextcloud.org/ns" >
-                    <d: prop >
-                        <oc: display - name />
-                            <oc: user - visible />
-                                <oc: user - assignable />
-                                    <oc: id />
-                                        </d:prop>
-                                        < /d:propfind>`,
+            body: `<?xml version="1.0"?>
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+              <d:prop>
+                <oc:id />
+                <oc:display-name />
+                <oc:user-visible />
+                <oc:user-assignable />
+                <oc:can-assign />
+              </d:prop>
+            </d:propfind>`,
             method: "PROPFIND",
         };
 
@@ -304,16 +324,25 @@ export default class NCClient {
                 "ERR_MULISTATUS_RESPONSE_EXPECDED");
         }
 
+        debug("getTags: responseObject %O", responseObject);
+
         const tags: NCTag[] = [];
+        if (responseObject.multistatus.response.href) {
+            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+        }
         for (const res of responseObject.multistatus.response) {
             if (res.propstat) {
                 if (res.propstat.status === "HTTP/1.1 200 OK") {
                     debug(res.href);
                     // debug(res.propstat);
                     debug(res.propstat.prop["display-name"]);
+                    debug("prop: %O", res.propstat.prop);
                     tags.push(new NCTag(this,
-                        res.href,
-                        res.propstat.prop["display-name"]));
+                        this.getTagIdFromHref(res.href),
+                        res.propstat.prop["display-name"],
+                        res.propstat.prop["user-visible"],
+                        res.propstat.prop["user-assignable"],
+                        res.propstat.prop["can-assign"]));
                 }
             }
         }
@@ -375,9 +404,9 @@ export default class NCClient {
         folderName = this.sanitizeFolderName(folderName);
         debug("createFolder: folderName=%s", folderName);
 
-        const parts: string[] = folderName.split("/");
-        for (const part of parts) {
-            if ((part) === "." || part === "..") {
+        const parts1: string[] = folderName.split("/");
+        for (const p of parts1) {
+            if ((p) === "." || p === "..") {
                 throw new NCError(`Error creating folder, folder name "${folderName}" invalid`, "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME");
             }
         }
@@ -789,14 +818,16 @@ export default class NCClient {
         if (!tag) {
             return;
         }
+        if (!tag.canAssign) {
+            throw new NCError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
+        }
 
         const addTagBody: any = {
-            canAssign: true,
-            id: tag.idNumber,
-            name: tagName,
-            userAssignable: true,
-            userVisible: true,
-
+            canAssign: tag.canAssign,
+            id: tag.id,
+            name: tag.name,
+            userAssignable: tag.assignable,
+            userVisible: tag.visible,
         };
 
         const requestInit: RequestInit = {
@@ -806,9 +837,9 @@ export default class NCClient {
         };
 
         await this.getHttpResponse(
-            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.idNumber}`,
+            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.id}`,
             requestInit,
-            [201]);
+            [201, 409]); // created or conflict
     }
 
     // ***************************************************************************************
@@ -967,4 +998,7 @@ export default class NCClient {
         return folderName;
     }
 
+    private getTagIdFromHref(href: string): number {
+        return parseInt(href.split("/")[href.split("/").length - 1], 10);
+    }
 }

@@ -2,16 +2,19 @@
 import NCClient from "./ncClient";
 
 export default class NCTag {
-    public id: string;
-    public idNumber: number;
+    public id: number;
     public name: string;
+    public visible: boolean;
+    public assignable: boolean;
+    public canAssign: boolean;
     private client: NCClient;
-    constructor(client: NCClient, id: string, name: string) {
+    constructor(client: NCClient, id: number, name: string, visible: boolean, assignable: boolean, canAssign: boolean) {
         this.client = client;
         this.name = name;
+        this.visible = visible;
+        this.assignable = assignable;
+        this.canAssign = canAssign;
         this.id = id;
-        // the number id of the tag is the last element in the id (path)
-        this.idNumber = parseInt(this.id.split("/")[this.id.split("/").length - 1], 10);
     }
     public async delete(): Promise<void> {
         return this.client.deleteTag(this.id);
