@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- examples in documentation
+### Fixed
+- fixed javascript example in read.me
+
 ## 0.1.4 - 2019-01-13
 ### Added
 - Support of subdirectories in nextcloud webdav url. Fixes the problem with tagging methods return a 404 
@@ -13,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - incompatible api change: Tag.id changed from string to number
 ### Fixed
-- fixed perfromance problems getFile and getFolder
+- fixed performance problems getFile and getFolder
 - fixed getTags returns exception if only one tag is available
 - npm install not working properly
 

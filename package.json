@@ -1,7 +1,7 @@
 {
   "name": "nextcloud-node-client",
   "version": "0.1.4",
-  "description": "Nextcloud client api for node.js",
+  "description": "Nextcloud client API for node.js",
   "main": "dist/ncClient.js",
   "types": "dist/ncClient.d.ts",
   "repository": {

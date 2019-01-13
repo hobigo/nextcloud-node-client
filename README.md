@@ -1,8 +1,8 @@
 # nextcloud-node-client
-The nextcloud node client provides a TypeScript/JavaScript api for node applications that access nextcloud remotely.
+The nextcloud node client provides a TypeScript/JavaScript API for node applications to access nextcloud remotely.
 
-The client supports basic file and folder operations and tagging. 
-The usage within browsers is not supported
+Basic file and folder operations and tagging are supported. 
+The usage within browsers is not supported.
 
 Tested with nextcloud 14.0.4 and 15.0.1
 
@@ -11,7 +11,7 @@ Tested with nextcloud 14.0.4 and 15.0.1
 The client is the root object and represents the connection to the nextcloud server.
 
 ### Folder
-The folder is the representation of a nextcloud folder. The folder may contain many files. All files of a folder are deleted, if the folder is deleted.
+The folder is the representation of a nextcloud folder. It may contain many files. All files of a folder are deleted, if the folder is deleted.
 
 ### File
 The file is the representation of a nextcloud file. Every file is contained in a folder.
@@ -20,8 +20,8 @@ The file is the representation of a nextcloud file. Every file is contained in a
 Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.
 
 ## API overview
-The api usage is currently not yet documented. 
-Please refer to test file and the docs folder with the generated documentation.
+The API usage is currently not yet documented. 
+Please refer to test file and the ``/docs`` folder with the generated documentation.
 
 ### Client
 - factory method for client 
@@ -33,7 +33,7 @@ Please refer to test file and the docs folder with the generated documentation.
 - get tags, by name, by id
 - get quota
 ### Folder
-- get name, id, base name, url
+- get name, id, base name, URL
 - delete
 - create sub folders 
 - get sub folder
@@ -42,7 +42,7 @@ Please refer to test file and the docs folder with the generated documentation.
 - add tag
 - move/rename
 ### File
-- get name, id, base name, url
+- get name, id, base name, URL
 - get content
 - delete
 - add tag
@@ -62,6 +62,7 @@ npm install nextcloud-node-client
 Creating a client with credentials
 
 ```typescript
+  // typescript
   import { ICredentials, NCClient } from "nextcloud-node-client";
 
   (async() => {
@@ -83,7 +84,8 @@ Creating a client with credentials
 ```
 
 ```javascript
-  const NCClient = require("nextcloud-node-client");
+  // javascript
+  const NCClient = require("nextcloud-node-client").NCClient;
 
   (async() => {
     const credentials = {
@@ -101,6 +103,80 @@ Creating a client with credentials
           // some error handling
     }
  })();
+```
+## API
+### Quota
+```javascript
+    q = await client.getQuota();  
+    // { used: 479244777, available: 10278950773 }
+```
+
+### Create folder
+```javascript
+    // create folder
+    const folder = await client.createFolder("/products/brooms");
+    // create subfolder
+    const subfolder = await folder.createSubFolder("soft brooms");
+    // "/products/brooms/soft brooms"
+    
+```
+
+### Get folder(s)
+```javascript
+    // get folder
+    const folder = await client.getFolder("/products");
+    // get subfolders
+    const subfolders = await folder.getSubFolders();    
+```
+
+### Delete folder
+```javascript
+    // get folder
+    const folder = await client.getFolder("/products");
+    await folder.delete();
+```
+### Create file
+```javascript
+    const folder = await client.getFolder("/products");
+    const file = folder.createFile("MyFile.txt", new Buffer("My new file"));
+```
+### Get file
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    // or
+    const folder = await client.getFolder("/products");
+    const file = await folder.getFile("MyFile.txt");
+    // file: name, baseName, lastmod, size, mime
+```
+### Get file content
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    const buffer = await file.getContent();
+```
+### Get file Url
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    const url = await file.getUrl();
+```
+### Add tag to file
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    await file.addTag("myTag");
+```
+### Delete file
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    await file.delete();
+```
+### Get files
+```javascript
+    const folder = await client.getFolder("/products");
+    const files = await folder.getFiles();
+```
+### Move and/or rename file
+```javascript
+    const file = await client.getFile("/products/MyFile.txt");
+    await file.move("/products/brooms/MyFileRenamed.txt");
 ```
 
 ## CloudFoundry Integration

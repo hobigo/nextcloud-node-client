@@ -10,7 +10,7 @@ import {
 import NCTag from "../ncTag";
 
 // tslint:disable-next-line:only-arrow-functions
-describe.only("NEXCLOUD-NODE-CLIENT-TAG", function() {
+describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
     this.timeout(1 * 60 * 1000);
 
     it("1 get tags", async () => {
