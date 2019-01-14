@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - examples in documentation
+- new method folder.containsFile 
 ### Fixed
 - fixed javascript example in read.me
+- missing NCTag type export on NCClient
 
 ## 0.1.4 - 2019-01-13
 ### Added

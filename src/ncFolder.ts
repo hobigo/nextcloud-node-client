@@ -131,4 +131,20 @@ export default class NCFolder {
         return this.id;
     }
 
+    /**
+     * @returns true if the folder contains a file with the given basename
+     * @param fileBaseName file basename
+     */
+    public async containsFile(fileBaseName: string): Promise<boolean> {
+        let file: NCFile | null;
+        try {
+            file = await this.getFile(fileBaseName);
+            if (file) {
+                return true;
+            }
+        } catch (e) {
+            return false;
+        }
+        return false;
+    }
 }

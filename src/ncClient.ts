@@ -24,6 +24,7 @@ export {
     NCError,
     NCFolder,
     NCFile,
+    NCTag,
 };
 
 export interface IBasicAuth {
