@@ -844,6 +844,37 @@ export default class NCClient {
     }
 
     // ***************************************************************************************
+    // activity
+    // ***************************************************************************************
+    public async getActivities(): Promise<string[]> {
+        const result: string[] = [];
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/activity/api/v2/activity/files?format=json&previews=false&since=97533",
+            requestInit,
+            [200]);
+
+        const responseObject: any = await response.json();
+        // @todo
+
+        for (const res of responseObject.ocs.data) {
+            debug(JSON.stringify({
+                acivityId: res.activity_id,
+                objects: res.objects,
+                type: res.type,
+            }, null, 4));
+        }
+
+        // debug("getActivities: responseObject %s", JSON.stringify(responseObject, null, 4));
+
+        return result;
+    }
+
+    // ***************************************************************************************
     // comments
     // ***************************************************************************************
 
