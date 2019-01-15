@@ -803,6 +803,12 @@ export default class NCClient {
         }
         return link;
     }
+
+    public getUILink(fileId: number): string {
+        debug("getUILink of %s", fileId);
+        return `${this.nextcloudOrigin}/apps/files/?fileid=${fileId}`;
+    }
+
     /**
      * adds a tag to a file or folder
      * if the tag does not exist, it is automatically created

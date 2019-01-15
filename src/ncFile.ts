@@ -73,6 +73,14 @@ export default class NCFile {
     }
 
     /**
+     * @returns the url of the file in the UI
+     * @throws Error
+     */
+    public async getUIUrl(): Promise<string> {
+        return this.client.getUILink(await this.getId());
+    }
+
+    /**
      * adds a tag name to the file
      * @param tagName name of the tag
      */

@@ -121,6 +121,14 @@ export default class NCFolder {
     }
 
     /**
+     * @returns the url of the folder in the UI
+     * @throws Error
+     */
+    public async getUIUrl(): Promise<string> {
+        return this.client.getUILink(await this.getId());
+    }
+
+    /**
      * @returns the id of the folder, -1 if the folder has been deleted
      * @throws Error
      */
