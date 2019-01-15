@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.1.6 - 2019-01-15
 ### Added
 - examples in documentation
 - new method folder.containsFile 
+- add and get comments for file and folder
 ### Fixed
 - fixed javascript example in read.me
 - missing NCTag type export on NCClient

@@ -844,6 +844,90 @@ export default class NCClient {
     }
 
     // ***************************************************************************************
+    // comments
+    // ***************************************************************************************
+
+    public async addCommentToFile(fileId: number, comment: string): Promise<void> {
+        debug("addCommentToFile file:%s comment:%s", fileId, comment);
+
+        const addCommentBody: any = {
+            actorType: "users",
+            message: comment,
+            objectType: "files",
+            verb: "comment",
+        };
+
+        const requestInit: RequestInit = {
+            body: JSON.stringify(addCommentBody, null, 4),
+            headers: new Headers({ "Content-Type": "application/json" }),
+            method: "POST",
+        };
+
+        await this.getHttpResponse(
+            `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
+            requestInit,
+            [201]); // created
+    }
+
+    /**
+     * returns comments of a file / folder
+     * @param fileId the id of the file / folder
+     * @param top number of comments to return
+     * @param skip the offset
+     * @returns array of comment strings
+     * @throws Exception
+     */
+    public async getFileComments(fileId: number, top?: number, skip?: number): Promise<string[]> {
+        debug("getFileComments fileId:%s", fileId);
+        if (!top) {
+            top = 30;
+        }
+
+        if (!skip) {
+            skip = 0;
+        }
+
+        const requestInit: RequestInit = {
+            body: `<?xml version="1.0" encoding="utf-8" ?>
+                    <oc:filter-comments xmlns:D="DAV:" xmlns:oc="http://owncloud.org/ns">
+                        <oc:limit>${top}</oc:limit>
+                        <oc:offset>${skip}</oc:offset>
+                    </oc:filter-comments>`,
+            method: "REPORT",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
+            requestInit,
+            [207]);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+
+        if (!responseObject.multistatus) {
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+        }
+
+        debug("getComments: responseObject %O", responseObject);
+
+        const comments: string[] = [];
+        if (responseObject.multistatus.response.href) {
+            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+        }
+        for (const res of responseObject.multistatus.response) {
+            if (res.propstat) {
+                if (res.propstat.status === "HTTP/1.1 200 OK") {
+                    debug(res.href);
+                    // debug(res.propstat);
+                    debug(res.propstat.prop.message);
+                    comments.push(res.propstat.prop.message);
+                }
+            }
+        }
+        return comments;
+    }
+
+    // ***************************************************************************************
     // private methods
     // ***************************************************************************************
 

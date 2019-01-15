@@ -147,4 +147,23 @@ export default class NCFolder {
         }
         return false;
     }
+
+    /**
+     * add comment to folder
+     * @param comment the comment
+     */
+    public async addComment(comment: string): Promise<void> {
+        return this.client.addCommentToFile(await this.getId(), comment);
+    }
+
+    /**
+     * get list of comments of folder
+     * @param top number of comments to return
+     * @param skip the offset
+     * @returns array of comment strings
+     * @throws Exception
+     */
+    public async getComments(top?: number, skip?: number): Promise<string[]> {
+        return this.client.getFileComments(await this.getId(), top, skip);
+    }
 }

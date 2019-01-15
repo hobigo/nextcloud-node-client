@@ -40,12 +40,16 @@ Please refer to test file and the ``/docs`` folder with the generated documentat
 - create file
 - get files
 - add tag
+- add comment
+- get comments
 - move/rename
 ### File
 - get name, id, base name, URL
 - get content
 - delete
 - add tag
+- add comment
+- get comments
 - move/rename
 ### Tag
 - get name, id
