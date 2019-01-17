@@ -1,8 +1,11 @@
+[![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
+[![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 # nextcloud-node-client
 The nextcloud node client provides a TypeScript/JavaScript API for node applications to access nextcloud remotely.
 
-Basic file and folder operations and tagging are supported. 
-The usage within browsers is not supported.
+Basic file and folder operations, tagging and comments are supported. 
+File events will follow (nextcloud activities).
+The usage within browsers is not supported. The module is under development and API may change until version 1.0.0 is delivered.
 
 Tested with nextcloud 14.0.4 and 15.0.1
 
