@@ -11,7 +11,7 @@ import {
 describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     this.timeout(1 * 60 * 1000);
 
-    it.only("1 get activity", async () => {
+    it("1 get activity", async () => {
 
         const client = await NCClient.clientFactory();
 

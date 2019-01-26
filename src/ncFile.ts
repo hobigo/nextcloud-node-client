@@ -89,6 +89,19 @@ export default class NCFile {
     }
 
     /**
+     * get tag names
+     * @returns array of tag names
+     */
+    public async getTags(): Promise<string[]> {
+        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        const tagNames: string[] = [];
+        for (const tagName of map) {
+            tagNames.push(tagName[0]);
+        }
+        return tagNames;
+    }
+
+    /**
      * add comment to file
      * @param comment the comment
      */
@@ -106,4 +119,6 @@ export default class NCFile {
     public async getComments(top?: number, skip?: number): Promise<string[]> {
         return this.client.getFileComments(await this.getId(), top, skip);
     }
+
+
 }

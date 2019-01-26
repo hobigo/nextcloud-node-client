@@ -177,6 +177,8 @@ export default class NCClient {
         return q;
     }
 
+    // ******************** tags
+
     /**
      * creates a new tag, if not already existing
      * this function will fail with http 403 if the user does not have admin privileges
@@ -348,6 +350,52 @@ export default class NCClient {
             }
         }
         return tags;
+    }
+
+    public async getTagsOfFile(fileId: number): Promise<Map<string, number>> {
+        debug("getTagsOfFile");
+
+        const requestInit: RequestInit = {
+            body: `<?xml version="1.0"?>
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
+              <d:prop>
+                <oc:id />
+                <oc:display-name />
+                <oc:user-visible />
+                <oc:user-assignable />
+                <oc:can-assign />
+              </d:prop>
+            </d:propfind>`,
+            method: "PROPFIND",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}`,
+            requestInit,
+            [207]);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+
+        if (!responseObject.multistatus) {
+            throw new NCError("Error get tags of file: response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+        }
+
+        debug("getTagsOfFile: responseObject %O", responseObject);
+
+        const tagMap: Map<string, number> = new Map();
+        if (responseObject.multistatus.response.href) {
+            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+        }
+        for (const res of responseObject.multistatus.response) {
+            if (res.propstat) {
+                if (res.propstat.status === "HTTP/1.1 200 OK") {
+                    tagMap.set(res.propstat.prop["display-name"], res.propstat.prop.id);
+                }
+            }
+        }
+        debug("tags of file %O", tagMap);
+        return tagMap;
     }
 
     /**

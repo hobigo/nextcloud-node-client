@@ -157,6 +157,27 @@ export default class NCFolder {
     }
 
     /**
+     * adds a tag name to the folder
+     * @param tagName name of the tag
+     */
+    public async addTag(tagName: string): Promise<void> {
+        return this.client.addTagToFile(await this.getId(), tagName);
+    }
+
+    /**
+     * get tag names
+     * @returns array of tag names
+     */
+    public async getTags(): Promise<string[]> {
+        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        const tagNames: string[] = [];
+        for (const tagName of map) {
+            tagNames.push(tagName[0]);
+        }
+        return tagNames;
+    }
+
+    /**
      * add comment to folder
      * @param comment the comment
      */
