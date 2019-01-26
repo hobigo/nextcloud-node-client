@@ -178,6 +178,20 @@ export default class NCFolder {
     }
 
     /**
+     * removes a tag of the file
+     * @param tagName the name of the tag
+     */
+    public async removeTag(tagName: string): Promise<void> {
+        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        const tagNames: string[] = [];
+
+        const tagId: number | undefined = map.get(tagName);
+        if (tagId) {
+            await this.client.removeTagOfFile(await this.getId(), tagId);
+        }
+    }
+
+    /**
      * add comment to folder
      * @param comment the comment
      */

@@ -158,7 +158,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it.only("8 folder tags", async () => {
+    it("8 folder tags", async () => {
 
         const client = await NCClient.clientFactory();
 
@@ -184,6 +184,45 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames[1], "Tag has value").to.be.equal(tagsCreated[1]);
         expect(tagNames[2], "Tag has value").to.be.equal(tagsCreated[2]);
         await folder.delete();
+
+    });
+
+    it("9 remove tag of file", async () => {
+
+        const client = await NCClient.clientFactory();
+
+        const dirName = "/test/fileTagging";
+        const fileName1 = "removeTagOfFile.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        await baseDir.createFile(fileName1, new Buffer("File 1"));
+
+        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+
+        const id: number = await file!.getId();
+
+        expect(id, "expect id to be a number").to.be.a("number");
+        expect(id, "expect id to be not -1").to.be.not.equal(-1);
+
+        const tagsCreated: string[] = [`tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`];
+
+        try {
+            for (const tagName of tagsCreated) {
+                await file!.addTag(tagName);
+            }
+        } catch (e) {
+            expect(true, "we do not expect an exception adding tags").to.be.equal(false);
+        }
+        tagsCreated.sort();
+        await file!.removeTag(tagsCreated[0]);
+
+        const tagNames: string[] = await file!.getTags();
+
+        expect(tagNames.length, "only two tags should exist").to.be.equal(2);
+        await file!.delete();
 
     });
 

@@ -177,7 +177,9 @@ export default class NCClient {
         return q;
     }
 
-    // ******************** tags
+    // ***************************************************************************************
+    // tags
+    // ***************************************************************************************
 
     /**
      * creates a new tag, if not already existing
@@ -289,7 +291,7 @@ export default class NCClient {
         const tags: NCTag[] = await this.getTags();
 
         for (const tag of tags) {
-            debug("deleteAllTags tag: %O", tag);
+            // debug("deleteAllTags tag: %O", tag);
             await tag.delete();
         }
     }
@@ -336,10 +338,10 @@ export default class NCClient {
         for (const res of responseObject.multistatus.response) {
             if (res.propstat) {
                 if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    debug(res.href);
+                    // debug(res.href);
                     // debug(res.propstat);
-                    debug(res.propstat.prop["display-name"]);
-                    debug("prop: %O", res.propstat.prop);
+                    // debug(res.propstat.prop["display-name"]);
+                    // debug("prop: %O", res.propstat.prop);
                     tags.push(new NCTag(this,
                         this.getTagIdFromHref(res.href),
                         res.propstat.prop["display-name"],
@@ -352,6 +354,10 @@ export default class NCClient {
         return tags;
     }
 
+    /**
+     * returns the list of tag names and the tag ids
+     * @param fileId the id of the file
+     */
     public async getTagsOfFile(fileId: number): Promise<Map<string, number>> {
         debug("getTagsOfFile");
 
@@ -396,6 +402,26 @@ export default class NCClient {
         }
         debug("tags of file %O", tagMap);
         return tagMap;
+    }
+
+    /**
+     * removes the tag from the file
+     * @param fileId the file id
+     * @param tagId the tag id
+     */
+    public async removeTagOfFile(fileId: number, tagId: number): Promise<void> {
+        debug("removeTagOfFile tagId: $s fileId:", tagId, fileId);
+
+        const requestInit: RequestInit = {
+            method: "DELETE",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tagId}`,
+            requestInit,
+            [204, 404]);
+
+        return;
     }
 
     /**
@@ -1002,9 +1028,9 @@ export default class NCClient {
         for (const res of responseObject.multistatus.response) {
             if (res.propstat) {
                 if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    debug(res.href);
+                    // debug(res.href);
                     // debug(res.propstat);
-                    debug(res.propstat.prop.message);
+                    // debug(res.propstat.prop.message);
                     comments.push(res.propstat.prop.message);
                 }
             }

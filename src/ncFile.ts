@@ -102,6 +102,20 @@ export default class NCFile {
     }
 
     /**
+     * removes a tag of the file
+     * @param tagName the name of the tag
+     */
+    public async removeTag(tagName: string): Promise<void> {
+        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        const tagNames: string[] = [];
+
+        const tagId: number | undefined = map.get(tagName);
+        if (tagId) {
+            await this.client.removeTagOfFile(await this.getId(), tagId);
+        }
+    }
+
+    /**
      * add comment to file
      * @param comment the comment
      */
@@ -119,6 +133,5 @@ export default class NCFile {
     public async getComments(top?: number, skip?: number): Promise<string[]> {
         return this.client.getFileComments(await this.getId(), top, skip);
     }
-
 
 }
