@@ -42,7 +42,7 @@ Please refer to test file and the ``/docs`` folder with the generated documentat
 - get sub folder
 - create file
 - get files
-- add tag
+- get tags, add tag, remove tag
 - add comment
 - get comments
 - move/rename
@@ -50,7 +50,7 @@ Please refer to test file and the ``/docs`` folder with the generated documentat
 - get name, id, base name, URL
 - get content
 - delete
-- add tag
+- get tags, add tag, remove tag
 - add comment
 - get comments
 - move/rename
