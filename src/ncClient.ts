@@ -140,6 +140,7 @@ export default class NCClient {
     private nextcloudOrigin: string;
     private nextcloudAuthHeader: string;
     private nextcloudRequestToken: string;
+    private webDAVUrl: string;
 
     /**
      * the constructor is private - the factory method should be used to get instances
@@ -165,6 +166,7 @@ export default class NCClient {
 
         this.nextcloudAuthHeader = "Basic " + new Buffer(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
         this.nextcloudRequestToken = "";
+        this.webDAVUrl = credentials.url;
     }
 
     /**
@@ -470,6 +472,65 @@ export default class NCClient {
         return -1;
     }
 
+    public async getFolderContents(folderName: string): Promise<number> {
+        debug("getFolderContents");
+
+        const requestInit: RequestInit = {
+            body: `
+            <?xml version="1.0"?>
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:ocs="http://open-collaboration-services.org/ns">
+              <d:prop>
+                <d:getlastmodified />
+                <d:getetag />
+                <d:getcontenttype />
+                <d:resourcetype />
+                <oc:fileid />
+                <oc:permissions />
+                <oc:size />
+                <d:getcontentlength />
+                <nc:has-preview />
+                <nc:mount-type />
+                <nc:is-encrypted />
+                <ocs:share-permissions />
+                <oc:tags />
+                <oc:favorite />
+                <oc:comments-unread />
+                <oc:owner-id />
+                <oc:owner-display-name />
+                <oc:share-types />
+              </d:prop>
+            </d:propfind>`,
+            method: "PROPFIND",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            `${this.webDAVUrl}${folderName}`,
+            requestInit,
+            [207]);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+        debug("getFileId parsed response body %O", responseObject);
+        if (!responseObject.multistatus) {
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+        }
+        // @todo
+        const tags: NCTag[] = [];
+        if (responseObject.multistatus.response &&
+            responseObject.multistatus.response.propstat &&
+            responseObject.multistatus.response.propstat.status &&
+            responseObject.multistatus.response.propstat.prop &&
+            responseObject.multistatus.response.propstat.prop.fileid) {
+            const propstat = responseObject.multistatus.response.propstat;
+            if (propstat.status === "HTTP/1.1 200 OK") {
+                return propstat.prop.fileid;
+            }
+        }
+
+        // @todo
+        return -1;
+    }
+
     /**
      * creates a folder and all parent folders in the path if they do not exist
      * @param folderName name of the folder /folder/subfolder/subfolder
@@ -571,53 +632,6 @@ export default class NCClient {
         if (folder) {
             await this.deleteFile(folderName);
         }
-    }
-
-    /**
-     * get a folder object from a path string
-     * @param folderName Name of the folder like "/company/branches/germany"
-     * @returns null if the folder does not exist or an folder object
-     */
-    public async getFolder_obsolete(folderName: string): Promise<NCFolder | null> {
-        folderName = this.sanitizeFolderName(folderName);
-
-        // return root folder
-        if (folderName === "/") {
-            return new NCFolder(this, "/", "", "");
-        }
-
-        debug(" folderName=%s", folderName);
-
-        const parts: string[] = folderName.split("/");
-        let folderPath: string = "";
-
-        debug(": parts = %O", parts);
-
-        for (const part of parts) {
-            debug(":part = %O", part);
-            let folderContentsArray;
-            folderPath += "/" + part;
-            try {
-                folderContentsArray = await this.webDAVClient.getDirectoryContents(folderPath);
-                for (const folderElement of folderContentsArray) {
-                    if (folderElement.type === "directory") {
-                        debug(":folder element %s", folderElement.filename);
-                        if (folderElement.filename === folderName) {
-                            debug(": SUCCESS!!");
-                            return new NCFolder(this,
-                                folderElement.filename.replace(/\\/g, "/"),
-                                folderElement.basename,
-                                folderElement.lastmod);
-                        }
-                    }
-                }
-            } catch (e) {
-                debug(": exception occurred calling Contents %O", e.message);
-                return null;
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -771,36 +785,6 @@ export default class NCClient {
             debug("getFolder: exception occurred calling stat %O", e.message);
             return null;
         }
-    }
-
-    /**
-     * returns a nextcloud file object
-     * @param fileName the full file name /folder1/folder2/file.pdf
-     */
-    public async getFile_obsolete(fileName: string): Promise<NCFile | null> {
-        debug("getFile fileName = %s", fileName);
-        const client = this;
-        let folderContentsArray;
-
-        try {
-            folderContentsArray = await this.webDAVClient.getDirectoryContents(path.dirname(fileName));
-            for (const folderElement of folderContentsArray) {
-                // debug("getFile element %O", folderElement);
-                if (folderElement.type === "file") {
-                    if (folderElement.filename === fileName) {
-                        return new NCFile(client,
-                            folderElement.filename.replace(/\\/g, "/"),
-                            folderElement.basename,
-                            folderElement.lastmod,
-                            folderElement.size,
-                            folderElement.mime);
-                    }
-                }
-            }
-        } catch (e) {
-            return null;
-        }
-        return null;
     }
 
     /**
