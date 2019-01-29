@@ -96,7 +96,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
@@ -125,7 +125,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         const fileName1 = "fileWith3Tags1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
@@ -195,7 +195,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         const fileName1 = "removeTagOfFile.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 

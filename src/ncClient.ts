@@ -173,7 +173,7 @@ export default class NCClient {
 
         debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
-        this.nextcloudAuthHeader = "Basic " + new Buffer(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
+        this.nextcloudAuthHeader = "Basic " + Buffer.from(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
         this.nextcloudRequestToken = "";
         this.webDAVUrl = credentials.url;
     }

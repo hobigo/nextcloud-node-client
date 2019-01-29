@@ -21,7 +21,7 @@ describe("NEXCLOUD-NODE-CLIENT-COMMENT", function() {
         let file: NCFile | null = null;
 
         try {
-            file = await client.createFile(fileName, new Buffer("file with comments"));
+            file = await client.createFile(fileName, Buffer.from("file with comments"));
             errorOccurred = false;
         } catch (e) {
             errorOccurred = true;

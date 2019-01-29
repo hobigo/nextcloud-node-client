@@ -162,7 +162,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         let file: NCFile | null = null;
 
         try {
-            file = await client.createFile(fileName, new Buffer("this is a test text"));
+            file = await client.createFile(fileName, Buffer.from("this is a test text"));
             errorOccurred = false;
         } catch (e) {
             errorOccurred = true;
@@ -252,8 +252,8 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const fileName2 = "file2.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
-        await baseDir.createFile(fileName2, new Buffer("File 2"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        await baseDir.createFile(fileName2, Buffer.from("File 2"));
 
         const files = await baseDir.getFiles();
 
@@ -270,7 +270,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
@@ -288,7 +288,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         let file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
@@ -308,7 +308,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
@@ -358,7 +358,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
         const baseDir = await client.createFolder(dirName);
 
-        const file = await baseDir.createFile(sourceFileName, new Buffer("File"));
+        const file = await baseDir.createFile(sourceFileName, Buffer.from("File"));
 
         await file!.move(targetFileName);
 
@@ -384,7 +384,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        await baseDir.createFile(fileName1, new Buffer("File 1"));
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
 
