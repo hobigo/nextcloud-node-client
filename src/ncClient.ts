@@ -77,27 +77,36 @@ export default class NCClient {
                     { vcapServices: process.env.VCAP_SERVICES });
             }
 
+            // @todo loop over tags with nextcloud in the future
             if (vcapServices["user-provided"] && vcapServices["user-provided"][0]) {
-                if (!vcapServices["user-provided"][0].url) {
+
+                if (!vcapServices["user-provided"][0].credentials) {
+                    throw new NCError("NCClient getCredentials VCAP_SERVICES credentials not defined in user provided services for nextcloud"
+                        , "ERR_VCAP_SERVICES_CREDENTIALS_NOT_DEFINED",
+                        { vcapServices: process.env.VCAP_SERVICES });
+
+                }
+
+                if (!vcapServices["user-provided"][0].credentials.url) {
                     throw new NCError("NCClient getCredentials VCAP_SERVICES url not defined in user provided services for nextcloud"
                         , "ERR_VCAP_SERVICES_URL_NOT_DEFINED",
                         { vcapServices: process.env.VCAP_SERVICES });
 
                 }
-                if (!vcapServices["user-provided"][0].username) {
+                if (!vcapServices["user-provided"][0].credentials.username) {
                     throw new NCError("NCClient getCredentials VCAP_SERVICES username not defined in user provided services for nextcloud",
                         "ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED",
                         { vcapServices: process.env.VCAP_SERVICES });
 
                 }
-                if (!vcapServices["user-provided"][0].password) {
+                if (!vcapServices["user-provided"][0].credentials.password) {
                     throw new NCError("NCClient getCredentials VCAP_SERVICES password not defined in user provided services for nextcloud",
                         "ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED",
                         { vcapServices: process.env.VCAP_SERVICES });
 
                 }
 
-                credentials = vcapServices["user-provided"][0];
+                credentials = vcapServices["user-provided"][0].credentials;
 
             } else {
                 throw new NCError("NCClient getCredentials user provided services not found",

@@ -6,8 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## 0.1.7 - 2019-01-27
+### Fixed
+- fixed bug: get user provided services instance from cloud foundry envionment vcap services
 
+## 0.1.7 - 2019-01-27
 ### Added
 - get UI link of file and folder
 - get and remove tags of file and folder
