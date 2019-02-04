@@ -15,6 +15,7 @@
     "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
     "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
     "test": "cross-env NODE_ENV=\"development\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
+    "coverage": "cross-env NODE_ENV=\"development\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" istanbul cover ./node_modules/mocha/bin/_mocha -- -r ts-node/register src/**/*test.ts ",    
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
   "keywords": [
@@ -39,6 +40,7 @@
     "cross-env": "^5.2.0",
     "debug": "^4.1.0",
     "fast-xml-parser": "^3.12.12",
+    "istanbul": "^0.4.5",
     "node-fetch": "^2.3.0",
     "webdav": "^2.2.1"
   },
