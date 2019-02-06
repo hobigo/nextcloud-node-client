@@ -7,13 +7,15 @@ import {
     NCFolder,
 } from "../ncClient";
 
+const instanceName = "test";
+
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     this.timeout(1 * 60 * 1000);
 
     it.skip("1 get activity", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const activities = client.getActivities();
         expect(activities, "expect no exception").to.be.equal(false);
@@ -22,7 +24,7 @@ describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
 
     it("99 delete directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test";
 

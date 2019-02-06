@@ -1,3 +1,4 @@
+
 import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
@@ -7,7 +8,8 @@ import {
     NCFile,
     NCFolder,
 } from "../ncClient";
-import NCTag from "../ncTag";
+
+const instanceName = "test";
 
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT", function() {
@@ -17,17 +19,17 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         let exceptionOccurred;
 
         try {
-            await NCClient.clientFactory();
+            const client: NCClient = new NCClient(instanceName);
             exceptionOccurred = false;
         } catch (e) {
             exceptionOccurred = true;
-            expect(exceptionOccurred, "expect that no exception occures when creating a nextcloud client").to.be.equal(false);
+            expect(exceptionOccurred, "expect that no exception occures when creating a nextcloud client: exception: " + e.message).to.be.equal(false);
         }
     });
 
     it("02 get quota", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         let q;
         try {
             q = await client.getQuota();
@@ -41,7 +43,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("03 get and create directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         let errorOccurred;
         let directory: NCFolder | null = null;
@@ -63,7 +65,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("04 delete directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         let errorOccurred;
         let directory: NCFolder | null = null;
@@ -110,7 +112,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("05 get root directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         let errorOccurred;
         let directory: NCFolder | null = null;
@@ -132,7 +134,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("06 create . directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         let errorOccurred;
         let folder: NCFolder | null = null;
@@ -145,16 +147,13 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
             errorOccurred = true;
         }
 
-        // tslint:disable-next-line:no-console
-        console.log("folder", folder);
-
         expect(folder, "expect directory to a null").to.be.equal(null);
 
     });
 
     it("07 create file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         let errorOccurred;
         const fileName = "/test/test2/file1.txt";
@@ -181,7 +180,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("08 get sub directories of non existsing directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const directories = await client.getSubFolders("/non/existing/directory");
 
@@ -192,7 +191,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("09 get sub directories", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const baseName = "/test/base";
         const subDirName1 = "subdir1";
@@ -211,7 +210,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("10 get sub directories with directory object", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const baseName = "/test/base";
         const subDirName1 = "subdir1";
@@ -230,7 +229,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("11 get files of an empty directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/files/empty";
 
@@ -245,7 +244,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("12 get files of a directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/files";
         const fileName1 = "file1.txt";
@@ -264,7 +263,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("13 get file content", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileContent";
         const fileName1 = "file1.txt";
@@ -282,7 +281,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("14 delete file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileDelete";
         const fileName1 = "file1.txt";
@@ -302,7 +301,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("15 get link of file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileLink";
         const fileName1 = "file1.txt";
@@ -323,7 +322,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("16 get link of directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileLink";
 
@@ -337,7 +336,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("17 move directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const sourceDirName = "/test/sourceDirectory";
         const targetDirName = "/test/targetFolder";
@@ -350,7 +349,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("18 move file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/renameFile";
         const sourceFileName = "sourceFile.txt";
@@ -367,7 +366,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("19 get non existing file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const fileName = "/test/doesNotExist.txt";
 
@@ -378,7 +377,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("20 get file id", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/getFileId";
         const fileName1 = "file1.txt";
@@ -400,7 +399,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("21 get folder id", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/getFolderId";
 
@@ -424,7 +423,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
             url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
         };
         try {
-            const client = await NCClient.clientFactory(credentials);
+            const client: NCClient = new NCClient(instanceName);
         } catch (e) {
             expect(true, "we do not expect an exception").to.be.equal(false);
         }
@@ -433,7 +432,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
     it("99 delete directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test";
 

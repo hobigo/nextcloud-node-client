@@ -9,13 +9,15 @@ import {
 } from "../ncClient";
 import NCTag from "../ncTag";
 
+const instanceName = "test";
+
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
     this.timeout(1 * 60 * 1000);
 
     it("1 get tags", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const tags: NCTag[] = await client.getTags();
 
@@ -28,7 +30,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("2 create tag", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         const tagName: string = "Tag1";
         const tag: NCTag = await client.createTag(tagName);
 
@@ -41,7 +43,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("3 delete tag", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         const tagName: string = "Tag-to-be-deleted";
         const tag: NCTag = await client.createTag(tagName);
 
@@ -56,7 +58,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("4 get tag by name", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         const tagName: string = "get-Tag-by-name";
         const tag: NCTag = await client.createTag(tagName);
 
@@ -73,7 +75,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("5 get tag by id", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         const tagName: string = "get-Tag-by-id";
         const tag: NCTag = await client.createTag(tagName);
 
@@ -90,7 +92,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("6 add tag to file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileTagging";
         const fileName1 = "file1.txt";
@@ -119,7 +121,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("7 get tags of file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileTagging";
         const fileName1 = "fileWith3Tags1.txt";
@@ -160,7 +162,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("8 folder tags", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/folderTagging";
 
@@ -189,7 +191,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("9 remove tag of file", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test/fileTagging";
         const fileName1 = "removeTagOfFile.txt";
@@ -227,7 +229,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
     });
 
     it("98 delete all tags", async () => {
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
         const tagName: string = "TagToBeDelete";
         await client.createTag(tagName);
         await client.deleteAllTags();
@@ -239,7 +241,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
 
     it("99 delete directory", async () => {
 
-        const client = await NCClient.clientFactory();
+        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test";
 

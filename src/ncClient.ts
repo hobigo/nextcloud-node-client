@@ -1,23 +1,19 @@
 // tslint:disable-next-line:no-var-requires
-const debug = require("debug").debug("NCClient");
+require("dotenv").config();
 
-import path from "path";
-import { URL } from "url";
-
-import NCError from "./ncError";
-import NCFile from "./ncFile";
-import NCFolder from "./ncFolder";
-import NCTag from "./ncTag";
-
+import debugFactory from "debug";
 import parser from "fast-xml-parser";
-
 import {
     Headers,
     RequestInit,
     Response,
 } from "node-fetch";
-
 import fetch from "node-fetch";
+import path from "path";
+import NCError from "./ncError";
+import NCFile from "./ncFile";
+import NCFolder from "./ncFolder";
+import NCTag from "./ncTag";
 
 export {
     NCClient,
@@ -26,6 +22,10 @@ export {
     NCFile,
     NCTag,
 };
+
+const debug = debugFactory("NCClient");
+
+// debug("process env %O", process.env);
 
 export interface IBasicAuth {
     "username": string;
@@ -40,109 +40,47 @@ export interface ICredentials {
 export default class NCClient {
 
     /**
-     * NODE_ENV === "development":
-     *   environment variable: NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE json file name that contains the credentials
-     *     url, username, password
-     *    standard file: ./../userProvidedService.json
-     * NODE_ENV !== "development":
-     *    environment variable: VCAP_SERVICES user-provided first entry
-     * @returns the credentials from the environment (user provided service or use a local file in dev mode)
+     * returns the nextcloud credentials that is defined in the
+     * "user-provided" service section of the VCAP_SERVICES environment
+     * @param instanceName the name of the nextcloud user provided service instance
+     * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromEnv(): ICredentials {
-        let result: ICredentials;
-        let credentials:
-            {
-                "url": string;
-                "username": string;
-                "password": string;
-            };
+    public static getCredentialsFromEnv(instanceName: string): ICredentials {
 
-        if (process.env.NODE_ENV === "development") {
-            if (process.env.NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE) {
-                credentials = require(process.env.NEXTCLOUD_CLIENT_CREDENTIALS_JSON_FILE);
-            } else {
-                credentials = require("./../userProvidedService.json");
-            }
-
-        } else {
-            if (!process.env.VCAP_SERVICES) {
-                throw new NCError("NCClient getCredentials VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
-            }
-            let vcapServices: any;
-            try {
-                vcapServices = JSON.parse(process.env.VCAP_SERVICES);
-            } catch (e) {
-                throw new NCError("NCClient getCredentials VCAP_SERVICES not valid JSON",
-                    "ERR_VCAP_SERVICES_INVALID",
-                    { vcapServices: process.env.VCAP_SERVICES });
-            }
-
-            // @todo loop over tags with nextcloud in the future
-            if (vcapServices["user-provided"] && vcapServices["user-provided"][0]) {
-
-                if (!vcapServices["user-provided"][0].credentials) {
-                    throw new NCError("NCClient getCredentials VCAP_SERVICES credentials not defined in user provided services for nextcloud"
-                        , "ERR_VCAP_SERVICES_CREDENTIALS_NOT_DEFINED",
-                        { vcapServices: process.env.VCAP_SERVICES });
-
-                }
-
-                if (!vcapServices["user-provided"][0].credentials.url) {
-                    throw new NCError("NCClient getCredentials VCAP_SERVICES url not defined in user provided services for nextcloud"
-                        , "ERR_VCAP_SERVICES_URL_NOT_DEFINED",
-                        { vcapServices: process.env.VCAP_SERVICES });
-
-                }
-                if (!vcapServices["user-provided"][0].credentials.username) {
-                    throw new NCError("NCClient getCredentials VCAP_SERVICES username not defined in user provided services for nextcloud",
-                        "ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED",
-                        { vcapServices: process.env.VCAP_SERVICES });
-
-                }
-                if (!vcapServices["user-provided"][0].credentials.password) {
-                    throw new NCError("NCClient getCredentials VCAP_SERVICES password not defined in user provided services for nextcloud",
-                        "ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED",
-                        { vcapServices: process.env.VCAP_SERVICES });
-
-                }
-
-                credentials = vcapServices["user-provided"][0].credentials;
-
-            } else {
-                throw new NCError("NCClient getCredentials user provided services not found",
-                    "ERR_USER_PROVIDED_SERVICES_NOT_FOUND");
-
-            }
+        if (!process.env.VCAP_SERVICES) {
+            throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
         }
 
-        result = {
-            basicAuth: {
-                password: credentials.password,
-                username: credentials.username,
-            },
-            url: credentials.url,
+        const vcapServices = require("vcap_services");
+        const cred = vcapServices.getCredentials("user-provided", null, "ups-nextcloud");
+
+        if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password && !cred.password)) {
+            throw new NCError(`NCClient getCredentials: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
+        }
+
+        if (!cred.url) {
+            throw new NCError("NCClient getCredentials: VCAP_SERVICES url not defined in user provided services for nextcloud"
+                , "ERR_VCAP_SERVICES_URL_NOT_DEFINED",
+                { credentials: cred });
+        }
+
+        if (!cred.password) {
+            throw new NCError("NCClient getCredentials VCAP_SERVICES password not defined in user provided services for nextcloud",
+                "ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED",
+                { credentials: cred });
+        }
+
+        if (!cred.username) {
+            throw new NCError("NCClient getCredentials VCAP_SERVICES username not defined in user provided services for nextcloud",
+                "ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED",
+                { credentials: cred });
+        }
+
+        return {
+            basicAuth:
+                { username: cred.username, password: cred.password },
+            url: cred.url,
         };
-
-        return result;
-    }
-
-    /**
-     * creates a new instance of a nextcloud client
-     * if credentials are not provided, the credentials are used from the environment (user provided service cloud foundry)
-     * @param credentials credentials of the nextcloud server and webdav url
-     * @throws Error
-     */
-    public static async clientFactory(credentials?: ICredentials): Promise<NCClient> {
-
-        if (!credentials) {
-            credentials = NCClient.getCredentialsFromEnv();
-        }
-
-        const client: NCClient = new NCClient(credentials);
-
-        // ensure that the client is working
-        await client.getQuota();
-        return client;
     }
 
     private webDAVClient: any;
@@ -153,12 +91,13 @@ export default class NCClient {
 
     /**
      * the constructor is private - the factory method should be used to get instances
-     * @param webDavUrl the url endpoint of the nextcloud WebDAV server
-     * @param username basic auth username
-     * @param password basic auth password
+     * @param instanceName the name of the nextcloud user provided service instance
      */
-    private constructor(credentials: ICredentials) {
+    public constructor(instanceName: string) {
         debug("constructor");
+
+        const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+
         const { createClient } = require("webdav");
         this.webDAVClient = createClient(credentials.url, { username: credentials.basicAuth.username, password: credentials.basicAuth.password });
         // debug("webdav client %O", this.client);

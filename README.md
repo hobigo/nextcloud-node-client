@@ -66,23 +66,16 @@ npm install nextcloud-node-client
 ``
 
 ## Creating a client
-Creating a client with credentials
+Creating a nextcloud client with reference to a service name
 
 ```typescript
   // typescript
   import { ICredentials, NCClient } from "nextcloud-node-client";
 
   (async() => {
-    const credentials: ICredentials = {
-            basicAuth:
-            {
-                password: "<your password>",
-                username: "<your user>",
-            },
-            url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
-        };
     try {
-        const client = await NCClient.clientFactory(credentials);
+        // service instance name from VCAP_SERVICES environment - "user-provided" section
+        const client: NCClient = new NCClient("myServiceInstanceName");
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
@@ -95,22 +88,92 @@ Creating a client with credentials
   const NCClient = require("nextcloud-node-client").NCClient;
 
   (async() => {
-    const credentials = {
-            basicAuth:
-            {
-                password: "<your password>",
-                username: "<your user>",
-            },
-            url: "< nextcloud webdav url https://your-nextcloud-server.com/remote.php/webdav/>",
-        };
     try {
-        const client = await NCClient.clientFactory(credentials);
+        // service instance name from VCAP_SERVICES environment - "user-provided" section        
+        const client = new NCClient("myServiceInstanceName");
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
     }
  })();
 ```
+
+
+## Defining a nextcloud service instance
+A nextcloud service instance is required to access the credentials of the nextcloud server.
+Storing security configuration in the environment separate from code is based on The Twelve-Factor App methodology.
+The service configuration is stored in the environment variable `VCAP_SERVICES` (refer to the Cloud Foundry documentation for details).
+The nextcloud credentials are stored in the section for user provided services `user-provided`.
+The client is able to access the service credentials by providing the instance name.
+
+### template for VCAP_SERVICES
+
+```
+VCAP_SERVICES={
+    "user-provided": [
+        {
+            "binding_name": null,
+            "credentials": {
+                "password": "<your password>",
+                "url": "<your WebDAV url to nextcloud>",
+                "username": "<your user name>"
+            },
+            "instance_name": "<your service instance name>",
+            "label": "user-provided",
+            "name": "<your service instance name>",
+            "syslog_drain_url": "",
+            "tags": [],
+            "volume_mounts": []
+        }
+    ]
+}
+```
+
+In one line
+
+``
+VCAP_SERVICES={
+    "user-provided": [
+        {
+            "binding_name": null,
+            "credentials": {
+                "password": "<your password>",
+                "url": "<your WebDAV url to nextcloud>",
+                "username": "<your user name>"
+            },
+            "instance_name": "<your service instance name>",
+            "label": "user-provided",
+            "name": "<your service instance name>",
+            "syslog_drain_url": "",
+            "tags": [],
+            "volume_mounts": []
+        }
+    ]
+}
+``
+
+Find an a template for a `.env` file in the root folder.
+
+### CloudFoundry Integration
+Cloud foundry apps use the credentials provided in the environment.
+Create a user provided service from a json file to store the credentials securely in the environment.
+
+cloud foundry command line:
+
+``
+cf create-user-provided-service myServiceInstanceName -p ./userProvidedService.json
+``
+
+Structure of the userProvidedService.json file
+
+```
+{
+    "url": "<url - WebDAV endpoint of the nextcloud server>",
+    "username": "<user name>",
+    "password": "<password>"
+}
+```
+
 ## API
 ### Quota
 ```javascript
@@ -184,24 +247,6 @@ Creating a client with credentials
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     await file.move("/products/brooms/MyFileRenamed.txt");
-```
-
-## CloudFoundry Integration
-Cloud foundry apps use the credentials provided in the environment.
-Create a user provided service from a json file to store the credentials securely in the environment.
-
-``
-cf create-user-provided-service ups-nextcloud -p ./userProvidedService.json
-``
-
-Structure of the userProvidedService.json file
-
-```
-{
-    "url": "<url - WebDAV endpoint of the nextcloud server>",
-    "username": "<user name>",
-    "password": "<password>"
-}
 ```
 
 ## Development

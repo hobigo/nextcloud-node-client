@@ -1,0 +1,2 @@
+DEBUG=*
+VCAP_SERVICES={"user-provided": [{"binding_name": null,"credentials": {"password": "<your password>","url": "<your nextcloud WebDAV Url>", "username": "<your user name>"}, "instance_name": "<you instance name>","label": "user-provided","name": "<you instance name>", "syslog_drain_url": "","tags": [],"volume_mounts": []}]}

@@ -9,12 +9,10 @@
     "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
-    "_postinstall": "npm run build",
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
     "build": "node ./node_modules/typescript/bin/tsc",
     "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
-    "test-d": "cross-env NODE_ENV=\"development\" DEBUG=\"NCClient\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
-    "test": "cross-env NODE_ENV=\"development\" NODE_TLS_REJECT_UNAUTHORIZED=\"0\" mocha -r ts-node/register src/**/*test.ts",
+    "test": "mocha -r ts-node/register src/**/*test.ts",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
   "keywords": [
@@ -36,14 +34,16 @@
   "dependencies": {
     "@types/debug": "0.0.31",
     "@types/node-fetch": "^2.1.4",
-    "cross-env": "^5.2.0",
     "debug": "^4.1.0",
+    "dotenv": "^6.2.0",
     "fast-xml-parser": "^3.12.12",
     "node-fetch": "^2.3.0",
+    "vcap_services": "^0.6.0",
     "webdav": "^2.2.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
+    "@types/debug": "0.0.30",
     "@types/mocha": "^5.2.5",
     "@types/node": "^8.10.39",
     "chai": "^4.2.0",
