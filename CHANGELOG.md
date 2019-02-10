@@ -6,9 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.1.8 - 2019-02-10
 ### Changed
 - incompatible api change: Client factory method deleted. The client constructor has now the reference to the service instance name only. the documentation to define the service instance and the VCAP_SERVICES structure has been added
 - usage of .env now supported in development
+- new implementation of getDirectoryContents for performance reasons
 ### Fixed
 - fixed bug: get user provided services instance from cloud foundry envionment vcap services
 
