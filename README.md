@@ -70,7 +70,7 @@ Creating a nextcloud client with reference to a service name
 
 ```typescript
   // typescript
-  import { ICredentials, NCClient } from "nextcloud-node-client";
+  import { NCClient } from "nextcloud-node-client";
 
   (async() => {
     try {

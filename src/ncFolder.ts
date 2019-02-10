@@ -11,13 +11,13 @@ export default class NCFolder {
     public lastmod: Date;
     private client: NCClient;
     private id: number;
-    constructor(client: NCClient, name: string, baseName: string, lastmod: string) {
+    constructor(client: NCClient, name: string, baseName: string, lastmod: string, id: number = -1) {
 
         this.client = client;
         this.name = name;
         this.baseName = baseName;
         this.lastmod = new Date(lastmod);
-        this.id = -1;
+        this.id = id;
     }
 
     /**

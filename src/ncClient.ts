@@ -52,7 +52,7 @@ export default class NCClient {
         }
 
         const vcapServices = require("vcap_services");
-        const cred = vcapServices.getCredentials("user-provided", null, "ups-nextcloud");
+        const cred = vcapServices.getCredentials("user-provided", null, instanceName);
 
         if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password && !cred.password)) {
             throw new NCError(`NCClient getCredentials: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
@@ -114,7 +114,12 @@ export default class NCClient {
 
         this.nextcloudAuthHeader = "Basic " + Buffer.from(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
         this.nextcloudRequestToken = "";
-        this.webDAVUrl = credentials.url;
+        if (credentials.url.slice(-1) === "/") {
+            this.webDAVUrl = credentials.url.slice(0, -1);
+        } else {
+            this.webDAVUrl = credentials.url;
+        }
+
     }
 
     /**
@@ -276,7 +281,7 @@ export default class NCClient {
 
         if (!responseObject.multistatus) {
             throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
         }
 
         debug("getTags: responseObject %O", responseObject);
@@ -334,7 +339,7 @@ export default class NCClient {
 
         if (!responseObject.multistatus) {
             throw new NCError("Error get tags of file: response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
         }
 
         debug("getTagsOfFile: responseObject %O", responseObject);
@@ -400,7 +405,7 @@ export default class NCClient {
         debug("getFileId parsed response body %O", responseObject);
         if (!responseObject.multistatus) {
             throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
         }
 
         const tags: NCTag[] = [];
@@ -420,12 +425,11 @@ export default class NCClient {
         return -1;
     }
 
-    public async getFolderContents(folderName: string): Promise<number> {
+    public async getFolderContents(folderName: string): Promise<any[]> {
         debug("getFolderContents");
 
         const requestInit: RequestInit = {
-            body: `
-            <?xml version="1.0"?>
+            body: `<?xml version="1.0"?>
             <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns" xmlns:ocs="http://open-collaboration-services.org/ns">
               <d:prop>
                 <d:getlastmodified />
@@ -450,33 +454,60 @@ export default class NCClient {
             </d:propfind>`,
             method: "PROPFIND",
         };
-
+        const url = `${this.webDAVUrl}${folderName}`;
         const response: Response = await this.getHttpResponse(
-            `${this.webDAVUrl}${folderName}`,
+            url,
             requestInit,
             [207]);
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
-        debug("getFileId parsed response body %O", responseObject);
+        debug("getFolderContents parsed response body %O", responseObject);
         if (!responseObject.multistatus) {
             throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECDED");
-        }
-        // @todo
-        const tags: NCTag[] = [];
-        if (responseObject.multistatus.response &&
-            responseObject.multistatus.response.propstat &&
-            responseObject.multistatus.response.propstat.status &&
-            responseObject.multistatus.response.propstat.prop &&
-            responseObject.multistatus.response.propstat.prop.fileid) {
-            const propstat = responseObject.multistatus.response.propstat;
-            if (propstat.status === "HTTP/1.1 200 OK") {
-                return propstat.prop.fileid;
-            }
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
         }
 
-        // @todo
-        return -1;
+        if (!responseObject.multistatus.response) {
+            throw new NCError("Response XML multistatus response missing: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
+        }
+
+        const folderContents: any[] = [];
+
+        for (const folderEntry of responseObject.multistatus.response) {
+            // debug("responseObject $s", JSON.stringify(folderEntry, null, 4));
+
+            let fileName = decodeURI(folderEntry.href.substr(folderEntry.href.indexOf("/remote.php/webdav") + 18));
+            if (fileName.endsWith("/")) {
+                fileName = fileName.slice(0, -1);
+            }
+
+            // debug("URL filename  = %s,", fileName);
+
+            if ((url + "/").endsWith(folderEntry.href)) {
+                continue;
+            }
+
+            for (const propstat of folderEntry.propstat) {
+                if (propstat.status === "HTTP/1.1 200 OK") {
+                    const folderContentsEntry: any = {};
+                    folderContentsEntry.lastmod = propstat.prop.getlastmodified;
+                    folderContentsEntry.fileid = propstat.prop.fileid;
+                    folderContentsEntry.basename = fileName.split("/").reverse()[0];
+                    folderContentsEntry.filename = fileName;
+                    if (propstat.prop.getcontenttype) {
+                        folderContentsEntry.mime = propstat.prop.getcontenttype;
+                        folderContentsEntry.size = propstat.prop.getcontentlength;
+                        folderContentsEntry.type = "file";
+                    } else {
+                        folderContentsEntry.type = "directory";
+                    }
+                    folderContents.push(folderContentsEntry);
+                }
+            }
+        }
+        // debug("folderContentsEntry $s", JSON.stringify(folderContents, null, 4));
+        return folderContents;
     }
 
     /**
@@ -632,7 +663,8 @@ export default class NCClient {
             folders.push(new NCFolder(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
-                folderElement.lastmod));
+                folderElement.lastmod,
+                folderElement.fileid));
         }
 
         return folders;
@@ -658,7 +690,8 @@ export default class NCClient {
                 folderElement.basename,
                 folderElement.lastmod,
                 folderElement.size,
-                folderElement.mime));
+                folderElement.mime,
+                folderElement.fileid));
         }
 
         return files;
@@ -948,7 +981,7 @@ export default class NCClient {
 
         if (!responseObject.multistatus) {
             throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECDED");
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
         }
 
         debug("getComments: responseObject %O", responseObject);
@@ -1092,7 +1125,13 @@ export default class NCClient {
             debug("Contents: get files");
         }
         try {
-            const folderContentsArray = await this.webDAVClient.getDirectoryContents(folderName);
+            // const folderContentsArray = await this.webDAVClient.getDirectoryContents(folderName);
+            const folderContentsArray = await this.getFolderContents(folderName);
+
+            // debug("###########################");
+            // debug("$s", JSON.stringify(folderContentsArray, null, 4));
+            // debug("###########################");
+            await this.getFolderContents(folderName);
 
             for (const folderElement of folderContentsArray) {
                 if (folderElement.type === "directory") {

@@ -9,14 +9,14 @@ export default class NCFile {
     public mime: string;
     private id: number;
     private client: NCClient;
-    constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string) {
+    constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number = -1) {
         this.client = client;
         this.name = name;
         this.baseName = baseName;
         this.lastmod = new Date(lastmod);
         this.size = size;
         this.mime = mime;
-        this.id = -1;
+        this.id = id;
     }
     /**
      * deletes a file
