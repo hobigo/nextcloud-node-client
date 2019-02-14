@@ -23,7 +23,8 @@
     "tag",
     "tagging",
     "nodejs",
-    "node"
+    "node",
+    "cloud foundry"
   ],
   "engines": {
     "node": "8.x",

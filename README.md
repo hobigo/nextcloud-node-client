@@ -152,7 +152,7 @@ VCAP_SERVICES={
 }
 ``
 
-Find an a template for a `.env` file in the root folder.
+Find a template for a `.env` file in the root folder.
 
 ### CloudFoundry Integration
 Cloud foundry apps use the credentials provided in the environment.
