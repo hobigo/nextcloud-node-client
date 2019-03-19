@@ -3,6 +3,9 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
+
+import HttpsProxyAgent from "http-proxy-agent";
+
 import {
     Headers,
     RequestInit,
@@ -21,6 +24,10 @@ export {
     NCFolder,
     NCFile,
     NCTag,
+};
+
+export {
+    HttpsProxyAgent,
 };
 
 const debug = debugFactory("NCClient");
@@ -55,6 +62,7 @@ export default class NCClient {
         const cred = vcapServices.getCredentials("user-provided", null, instanceName);
 
         if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password && !cred.password)) {
+            debug("NCClient: error credentials not found or not fully specified %O", cred);
             throw new NCError(`NCClient getCredentials: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
         }
 
@@ -88,16 +96,18 @@ export default class NCClient {
     private nextcloudAuthHeader: string;
     private nextcloudRequestToken: string;
     private webDAVUrl: string;
+    private proxyAgent?: HttpsProxyAgent;
 
     /**
      * the constructor is private - the factory method should be used to get instances
      * @param instanceName the name of the nextcloud user provided service instance
+     * @param proxyAgent the proxy agent optional
      */
-    public constructor(instanceName: string) {
+    public constructor(instanceName: string, proxyAgent?: HttpsProxyAgent) {
         debug("constructor");
 
         const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
-
+        this.proxyAgent = proxyAgent;
         const { createClient } = require("webdav");
         this.webDAVClient = createClient(credentials.url, { username: credentials.basicAuth.username, password: credentials.basicAuth.password });
         // debug("webdav client %O", this.client);
@@ -1087,6 +1097,11 @@ export default class NCClient {
         debug("getHttpResponse request header %O", requestInit.headers);
 
         requestInit.headers.append("User-Agent", "nextcloud-node-client");
+
+        // set the proxy
+        if (this.proxyAgent) {
+            requestInit.agent = this.proxyAgent;
+        }
 
         debug("getHttpResponse url:%s, %O", url, requestInit);
         const response: Response = await fetch(url, requestInit);
