@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.1.9 - 2019-03-19
+### Added
+- optional proxy agent in constructor
+
 ## 0.1.8 - 2019-02-10
 ### Changed
 - incompatible api change: Client factory method deleted. The client constructor has now the reference to the service instance name only. the documentation to define the service instance and the VCAP_SERVICES structure has been added
