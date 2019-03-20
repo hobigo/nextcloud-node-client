@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 0.2.0 - 2019-03-20
+### Changed
+- incompatible api change: constructor supports direct credentials and proxy instead of instance name only
+
 ## 0.1.9 - 2019-03-19
 ### Added
 - optional proxy agent in constructor

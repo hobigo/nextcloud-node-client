@@ -70,12 +70,13 @@ Creating a nextcloud client with reference to a service name
 
 ```typescript
   // typescript
-  import { NCClient } from "nextcloud-node-client";
+  import { ICredentials, NCClient } from "nextcloud-node-client";
 
   (async() => {
+    // service instance name from VCAP_SERVICES environment - "user-provided" section      
+    const credentials: ICredentials = NCClient.getCredentialsFromEnv("myServiceInstanceName");
     try {
-        // service instance name from VCAP_SERVICES environment - "user-provided" section
-        const client: NCClient = new NCClient("myServiceInstanceName");
+        const client = new NCClient(credentials.url, credentials.basicAuth);
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
@@ -88,9 +89,11 @@ Creating a nextcloud client with reference to a service name
   const NCClient = require("nextcloud-node-client").NCClient;
 
   (async() => {
+    // service instance name from VCAP_SERVICES environment - "user-provided" section      
+    const credentials = NCClient.getCredentialsFromEnv("myServiceInstanceName");
     try {
         // service instance name from VCAP_SERVICES environment - "user-provided" section        
-        const client = new NCClient("myServiceInstanceName");
+        const client = new NCClient(credentials.url, credentials.basicAuth);
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
@@ -98,6 +101,21 @@ Creating a nextcloud client with reference to a service name
  })();
 ```
 
+Creating a nextcloud client with explicite credentials
+
+```typescript
+  // typescript
+  import { NCClient } from "nextcloud-node-client";
+
+  (async() => {
+    try {
+        const client = new NCClient("https://myNextcloudServer.com/remote.php/webdav", { username: "<my user>", password: "<my password>" } );
+        //  do cool stuff with the client
+    } catch (e) {
+          // some error handling
+    }
+ })();
+```
 
 ## Defining a nextcloud service instance
 A nextcloud service instance is required to access the credentials of the nextcloud server.

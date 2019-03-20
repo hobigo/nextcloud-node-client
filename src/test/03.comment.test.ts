@@ -2,6 +2,7 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
+    ICredentials,
     NCClient,
     NCFile,
     NCFolder,
@@ -9,14 +10,14 @@ import {
 
 const instanceName = "test";
 
+const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+const client = new NCClient(credentials.url, credentials.basicAuth);
+
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-COMMENT", function() {
     this.timeout(1 * 60 * 1000);
 
     it("1 add comment to file", async () => {
-
-        const client: NCClient = new NCClient(instanceName);
-
         let errorOccurred;
         const fileName = "/test/comments/fileComments.txt";
 
@@ -54,8 +55,6 @@ describe("NEXCLOUD-NODE-CLIENT-COMMENT", function() {
 
     it("2 add comment to folder", async () => {
 
-        const client: NCClient = new NCClient(instanceName);
-
         let errorOccurred;
         const folderName = "/test/folder/comments";
 
@@ -92,8 +91,6 @@ describe("NEXCLOUD-NODE-CLIENT-COMMENT", function() {
     });
 
     it("99 delete directory", async () => {
-
-        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test";
 

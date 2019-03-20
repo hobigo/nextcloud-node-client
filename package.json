@@ -38,7 +38,7 @@
     "debug": "^4.1.0",
     "dotenv": "^6.2.0",
     "fast-xml-parser": "^3.12.13",
-    "https-proxy-agent": "^2.2.1",
+    "http-proxy-agent": "^2.1.0",
     "node-fetch": "^2.3.0",
     "vcap_services": "^0.6.0",
     "webdav": "^2.2.1"

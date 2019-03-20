@@ -2,6 +2,7 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
+    ICredentials,
     NCClient,
     NCFile,
     NCFolder,
@@ -9,13 +10,14 @@ import {
 
 const instanceName = "test";
 
+const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+const client = new NCClient(credentials.url, credentials.basicAuth);
+
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     this.timeout(1 * 60 * 1000);
 
-    it.only("1 get activity", async () => {
-
-        const client: NCClient = new NCClient(instanceName);
+    it.skip("1 get activity", async () => {
 
         const activities = client.getActivities();
         expect(activities, "expect no exception").to.be.equal(false);
@@ -23,8 +25,6 @@ describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     });
 
     it("99 delete directory", async () => {
-
-        const client: NCClient = new NCClient(instanceName);
 
         const dirName = "/test";
 

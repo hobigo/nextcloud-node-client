@@ -99,40 +99,40 @@ export default class NCClient {
     private proxyAgent?: HttpsProxyAgent;
 
     /**
-     * the constructor is private - the factory method should be used to get instances
-     * @param instanceName the name of the nextcloud user provided service instance
+     * constructor of the nextcloud client
+     * @param url the WebDAV url of the nextcloud server
+     * @param authentication basic authentication information
      * @param proxyAgent the proxy agent optional
      */
-    public constructor(instanceName: string, proxyAgent?: HttpsProxyAgent) {
+    public constructor(url: string, authentication: IBasicAuth, proxyAgent?: HttpsProxyAgent) {
         debug("constructor");
 
-        const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
         this.proxyAgent = proxyAgent;
         const { createClient } = require("webdav");
-        this.webDAVClient = createClient(credentials.url, { username: credentials.basicAuth.username, password: credentials.basicAuth.password });
+        this.webDAVClient = createClient(url, { username: authentication.username, password: authentication.password });
         // debug("webdav client %O", this.client);
-        debug("constructor: webdav url %s", credentials.url);
+        debug("constructor: webdav url %s", url);
 
-        if (credentials.url.indexOf("remote.php/webdav") === -1) {
+        if (url.indexOf("remote.php/webdav") === -1) {
             // not a valid nextcloud url
-            throw new NCError(`The provided nextcloud url "${credentials.url}" does not comply to the nextcloud url standard, "remote.php/webdav" is missing`,
+            throw new NCError(`The provided nextcloud url "${url}" does not comply to the nextcloud url standard, "remote.php/webdav" is missing`,
                 "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
         }
-        this.nextcloudOrigin = credentials.url.substr(0, credentials.url.indexOf("/remote.php/webdav"));
+        this.nextcloudOrigin = url.substr(0, url.indexOf("/remote.php/webdav"));
 
         debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
-        this.nextcloudAuthHeader = "Basic " + Buffer.from(credentials.basicAuth.username + ":" + credentials.basicAuth.password).toString("base64");
+        this.nextcloudAuthHeader = "Basic " + Buffer.from(authentication.username + ":" + authentication.password).toString("base64");
         this.nextcloudRequestToken = "";
-        if (credentials.url.slice(-1) === "/") {
-            this.webDAVUrl = credentials.url.slice(0, -1);
+        if (url.slice(-1) === "/") {
+            this.webDAVUrl = url.slice(0, -1);
         } else {
-            this.webDAVUrl = credentials.url;
+            this.webDAVUrl = url;
         }
-
     }
 
     /**
+     * 
      * returns the used and free quota of the nextcloud account
      */
     public async getQuota() {
