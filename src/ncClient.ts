@@ -141,9 +141,52 @@ export default class NCClient {
      */
     public async getQuota() {
         debug("getQuota");
-        const q = await this.webDAVClient.getQuota();
-        debug("getQuota = %O", q);
-        return q;
+        const requestInit: RequestInit = {
+            method: "PROPFIND",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.webDAVUrl + "/",
+            requestInit,
+            [207]);
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+
+        if (!responseObject.multistatus) {
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECTED");
+        }
+        // debug(JSON.stringify(responseObject, null, 4));
+        if (responseObject.multistatus.response.href) {
+            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+        }
+        let quota: { used: number, available: number | string } | null = null;
+        for (const res of responseObject.multistatus.response) {
+            if (res.propstat) {
+                if (res.propstat.status === "HTTP/1.1 200 OK") {
+                    if (res.propstat.prop) {
+                        if (res.propstat.prop["quota-used-bytes"]) {
+                            if (res.propstat.prop["quota-available-bytes"]) {
+                                quota = {
+                                    used: res.propstat.prop["quota-used-bytes"],
+                                    available: "unlimited"
+
+                                };
+                                if (res.propstat.prop["quota-available-bytes"] > 0) {
+                                    quota.available = res.propstat.prop["quota-available-bytes"]
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (!quota) {
+            debug("Error, quota not available: %s ", JSON.stringify(responseObject, null, 4));
+            throw new NCError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
+        }
+        debug("getQuota = %O", quota);
+        return quota;
     }
 
     // ***************************************************************************************
@@ -270,8 +313,7 @@ export default class NCClient {
      * @returns array of tags
      */
     public async getTags(): Promise<NCTag[]> {
-        debug("getTags");
-        debug("getTags new endpoint %O");
+        debug("getTags PROPFIND %s", this.nextcloudOrigin + "/remote.php/dav/systemtags/");
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
             <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -1098,8 +1140,6 @@ export default class NCClient {
             // requestInit.headers.append("requesttoken", this.nextcloudRequestToken);
         }
 
-        debug("getHttpResponse request header %O", requestInit.headers);
-
         requestInit.headers.append("User-Agent", "nextcloud-node-client");
 
         // set the proxy
@@ -1116,6 +1156,7 @@ export default class NCClient {
             }
         }
 
+        debug("getHttpResponse request header %O", requestInit.headers);
         debug("getHttpResponse url:%s, %O", url, requestInit);
         const response: Response = await fetch(url, requestInit);
         const responseContentType: string | null = response.headers.get("content-type");
