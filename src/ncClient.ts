@@ -4,7 +4,7 @@ require("dotenv").config();
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 
-import HttpsProxyAgent from "http-proxy-agent";
+import HttpProxyAgent from "http-proxy-agent";
 
 import {
     Headers,
@@ -26,10 +26,6 @@ export {
     NCTag,
 };
 
-export {
-    HttpsProxyAgent,
-};
-
 const debug = debugFactory("NCClient");
 
 // debug("process env %O", process.env);
@@ -37,6 +33,14 @@ const debug = debugFactory("NCClient");
 export interface IBasicAuth {
     "username": string;
     "password": string;
+}
+
+export interface IProxy {
+    "host": string;
+    "port": string;
+    "protocol": string;
+    "secureProxy": boolean;
+    "proxyAuthorizationHeader"?: string;
 }
 
 export interface ICredentials {
@@ -96,7 +100,7 @@ export default class NCClient {
     private nextcloudAuthHeader: string;
     private nextcloudRequestToken: string;
     private webDAVUrl: string;
-    private proxyAgent?: HttpsProxyAgent;
+    private proxy?: IProxy;
 
     /**
      * constructor of the nextcloud client
@@ -104,10 +108,10 @@ export default class NCClient {
      * @param authentication basic authentication information
      * @param proxyAgent the proxy agent optional
      */
-    public constructor(url: string, authentication: IBasicAuth, proxyAgent?: HttpsProxyAgent) {
+    public constructor(url: string, authentication: IBasicAuth, proxy?: IProxy) {
         debug("constructor");
 
-        this.proxyAgent = proxyAgent;
+        this.proxy = proxy;
         const { createClient } = require("webdav");
         this.webDAVClient = createClient(url, { username: authentication.username, password: authentication.password });
         // debug("webdav client %O", this.client);
@@ -1099,8 +1103,17 @@ export default class NCClient {
         requestInit.headers.append("User-Agent", "nextcloud-node-client");
 
         // set the proxy
-        if (this.proxyAgent) {
-            requestInit.agent = this.proxyAgent;
+        if (this.proxy) {
+            debug("proxy agent used");
+            const proxyAgent = new HttpProxyAgent({
+                host: this.proxy.host,
+                port: this.proxy.port,
+                protocol: this.proxy.protocol,
+            });
+            requestInit.agent = proxyAgent;
+            if (this.proxy.proxyAuthorizationHeader) {
+                requestInit.headers.append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
+            }
         }
 
         debug("getHttpResponse url:%s, %O", url, requestInit);
