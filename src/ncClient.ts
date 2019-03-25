@@ -112,8 +112,11 @@ export default class NCClient {
         debug("constructor");
 
         this.proxy = proxy;
+
         const { createClient } = require("webdav");
-        this.webDAVClient = createClient(url, { username: authentication.username, password: authentication.password });
+        const webdavOptions: any = { username: authentication.username, password: authentication.password };
+
+        this.webDAVClient = createClient(url, webdavOptions);
         // debug("webdav client %O", this.client);
         debug("constructor: webdav url %s", url);
 
@@ -133,6 +136,7 @@ export default class NCClient {
         } else {
             this.webDAVUrl = url;
         }
+
     }
 
     /**
@@ -592,7 +596,7 @@ export default class NCClient {
             // try to do a simple create with the complete path
             try {
                 debug("createFolder: folder = %s", folderName);
-                await this.webDAVClient.createDirectory(folderName);
+                await this.createFolderInternal(folderName);
             } catch (e) {
                 // create all folders in the path
                 const parts: string[] = folderName.split("/");
@@ -611,7 +615,7 @@ export default class NCClient {
                         // folder not  available
                         try {
                             debug("createFolder: folder = %s", folderPath);
-                            const d = await this.webDAVClient.createDirectory(folderPath);
+                            await this.createFolderInternal(folderPath);
                         } catch (e) {
                             debug("createFolder: exception occurred calling webDAV client createDirectory %O", e.message);
                             throw e;
@@ -1237,4 +1241,27 @@ export default class NCClient {
     private getTagIdFromHref(href: string): number {
         return parseInt(href.split("/")[href.split("/").length - 1], 10);
     }
+
+    private async createFolderInternal(folderName: string): Promise<void> {
+
+        const url: string = this.webDAVUrl + folderName;
+        debug("createFolderInternal %s", url);
+
+        const requestInit: RequestInit = {
+            method: "MKCOL",
+        };
+        try {
+            const response: Response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [201],
+            );
+
+        } catch (err) {
+            debug("Error in createFolderInternal %s %s %s", err.message, requestInit.method, url);
+            throw err;
+        }
+    }
+
+
 }

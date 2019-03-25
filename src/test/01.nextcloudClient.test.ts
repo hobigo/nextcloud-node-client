@@ -30,7 +30,7 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
         }
     });
 
-    it.only("02 get quota", async () => {
+    it("02 get quota", async () => {
 
         let q;
         try {
