@@ -910,8 +910,23 @@ export default class NCClient {
      * @returns Buffer with file content
      */
     public async getContent(fileName: string): Promise<Buffer> {
-        const content: Buffer = await this.webDAVClient.getFileContents(fileName);
-        return content;
+        const url = this.webDAVUrl + fileName;
+        debug("getContent GET %s", url);
+        const requestInit: RequestInit = {
+            method: "GET",
+        };
+        let response: Response;
+        try {
+            response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [200]);
+        } catch (err) {
+            debug("Error getContent %s - error %s", url, err.message)
+            throw err;
+        }
+
+        return new Buffer(await response.arrayBuffer());
     }
 
     /**
