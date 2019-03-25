@@ -15,7 +15,7 @@ const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
 const client = new NCClient(credentials.url, credentials.basicAuth);
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT", function () {
+describe("NEXCLOUD-NODE-CLIENT", function() {
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 

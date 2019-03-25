@@ -106,7 +106,6 @@ export default class NCClient {
         };
     }
 
-    private webDAVClient: any;
     private nextcloudOrigin: string;
     private nextcloudAuthHeader: string;
     private nextcloudRequestToken: string;
@@ -124,11 +123,6 @@ export default class NCClient {
 
         this.proxy = proxy;
 
-        const { createClient } = require("webdav");
-        const webdavOptions: any = { username: authentication.username, password: authentication.password };
-
-        this.webDAVClient = createClient(url, webdavOptions);
-        // debug("webdav client %O", this.client);
         debug("constructor: webdav url %s", url);
 
         if (url.indexOf("remote.php/webdav") === -1) {
@@ -802,9 +796,7 @@ export default class NCClient {
         }
 
         // fileName = "/d1/d2/file.txt"
-        // const res = await this.webDAVClient.putFileContents(fileName, data, { format: "binary" });
         const res: Response = await this.putFileContents(fileName, data);
-        // debug("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx createFile  %s", JSON.stringify(res, null, 4));
         // debug("%O", Object.keys(res));
         debug("createFile Status %s", res.status);
 
@@ -951,16 +943,7 @@ export default class NCClient {
      */
     public getLink(fileName: string): string {
         debug("getLink of %s", fileName);
-        let link: string = this.webDAVClient.getFileDownloadLink(fileName);
-        if (link.indexOf("@") > -1) {
-            // remove basic auth info from link
-            if (link.startsWith("https")) {
-                link = "https://" + link.substring(link.indexOf("@") + 1);
-            } else {
-                link = "http://" + link.substring(link.indexOf("@") + 1);
-            }
-        }
-        return link;
+        return this.webDAVUrl + fileName;
     }
 
     public getUILink(fileId: number): string {

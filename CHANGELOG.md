@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactoring: getContent without webdav client
 - refactoring: stat without webdav client
 - refactoring: putFileContents without webdav client
+- refactoring: getFileDownloadLink without webdav client
+- refactoring: webdav client removed - optimized for nextcloud and proxy usage
 
 ## 0.3.0 - 2019-03-21
 ### Changed
