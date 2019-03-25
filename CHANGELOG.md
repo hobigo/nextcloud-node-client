@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactoring: getQuota without webdav client
 - refactoring: createFolder without webdav client
 - refactoring: deleteFile without webdav client
+- refactoring: moveFile without webdav client
 
 ## 0.3.0 - 2019-03-21
 ### Changed

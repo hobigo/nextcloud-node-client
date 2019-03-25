@@ -838,13 +838,26 @@ export default class NCClient {
      * @param targetFileName target file name
      */
     public async moveFile(sourceFileName: string, targetFileName: string): Promise<NCFile> {
-        debug("moveFile from '%s' to '%s'", sourceFileName, targetFileName);
-        let res: any;
+
+        const url: string = this.webDAVUrl + sourceFileName;
+        const destinationUrl: string = this.webDAVUrl + targetFileName;
+
+        debug("moveFile from '%s' to '%s'", url, destinationUrl);
+
+        const requestInit: RequestInit = {
+            headers: new Headers({ "Destination": destinationUrl }),
+            method: "MOVE",
+        };
         try {
-            res = await this.webDAVClient.moveFile(sourceFileName, targetFileName);
-        } catch (e) {
-            debug("moveFile exception occurred %s", e.message);
-            throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + e.message, "ERR_FILE_MOVE_FAILED");
+            await this.getHttpResponse(
+                url,
+                requestInit,
+                [201],
+            );
+
+        } catch (err) {
+            debug("Error in move file %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
+            throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + err.message, "ERR_FILE_MOVE_FAILED");
         }
 
         const targetFile: NCFile | null = await this.getFile(targetFileName);
