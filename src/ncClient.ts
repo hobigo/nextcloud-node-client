@@ -874,6 +874,30 @@ export default class NCClient {
      * @param tarName target folder name
      */
     public async moveFolder(sourceFolderName: string, tarName: string): Promise<NCFolder> {
+
+        const url: string = this.webDAVUrl + sourceFolderName;
+        const destinationUrl: string = this.webDAVUrl + tarName;
+
+        debug("moveFolder from '%s' to '%s'", url, destinationUrl);
+
+        const requestInit: RequestInit = {
+            headers: new Headers({ "Destination": destinationUrl }),
+            method: "MOVE",
+        };
+        try {
+            await this.getHttpResponse(
+                url,
+                requestInit,
+                [201],
+            );
+
+        } catch (err) {
+            debug("Error in move folder %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
+            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
+        }
+
+        /*
+
         debug("moveFolder from '%s' to '%s'", sourceFolderName, tarName);
         let res: any;
         try {
@@ -882,7 +906,7 @@ export default class NCClient {
             debug("moveFolder exception occurred %s", e.message);
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + e.message, "ERR_FOLDER_MOVE_FAILED");
         }
-
+*/
         const tar: NCFolder | null = await this.getFolder(tarName);
         if (!tar) {
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
