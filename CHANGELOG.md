@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - refactoring: moveFile without webdav client
 - refactoring: moveFolder without webdav client
 - refactoring: getContent without webdav client
+- refactoring: stat without webdav client
 
 ## 0.3.0 - 2019-03-21
 ### Changed

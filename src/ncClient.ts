@@ -12,11 +12,12 @@ import {
     Response,
 } from "node-fetch";
 import fetch from "node-fetch";
-import path from "path";
+import path, { basename } from "path";
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
+import { isArray } from "util";
 
 export {
     NCClient,
@@ -46,6 +47,16 @@ export interface IProxy {
 export interface ICredentials {
     "url": string;
     "basicAuth": IBasicAuth;
+}
+
+interface IStat {
+    "type": string;
+    "filename": string;
+    "basename": string;
+    "lastmod": string;
+    "size"?: number;
+    "mime"?: string;
+    "fileid"?: number;
 }
 
 export default class NCClient {
@@ -684,24 +695,25 @@ export default class NCClient {
      */
     public async getFolder(folderName: string): Promise<NCFolder | null> {
         folderName = this.sanitizeFolderName(folderName);
+        debug("getFolder %s", folderName);
 
         // return root folder
         if (folderName === "/") {
             return new NCFolder(this, "/", "", "");
         }
 
-        debug(" folderName=%s", folderName);
-
         try {
-            const stat: any = await this.webDAVClient.stat(folderName);
+            // const stat: any = await this.webDAVClient.stat(folderName);
+            const stat: IStat = await this.stat(folderName);
             debug(": SUCCESS!!");
             if (stat.type !== "file") {
                 return new NCFolder(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,
-                    stat.lastmod);
+                    stat.lastmod,
+                    stat.fileid);
             } else {
-                debug("getFolder: found object is file not a fplder");
+                debug("getFolder: found object is file not a folder");
                 return null;
             }
         } catch (e) {
@@ -813,15 +825,17 @@ export default class NCClient {
         debug("getFile fileName = %s", fileName);
 
         try {
-            const stat: any = await this.webDAVClient.stat(fileName);
+            // const stat: any = await this.webDAVClient.stat(fileName);
+            const stat: IStat = await this.stat(fileName);
             debug(": SUCCESS!!");
             if (stat.type === "file") {
                 return new NCFile(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,
                     stat.lastmod,
-                    stat.size,
-                    stat.mime);
+                    stat.size || 0,
+                    stat.mime || "",
+                    stat.fileid);
             } else {
                 debug("getFolder: found object is a folder not a file");
                 return null;
@@ -1243,7 +1257,6 @@ export default class NCClient {
             debug("Contents: get files");
         }
         try {
-            // const folderContentsArray = await this.webDAVClient.getDirectoryContents(folderName);
             const folderContentsArray = await this.getFolderContents(folderName);
 
             // debug("###########################");
@@ -1306,5 +1319,104 @@ export default class NCClient {
             debug("Error in createFolderInternal %s %s %s %s", err.message, requestInit.method, url);
             throw err;
         }
+    }
+
+    private async stat(fileName: string): Promise<IStat> {
+
+        const url: string = this.webDAVUrl + fileName;
+        debug("stat %s", url);
+
+        const requestInit: RequestInit = {
+            headers: new Headers({ "Depth": "0" }),
+            body: `<?xml version="1.0"?>
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+            <d:prop>
+                  <d:getlastmodified />
+                  <d:getetag />
+                  <d:getcontenttype />
+                  <d:resourcetype />
+                  <oc:fileid />
+                  <oc:permissions />
+                  <oc:size />
+                  <d:getcontentlength />
+                  <nc:has-preview />
+                  <oc:favorite />
+                  <oc:comments-unread />
+                  <oc:owner-display-name />
+                  <oc:share-types />
+            </d:prop>
+          </d:propfind>`,
+            method: "PROPFIND",
+        };
+        let response: Response;
+        try {
+            response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [207],
+            );
+
+        } catch (err) {
+            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
+            throw err;
+        }
+
+        const responseObject: any = await this.getParseXMLFromResponse(response);
+
+        // debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXX propStats: %s", JSON.stringify(responseObject, null, 4));
+
+        if (!responseObject.multistatus) {
+            debug("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4));
+            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
+                "ERR_MULISTATUS_EXPECTED_IN_STAT");
+        }
+
+        if (!responseObject.multistatus.response) {
+            debug("Response XML has no response: " + JSON.stringify(responseObject.multistatus, null, 4));
+            throw new NCError("Response XML has no response: " + JSON.stringify(responseObject.multistatus, null, 4),
+                "ERR_MULISTATUS_RESPONSE_EXPECTED_IN_STAT");
+        }
+
+        if (!responseObject.multistatus.response.propstat) {
+            debug("Response XML has no propertystatus: " + JSON.stringify(responseObject.multistatus.response, null, 4));
+            throw new NCError("Response XML has no propertystatus: " + JSON.stringify(responseObject.multistatus, null, 4),
+                "ERR_MULISTATUS_RESPONSE_STATUS_EXPECTED_IN_STAT");
+        }
+
+        let propStats = responseObject.multistatus.response.propstat;
+        if (!isArray(propStats)) {
+            propStats = Array(responseObject.multistatus.response.propstat);
+        }
+
+        debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXX propStats: %O", propStats);
+
+        let resultStat: IStat | null = null;
+        for (const propStat of propStats) {
+            if (propStat.status === "HTTP/1.1 200 OK") {
+                // debug(propStat);                
+                resultStat = {
+                    type: "file",
+                    fileid: propStat.prop["fileid"],
+                    basename: basename(fileName),
+                    filename: fileName,
+                    lastmod: propStat.prop["getlastmodified"],
+                }
+                if (propStat.prop["getcontentlength"]) {
+                    resultStat.size = propStat.prop["getcontentlength"];
+                } else {
+                    resultStat.type = "directory";
+                }
+                if (propStat.prop["getcontenttype"]) {
+                    resultStat.mime = propStat.prop["getcontenttype"];
+                }
+            }
+        }
+
+        if (!resultStat) {
+            debug("Error: response %s", JSON.stringify(responseObject, null, 4));
+            throw new NCError("Error getting status information from : " + url,
+                "ERR_STAT");
+        }
+        return resultStat;
     }
 }
