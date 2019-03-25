@@ -642,19 +642,23 @@ export default class NCClient {
      * @param fileName name of folder "/f1/f2/f3/x.txt"
      */
     public async deleteFile(fileName: string): Promise<void> {
-        debug("deleteFile");
-        let response: any;
 
+        const url: string = this.webDAVUrl + fileName;
+        debug("deleteFile %s", url);
+
+        const requestInit: RequestInit = {
+            method: "DELETE",
+        };
         try {
-            response = await this.webDAVClient.deleteFile(fileName);
-            if (response.status && response.status === 204) {
-                debug("deleteFile: ok");
-            } else {
-                throw new Error("Error deleting file or folder " + fileName);
-            }
-        } catch (e) {
-            debug("deleteFile: exception occurred %O", e);
-            throw e;
+            await this.getHttpResponse(
+                url,
+                requestInit,
+                [204],
+            );
+
+        } catch (err) {
+            debug("Error in deleteFile %s %s %s", err.message, requestInit.method, url);
+            throw err;
         }
     }
 
@@ -1251,17 +1255,15 @@ export default class NCClient {
             method: "MKCOL",
         };
         try {
-            const response: Response = await this.getHttpResponse(
+            await this.getHttpResponse(
                 url,
                 requestInit,
                 [201],
             );
 
         } catch (err) {
-            debug("Error in createFolderInternal %s %s %s", err.message, requestInit.method, url);
+            debug("Error in createFolderInternal %s %s %s %s", err.message, requestInit.method, url);
             throw err;
         }
     }
-
-
 }
