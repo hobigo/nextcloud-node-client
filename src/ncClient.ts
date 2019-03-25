@@ -896,17 +896,6 @@ export default class NCClient {
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
         }
 
-        /*
-
-        debug("moveFolder from '%s' to '%s'", sourceFolderName, tarName);
-        let res: any;
-        try {
-            res = await this.webDAVClient.moveFile(sourceFolderName, tarName);
-        } catch (e) {
-            debug("moveFolder exception occurred %s", e.message);
-            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + e.message, "ERR_FOLDER_MOVE_FAILED");
-        }
-*/
         const tar: NCFolder | null = await this.getFolder(tarName);
         if (!tar) {
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
