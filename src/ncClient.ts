@@ -703,7 +703,6 @@ export default class NCClient {
         }
 
         try {
-            // const stat: any = await this.webDAVClient.stat(folderName);
             const stat: IStat = await this.stat(folderName);
             debug(": SUCCESS!!");
             if (stat.type !== "file") {
@@ -803,18 +802,21 @@ export default class NCClient {
         }
 
         // fileName = "/d1/d2/file.txt"
-        const res = await this.webDAVClient.putFileContents(fileName, data, { format: "binary" });
+        // const res = await this.webDAVClient.putFileContents(fileName, data, { format: "binary" });
+        const res: Response = await this.putFileContents(fileName, data);
+        // debug("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx createFile  %s", JSON.stringify(res, null, 4));
         // debug("%O", Object.keys(res));
         debug("createFile Status %s", res.status);
 
-        if (!(res.status === "204" || res.status !== "201")) {
+        if (!(res.status === 204 || res.status === 201)) {
             throw new NCError("File could not be created: '" + fileName + "', response status " + res.status + " " + res.statusText,
                 "ERR_FILE_CREATE_FAILED",
                 { folderName, baseName });
         }
         debug("createFile file successfully created");
-
-        return await this.getFile(fileName);
+        let file: NCFile | null;
+        file = await this.getFile(fileName)
+        return file;
     }
 
     /**
@@ -825,7 +827,6 @@ export default class NCClient {
         debug("getFile fileName = %s", fileName);
 
         try {
-            // const stat: any = await this.webDAVClient.stat(fileName);
             const stat: IStat = await this.stat(fileName);
             debug(": SUCCESS!!");
             if (stat.type === "file") {
@@ -1363,8 +1364,6 @@ export default class NCClient {
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
-        // debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXX propStats: %s", JSON.stringify(responseObject, null, 4));
-
         if (!responseObject.multistatus) {
             debug("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4));
             throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
@@ -1387,8 +1386,6 @@ export default class NCClient {
         if (!isArray(propStats)) {
             propStats = Array(responseObject.multistatus.response.propstat);
         }
-
-        debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXX propStats: %O", propStats);
 
         let resultStat: IStat | null = null;
         for (const propStat of propStats) {
@@ -1419,4 +1416,29 @@ export default class NCClient {
         }
         return resultStat;
     }
+
+    private async putFileContents(fileName: string, data: Buffer): Promise<Response> {
+
+        const url: string = this.webDAVUrl + fileName;
+        debug("putFileContents %s", url);
+
+        const requestInit: RequestInit = {
+            body: data,
+            method: "PUT",
+        };
+        let response: Response;
+        try {
+            response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [201, 204],
+            );
+
+        } catch (err) {
+            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
+            throw err;
+        }
+        return response;
+    }
+
 }
