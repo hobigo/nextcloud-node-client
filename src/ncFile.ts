@@ -23,7 +23,8 @@ export default class NCFile {
      * @throws Error
      */
     public async delete(): Promise<void> {
-        return this.client.deleteFile(this.name);
+        this.id = -1;
+        return await this.client.deleteFile(this.name);
     }
 
     /**
@@ -48,10 +49,7 @@ export default class NCFile {
      */
     public async getId(): Promise<number> {
         if (this.id === -1) {
-            this.id = await this.client.getFileId(this.getUrl());
-            if (this.id === -1) {
-                throw new NCError("Error file has been deleted - no id", "ERR_FILE_WITHOUT_ID");
-            }
+            throw new NCError("File does not exist", "ERR_FILE_NOT_EXISTING");
         }
         return this.id;
     }

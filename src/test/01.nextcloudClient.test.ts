@@ -5,17 +5,17 @@ import "mocha";
 import {
     ICredentials,
     NCClient,
+    NCError,
     NCFile,
     NCFolder,
 } from "../ncClient";
 
-const instanceName = "test";
-
-const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+const credentials: ICredentials = NCClient.getCredentialsFromEnv();
 const client = new NCClient(credentials.url, credentials.basicAuth);
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT", function() {
+// tslint:disable-next-line:space-before-function-paren
+describe("NEXCLOUD-NODE-CLIENT", function () {
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 
@@ -372,6 +372,218 @@ describe("NEXCLOUD-NODE-CLIENT", function() {
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
+
+    });
+
+    it("22 has subfolders", async () => {
+
+        const parentFolderName = "/test/folderWithSubfolder";
+        let subFolderName = "subFolder";
+
+        const parentFolder = await client.createFolder(parentFolderName);
+        const subFolder = await client.createFolder(parentFolderName + "/" + subFolderName);
+
+        expect(await parentFolder.hasSubFolder(subFolderName), `Folder should have the subfolder with the name ${subFolderName}`).to.be.equal(true);
+        subFolderName = "notASubFolder";
+        expect(await parentFolder.hasSubFolder(subFolderName), `Folder should not have the subfolder with the name ${subFolderName}`).to.be.equal(false);
+
+    });
+
+    it("23 create client with wrong webdav url", async () => {
+        const cred: ICredentials = {
+            basicAuth: { username: "some user name", password: "some password" },
+            url: "https://someServer.com:123",
+        };
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            new NCClient(cred.url, cred.basicAuth);
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
+        }
+    });
+
+    it("24 create a client with url ", async () => {
+        const cred: ICredentials = {
+            basicAuth: { username: "some user name", password: "some password" },
+            url: "https://someServer.com:123/remote.php/webdav",
+        };
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            new NCClient(cred.url, cred.basicAuth);
+        } catch (e) {
+            expect(e, "No exception expected").to.be.equal("");
+        }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            new NCClient(cred.url + "/", cred.basicAuth);
+        } catch (e) {
+            expect(e, "No exception expected").to.be.equal("");
+        }
+    });
+
+    it("25 get file id", async () => {
+
+        const dirName = "/test/fileId";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+        if (file) {
+            const fileId: number = await file.getId();
+            expect(fileId, "expect fileid to a number").to.be.a("number");
+            expect(fileId).not.to.be.equal(-1);
+
+            const url = file.getUrl();
+            const fileId2 = await client.getFileId(url);
+            expect(fileId2, "expect fileid to a number").to.be.a("number");
+            expect(fileId2).not.to.be.equal(-1);
+
+            await file.delete();
+        }
+
+    });
+
+    it("26 delete a non existing file by name", async () => {
+
+        try {
+            await client.deleteFile("fileDoesNotExist.txt");
+        } catch (e) {
+            expect(e, "exception expected").not.to.be.equal("");
+        }
+
+    });
+
+    it("27 try to get a folder with a file name", async () => {
+
+        const dirName = "/test/getFolder";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+
+        if (file) {
+            const folder: NCFolder | null = await client.getFolder(file.name);
+            expect(folder, "expect folder to be null").to.be.equal(null);
+        }
+
+    });
+
+    it.skip("28 create folder with '.'", async () => {
+
+        const dirName = "./";
+        const fileName1 = "file1.txt";
+
+        const file: NCFile | null = await client.createFile(dirName + fileName1, Buffer.from("File 1"));
+
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+
+        if (file) {
+            await file.delete();
+        }
+
+    });
+
+    it("29 create invalid file", async () => {
+
+        const dirName = "/test/getFolder";
+        const fileName1 = "fil*e1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_INVALID_CHAR_IN_FILE_NAME");
+        }
+
+    });
+
+    it("30 get folder url, UIUrl and id", async () => {
+
+        const dirName = "/test/getFolder";
+        const baseDir: NCFolder = await client.createFolder(dirName);
+        const url = baseDir.getUrl();
+        expect(url).to.be.an("string");
+        expect(url).not.to.be.equal("");
+
+        const uiUrl = await baseDir.getUIUrl();
+        expect(uiUrl).to.be.an("string");
+        expect(uiUrl).not.to.be.equal("");
+
+        await baseDir.delete();
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            await baseDir.getId();
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_FOLDER_NOT_EXISTING");
+        }
+
+    });
+
+    it("31 folder contains file test", async () => {
+
+        const dirName = "/test/containsFileFolder";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+        expect(await baseDir.containsFile(fileName1)).to.be.equal(true);
+        expect(await baseDir.containsFile("nonExistingFile.txt")).to.be.equal(false);
+
+    });
+
+    it("32 file get urls", async () => {
+
+        const dirName = "/test/containsFileFolder";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        expect(file, "expect file not to be null").to.be.not.equal(null);
+        if (file) {
+            const url = file.getUrl();
+            expect(url).to.be.an("string");
+            expect(url).not.to.be.equal("");
+
+            const uiUrl = await file.getUIUrl();
+            expect(uiUrl).to.be.an("string");
+            expect(uiUrl).not.to.be.equal("");
+
+            await file.delete();
+
+            try {
+                // tslint:disable-next-line:no-unused-expression
+                await file.getId();
+            } catch (e) {
+                expect(e).to.have.property("message");
+                expect(e).to.have.property("code");
+                expect(e.code).to.be.equal("ERR_FILE_NOT_EXISTING");
+            }
+        }
+
+    });
+
+    it("33 create subfolder", async () => {
+
+        const dirName = "/test/subfolderTest";
+        const baseDir: NCFolder = await client.createFolder(dirName);
+        const subfolderName = "subFolder";
+
+        const subfolder: NCFolder = await baseDir.createSubFolder("subsubfolder");
+        expect(subfolder.name).not.to.be.equal(baseDir.name + "/" + subfolderName);
 
     });
 

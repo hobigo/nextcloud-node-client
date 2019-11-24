@@ -3,21 +3,20 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
-
 import HttpProxyAgent from "http-proxy-agent";
-
+import fetch from "node-fetch";
 import {
     Headers,
     RequestInit,
     Response,
 } from "node-fetch";
-import fetch from "node-fetch";
 import path, { basename } from "path";
+import { isArray } from "util";
+
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
-import { isArray } from "util";
 
 export {
     NCClient,
@@ -67,7 +66,37 @@ export default class NCClient {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromEnv(instanceName: string): ICredentials {
+    public static getCredentialsFromEnv(): ICredentials {
+
+        if (!process.env.NEXTCLOUD_URL) {
+            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
+                , "ERR_NEXTCLOUD_URL_NOT_DEFINED");
+        }
+
+        if (!process.env.NEXTCLOUD_USERNAME) {
+            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_USERNAME not defined in environment"
+                , "ERR_NEXTCLOUD_USERNAME_NOT_DEFINED");
+        }
+
+        if (!process.env.NEXTCLOUD_PASSWORD) {
+            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_PASSWORD not defined in environment"
+                , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
+        }
+
+        return {
+            basicAuth:
+                { username: process.env.NEXTCLOUD_USERNAME, password: process.env.NEXTCLOUD_PASSWORD },
+            url: process.env.NEXTCLOUD_URL,
+        };
+    }
+
+    /**
+     * returns the nextcloud credentials that is defined in the
+     * "user-provided" service section of the VCAP_SERVICES environment
+     * @param instanceName the name of the nextcloud user provided service instance
+     * @returns credentials from the VCAP_SERVICES environment (user provided service)
+     */
+    public static getCredentialsFromVcapServicesEnv(instanceName: string): ICredentials {
 
         if (!process.env.VCAP_SERVICES) {
             throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
@@ -145,7 +174,6 @@ export default class NCClient {
     }
 
     /**
-     * 
      * returns the used and free quota of the nextcloud account
      */
     public async getQuota() {
@@ -177,13 +205,12 @@ export default class NCClient {
                         if (res.propstat.prop["quota-used-bytes"]) {
                             if (res.propstat.prop["quota-available-bytes"]) {
                                 quota = {
+                                    available: "unlimited",
                                     used: res.propstat.prop["quota-used-bytes"],
-                                    available: "unlimited"
-
                                 };
                                 if (res.propstat.prop["quota-available-bytes"] > 0) {
-                                    quota.available = res.propstat.prop["quota-available-bytes"]
-                                };
+                                    quota.available = res.propstat.prop["quota-available-bytes"];
+                                }
                             }
                         }
                     }
@@ -692,7 +719,7 @@ export default class NCClient {
         debug("getFolder %s", folderName);
 
         // return root folder
-        if (folderName === "/") {
+        if (folderName === "/" || folderName === "") {
             return new NCFolder(this, "/", "", "");
         }
 
@@ -807,7 +834,7 @@ export default class NCClient {
         }
         debug("createFile file successfully created");
         let file: NCFile | null;
-        file = await this.getFile(fileName)
+        file = await this.getFile(fileName);
         return file;
     }
 
@@ -852,7 +879,7 @@ export default class NCClient {
         debug("moveFile from '%s' to '%s'", url, destinationUrl);
 
         const requestInit: RequestInit = {
-            headers: new Headers({ "Destination": destinationUrl }),
+            headers: new Headers({ Destination: destinationUrl }),
             method: "MOVE",
         };
         try {
@@ -888,7 +915,7 @@ export default class NCClient {
         debug("moveFolder from '%s' to '%s'", url, destinationUrl);
 
         const requestInit: RequestInit = {
-            headers: new Headers({ "Destination": destinationUrl }),
+            headers: new Headers({ Destination: destinationUrl }),
             method: "MOVE",
         };
         try {
@@ -929,7 +956,7 @@ export default class NCClient {
                 requestInit,
                 [200]);
         } catch (err) {
-            debug("Error getContent %s - error %s", url, err.message)
+            debug("Error getContent %s - error %s", url, err.message);
             throw err;
         }
 
@@ -1211,14 +1238,18 @@ export default class NCClient {
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
             debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
             debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %O", response.headers);
+            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
             debug("getHttpResponse request body %s", requestInit.body);
             debug("getHttpResponse text %s", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
+
+        /*
+        content type is missing
         if (!responseContentType) {
-            throw new Error("Content type missing in response");
+           throw new Error("Content type missing in response");
         }
+        */
 
         return response;
     }
@@ -1311,7 +1342,6 @@ export default class NCClient {
         debug("stat %s", url);
 
         const requestInit: RequestInit = {
-            headers: new Headers({ "Depth": "0" }),
             body: `<?xml version="1.0"?>
             <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
             <d:prop>
@@ -1330,6 +1360,7 @@ export default class NCClient {
                   <oc:share-types />
             </d:prop>
           </d:propfind>`,
+            headers: new Headers({ Depth: "0" }),
             method: "PROPFIND",
         };
         let response: Response;
@@ -1373,21 +1404,21 @@ export default class NCClient {
         let resultStat: IStat | null = null;
         for (const propStat of propStats) {
             if (propStat.status === "HTTP/1.1 200 OK") {
-                // debug(propStat);                
+                // debug(propStat);
                 resultStat = {
-                    type: "file",
-                    fileid: propStat.prop["fileid"],
                     basename: basename(fileName),
+                    fileid: propStat.prop.fileid,
                     filename: fileName,
-                    lastmod: propStat.prop["getlastmodified"],
-                }
-                if (propStat.prop["getcontentlength"]) {
-                    resultStat.size = propStat.prop["getcontentlength"];
+                    lastmod: propStat.prop.getlastmodified,
+                    type: "file",
+                };
+                if (propStat.prop.getcontentlength) {
+                    resultStat.size = propStat.prop.getcontentlength;
                 } else {
                     resultStat.type = "directory";
                 }
-                if (propStat.prop["getcontenttype"]) {
-                    resultStat.mime = propStat.prop["getcontenttype"];
+                if (propStat.prop.getcontenttype) {
+                    resultStat.mime = propStat.prop.getcontenttype;
                 }
             }
         }

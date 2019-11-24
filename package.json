@@ -13,7 +13,23 @@
     "build": "node ./node_modules/typescript/bin/tsc",
     "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
     "test": "mocha -r ts-node/register src/**/*test.ts",
+    "cover": "nyc mocha -r ts-node/register src/**/*test.ts",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "**/*.js",
+      "**/src/test/*.ts"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
   },
   "keywords": [
     "nextcloud",
@@ -50,6 +66,7 @@
     "@types/node": "^8.10.45",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
     "ts-loader": "^4.4.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.14.0",

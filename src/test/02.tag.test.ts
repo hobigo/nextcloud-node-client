@@ -9,13 +9,12 @@ import {
 } from "../ncClient";
 import NCTag from "../ncTag";
 
-const instanceName = "test";
-
-const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+const credentials: ICredentials = NCClient.getCredentialsFromEnv();
 const client = new NCClient(credentials.url, credentials.basicAuth);
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
+// tslint:disable-next-line:space-before-function-paren
+describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
     it("1 get tags", async () => {
@@ -66,6 +65,10 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         const getTag: NCTag | null = await client.getTagByName(tagName);
         expect(getTag).not.to.be.equal(null);
         expect(getTag!.name).to.be.equal(tagName);
+        if (getTag) {
+            const str: string = getTag.toString();
+            expect(str).to.be.a("string");
+        }
 
         await tag.delete();
 
@@ -82,6 +85,9 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         const getTag: NCTag | null = await client.getTagById(tag.id);
         expect(getTag).not.to.be.equal(null);
         expect(getTag!.name).to.be.equal(tagName);
+
+        const getTag2: NCTag | null = await client.getTagById(11223344);
+        expect(getTag2).to.be.equal(null);
 
         await tag.delete();
 
@@ -176,6 +182,12 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         expect(tagNames[0], "Tag has value").to.be.equal(tagsCreated[0]);
         expect(tagNames[1], "Tag has value").to.be.equal(tagsCreated[1]);
         expect(tagNames[2], "Tag has value").to.be.equal(tagsCreated[2]);
+
+        // remove a tag
+        await folder.removeTag(tagNames[0]);
+        const tagNames2: string[] = await folder.getTags();
+        expect(tagNames2.length).to.be.equal(2);
+
         await folder.delete();
 
     });
@@ -215,6 +227,22 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function() {
         expect(tagNames.length, "only two tags should exist").to.be.equal(2);
         await file!.delete();
 
+    });
+
+    it("10 create a tag twice", async () => {
+
+        const tagName: string = "Tag10";
+        const tag: NCTag = await client.createTag(tagName);
+
+        expect(tag, "expect tag to be an object").to.be.a("object");
+        expect(tag.name).to.be.equal(tagName);
+
+        // the second tag should be like the first tag
+        const tag2: NCTag = await client.createTag(tagName);
+        expect(tag2, "expect tag to be an object").to.be.a("object");
+        expect(tag2.name).to.be.equal(tagName);
+        await tag.delete();
+        await tag2.delete();
     });
 
     it("98 delete all tags", async () => {

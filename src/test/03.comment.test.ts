@@ -8,9 +8,7 @@ import {
     NCFolder,
 } from "../ncClient";
 
-const instanceName = "test";
-
-const credentials: ICredentials = NCClient.getCredentialsFromEnv(instanceName);
+const credentials: ICredentials = NCClient.getCredentialsFromEnv();
 const client = new NCClient(credentials.url, credentials.basicAuth);
 
 // tslint:disable-next-line:only-arrow-functions

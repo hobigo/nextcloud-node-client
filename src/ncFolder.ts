@@ -95,7 +95,8 @@ export default class NCFolder {
      */
     public async delete(): Promise<void> {
         debug("delete");
-        return this.client.deleteFolder(this.name);
+        this.id = -1;
+        return await this.client.deleteFolder(this.name);
     }
 
     /**
@@ -134,7 +135,7 @@ export default class NCFolder {
      */
     public async getId(): Promise<number> {
         if (this.id === -1) {
-            this.id = await this.client.getFileId(this.getUrl());
+            throw new NCError("Folder does not exist", "ERR_FOLDER_NOT_EXISTING");
         }
         return this.id;
     }
@@ -142,16 +143,13 @@ export default class NCFolder {
     /**
      * @returns true if the folder contains a file with the given basename
      * @param fileBaseName file basename
+     * @throws Error
      */
     public async containsFile(fileBaseName: string): Promise<boolean> {
         let file: NCFile | null;
-        try {
-            file = await this.getFile(fileBaseName);
-            if (file) {
-                return true;
-            }
-        } catch (e) {
-            return false;
+        file = await this.getFile(fileBaseName);
+        if (file) {
+            return true;
         }
         return false;
     }
