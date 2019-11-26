@@ -105,7 +105,7 @@ export default class NCClient {
         const vcapServices = require("vcap_services");
         const cred = vcapServices.getCredentials("user-provided", null, instanceName);
 
-        if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password && !cred.password)) {
+        if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password)) {
             debug("NCClient: error credentials not found or not fully specified %O", cred);
             throw new NCError(`NCClient getCredentials: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
         }
@@ -257,7 +257,6 @@ export default class NCClient {
             requestInit,
             [201],
         );
-
         const tagString: string | null = response.headers.get("Content-Location");
         debug("createTag new tagId %s, tagName %s", tagString, tagName);
         if (tagString === "" || tagString === null) {
@@ -849,6 +848,9 @@ export default class NCClient {
             const stat: IStat = await this.stat(fileName);
             debug(": SUCCESS!!");
             if (stat.type === "file") {
+                if (!stat.fileid) {
+                    stat.fileid = -1;
+                }
                 return new NCFile(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,

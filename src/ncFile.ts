@@ -9,7 +9,7 @@ export default class NCFile {
     public mime: string;
     private id: number;
     private client: NCClient;
-    constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number = -1) {
+    constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number) {
         this.client = client;
         this.name = name;
         this.baseName = baseName;

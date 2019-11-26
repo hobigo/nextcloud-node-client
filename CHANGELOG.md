@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- testing: increades code coverage 85%
+
 ## 0.3.1 - 2019-03-25
 ### Changed
 - refactoring: getQuota without webdav client

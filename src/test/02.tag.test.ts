@@ -245,6 +245,65 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         await tag2.delete();
     });
 
+    it("11 remove non existing file tag should not cause an error", async () => {
+
+        const tagName: string = "Tag-non-existing";
+        const dirName = "/test/fileTagging";
+        const fileName1 = "fileWithoutTags.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file1: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        expect(file1, "Expect that the file cloud be created").not.to.be.equal(null);
+
+        if (file1) {
+            try {
+                // tslint:disable-next-line:no-unused-expression
+                await file1.removeTag(tagName);
+            } catch (e) {
+                expect(false, "Expect no exception when removing a non existing tag from a file").to.be.equal(true);
+            } finally {
+                await file1.delete();
+            }
+        }
+
+    });
+
+    it("12 remove non existing folder tag should not cause an error", async () => {
+
+        const tagName: string = "Tag-non-existing";
+        const dirName = "/test/folderTagging";
+
+        const baseDir = await client.createFolder(dirName);
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            await baseDir.removeTag(tagName);
+        } catch (e) {
+            expect(false, "Expect no exception when removing a non existing tag from a folder").to.be.equal(true);
+        } finally {
+            await baseDir.delete();
+        }
+
+    });
+
+    it("13 get tags of a new file and expect none", async () => {
+
+        const dirName = "/test/fileTagging";
+        const fileName1 = "fileWithoutTags2.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        const file1: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        expect(file1, "Expect that the file cloud be created").not.to.be.equal(null);
+
+        if (file1) {
+            const tags: string[] = await file1.getTags();
+            expect(tags.length, "Expect new file not to have any tags").to.be.equal(0);
+            await file1.delete();
+        }
+    });
+
     it("98 delete all tags", async () => {
         const tagName: string = "TagToBeDelete";
         await client.createTag(tagName);

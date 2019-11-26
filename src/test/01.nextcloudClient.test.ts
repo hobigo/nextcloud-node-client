@@ -10,6 +10,8 @@ import {
     NCFolder,
 } from "../ncClient";
 
+import mockedEnv from "mocked-env";
+
 const credentials: ICredentials = NCClient.getCredentialsFromEnv();
 const client = new NCClient(credentials.url, credentials.basicAuth);
 
@@ -585,6 +587,211 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
         const subfolder: NCFolder = await baseDir.createSubFolder("subsubfolder");
         expect(subfolder.name).not.to.be.equal(baseDir.name + "/" + subfolderName);
 
+    });
+
+    it("34 Get credentials from non existing VCAP_SERVICES environment", async () => {
+        let restore = mockedEnv({
+            VCAP_SERVICES: undefined,
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_VCAP_SERVICES_NOT_FOUND");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                            },
+                            instance_name: "test",
+                        }],
+                }),
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_VCAP_SERVICES_NOT_FOUND");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                                url: "https://some.host-name.com/remote.php/webdav",
+                                username: "someUserName",
+                            },
+                            instance_name: "test",
+                        }],
+                }),
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                                password: "somePassword",
+                                url: "https://some.host-name.com/remote.php/webdav",
+                            },
+                            instance_name: "test",
+                        }],
+                }),
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                                password: "somePassword",
+                                url: "https://some.host-name.com/remote.php/webdav",
+                                username: "someUserName",
+                            },
+                            instance_name: "test",
+                        }],
+                }),
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(false, "no not expect an exception: " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                                password: "somePassword",
+                                username: "someUserName",
+                            },
+                            instance_name: "test",
+                        }],
+                }),
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromVcapServicesEnv("");
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_VCAP_SERVICES_URL_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+    });
+
+    it("35 Get credentials from non existing environment", async () => {
+        let restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: undefined,
+            NEXTCLOUD_USERNAME: "SomeUser",
+        });
+
+        try {
+            // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_NEXTCLOUD_URL_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: undefined,
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_NEXTCLOUD_USERNAME_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: undefined,
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(false, "do not expect an exception " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
     });
 
     it("99 delete directory", async () => {
