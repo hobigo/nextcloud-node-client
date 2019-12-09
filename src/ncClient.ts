@@ -966,7 +966,7 @@ export default class NCClient {
             throw err;
         }
 
-        return new Buffer(await response.buffer());
+        return Buffer.from(await response.buffer());
     }
 
     /**
@@ -1226,6 +1226,10 @@ export default class NCClient {
             response.headers.append("Content-Type", recResponse.contentType);
         }
 
+        if (recResponse.contentLocation) {
+            response.headers.append("Content-Location", recResponse.contentLocation);
+        }
+
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
             debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
             debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
@@ -1319,6 +1323,7 @@ export default class NCClient {
 
             const recResponse: IRecordingResponse = {
                 body: await response.text(),
+                contentLocation: response.headers.get("Content-Location"),
                 contentType: response.headers.get("content-type"),
                 status: response.status,
             };

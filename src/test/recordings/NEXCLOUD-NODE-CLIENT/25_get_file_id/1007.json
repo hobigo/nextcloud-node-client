@@ -1,0 +1,13 @@
+{
+    "request": {
+        "body": "\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n              <d:prop>\n                  <oc:fileid />\n              </d:prop>\n            </d:propfind>",
+        "method": "PROPFIND",
+        "url": "/remote.php/webdav/test/fileId/file1.txt"
+    },
+    "response": {
+        "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileId/file1.txt</d:href><d:propstat><d:prop><oc:fileid>76993</oc:fileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+        "contentLocation": null,
+        "contentType": "application/xml; charset=utf-8",
+        "status": 207
+    }
+}

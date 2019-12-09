@@ -17,7 +17,7 @@ export default class NCTag {
         this.id = id;
     }
     public async delete(): Promise<void> {
-        return this.client.deleteTag(this.id);
+        return await this.client.deleteTag(this.id);
     }
     public toString(): string {
         return "id:" + this.id + " name:" + this.name;

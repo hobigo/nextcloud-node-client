@@ -4,17 +4,16 @@ import { promises as fsPromises } from "fs";
 import { Md5 } from "ts-md5/dist/md5";
 
 const debug = debugFactory("TestRecorder");
-
 export interface IRecordingRequest {
     body?: string;
     headers?: { [key: string]: string };
     method: string;
     url: string;
 }
-
 export interface IRecordingResponse {
     body?: string;
     contentType: string | null;
+    contentLocation: string | null;
     status: number;
 }
 
@@ -29,6 +28,7 @@ export default class TestRecorder {
     }
     private static recorder: TestRecorder;
     private context: string = "";
+    private recordingCount: number = 1000;
 
     public isActive(): boolean {
         if (process.env.TEST_RECORDING_ACTIVE &&
@@ -52,7 +52,10 @@ export default class TestRecorder {
 
         const requestHash: string = Md5.hashStr(JSON.stringify(request)) as string;
 
-        const fileName = `${this.getDirectory()}/${requestHash}.json`;
+        this.recordingCount++;
+        // const fileName = `${this.getDirectory()}/${requestHash}.json`;
+        const fileName = `${this.getDirectory()}/${this.recordingCount}.json`;
+
         const content = JSON.stringify({ request, response }, null, 4);
         await fsPromises.writeFile(fileName, content);
     }
@@ -65,7 +68,10 @@ export default class TestRecorder {
         }
 
         const requestHash: string = Md5.hashStr(JSON.stringify(request)) as string;
-        const fileName = `${this.getDirectory()}/${requestHash}.json`;
+        this.recordingCount++;
+        // const fileName = `${this.getDirectory()}/${requestHash}.json`;        
+        const fileName = `${this.getDirectory()}/${this.recordingCount}.json`;
+
         debug("Get fake response from " + fileName);
 
         const fakeResponseString = await fsPromises.readFile(fileName, { encoding: "utf8" });
@@ -78,6 +84,7 @@ export default class TestRecorder {
     public async setContext(context: string) {
         debug("setContext");
         this.context = context.replace(/ |:|\./g, "_");
+        this.recordingCount = 1000;
 
         /*
         debug("rmdir" + this.getDirectory());

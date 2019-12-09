@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "DELETE",
+        "url": "/remote.php/webdav/test/fileTagging"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 204
+    }
+}

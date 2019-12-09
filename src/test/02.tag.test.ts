@@ -19,7 +19,7 @@ const client = new NCClient(credentials.url, credentials.basicAuth);
 describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
-    beforeEach(async function() {
+    beforeEach(async function () {
         const tr: TestRecorder = TestRecorder.getInstance();
         if (this.currentTest && this.currentTest.parent) {
             tr.setContext(this.currentTest.parent.title + "/" + this.currentTest.title);
@@ -121,11 +121,23 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
 
         try {
-            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
-            file!.addTag(`tag-${Math.floor(Math.random() * 100)}`);
+            file!.addTag(`tag-61`);
+            file!.addTag(`tag-62`);
         } catch (e) {
             expect(true, "we do not expect an exception adding tags").to.be.equal(false);
         }
+
+        let tag: NCTag | null = await client.getTagByName(`tag-61`);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(`tag-62`);
+        if (tag) {
+            await tag.delete();
+        }
+
+        await baseDir.delete();
 
     });
 
@@ -147,7 +159,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
 
-        const tagsCreated: string[] = [`tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`];
+        const tagsCreated: string[] = [`tag-71`, `tag-72`, `tag-73`];
 
         try {
             for (const tagName of tagsCreated) {
@@ -166,6 +178,22 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames[2], "Tag has value").to.be.equal(tagsCreated[2]);
         await file!.delete();
 
+        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[1]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[2]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        await baseDir.delete();
     });
 
     it("8 folder tags", async () => {
@@ -174,7 +202,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
         const folder = await client.createFolder(dirName);
 
-        const tagsCreated: string[] = [`tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`];
+        const tagsCreated: string[] = [`tag-81`, `tag-82`, `tag-83`];
 
         try {
             for (const tagName of tagsCreated) {
@@ -198,6 +226,20 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames2.length).to.be.equal(2);
 
         await folder.delete();
+        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[1]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[2]);
+        if (tag) {
+            await tag.delete();
+        }
 
     });
 
@@ -219,7 +261,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
 
-        const tagsCreated: string[] = [`tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`, `tag-${Math.floor(Math.random() * 100)}`];
+        const tagsCreated: string[] = [`tag-91`, `tag-92`, `tag-93`];
 
         try {
             for (const tagName of tagsCreated) {
@@ -236,6 +278,22 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames.length, "only two tags should exist").to.be.equal(2);
         await file!.delete();
 
+        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[1]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        tag = await client.getTagByName(tagsCreated[2]);
+        if (tag) {
+            await tag.delete();
+        }
+
+        await baseDir.delete();
     });
 
     it("10 create a tag twice", async () => {

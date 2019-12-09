@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "DELETE",
+        "url": "/remote.php/dav/systemtags/157"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 204
+    }
+}

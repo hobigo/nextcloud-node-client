@@ -1,0 +1,13 @@
+{
+    "request": {
+        "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n              <d:prop>\n                <oc:id />\n                <oc:display-name />\n                <oc:user-visible />\n                <oc:user-assignable />\n                <oc:can-assign />\n              </d:prop>\n            </d:propfind>",
+        "method": "PROPFIND",
+        "url": "/remote.php/dav/systemtags/"
+    },
+    "response": {
+        "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/154</d:href><d:propstat><d:prop><oc:id>154</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+        "contentLocation": null,
+        "contentType": "application/xml; charset=utf-8",
+        "status": 207
+    }
+}

@@ -1,0 +1,21 @@
+{
+    "request": {
+        "body": {
+            "type": "Buffer",
+            "data": [
+                70,
+                105,
+                108,
+                101
+            ]
+        },
+        "method": "PUT",
+        "url": "/remote.php/webdav/test/renameFile/sourceFile.txt"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 201
+    }
+}

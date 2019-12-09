@@ -1,0 +1,12 @@
+{
+    "request": {
+        "method": "MKCOL",
+        "url": "/remote.php/webdav/test/folder/comments"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 201
+    }
+}
