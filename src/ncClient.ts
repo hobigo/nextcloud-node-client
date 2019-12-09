@@ -9,6 +9,7 @@ import {
     Headers,
     RequestInit,
     Response,
+    ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
 import { isArray } from "util";
@@ -17,6 +18,7 @@ import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
+import TestRecorder, { IRecordingRequest, IRecordingResponse } from "./testRecorder";
 
 export {
     NCClient,
@@ -59,6 +61,8 @@ interface IStat {
 }
 
 export default class NCClient {
+
+    public static webDavUrlPath: string = "/remote.php/webdav";
 
     /**
      * returns the nextcloud credentials that is defined in the
@@ -154,12 +158,12 @@ export default class NCClient {
 
         debug("constructor: webdav url %s", url);
 
-        if (url.indexOf("remote.php/webdav") === -1) {
+        if (url.indexOf(NCClient.webDavUrlPath) === -1) {
             // not a valid nextcloud url
-            throw new NCError(`The provided nextcloud url "${url}" does not comply to the nextcloud url standard, "remote.php/webdav" is missing`,
+            throw new NCError(`The provided nextcloud url "${url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
                 "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
         }
-        this.nextcloudOrigin = url.substr(0, url.indexOf("/remote.php/webdav"));
+        this.nextcloudOrigin = url.substr(0, url.indexOf(NCClient.webDavUrlPath));
 
         debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
@@ -962,7 +966,7 @@ export default class NCClient {
             throw err;
         }
 
-        return new Buffer(await response.arrayBuffer());
+        return new Buffer(await response.buffer());
     }
 
     /**
@@ -1192,10 +1196,56 @@ export default class NCClient {
         return requestToken;
     }
 
+    private async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[]): Promise<Response> {
+        debug("getFakeHttpResponse");
+        if (!requestInit.method) {
+            requestInit.method = "UNDEFINED";
+        }
+
+        const recRequest: IRecordingRequest = {
+            body: requestInit.body as string,
+            method: requestInit.method,
+            url: url.replace(this.nextcloudOrigin, ""),
+        };
+
+        const tr: TestRecorder = TestRecorder.getInstance();
+
+        const recResponse: IRecordingResponse = await tr.getRecordedResponse(recRequest);
+
+        const responseInit: ResponseInit = {
+            status: recResponse.status,
+        };
+
+        if (recResponse.contentType) {
+            responseInit.headers = { "Content-Type": recResponse.contentType };
+        }
+
+        const response: Response = new Response(recResponse.body, responseInit);
+
+        if (recResponse.contentType) {
+            response.headers.append("Content-Type", recResponse.contentType);
+        }
+
+        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
+            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
+            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
+            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
+            debug("getHttpResponse request body %s", requestInit.body);
+            debug("getHttpResponse text %s", await response.text());
+            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
+        }
+
+        return response;
+    }
+
     private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[]): Promise<Response> {
 
         if (!requestInit.headers) {
             requestInit.headers = new Headers();
+        }
+
+        if (url.startsWith("https://fake")) {
+            return await this.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode);
         }
 
         if (requestInit.headers instanceof Headers) {
@@ -1216,8 +1266,6 @@ export default class NCClient {
             // requestInit.headers.append("requesttoken", this.nextcloudRequestToken);
         }
 
-        requestInit.headers.append("User-Agent", "nextcloud-node-client");
-
         // set the proxy
         if (this.proxy) {
             debug("proxy agent used");
@@ -1234,7 +1282,56 @@ export default class NCClient {
 
         debug("getHttpResponse request header %O", requestInit.headers);
         debug("getHttpResponse url:%s, %O", url, requestInit);
+
         const response: Response = await fetch(url, requestInit);
+        const responseText = await response.text();
+
+        // overwrite response functions as the body uses a stearm object...
+        response.text = async () => {
+            return responseText;
+        };
+
+        response.json = async () => {
+            let res = null;
+            try {
+                res = JSON.parse(responseText);
+            } catch (e) {
+                return res;
+            }
+            return res;
+        };
+
+        response.buffer = async () => {
+            return Buffer.from(responseText);
+        };
+
+        if (TestRecorder.getInstance().isActive()) {
+
+            if (!requestInit.method) {
+                requestInit.method = "UNDEFINED";
+            }
+
+            const recRequest: IRecordingRequest = {
+                body: requestInit.body as string,
+                method: requestInit.method,
+                url: url.replace(this.nextcloudOrigin, ""),
+            };
+
+            const recResponse: IRecordingResponse = {
+                body: await response.text(),
+                contentType: response.headers.get("content-type"),
+                status: response.status,
+            };
+
+            /*
+                        requestInit.headers.forEach((v, n) => {
+                            recording.request.headers[n] = v;
+                        });
+                        console.log(JSON.stringify(recording, null, 4));
+            */
+            TestRecorder.getInstance().record(recRequest, recResponse);
+        }
+
         const responseContentType: string | null = response.headers.get("content-type");
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {

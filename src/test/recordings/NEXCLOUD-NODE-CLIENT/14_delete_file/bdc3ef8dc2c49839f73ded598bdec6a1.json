@@ -1,0 +1,11 @@
+{
+    "request": {
+        "method": "DELETE",
+        "url": "/remote.php/webdav/test/fileDelete/file1.txt"
+    },
+    "response": {
+        "body": "",
+        "contentType": "text/html; charset=UTF-8",
+        "status": 204
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "request": {
+        "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n                    <oc:filter-comments xmlns:D=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n                        <oc:limit>1</oc:limit>\n                        <oc:offset>1</oc:offset>\n                    </oc:filter-comments>",
+        "method": "REPORT",
+        "url": "/remote.php/dav/comments/files/76581"
+    },
+    "response": {
+        "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/76581/96</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>96</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 09 Dec 2019 20:25:51 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>76581</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
+        "contentType": "application/xml; charset=utf-8",
+        "status": 207
+    }
+}

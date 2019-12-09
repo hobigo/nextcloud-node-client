@@ -1,0 +1,12 @@
+{
+    "request": {
+        "body": "{ \"name\": \"tag-49\", \"userVisible\": true, \"userAssignable\": true, \"canAssign\": true }",
+        "method": "POST",
+        "url": "/remote.php/dav/systemtags/"
+    },
+    "response": {
+        "body": "",
+        "contentType": "text/html; charset=UTF-8",
+        "status": 201
+    }
+}

@@ -10,6 +10,8 @@ import {
     NCFolder,
 } from "../ncClient";
 
+import TestRecorder from "../testRecorder";
+
 import mockedEnv from "mocked-env";
 
 const credentials: ICredentials = NCClient.getCredentialsFromEnv();
@@ -18,6 +20,14 @@ const client = new NCClient(credentials.url, credentials.basicAuth);
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
 describe("NEXCLOUD-NODE-CLIENT", function () {
+
+    beforeEach(async function() {
+        const tr: TestRecorder = TestRecorder.getInstance();
+        if (this.currentTest && this.currentTest.parent) {
+            await tr.setContext(this.currentTest.parent.title + "/" + this.currentTest.title);
+        }
+    });
+
     this.timeout(1 * 60 * 1000);
     it("01 create client", async () => {
 
@@ -34,6 +44,7 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
 
     it("02 get quota", async () => {
 
+        // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
             q = await client.getQuota();

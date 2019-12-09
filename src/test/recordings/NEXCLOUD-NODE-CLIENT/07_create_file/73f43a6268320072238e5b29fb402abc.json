@@ -1,0 +1,11 @@
+{
+    "request": {
+        "method": "MKCOL",
+        "url": "/remote.php/webdav/test/test2"
+    },
+    "response": {
+        "body": "",
+        "contentType": "text/html; charset=UTF-8",
+        "status": 201
+    }
+}
