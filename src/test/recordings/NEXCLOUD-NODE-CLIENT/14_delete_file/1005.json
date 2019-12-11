@@ -11,6 +11,7 @@
                 49
             ]
         },
+        "description": "File save content",
         "method": "PUT",
         "url": "/remote.php/webdav/test/fileDelete/file1.txt"
     },

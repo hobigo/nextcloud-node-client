@@ -1,12 +1,13 @@
 {
     "request": {
         "body": "{ \"name\": \"TagToBeDelete\", \"userVisible\": true, \"userAssignable\": true, \"canAssign\": true }",
+        "description": "Tag create",
         "method": "POST",
         "url": "/remote.php/dav/systemtags/"
     },
     "response": {
         "body": "",
-        "contentLocation": "/remote.php/dav/systemtags/170",
+        "contentLocation": "/remote.php/dav/systemtags/255",
         "contentType": "text/html; charset=UTF-8",
         "status": 201
     }

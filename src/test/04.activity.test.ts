@@ -24,7 +24,7 @@ describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
         }
     });
 
-    it.skip("1 get activity", async () => {
+    it.skip("01 get activity", async () => {
 
         const activities = client.getActivities();
         expect(activities, "expect no exception").to.be.equal(false);

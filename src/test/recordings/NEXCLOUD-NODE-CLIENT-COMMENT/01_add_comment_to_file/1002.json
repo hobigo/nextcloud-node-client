@@ -1,0 +1,13 @@
+{
+    "request": {
+        "description": "Folder create",
+        "method": "MKCOL",
+        "url": "/remote.php/webdav/test/comments"
+    },
+    "response": {
+        "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\Conflict</s:exception>\n  <s:message>Parent node does not exist</s:message>\n</d:error>\n",
+        "contentLocation": null,
+        "contentType": "application/xml; charset=utf-8",
+        "status": 409
+    }
+}

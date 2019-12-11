@@ -1,0 +1,14 @@
+{
+    "request": {
+        "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n              <d:prop>\n                <oc:id />\n                <oc:display-name />\n                <oc:user-visible />\n                <oc:user-assignable />\n                <oc:can-assign />\n              </d:prop>\n            </d:propfind>",
+        "description": "File get tags",
+        "method": "PROPFIND",
+        "url": "/remote.php/dav/systemtags-relations/files/77345"
+    },
+    "response": {
+        "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags-relations/files/77345/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/77345/248</d:href><d:propstat><d:prop><oc:id>248</oc:id><oc:display-name>tag-81</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/77345/249</d:href><d:propstat><d:prop><oc:id>249</oc:id><oc:display-name>tag-82</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/77345/250</d:href><d:propstat><d:prop><oc:id>250</oc:id><oc:display-name>tag-83</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+        "contentLocation": null,
+        "contentType": "application/xml; charset=utf-8",
+        "status": 207
+    }
+}

@@ -60,6 +60,10 @@ interface IStat {
     "fileid"?: number;
 }
 
+interface IRequestContext {
+    "description"?: string;
+}
+
 export default class NCClient {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
@@ -189,7 +193,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             this.webDAVUrl + "/",
             requestInit,
-            [207]);
+            [207],
+            { description: "Client get quota" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
@@ -260,6 +265,7 @@ export default class NCClient {
             this.nextcloudOrigin + "/remote.php/dav/systemtags/",
             requestInit,
             [201],
+            { description: "Tag create" },
         );
         const tagString: string | null = response.headers.get("Content-Location");
         debug("createTag new tagId %s, tagName %s", tagString, tagName);
@@ -326,7 +332,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/systemtags/${tagId}`,
             requestInit,
-            [204, 404]);
+            [204, 404],
+            { description: "Tag delete" });
 
         // const responseObject: any = await this.getParseXMLFromResponse(response);
     }
@@ -370,7 +377,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             this.nextcloudOrigin + "/remote.php/dav/systemtags/",
             requestInit,
-            [207]);
+            [207],
+            { description: "Tags get" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
@@ -428,7 +436,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}`,
             requestInit,
-            [207]);
+            [207],
+            { description: "File get tags" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
@@ -469,8 +478,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tagId}`,
             requestInit,
-            [204, 404]);
-
+            [204, 404],
+            { description: "File remove tag" });
         return;
     }
 
@@ -494,7 +503,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             fileUrl,
             requestInit,
-            [207]);
+            [207],
+            { description: "File get id" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
         debug("getFileId parsed response body %O", responseObject);
@@ -553,7 +563,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             url,
             requestInit,
-            [207]);
+            [207],
+            { description: "Folder get contents" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
         debug("getFolderContents parsed response body %O", responseObject);
@@ -689,6 +700,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [204],
+                { description: "File delete" },
             );
 
         } catch (err) {
@@ -893,6 +905,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [201],
+                { description: "File move" },
             );
 
         } catch (err) {
@@ -929,6 +942,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [201],
+                { description: "Folder move" },
             );
 
         } catch (err) {
@@ -960,7 +974,8 @@ export default class NCClient {
             response = await this.getHttpResponse(
                 url,
                 requestInit,
-                [200]);
+                [200],
+                { description: "File get content" });
         } catch (err) {
             debug("Error getContent %s - error %s", url, err.message);
             throw err;
@@ -1021,7 +1036,8 @@ export default class NCClient {
         await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.id}`,
             requestInit,
-            [201, 409]); // created or conflict
+            [201, 409],
+            { description: "File add tag" }); // created or conflict
     }
 
     // ***************************************************************************************
@@ -1037,7 +1053,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             this.nextcloudOrigin + "/ocs/v2.php/apps/activity/api/v2/activity/files?format=json&previews=false&since=97533",
             requestInit,
-            [200]);
+            [200],
+            { description: "Activities get" });
 
         const responseObject: any = await response.json();
         // @todo
@@ -1078,7 +1095,8 @@ export default class NCClient {
         await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
             requestInit,
-            [201]); // created
+            [201],
+            { description: "File add comment" }); // created
     }
 
     /**
@@ -1111,7 +1129,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
             requestInit,
-            [207]);
+            [207],
+            { description: "File get comments" });
 
         const responseObject: any = await this.getParseXMLFromResponse(response);
 
@@ -1187,7 +1206,8 @@ export default class NCClient {
         const response: Response = await this.getHttpResponse(
             this.nextcloudOrigin,
             requestInit,
-            [200]);
+            [200],
+            { description: "CSER token get" });
 
         const html = await response.text();
 
@@ -1196,21 +1216,15 @@ export default class NCClient {
         return requestToken;
     }
 
-    private async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[]): Promise<Response> {
+    private async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
         debug("getFakeHttpResponse");
         if (!requestInit.method) {
             requestInit.method = "UNDEFINED";
         }
 
-        const recRequest: IRecordingRequest = {
-            body: requestInit.body as string,
-            method: requestInit.method,
-            url: url.replace(this.nextcloudOrigin, ""),
-        };
-
         const tr: TestRecorder = TestRecorder.getInstance();
 
-        const recResponse: IRecordingResponse = await tr.getRecordedResponse(recRequest);
+        const recResponse: IRecordingResponse = await tr.getRecordedResponse();
 
         const responseInit: ResponseInit = {
             status: recResponse.status,
@@ -1232,24 +1246,24 @@ export default class NCClient {
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
             debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
+            debug("getHttpResponse description %s", context.description);
             debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
             debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
             debug("getHttpResponse request body %s", requestInit.body);
             debug("getHttpResponse text %s", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
-
         return response;
     }
 
-    private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[]): Promise<Response> {
+    private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
 
         if (!requestInit.headers) {
             requestInit.headers = new Headers();
         }
 
         if (url.startsWith("https://fake")) {
-            return await this.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode);
+            return await this.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
         }
 
         if (requestInit.headers instanceof Headers) {
@@ -1317,6 +1331,7 @@ export default class NCClient {
 
             const recRequest: IRecordingRequest = {
                 body: requestInit.body as string,
+                description: context.description,
                 method: requestInit.method,
                 url: url.replace(this.nextcloudOrigin, ""),
             };
@@ -1328,12 +1343,6 @@ export default class NCClient {
                 status: response.status,
             };
 
-            /*
-                        requestInit.headers.forEach((v, n) => {
-                            recording.request.headers[n] = v;
-                        });
-                        console.log(JSON.stringify(recording, null, 4));
-            */
             TestRecorder.getInstance().record(recRequest, recResponse);
         }
 
@@ -1341,19 +1350,13 @@ export default class NCClient {
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
             debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
+            debug("getHttpResponse description %s", context.description);
             debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
             debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
             debug("getHttpResponse request body %s", requestInit.body);
             debug("getHttpResponse text %s", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
-
-        /*
-        content type is missing
-        if (!responseContentType) {
-           throw new Error("Content type missing in response");
-        }
-        */
 
         return response;
     }
@@ -1432,6 +1435,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [201],
+                { description: "Folder create" },
             );
 
         } catch (err) {
@@ -1473,6 +1477,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [207],
+                { description: "File get details" },
             );
 
         } catch (err) {
@@ -1550,6 +1555,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [201, 204],
+                { description: "File save content" },
             );
 
         } catch (err) {

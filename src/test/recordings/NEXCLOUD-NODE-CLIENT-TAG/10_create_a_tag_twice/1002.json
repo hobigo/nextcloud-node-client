@@ -1,12 +1,13 @@
 {
     "request": {
         "body": "{ \"name\": \"Tag10\", \"userVisible\": true, \"userAssignable\": true, \"canAssign\": true }",
+        "description": "Tag create",
         "method": "POST",
         "url": "/remote.php/dav/systemtags/"
     },
     "response": {
         "body": "",
-        "contentLocation": "/remote.php/dav/systemtags/169",
+        "contentLocation": "/remote.php/dav/systemtags/254",
         "contentType": "text/html; charset=UTF-8",
         "status": 201
     }

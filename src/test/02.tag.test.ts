@@ -26,7 +26,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         }
     });
 
-    it("1 get tags", async () => {
+    it("01 get tags", async () => {
 
         const tags: NCTag[] = await client.getTags();
 
@@ -37,7 +37,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tags, "expect tags to be an array").to.be.a("array");
     });
 
-    it("2 create tag", async () => {
+    it("02 create tag", async () => {
 
         const tagName: string = "Tag1";
         const tag: NCTag = await client.createTag(tagName);
@@ -49,7 +49,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("3 delete tag", async () => {
+    it("03 delete tag", async () => {
 
         const tagName: string = "Tag-to-be-deleted";
         const tag: NCTag = await client.createTag(tagName);
@@ -63,7 +63,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("4 get tag by name", async () => {
+    it("04 get tag by name", async () => {
 
         const tagName: string = "get-Tag-by-name";
         const tag: NCTag = await client.createTag(tagName);
@@ -83,7 +83,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("5 get tag by id", async () => {
+    it("05 get tag by id", async () => {
 
         const tagName: string = "get-Tag-by-id";
         const tag: NCTag = await client.createTag(tagName);
@@ -102,7 +102,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("6 add tag to file", async () => {
+    it("06 add tag to file", async () => {
 
         const dirName = "/test/fileTagging";
         const fileName1 = "file1.txt";
@@ -121,8 +121,8 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
 
         try {
-            file!.addTag(`tag-61`);
-            file!.addTag(`tag-62`);
+            await file!.addTag(`tag-61`);
+            await file!.addTag(`tag-62`);
         } catch (e) {
             expect(true, "we do not expect an exception adding tags").to.be.equal(false);
         }
@@ -141,7 +141,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("7 get tags of file", async () => {
+    it("07 get tags of file", async () => {
 
         const dirName = "/test/fileTagging";
         const fileName1 = "fileWith3Tags1.txt";
@@ -196,7 +196,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
         await baseDir.delete();
     });
 
-    it("8 folder tags", async () => {
+    it("08 folder tags", async () => {
 
         const dirName = "/test/folderTagging";
 
@@ -243,7 +243,7 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
-    it("9 remove tag of file", async () => {
+    it("09 remove tag of file", async () => {
 
         const dirName = "/test/fileTagging";
         const fileName1 = "removeTagOfFile.txt";

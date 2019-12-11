@@ -1,0 +1,14 @@
+{
+    "request": {
+        "body": "{\n    \"canAssign\": true,\n    \"id\": 251,\n    \"name\": \"tag-91\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}",
+        "description": "File add tag",
+        "method": "PUT",
+        "url": "/remote.php/dav/systemtags-relations/files/77347/251"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 201
+    }
+}

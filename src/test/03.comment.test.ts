@@ -24,7 +24,7 @@ describe("NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         }
     });
 
-    it("1 add comment to file", async () => {
+    it("01 add comment to file", async () => {
         let errorOccurred;
         const fileName = "/test/comments/fileComments.txt";
 
@@ -60,7 +60,7 @@ describe("NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         }
     });
 
-    it("2 add comment to folder", async () => {
+    it("02 add comment to folder", async () => {
 
         let errorOccurred;
         const folderName = "/test/folder/comments";

@@ -1,0 +1,13 @@
+{
+    "request": {
+        "description": "File remove tag",
+        "method": "DELETE",
+        "url": "/remote.php/dav/systemtags-relations/files/77347/251"
+    },
+    "response": {
+        "body": "",
+        "contentLocation": null,
+        "contentType": "text/html; charset=UTF-8",
+        "status": 204
+    }
+}

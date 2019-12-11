@@ -1,5 +1,6 @@
 {
     "request": {
+        "description": "File move",
         "method": "MOVE",
         "url": "/remote.php/webdav/test/renameFile/sourceFile.txt"
     },

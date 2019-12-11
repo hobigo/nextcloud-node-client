@@ -1,5 +1,6 @@
 {
     "request": {
+        "description": "Folder create",
         "method": "MKCOL",
         "url": "/remote.php/webdav/test/containsFileFolder"
     },

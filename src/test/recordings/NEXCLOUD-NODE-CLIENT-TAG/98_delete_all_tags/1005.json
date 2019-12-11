@@ -1,7 +1,8 @@
 {
     "request": {
+        "description": "Tag delete",
         "method": "DELETE",
-        "url": "/remote.php/dav/systemtags/170"
+        "url": "/remote.php/dav/systemtags/255"
     },
     "response": {
         "body": "",
