@@ -2,7 +2,6 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    ICredentials,
     NCClient,
     NCFile,
     NCFolder,
@@ -10,11 +9,10 @@ import {
 
 import TestRecorder from "../testRecorder";
 
-const credentials: ICredentials = NCClient.getCredentialsFromEnv();
-const client = new NCClient(credentials.url, credentials.basicAuth);
+const client = new NCClient(NCClient.getCredentialsFromEnv());
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT-COMMENT", function () {
+describe("NEXCLOUD-NODE-CLIENT-COMMENT", function() {
     this.timeout(1 * 60 * 1000);
 
     beforeEach(async function() {

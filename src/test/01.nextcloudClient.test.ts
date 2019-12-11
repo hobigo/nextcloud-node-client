@@ -3,19 +3,18 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    ICredentials,
     NCClient,
     NCError,
     NCFile,
     NCFolder,
+    NextcloudServer,
 } from "../ncClient";
 
 import TestRecorder from "../testRecorder";
 
 import mockedEnv from "mocked-env";
 
-const credentials: ICredentials = NCClient.getCredentialsFromEnv();
-const client = new NCClient(credentials.url, credentials.basicAuth);
+const client = new NCClient(NCClient.getCredentialsFromEnv());
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -403,13 +402,11 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
     });
 
     it("23 create client with wrong webdav url", async () => {
-        const cred: ICredentials = {
-            basicAuth: { username: "some user name", password: "some password" },
-            url: "https://someServer.com:123",
-        };
+        const ncserver: NextcloudServer = new NextcloudServer("https://someServer.com:123", { username: "some user name", password: "some password" });
+
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(cred.url, cred.basicAuth);
+            new NCClient(ncserver);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -418,20 +415,18 @@ describe("NEXCLOUD-NODE-CLIENT", function () {
     });
 
     it("24 create a client with url ", async () => {
-        const cred: ICredentials = {
-            basicAuth: { username: "some user name", password: "some password" },
-            url: "https://someServer.com:123/remote.php/webdav",
-        };
+        const ncserver: NextcloudServer = new NextcloudServer("https://someServer.com:123/remote.php/webdav", { username: "some user name", password: "some password" });
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(cred.url, cred.basicAuth);
+            new NCClient(ncserver);
         } catch (e) {
             expect(e, "No exception expected").to.be.equal("");
         }
 
+        ncserver.url += "/";
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(cred.url + "/", cred.basicAuth);
+            new NCClient(ncserver);
         } catch (e) {
             expect(e, "No exception expected").to.be.equal("");
         }

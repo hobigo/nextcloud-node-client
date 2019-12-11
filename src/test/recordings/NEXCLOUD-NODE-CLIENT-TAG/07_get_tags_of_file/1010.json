@@ -1,9 +1,9 @@
 {
     "request": {
-        "body": "{\n    \"canAssign\": true,\n    \"id\": 245,\n    \"name\": \"tag-71\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}",
+        "body": "{\n    \"canAssign\": true,\n    \"id\": 262,\n    \"name\": \"tag-71\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}",
         "description": "File add tag",
         "method": "PUT",
-        "url": "/remote.php/dav/systemtags-relations/files/77344/245"
+        "url": "/remote.php/dav/systemtags-relations/files/77403/262"
     },
     "response": {
         "body": "",

@@ -2,7 +2,7 @@
     "request": {
         "description": "File remove tag",
         "method": "DELETE",
-        "url": "/remote.php/dav/systemtags-relations/files/77347/251"
+        "url": "/remote.php/dav/systemtags-relations/files/77406/268"
     },
     "response": {
         "body": "",

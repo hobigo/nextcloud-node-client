@@ -45,11 +45,6 @@ export interface IProxy {
     "proxyAuthorizationHeader"?: string;
 }
 
-export interface ICredentials {
-    "url": string;
-    "basicAuth": IBasicAuth;
-}
-
 interface IStat {
     "type": string;
     "filename": string;
@@ -64,6 +59,22 @@ interface IRequestContext {
     "description"?: string;
 }
 
+export class FakeServer {
+}
+
+// tslint:disable-next-line: max-classes-per-file
+export class NextcloudServer {
+    public url: string;
+    public basicAuth: IBasicAuth;
+    public proxy?: IProxy;
+    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy) {
+        this.url = url;
+        this.basicAuth = basicAuth;
+        this.proxy = proxy;
+    }
+}
+
+// tslint:disable-next-line: max-classes-per-file
 export default class NCClient {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
@@ -74,7 +85,7 @@ export default class NCClient {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromEnv(): ICredentials {
+    public static getCredentialsFromEnv(): NextcloudServer {
 
         if (!process.env.NEXTCLOUD_URL) {
             throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
@@ -91,11 +102,7 @@ export default class NCClient {
                 , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
         }
 
-        return {
-            basicAuth:
-                { username: process.env.NEXTCLOUD_USERNAME, password: process.env.NEXTCLOUD_PASSWORD },
-            url: process.env.NEXTCLOUD_URL,
-        };
+        return new NextcloudServer(process.env.NEXTCLOUD_URL, { username: process.env.NEXTCLOUD_USERNAME, password: process.env.NEXTCLOUD_PASSWORD });
     }
 
     /**
@@ -104,7 +111,7 @@ export default class NCClient {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromVcapServicesEnv(instanceName: string): ICredentials {
+    public static getCredentialsFromVcapServicesEnv(instanceName: string): NextcloudServer {
 
         if (!process.env.VCAP_SERVICES) {
             throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
@@ -136,11 +143,7 @@ export default class NCClient {
                 { credentials: cred });
         }
 
-        return {
-            basicAuth:
-                { username: cred.username, password: cred.password },
-            url: cred.url,
-        };
+        return new NextcloudServer(cred.url, { username: cred.username, password: cred.password });
     }
 
     private nextcloudOrigin: string;
@@ -155,30 +158,37 @@ export default class NCClient {
      * @param authentication basic authentication information
      * @param proxyAgent the proxy agent optional
      */
-    public constructor(url: string, authentication: IBasicAuth, proxy?: IProxy) {
+    //    public constructor(url: string, authentication: IBasicAuth, proxy?: IProxy) {
+    public constructor(serverOptions: NextcloudServer | FakeServer) {
         debug("constructor");
+        if (serverOptions instanceof NextcloudServer) {
 
-        this.proxy = proxy;
+            this.proxy = serverOptions.proxy;
 
-        debug("constructor: webdav url %s", url);
+            debug("constructor: webdav url %s", serverOptions.url);
 
-        if (url.indexOf(NCClient.webDavUrlPath) === -1) {
-            // not a valid nextcloud url
-            throw new NCError(`The provided nextcloud url "${url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
-                "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
-        }
-        this.nextcloudOrigin = url.substr(0, url.indexOf(NCClient.webDavUrlPath));
+            if (serverOptions.url.indexOf(NCClient.webDavUrlPath) === -1) {
+                // not a valid nextcloud url
+                throw new NCError(`The provided nextcloud url "${serverOptions.url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
+                    "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
+            }
+            this.nextcloudOrigin = serverOptions.url.substr(0, serverOptions.url.indexOf(NCClient.webDavUrlPath));
 
-        debug("constructor: nextcloud url %s", this.nextcloudOrigin);
+            debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
-        this.nextcloudAuthHeader = "Basic " + Buffer.from(authentication.username + ":" + authentication.password).toString("base64");
-        this.nextcloudRequestToken = "";
-        if (url.slice(-1) === "/") {
-            this.webDAVUrl = url.slice(0, -1);
+            this.nextcloudAuthHeader = "Basic " + Buffer.from(serverOptions.basicAuth.username + ":" + serverOptions.basicAuth.password).toString("base64");
+            this.nextcloudRequestToken = "";
+            if (serverOptions.url.slice(-1) === "/") {
+                this.webDAVUrl = serverOptions.url.slice(0, -1);
+            } else {
+                this.webDAVUrl = serverOptions.url;
+            }
         } else {
-            this.webDAVUrl = url;
+            this.nextcloudOrigin = "";
+            this.nextcloudAuthHeader = "";
+            this.nextcloudRequestToken = "";
+            this.webDAVUrl = "";
         }
-
     }
 
     /**

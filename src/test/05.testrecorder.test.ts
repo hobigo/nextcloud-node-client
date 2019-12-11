@@ -205,7 +205,7 @@ describe("NEXCLOUD-NODE-CLIENT-TEST-RECORDER", function () {
 
         // set context for reading
         await tr.setContext(testContextName);
-        const response: IRecordingResponse = await tr.getRecordedResponse(recRequest);
+        const response: IRecordingResponse = await tr.getRecordedResponse();
 
         expect(response.body).to.be.equal(recResponse.body);
 
@@ -217,7 +217,7 @@ describe("NEXCLOUD-NODE-CLIENT-TEST-RECORDER", function () {
         });
 
         try {
-            await tr.getRecordedResponse(recRequest);
+            await tr.getRecordedResponse();
         } catch (e) {
             expect(e.message, "exception expected - get response without context should fail").to.be.equal("Error while getting recording request, context not set");
         } finally {

@@ -24,6 +24,7 @@
                 116
             ]
         },
+        "description": "File save content",
         "method": "PUT",
         "url": "/remote.php/webdav/test/test2/file1.txt"
     },

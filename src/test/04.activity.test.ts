@@ -2,16 +2,15 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    ICredentials,
     NCClient,
     NCFile,
     NCFolder,
+    NextcloudServer,
 } from "../ncClient";
 
 import TestRecorder from "../testRecorder";
 
-const credentials: ICredentials = NCClient.getCredentialsFromEnv();
-const client = new NCClient(credentials.url, credentials.basicAuth);
+const client = new NCClient(NCClient.getCredentialsFromEnv());
 
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
