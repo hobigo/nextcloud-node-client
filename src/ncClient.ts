@@ -13,12 +13,12 @@ import {
 } from "node-fetch";
 import path, { basename } from "path";
 import { isArray } from "util";
-
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import NCTag from "./ncTag";
-import TestRecorder, { IRecordingRequest, IRecordingResponse } from "./testRecorder";
+import RequestResponseLog from "./requestResponseLog";
+import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
 
 export {
     NCClient,
@@ -60,6 +60,49 @@ interface IRequestContext {
 }
 
 export class FakeServer {
+    public fakeResponses: RequestResponseLogEntry[] = [];
+    public constructor(fakeResponses: RequestResponseLogEntry[]) {
+        this.fakeResponses = fakeResponses;
+    }
+    public async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
+        debug("getFakeHttpResponse");
+        if (!requestInit.method) {
+            requestInit.method = "UNDEFINED";
+        }
+
+        const rrEntry: RequestResponseLogEntry | undefined = this.fakeResponses.shift();
+        if (!rrEntry) {
+            throw new Error(`error providing fake http response. No fake response available `);
+        }
+        const responseInit: ResponseInit = {
+            status: rrEntry.response.status,
+        };
+        /*
+                if (rrEntry.response.contentType) {
+                    responseInit.headers = { "Content-Type": rrEntry.response.contentType };
+                }
+        */
+        const response: Response = new Response(rrEntry.response.body, responseInit);
+
+        if (rrEntry.response.contentType) {
+            response.headers.append("Content-Type", rrEntry.response.contentType);
+        }
+
+        if (rrEntry.response.contentLocation) {
+            response.headers.append("Content-Location", rrEntry.response.contentLocation);
+        }
+
+        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
+            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
+            debug("getHttpResponse description %s", context.description);
+            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
+            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
+            debug("getHttpResponse request body %s", requestInit.body);
+            debug("getHttpResponse text %s", await response.text());
+            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
+        }
+        return response;
+    }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -67,7 +110,8 @@ export class NextcloudServer {
     public url: string;
     public basicAuth: IBasicAuth;
     public proxy?: IProxy;
-    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy) {
+    public logRequestResponse: boolean = false;
+    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse?: boolean) {
         this.url = url;
         this.basicAuth = basicAuth;
         this.proxy = proxy;
@@ -102,7 +146,21 @@ export default class NCClient {
                 , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
         }
 
-        return new NextcloudServer(process.env.NEXTCLOUD_URL, { username: process.env.NEXTCLOUD_USERNAME, password: process.env.NEXTCLOUD_PASSWORD });
+        let logRequestResponse: boolean;
+
+        if ((process.env.TEST_RECORDING_ACTIVE &&
+            (process.env.TEST_RECORDING_ACTIVE === "0" || process.env.TEST_RECORDING_ACTIVE === "false" || process.env.TEST_RECORDING_ACTIVE === "inactive")) ||
+            !process.env.TEST_RECORDING_ACTIVE) {
+            logRequestResponse = false;
+        } else {
+            logRequestResponse = true;
+        }
+
+        return new NextcloudServer(process.env.NEXTCLOUD_URL,
+            {
+                password: process.env.NEXTCLOUD_PASSWORD,
+                username: process.env.NEXTCLOUD_USERNAME,
+            }, undefined, logRequestResponse);
     }
 
     /**
@@ -151,6 +209,8 @@ export default class NCClient {
     private nextcloudRequestToken: string;
     private webDAVUrl: string;
     private proxy?: IProxy;
+    private fakeServer?: FakeServer;
+    private logRequestResponse: boolean = false;
 
     /**
      * constructor of the nextcloud client
@@ -159,35 +219,41 @@ export default class NCClient {
      * @param proxyAgent the proxy agent optional
      */
     //    public constructor(url: string, authentication: IBasicAuth, proxy?: IProxy) {
-    public constructor(serverOptions: NextcloudServer | FakeServer) {
+    public constructor(server: NextcloudServer | FakeServer) {
         debug("constructor");
-        if (serverOptions instanceof NextcloudServer) {
+        this.nextcloudOrigin = "";
+        this.nextcloudAuthHeader = "";
+        this.nextcloudRequestToken = "";
+        this.webDAVUrl = "";
 
-            this.proxy = serverOptions.proxy;
+        if (server instanceof NextcloudServer) {
 
-            debug("constructor: webdav url %s", serverOptions.url);
+            this.proxy = server.proxy;
 
-            if (serverOptions.url.indexOf(NCClient.webDavUrlPath) === -1) {
+            debug("constructor: webdav url %s", server.url);
+
+            if (server.url.indexOf(NCClient.webDavUrlPath) === -1) {
                 // not a valid nextcloud url
-                throw new NCError(`The provided nextcloud url "${serverOptions.url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
+                throw new NCError(`The provided nextcloud url "${server.url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
                     "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
             }
-            this.nextcloudOrigin = serverOptions.url.substr(0, serverOptions.url.indexOf(NCClient.webDavUrlPath));
+            this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(NCClient.webDavUrlPath));
 
             debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
-            this.nextcloudAuthHeader = "Basic " + Buffer.from(serverOptions.basicAuth.username + ":" + serverOptions.basicAuth.password).toString("base64");
+            this.nextcloudAuthHeader = "Basic " + Buffer.from(server.basicAuth.username + ":" + server.basicAuth.password).toString("base64");
             this.nextcloudRequestToken = "";
-            if (serverOptions.url.slice(-1) === "/") {
-                this.webDAVUrl = serverOptions.url.slice(0, -1);
+            if (server.url.slice(-1) === "/") {
+                this.webDAVUrl = server.url.slice(0, -1);
             } else {
-                this.webDAVUrl = serverOptions.url;
+                this.webDAVUrl = server.url;
             }
-        } else {
-            this.nextcloudOrigin = "";
-            this.nextcloudAuthHeader = "";
-            this.nextcloudRequestToken = "";
-            this.webDAVUrl = "";
+
+            this.logRequestResponse = server.logRequestResponse;
+        }
+
+        if (server instanceof FakeServer) {
+            this.fakeServer = server;
         }
     }
 
@@ -1226,54 +1292,14 @@ export default class NCClient {
         return requestToken;
     }
 
-    private async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
-        debug("getFakeHttpResponse");
-        if (!requestInit.method) {
-            requestInit.method = "UNDEFINED";
-        }
-
-        const tr: TestRecorder = TestRecorder.getInstance();
-
-        const recResponse: IRecordingResponse = await tr.getRecordedResponse();
-
-        const responseInit: ResponseInit = {
-            status: recResponse.status,
-        };
-
-        if (recResponse.contentType) {
-            responseInit.headers = { "Content-Type": recResponse.contentType };
-        }
-
-        const response: Response = new Response(recResponse.body, responseInit);
-
-        if (recResponse.contentType) {
-            response.headers.append("Content-Type", recResponse.contentType);
-        }
-
-        if (recResponse.contentLocation) {
-            response.headers.append("Content-Location", recResponse.contentLocation);
-        }
-
-        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
-            debug("getHttpResponse description %s", context.description);
-            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
-            debug("getHttpResponse request body %s", requestInit.body);
-            debug("getHttpResponse text %s", await response.text());
-            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
-        }
-        return response;
-    }
-
     private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
 
         if (!requestInit.headers) {
             requestInit.headers = new Headers();
         }
 
-        if (url.startsWith("https://fake")) {
-            return await this.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
+        if (this.fakeServer) {
+            return await this.fakeServer.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
         }
 
         if (requestInit.headers instanceof Headers) {
@@ -1333,27 +1359,36 @@ export default class NCClient {
             return Buffer.from(responseText);
         };
 
-        if (TestRecorder.getInstance().isActive()) {
+        if (this.logRequestResponse) {
 
-            if (!requestInit.method) {
-                requestInit.method = "UNDEFINED";
-            }
+            const reqLogEntry: RequestLogEntry =
+                new RequestLogEntry(url.replace(this.nextcloudOrigin, ""),
+                    requestInit.method || "UNDEFIND", context.description || "",
+                    requestInit.body as string);
 
-            const recRequest: IRecordingRequest = {
-                body: requestInit.body as string,
-                description: context.description,
-                method: requestInit.method,
-                url: url.replace(this.nextcloudOrigin, ""),
-            };
+            const resLogEntry: ResponseLogEntry =
+                new ResponseLogEntry(response.status,
+                    await response.text(),
+                    response.headers.get("content-type") || "",
+                    response.headers.get("Content-Location") || "");
 
-            const recResponse: IRecordingResponse = {
-                body: await response.text(),
-                contentLocation: response.headers.get("Content-Location"),
-                contentType: response.headers.get("content-type"),
-                status: response.status,
-            };
+            const rrLog: RequestResponseLog = new RequestResponseLog();
+            await rrLog.addEntry(new RequestResponseLogEntry(reqLogEntry, resLogEntry));
+            /*
+                        const recRequest: IRecordingRequest = {
+                            body: requestInit.body as string,
+                            description: context.description,
+                            method: requestInit.method,
+                            url: url.replace(this.nextcloudOrigin, ""),
+                        };
 
-            TestRecorder.getInstance().record(recRequest, recResponse);
+                        const recResponse: IRecordingResponse = {
+                            body: await response.text(),
+                            contentLocation: response.headers.get("Content-Location"),
+                            contentType: response.headers.get("content-type"),
+                            status: response.status,
+                        };
+            */
         }
 
         const responseContentType: string | null = response.headers.get("content-type");

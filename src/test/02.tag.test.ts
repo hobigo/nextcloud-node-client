@@ -7,10 +7,9 @@ import {
     NCFolder,
 } from "../ncClient";
 import NCTag from "../ncTag";
+import { getNextcloudClient } from "./testUtils";
 
-import TestRecorder from "../testRecorder";
-
-const client = new NCClient(NCClient.getCredentialsFromEnv());
+let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -18,9 +17,8 @@ describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
     beforeEach(async function() {
-        const tr: TestRecorder = TestRecorder.getInstance();
         if (this.currentTest && this.currentTest.parent) {
-            tr.setContext(this.currentTest.parent.title + "/" + this.currentTest.title);
+            client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
     });
 
