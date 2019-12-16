@@ -21,39 +21,15 @@ export default class RequestResponseLog {
     private static log: RequestResponseLog | null = null;
 
     public baseDirectory: string = RequestResponseLog.defaultLogDirectory;
-    private active: boolean = false;
-    private context: string = "";
+    private context: string;
     private entries: requestResponseLogEntry[] = [];
-    /*
-        public isActive(): boolean {
-            return this.active;
+    private constructor() {
+        this.baseDirectory = RequestResponseLog.defaultLogDirectory;
+        this.context = "";
+    }
 
-                if ((process.env.TEST_RECORDING_ACTIVE &&
-                    (process.env.TEST_RECORDING_ACTIVE === "0" || process.env.TEST_RECORDING_ACTIVE === "false" || process.env.TEST_RECORDING_ACTIVE === "inactive")) ||
-                    !process.env.TEST_RECORDING_ACTIVE) {
-                    debug("test recording inactive");
-                    return false;
-                }
-                debug("test recording active");
-                return true;
-
-        }
-
-        public activate() {
-            this.active = true;
-        }
-
-        public deactivate() {
-            this.active = false;
-        }
-    */
     public async addEntry(logEntry: requestResponseLogEntry) {
         debug("addEntry");
-        /*
-        if (!this.isActive()) {
-            return;
-        }
-        */
         if (!this.context) {
             debug("Error while recording, context not set");
             throw new Error("Error while recording, context not set");
@@ -77,14 +53,16 @@ export default class RequestResponseLog {
 
     public async setContext(context: string) {
         debug("setContext");
-        this.context = context.replace(/ |:|\./g, "_");
-        this.entries = [];
-
+        const newContext: string = context.replace(/ |:|\./g, "_");
+        if (this.context !== newContext) {
+            this.context = newContext;
+            this.entries = [];
+        }
         // create the directory
         await this.assertDirectory(this.getFileName());
     }
 
-    private getFileName(): string {
+    public getFileName(): string {
         return `${this.baseDirectory}${this.context}.json`;
     }
 

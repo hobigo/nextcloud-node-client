@@ -7,12 +7,12 @@ import {
     NCFolder,
     NextcloudServer,
 } from "../ncClient";
-import { getNextcloudClient } from "./testUtils";
+import { debug, getNextcloudClient } from "./testUtils";
 
 let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
-describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
+describe("04-NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     this.timeout(1 * 60 * 1000);
 
     beforeEach(async function() {

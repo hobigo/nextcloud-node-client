@@ -18,7 +18,7 @@ let client: NCClient;
 // tslint:disable-next-line:space-before-function-paren
 describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
-    beforeEach(async function() {
+    beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
@@ -157,7 +157,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("07 create file", async () => {
 
         let errorOccurred;
-        const fileName = "/test/test2/file1.txt";
+        const fileName = "/test/test07/file1.txt";
 
         let file: NCFile | null = null;
 
@@ -190,7 +190,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     it("09 get sub directories", async () => {
 
-        const baseName = "/test/base";
+        const baseName = "/test/base09";
         const subDirName1 = "subdir1";
         const subDirName2 = "subdir2";
 
@@ -201,13 +201,13 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const directories = await client.getSubFolders(baseName);
 
         expect(directories, "expect directories to be an array").to.be.a("array");
-        expect(directories.length, "expect directories to be empty").to.be.equal(2);
-
+        expect(directories.length, "expect 2 directories:" + JSON.stringify(directories)).to.be.equal(2);
+        await baseDir.delete();
     });
 
     it("10 get sub directories with directory object", async () => {
 
-        const baseName = "/test/base";
+        const baseName = "/test/base10";
         const subDirName1 = "subdir1";
         const subDirName2 = "subdir2";
 
@@ -219,7 +219,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         expect(directories, "expect directories to be an array").to.be.a("array");
         expect(directories.length, "expect directories to have 2 sub directories").to.be.equal(2);
-
+        await baseDir.delete();
     });
 
     it("11 get files of an empty directory", async () => {
@@ -233,6 +233,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(files, "expect files to be an array").to.be.a("array");
         expect(files.length, "expect files to be empty").to.be.equal(0);
 
+        await baseDir.delete();
     });
 
     it("12 get files of a directory", async () => {
@@ -249,7 +250,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         expect(files, "expect files to be an array").to.be.a("array");
         expect(files.length, "expect files to be empty").to.be.equal(2);
-
+        await baseDir.delete();
     });
 
     it("13 get file content", async () => {
@@ -266,6 +267,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         const content: Buffer = await file!.getContent();
         expect(content.toString(), "expect file content to be 'File 1'").to.be.equal("File 1");
+        await baseDir.delete();
     });
 
     it("14 delete file", async () => {
@@ -284,6 +286,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         file = await baseDir.getFile(fileName1);
 
         expect(file, "expect file to be null").to.be.equal(null);
+        await baseDir.delete();
     });
 
     it("15 get link of file", async () => {

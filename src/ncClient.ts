@@ -30,8 +30,6 @@ export {
 
 const debug = debugFactory("NCClient");
 
-// debug("process env %O", process.env);
-
 export interface IBasicAuth {
     "username": string;
     "password": string;
@@ -110,11 +108,12 @@ export class NextcloudServer {
     public url: string;
     public basicAuth: IBasicAuth;
     public proxy?: IProxy;
-    public logRequestResponse: boolean = false;
-    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse?: boolean) {
+    public logRequestResponse: boolean;
+    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse: boolean = false) {
         this.url = url;
         this.basicAuth = basicAuth;
         this.proxy = proxy;
+        this.logRequestResponse = logRequestResponse;
     }
 }
 
@@ -1372,23 +1371,8 @@ export default class NCClient {
                     response.headers.get("content-type") || "",
                     response.headers.get("Content-Location") || "");
 
-            const rrLog: RequestResponseLog = new RequestResponseLog();
+            const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
             await rrLog.addEntry(new RequestResponseLogEntry(reqLogEntry, resLogEntry));
-            /*
-                        const recRequest: IRecordingRequest = {
-                            body: requestInit.body as string,
-                            description: context.description,
-                            method: requestInit.method,
-                            url: url.replace(this.nextcloudOrigin, ""),
-                        };
-
-                        const recResponse: IRecordingResponse = {
-                            body: await response.text(),
-                            contentLocation: response.headers.get("Content-Location"),
-                            contentType: response.headers.get("content-type"),
-                            status: response.status,
-                        };
-            */
         }
 
         const responseContentType: string | null = response.headers.get("content-type");
@@ -1522,7 +1506,7 @@ export default class NCClient {
                 url,
                 requestInit,
                 [207],
-                { description: "File get details" },
+                { description: "File/Folder get details" },
             );
 
         } catch (err) {

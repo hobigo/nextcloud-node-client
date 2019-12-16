@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-var-requires
+require("dotenv").config();
+
 import { expect } from "chai";
 import { promises as fsPromises } from "fs";
 import "mocha";
@@ -28,6 +31,7 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
 
     it("02 set request response log context", async () => {
         const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
 
         try {
             await rrLog.setContext(testContextName);
@@ -42,6 +46,7 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
     it("03 request response logging", async () => {
 
         const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
 
         const requestLogEntry: RequestLogEntry =
             new RequestLogEntry(
@@ -89,6 +94,7 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
     it("04 request response logging without context", async () => {
 
         const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
 
         const requestLogEntry: RequestLogEntry =
             new RequestLogEntry(
