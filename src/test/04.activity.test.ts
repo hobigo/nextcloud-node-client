@@ -7,19 +7,17 @@ import {
     NCFolder,
     NextcloudServer,
 } from "../ncClient";
+import { getNextcloudClient } from "./testUtils";
 
-import TestRecorder from "../testRecorder";
-
-const client = new NCClient(NCClient.getCredentialsFromEnv());
+let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
 describe("NEXCLOUD-NODE-CLIENT-ACTIVITY", function() {
     this.timeout(1 * 60 * 1000);
 
     beforeEach(async function() {
-        const tr: TestRecorder = TestRecorder.getInstance();
         if (this.currentTest && this.currentTest.parent) {
-            tr.setContext(this.currentTest.parent.title + "/" + this.currentTest.title);
+            client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
     });
 

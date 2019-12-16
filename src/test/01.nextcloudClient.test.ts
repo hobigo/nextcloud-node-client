@@ -2,6 +2,7 @@
 import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
+import mockedEnv from "mocked-env";
 import {
     NCClient,
     NCError,
@@ -9,21 +10,17 @@ import {
     NCFolder,
     NextcloudServer,
 } from "../ncClient";
+import { getNextcloudClient } from "./testUtils";
 
-import TestRecorder from "../testRecorder";
-
-import mockedEnv from "mocked-env";
-
-const client = new NCClient(NCClient.getCredentialsFromEnv());
+let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
-describe("NEXCLOUD-NODE-CLIENT", function () {
+describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     beforeEach(async function() {
-        const tr: TestRecorder = TestRecorder.getInstance();
         if (this.currentTest && this.currentTest.parent) {
-            await tr.setContext(this.currentTest.parent.title + "/" + this.currentTest.title);
+            client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
     });
 

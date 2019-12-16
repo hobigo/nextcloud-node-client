@@ -13,7 +13,7 @@ let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
-describe("NEXCLOUD-NODE-CLIENT-TAG", function () {
+describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
     beforeEach(async function() {

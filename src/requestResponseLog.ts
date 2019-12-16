@@ -92,7 +92,7 @@ export default class RequestResponseLog {
         const directory = path.dirname(filename);
         const pathArray: string[] = directory.split("/");
         let p: string = "";
-        
+
         for (const dir of pathArray) {
             if (p === "") {
                 p = dir;
