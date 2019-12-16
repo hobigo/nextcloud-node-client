@@ -8,8 +8,8 @@ import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "../r
 // tslint:disable-next-line:space-before-function-paren
 describe("06-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
     this.timeout(1 * 60 * 1000);
-    const baseDirName: string = "src/test/";
-    const testContextName: string = "testresults/requestResponseLogTest";
+    const baseDirName: string = "tmp/testresults/";
+    const testContextName: string = "requestResponseLogTest/d1/d2";
     afterEach(async () => {
         try {
             await fsPromises.rmdir(baseDirName, { recursive: true });
