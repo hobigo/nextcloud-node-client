@@ -4,7 +4,26 @@
             "url": "/remote.php/webdav/test/base09",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 404,
@@ -31,13 +50,66 @@
             "url": "/remote.php/webdav/test/base09",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:46 GMT</d:getlastmodified><d:getetag>&quot;5df8136abbc7a&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78055</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:12 GMT</d:getlastmodified><d:getetag>&quot;5df962346b7e1&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78632</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/test/base09/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Tue, 17 Dec 2019 23:18:12 GMT",
+                                    "getetag": "&quot;5df962346b7e1&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 78632,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Holger Gockel",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     },
     {
@@ -45,7 +117,26 @@
             "url": "/remote.php/webdav/test/base09/subdir1",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 404,
@@ -72,13 +163,66 @@
             "url": "/remote.php/webdav/test/base09/subdir1",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:48 GMT</d:getlastmodified><d:getetag>&quot;5df8136c9180c&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78056</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:14 GMT</d:getlastmodified><d:getetag>&quot;5df9623615547&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78633</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/test/base09/subdir1/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Tue, 17 Dec 2019 23:18:14 GMT",
+                                    "getetag": "&quot;5df9623615547&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 78633,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Holger Gockel",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     },
     {
@@ -86,7 +230,26 @@
             "url": "/remote.php/webdav/test/base09/subdir2",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 404,
@@ -113,13 +276,66 @@
             "url": "/remote.php/webdav/test/base09/subdir2",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9e6e4&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78057</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df962381fdfe&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78634</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/test/base09/subdir2/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                    "getetag": "&quot;5df962381fdfe&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 78634,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Holger Gockel",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     },
     {
@@ -127,13 +343,148 @@
             "url": "/remote.php/webdav/test/base09",
             "method": "PROPFIND",
             "description": "Folder get contents",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "mount-type": "",
+                        "is-encrypted": "",
+                        "share-permissions": "",
+                        "tags": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-id": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9fe28&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78055</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:48 GMT</d:getlastmodified><d:getetag>&quot;5df8136c9180c&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78056</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9e6e4&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78057</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df9623821041&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78632</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:14 GMT</d:getlastmodified><d:getetag>&quot;5df9623615547&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78633</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df962381fdfe&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78634</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": [
+                        {
+                            "href": "/remote.php/webdav/test/base09/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                        "getetag": "&quot;5df9623821041&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78632,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/test/base09/subdir1/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:14 GMT",
+                                        "getetag": "&quot;5df9623615547&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78633,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/test/base09/subdir2/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                        "getetag": "&quot;5df962381fdfe&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78634,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
         }
     },
     {
@@ -141,13 +492,148 @@
             "url": "/remote.php/webdav/test/base09",
             "method": "PROPFIND",
             "description": "Folder get contents",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "mount-type": "",
+                        "is-encrypted": "",
+                        "share-permissions": "",
+                        "tags": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-id": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9fe28&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78055</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:48 GMT</d:getlastmodified><d:getetag>&quot;5df8136c9180c&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78056</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9e6e4&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78057</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df9623821041&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78632</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir1/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:14 GMT</d:getlastmodified><d:getetag>&quot;5df9623615547&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78633</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/base09/subdir2/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df962381fdfe&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78634</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><nc:mount-type></nc:mount-type><nc:is-encrypted>0</nc:is-encrypted><x1:share-permissions xmlns:x1=\"http://open-collaboration-services.org/ns\">31</x1:share-permissions><oc:tags/><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-id>holger</oc:owner-id><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": [
+                        {
+                            "href": "/remote.php/webdav/test/base09/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                        "getetag": "&quot;5df9623821041&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78632,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/test/base09/subdir1/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:14 GMT",
+                                        "getetag": "&quot;5df9623615547&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78633,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/test/base09/subdir2/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                        "getetag": "&quot;5df962381fdfe&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 78634,
+                                        "permissions": "RGDNVCK",
+                                        "size": 0,
+                                        "has-preview": false,
+                                        "mount-type": "",
+                                        "is-encrypted": 0,
+                                        "share-permissions": 31,
+                                        "tags": "",
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-id": "holger",
+                                        "owner-display-name": "Holger Gockel",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
         }
     },
     {
@@ -155,13 +641,66 @@
             "url": "/remote.php/webdav/test/base09",
             "method": "PROPFIND",
             "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 16 Dec 2019 23:29:50 GMT</d:getlastmodified><d:getetag>&quot;5df8136e9fe28&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78055</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/base09/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 17 Dec 2019 23:18:16 GMT</d:getlastmodified><d:getetag>&quot;5df9623821041&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78632</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
-            "contentLocation": ""
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/test/base09/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Tue, 17 Dec 2019 23:18:16 GMT",
+                                    "getetag": "&quot;5df9623821041&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 78632,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Holger Gockel",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
         }
     },
     {

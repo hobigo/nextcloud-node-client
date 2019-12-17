@@ -4,7 +4,31 @@
             "url": "/remote.php/webdav/non/existing/directory",
             "method": "PROPFIND",
             "description": "Folder get contents",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>"
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">\n              <d:prop>\n                <d:getlastmodified />\n                <d:getetag />\n                <d:getcontenttype />\n                <d:resourcetype />\n                <oc:fileid />\n                <oc:permissions />\n                <oc:size />\n                <d:getcontentlength />\n                <nc:has-preview />\n                <nc:mount-type />\n                <nc:is-encrypted />\n                <ocs:share-permissions />\n                <oc:tags />\n                <oc:favorite />\n                <oc:comments-unread />\n                <oc:owner-id />\n                <oc:owner-display-name />\n                <oc:share-types />\n              </d:prop>\n            </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "mount-type": "",
+                        "is-encrypted": "",
+                        "share-permissions": "",
+                        "tags": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-id": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
         },
         "response": {
             "status": 404,

@@ -12,8 +12,9 @@
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
     "build": "node ./node_modules/typescript/bin/tsc",
     "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
-    "test": "mocha -r ts-node/register src/**/*test.ts",
-    "cover": "nyc mocha -r ts-node/register src/**/*test.ts",
+    "test": "mocha -r ts-node/register src/test/*test.ts",
+    "cover": "nyc mocha -r ts-node/register src/test/*test.ts",
+    "record": "nyc mocha -r ts-node/register src/test/*test.ts --record",
     "documentation": "typedoc --out ./docs/ ./src/ncClient.ts"
   },
   "nyc": {

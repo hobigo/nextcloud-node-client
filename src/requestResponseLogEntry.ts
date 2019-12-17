@@ -2,6 +2,7 @@
 export class RequestLogEntry {
     public body?: string;
     public description: string;
+    public jsonBody?: any;
     public method: string;
     public url: string;
     public constructor(url: string, method: string, description: string, body?: string) {
@@ -17,6 +18,7 @@ export class ResponseLogEntry {
     public body?: string;
     public contentType?: string;
     public contentLocation?: string;
+    public jsonBody?: any;
     public status: number;
     public constructor(status: number, body?: string, contentType?: string, contentLocation?: string) {
         this.status = status;

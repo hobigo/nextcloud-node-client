@@ -53,14 +53,14 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
                 "https://my.url.com",
                 "method",
                 "This is a description",
-                "test request body",
+                "<?xml version=\"1.0\"?><body>This is a xml request body</body>",
             );
 
         const responseLogEntry: ResponseLogEntry =
             new ResponseLogEntry(
                 200,
-                "some response text",
-                "content type",
+                "<?xml version=\"1.0\"?><body>This is a xml response body</body>",
+                "application/xml; charset=utf-8",
                 "location header");
 
         try {
@@ -124,6 +124,99 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
         } catch (e) {
             expect(e.message, "expect exception").to.be.equal("Error while getting recording request, context not set");
         }
+
+        RequestResponseLog.deleteInstance();
+
+    });
+    it("05 invalid xml body", async () => {
+
+        const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
+
+        const requestLogEntry: RequestLogEntry =
+            new RequestLogEntry(
+                "https://my.url.com",
+                "method",
+                "This is a description",
+                "<?xml version=\"1.0\"?><XXXXbody>This is invalid xml request body",
+            );
+
+        const responseLogEntry: ResponseLogEntry =
+            new ResponseLogEntry(
+                200,
+                "<?xml version=\"1.0\"?><body>This is a xml response body</body>",
+                "application/xml; charset=utf-8",
+                "location header");
+
+        try {
+            await rrLog.setContext(testContextName);
+            expect(true, "expect no exception").to.be.equal(true);
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        const rrLogEntries: RequestResponseLogEntry[] = await rrLog.getEntries();
+
+        expect(rrLogEntries).to.be.an("Array");
+        expect(rrLogEntries.length).to.be.equal(2);
+
+        RequestResponseLog.deleteInstance();
+
+    });
+    it("06 no body in request and response", async () => {
+
+        const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
+
+        const requestLogEntry: RequestLogEntry =
+            new RequestLogEntry(
+                "https://my.url.com",
+                "method",
+                "This is a description",
+            );
+
+        const responseLogEntry: ResponseLogEntry =
+            new ResponseLogEntry(
+                200,
+                undefined,
+                "application/xml; charset=utf-8",
+                "location header");
+
+        try {
+            await rrLog.setContext(testContextName);
+            expect(true, "expect no exception").to.be.equal(true);
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        const rrLogEntries: RequestResponseLogEntry[] = await rrLog.getEntries();
+
+        expect(rrLogEntries).to.be.an("Array");
+        expect(rrLogEntries.length).to.be.equal(2);
 
         RequestResponseLog.deleteInstance();
 

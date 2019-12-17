@@ -25,7 +25,7 @@ export default class NCFolder {
      * @throws Error
      */
     public async getSubFolders(): Promise<NCFolder[]> {
-        return this.client.getSubFolders(this.name);
+        return await this.client.getSubFolders(this.name);
     }
 
     /**

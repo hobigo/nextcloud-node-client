@@ -1,5 +1,6 @@
 
 import debugFactory from "debug";
+import parser from "fast-xml-parser";
 import { promises as fsPromises } from "fs";
 import path from "path";
 import requestResponseLogEntry from "./requestResponseLogEntry";
@@ -34,9 +35,19 @@ export default class RequestResponseLog {
             debug("Error while recording, context not set");
             throw new Error("Error while recording, context not set");
         }
+        if (logEntry.response.body && logEntry.response.contentType) {
+            if (logEntry.response.contentType.indexOf("application/xml") !== -1) {
+                logEntry.response.jsonBody = this.xmlToJson(logEntry.response.body);
+            }
+        }
+
+        if (logEntry.request.body) {
+            if (logEntry.request.body.indexOf("<?xml version") !== -1) {
+                logEntry.request.jsonBody = this.xmlToJson(logEntry.request.body);
+            }
+        }
 
         this.entries.push(logEntry);
-
         await fsPromises.writeFile(this.getFileName(), JSON.stringify(this.entries, null, 4));
     }
 
@@ -54,16 +65,23 @@ export default class RequestResponseLog {
     public async setContext(context: string) {
         debug("setContext");
         const newContext: string = context.replace(/ |:|\./g, "_");
-        if (this.context !== newContext) {
-            this.context = newContext;
-            this.entries = [];
-        }
+        // if (this.context !== newContext) {
+        this.context = newContext;
+        this.entries = [];
+        // }
         // create the directory
         await this.assertDirectory(this.getFileName());
     }
 
     public getFileName(): string {
         return `${this.baseDirectory}${this.context}.json`;
+    }
+
+    private xmlToJson(xml: string): any {
+        if (parser.validate(xml) === true) {
+            return parser.parse(xml, { ignoreNameSpace: true });
+        }
+        return { info: "invalid xml" };
     }
 
     private async assertDirectory(filename: string): Promise<void> {

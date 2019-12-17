@@ -70,16 +70,12 @@ export class FakeServer {
 
         const rrEntry: RequestResponseLogEntry | undefined = this.fakeResponses.shift();
         if (!rrEntry) {
-            throw new Error(`error providing fake http response. No fake response available `);
+            throw new Error(`error providing fake http response. No fake response available`);
         }
         const responseInit: ResponseInit = {
             status: rrEntry.response.status,
         };
-        /*
-                if (rrEntry.response.contentType) {
-                    responseInit.headers = { "Content-Type": rrEntry.response.contentType };
-                }
-        */
+
         const response: Response = new Response(rrEntry.response.body, responseInit);
 
         if (rrEntry.response.contentType) {
@@ -253,6 +249,7 @@ export default class NCClient {
 
         if (server instanceof FakeServer) {
             this.fakeServer = server;
+            this.webDAVUrl = "https://fake.server" + NCClient.webDavUrlPath;
         }
     }
 
@@ -658,7 +655,7 @@ export default class NCClient {
         for (const folderEntry of responseObject.multistatus.response) {
             // debug("responseObject $s", JSON.stringify(folderEntry, null, 4));
 
-            let fileName = decodeURI(folderEntry.href.substr(folderEntry.href.indexOf("/remote.php/webdav") + 18));
+            let fileName = decodeURI(folderEntry.href.substr(folderEntry.href.indexOf(NCClient.webDavUrlPath) + 18));
             if (fileName.endsWith("/")) {
                 fileName = fileName.slice(0, -1);
             }
@@ -1339,26 +1336,26 @@ export default class NCClient {
         const response: Response = await fetch(url, requestInit);
         const responseText = await response.text();
 
-        // overwrite response functions as the body uses a stearm object...
-        response.text = async () => {
-            return responseText;
-        };
-
-        response.json = async () => {
-            let res = null;
-            try {
-                res = JSON.parse(responseText);
-            } catch (e) {
-                return res;
-            }
-            return res;
-        };
-
-        response.buffer = async () => {
-            return Buffer.from(responseText);
-        };
-
         if (this.logRequestResponse) {
+
+            // overwrite response functions as the body uses a stearm object...
+            response.text = async () => {
+                return responseText;
+            };
+
+            response.json = async () => {
+                let res = null;
+                try {
+                    res = JSON.parse(responseText);
+                } catch (e) {
+                    return res;
+                }
+                return res;
+            };
+
+            response.buffer = async () => {
+                return Buffer.from(responseText);
+            };
 
             const reqLogEntry: RequestLogEntry =
                 new RequestLogEntry(url.replace(this.nextcloudOrigin, ""),

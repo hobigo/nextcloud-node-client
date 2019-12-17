@@ -4,6 +4,10 @@ import { expect } from "chai";
 import "mocha";
 import mockedEnv from "mocked-env";
 import {
+    RequestInit,
+} from "node-fetch";
+import {
+    FakeServer,
     NCClient,
     NCError,
     NCFile,
@@ -798,6 +802,79 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         } finally {
             restore();
         }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+            TEST_RECORDING_ACTIVE: "X",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(false, "do not expect an exception " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+            TEST_RECORDING_ACTIVE: "false",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(false, "do not expect an exception " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+            TEST_RECORDING_ACTIVE: "0",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(false, "do not expect an exception " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
+
+        restore = mockedEnv({
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_URL: "someUrl",
+            NEXTCLOUD_USERNAME: "SomeUser",
+            TEST_RECORDING_ACTIVE: "inactive",
+        });
+
+        try {
+            NCClient.getCredentialsFromEnv();
+        } catch (e) {
+            expect(false, "do not expect an exception " + e.message).to.be.equal(true);
+        } finally {
+            restore();
+        }
+
+    });
+
+    it("50 fake server without methods and responses", async () => {
+        const requestInit: RequestInit = {};
+        const fs: FakeServer = new FakeServer([]);
+        try {
+            await fs.getFakeHttpResponse("", requestInit, [201], { description: "get response without method" });
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(e.message).to.be.equal("error providing fake http response. No fake response available");
+        }
+
     });
 
     it("99 delete directory", async () => {
