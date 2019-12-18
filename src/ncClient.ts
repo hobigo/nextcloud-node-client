@@ -582,52 +582,33 @@ export default class NCClient {
             [207],
             { description: "Folder get contents" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-        debug("getFolderContents parsed response body %O", responseObject);
-        if (!responseObject.multistatus) {
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
-
-        if (!responseObject.multistatus.response) {
-            throw new NCError("Response XML multistatus response missing: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
 
         const folderContents: any[] = [];
-
-        for (const folderEntry of responseObject.multistatus.response) {
-            // debug("responseObject $s", JSON.stringify(folderEntry, null, 4));
-
-            let fileName = decodeURI(folderEntry.href.substr(folderEntry.href.indexOf(NCClient.webDavUrlPath) + 18));
+        // tslint:disable-next-line:no-empty
+        for (const prop of properties) {
+            let fileName = decodeURI(prop._href.substr(prop._href.indexOf(NCClient.webDavUrlPath) + 18));
             if (fileName.endsWith("/")) {
                 fileName = fileName.slice(0, -1);
             }
-
-            // debug("URL filename  = %s,", fileName);
-
-            if ((url + "/").endsWith(folderEntry.href)) {
+            if ((url + "/").endsWith(prop._href)) {
                 continue;
             }
-
-            for (const propstat of folderEntry.propstat) {
-                if (propstat.status === "HTTP/1.1 200 OK") {
-                    const folderContentsEntry: any = {};
-                    folderContentsEntry.lastmod = propstat.prop.getlastmodified;
-                    folderContentsEntry.fileid = propstat.prop.fileid;
-                    folderContentsEntry.basename = fileName.split("/").reverse()[0];
-                    folderContentsEntry.filename = fileName;
-                    if (propstat.prop.getcontenttype) {
-                        folderContentsEntry.mime = propstat.prop.getcontenttype;
-                        folderContentsEntry.size = propstat.prop.getcontentlength;
-                        folderContentsEntry.type = "file";
-                    } else {
-                        folderContentsEntry.type = "directory";
-                    }
-                    folderContents.push(folderContentsEntry);
-                }
+            const folderContentsEntry: any = {};
+            folderContentsEntry.lastmod = prop.getlastmodified;
+            folderContentsEntry.fileid = prop.fileid;
+            folderContentsEntry.basename = fileName.split("/").reverse()[0];
+            folderContentsEntry.filename = fileName;
+            if (prop.getcontenttype) {
+                folderContentsEntry.mime = prop.getcontenttype;
+                folderContentsEntry.size = prop.getcontentlength;
+                folderContentsEntry.type = "file";
+            } else {
+                folderContentsEntry.type = "directory";
             }
+            folderContents.push(folderContentsEntry);
         }
+
         // debug("folderContentsEntry $s", JSON.stringify(folderContents, null, 4));
         return folderContents;
     }
