@@ -268,38 +268,23 @@ export default class NCClient {
             [207],
             { description: "Client get quota" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, NCClient.webDavUrlPath + "/");
 
-        if (!responseObject.multistatus) {
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
-        // debug(JSON.stringify(responseObject, null, 4));
-        if (responseObject.multistatus.response.href) {
-            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
-        }
         let quota: { used: number, available: number | string } | null = null;
-        for (const res of responseObject.multistatus.response) {
-            if (res.propstat) {
-                if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    if (res.propstat.prop) {
-                        if (res.propstat.prop["quota-used-bytes"]) {
-                            if (res.propstat.prop["quota-available-bytes"]) {
-                                quota = {
-                                    available: "unlimited",
-                                    used: res.propstat.prop["quota-used-bytes"],
-                                };
-                                if (res.propstat.prop["quota-available-bytes"] > 0) {
-                                    quota.available = res.propstat.prop["quota-available-bytes"];
-                                }
-                            }
-                        }
-                    }
+        for (const prop of properties) {
+            if (prop["quota-available-bytes"]) {
+                quota = {
+                    available: "unlimited",
+                    used: prop["quota-used-bytes"],
+                };
+                if (prop["quota-available-bytes"] > 0) {
+                    quota.available = prop["quota-available-bytes"];
                 }
             }
         }
+
         if (!quota) {
-            debug("Error, quota not available: %s ", JSON.stringify(responseObject, null, 4));
+            debug("Error, quota not available: %s ", JSON.stringify(properties, null, 4));
             throw new NCError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
         }
         debug("getQuota = %O", quota);
@@ -406,8 +391,6 @@ export default class NCClient {
             requestInit,
             [204, 404],
             { description: "Tag delete" });
-
-        // const responseObject: any = await this.getParseXMLFromResponse(response);
     }
 
     /**
@@ -446,41 +429,26 @@ export default class NCClient {
             method: "PROPFIND",
         };
 
+        const relUrl = `/remote.php/dav/systemtags/`;
+
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/remote.php/dav/systemtags/",
+            this.nextcloudOrigin + relUrl,
             requestInit,
             [207],
             { description: "Tags get" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-
-        if (!responseObject.multistatus) {
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
-
-        debug("getTags: responseObject %O", responseObject);
-
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, relUrl + "/*");
         const tags: NCTag[] = [];
-        if (responseObject.multistatus.response.href) {
-            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+
+        for (const prop of properties) {
+            tags.push(new NCTag(this,
+                this.getTagIdFromHref(prop._href),
+                prop["display-name"],
+                prop["user-visible"],
+                prop["user-assignable"],
+                prop["can-assign"]));
         }
-        for (const res of responseObject.multistatus.response) {
-            if (res.propstat) {
-                if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    // debug(res.href);
-                    // debug(res.propstat);
-                    // debug(res.propstat.prop["display-name"]);
-                    // debug("prop: %O", res.propstat.prop);
-                    tags.push(new NCTag(this,
-                        this.getTagIdFromHref(res.href),
-                        res.propstat.prop["display-name"],
-                        res.propstat.prop["user-visible"],
-                        res.propstat.prop["user-assignable"],
-                        res.propstat.prop["can-assign"]));
-                }
-            }
-        }
+
         return tags;
     }
 
@@ -505,32 +473,20 @@ export default class NCClient {
             method: "PROPFIND",
         };
 
+        const relUrl = `/remote.php/dav/systemtags-relations/files/${fileId}`;
         const response: Response = await this.getHttpResponse(
-            `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}`,
+            `${this.nextcloudOrigin}${relUrl}`,
             requestInit,
             [207],
             { description: "File get tags" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-
-        if (!responseObject.multistatus) {
-            throw new NCError("Error get tags of file: response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
-
-        debug("getTagsOfFile: responseObject %O", responseObject);
-
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, relUrl + "/*");
         const tagMap: Map<string, number> = new Map();
-        if (responseObject.multistatus.response.href) {
-            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+
+        for (const prop of properties) {
+            tagMap.set(prop["display-name"], prop.id);
         }
-        for (const res of responseObject.multistatus.response) {
-            if (res.propstat) {
-                if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    tagMap.set(res.propstat.prop["display-name"], res.propstat.prop.id);
-                }
-            }
-        }
+
         debug("tags of file %O", tagMap);
         return tagMap;
     }
@@ -731,13 +687,9 @@ export default class NCClient {
                     if (folder === null) {
                         debug("createFolder: folder not available");
                         // folder not  available
-                        try {
-                            debug("createFolder: folder = %s", folderPath);
-                            await this.createFolderInternal(folderPath);
-                        } catch (e) {
-                            debug("createFolder: exception occurred calling webDAV client createDirectory %O", e.message);
-                            throw e;
-                        }
+
+                        debug("createFolder: folder = %s", folderPath);
+                        await this.createFolderInternal(folderPath);
                     } else {
                         debug("createFolder: folder already available %s", folderPath);
                     }
@@ -947,11 +899,11 @@ export default class NCClient {
                     stat.mime || "",
                     stat.fileid);
             } else {
-                debug("getFolder: found object is a folder not a file");
+                debug("getFile: found object is a folder not a file");
                 return null;
             }
         } catch (e) {
-            debug("getFolder: exception occurred calling stat %O", e.message);
+            debug("getFile: exception occurred calling stat %O", e.message);
             return null;
         }
     }
@@ -1261,6 +1213,82 @@ export default class NCClient {
         };
         const responseObject: any = parser.parse(xmlBody, options);
         return responseObject;
+    }
+
+    /**
+     * asserts valid xml
+     * asserts multistatus response
+     * asserts that a href is available in the multistatus response
+     * asserts propstats and prop
+     * @param response the http response
+     * @param href get only properties that match the href
+     * @returns array of properties
+     * @throws NCError
+     */
+    private async getPropertiesFromWebDAVMultistatusResponse(response: Response, href: string): Promise<any[]> {
+        const responseContentType: string | null = response.headers.get("content-type");
+
+        if (!responseContentType) {
+            throw new NCError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
+        }
+
+        if (responseContentType.indexOf("application/xml") === -1) {
+            throw new NCError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
+        }
+
+        const xmlBody: string = await response.text();
+
+        if (parser.validate(xmlBody) !== true) {
+            throw new NCError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
+        }
+        const options: any = {
+            ignoreNameSpace: true,
+        };
+        const body: any = parser.parse(xmlBody, options);
+
+        // ensure that we have a multistatus response
+        if (!body.multistatus || !body.multistatus.response) {
+            throw new NCError(`The response is is not a WebDAV multistatus response`, "ERR_RESPONSE_NO_MULTISTATUS_XML");
+        }
+
+        // ensure that response is always an array
+        if (body.multistatus.response.href) {
+            body.multistatus.response = new Array(body.multistatus.response);
+        }
+        const responseProperties: any[] = [];
+        for (const res of body.multistatus.response) {
+
+            if (!res.href) {
+                throw new NCError(`The mulitstatus response must have a href`, "ERR_RESPONSE_MISSING_HREF_MULTISTATUS");
+            }
+
+            //            if (res.href === href) {
+            if (!res.propstat) {
+                throw new NCError(`The mulitstatus response must have a "propstat" container`, "ERR_RESPONSE_MISSING_PROPSTAT");
+            }
+            let propStats = res.propstat;
+
+            // ensure an array
+            if (res.propstat.prop) {
+                propStats = [res.propstat];
+            }
+
+            for (const propStat of propStats) {
+                if (!propStat.status) {
+                    throw new NCError(`The propstat must have a "status"`, "ERR_RESPONSE_MISSING_PROPSTAT_STATUS");
+                }
+                if (propStat.status === "HTTP/1.1 200 OK") {
+                    if (!propStat.prop) {
+                        throw new NCError(`The propstat must have a "prop"`, "ERR_RESPONSE_MISSING_PROPSTAT_PROP");
+                    }
+                    const property: any = propStat.prop;
+                    property._href = res.href;
+                    responseProperties.push(property);
+                }
+            }
+            //            }
+        }
+        return responseProperties;
     }
 
     /**

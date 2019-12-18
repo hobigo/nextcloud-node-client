@@ -4,7 +4,7 @@ require("dotenv").config();
 import debugFactory from "debug";
 import NCClient, { FakeServer, NextcloudServer } from "../ncClient";
 import RequestResponseLog from "../requestResponseLog";
-import requestResponseLogEntry from "../requestResponseLogEntry";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 
 export const debug = debugFactory("Test");
 // console.log(process.env);
@@ -26,7 +26,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
         console.log("Test recording: " + rrLog.getFileName());
         return new NCClient(ncserver);
     } else {
-        let entries: requestResponseLogEntry[];
+        let entries: RequestResponseLogEntry[];
         try {
             entries = await rrLog.getEntries();
         } catch (e) {

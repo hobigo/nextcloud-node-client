@@ -14,6 +14,7 @@ import {
     NCFolder,
     NextcloudServer,
 } from "../ncClient";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
 let client: NCClient;
@@ -22,6 +23,7 @@ let client: NCClient;
 // tslint:disable-next-line:space-before-function-paren
 describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
+    // tslint:disable-next-line:space-before-function-paren
     beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
@@ -40,20 +42,6 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             exceptionOccurred = true;
             expect(exceptionOccurred, "expect that no exception occures when creating a nextcloud client: exception: " + e.message).to.be.equal(false);
         }
-    });
-
-    it("02 get quota", async () => {
-
-        // console.log(JSON.stringify(this.tests[0].title, null, 4));
-        let q;
-        try {
-            q = await client.getQuota();
-        } catch (e) {
-            expect(e, "expect no exception").to.be.equal(null);
-        }
-        expect(q, "quota to have property used").to.have.property("used");
-        expect(q, "quota to have property available").to.have.property("available");
-
     });
 
     it("03 get and create directory", async () => {
@@ -865,7 +853,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it("50 fake server without methods and responses", async () => {
+    it("50 fake server without responses and request without method", async () => {
         const requestInit: RequestInit = {};
         const fs: FakeServer = new FakeServer([]);
         try {
@@ -873,6 +861,28 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             expect(true, "expect an exception").to.be.equal(false);
         } catch (e) {
             expect(e.message).to.be.equal("error providing fake http response. No fake response available");
+        }
+
+    });
+
+    it("51 fake server without response conten type", async () => {
+        const requestInit: RequestInit = {};
+        const fs: FakeServer = new FakeServer([
+            {
+                request:
+                {
+                    description: "description",
+                    method: "method",
+                    url: "url",
+
+                }, response: { status: 201, body: "body" },
+            },
+        ]);
+        try {
+            await fs.getFakeHttpResponse("", requestInit, [201], { description: "get response without method" });
+
+        } catch (e) {
+            expect(true, "expect no exception").to.be.equal(e.message);
         }
 
     });

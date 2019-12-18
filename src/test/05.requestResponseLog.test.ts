@@ -221,4 +221,51 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
         RequestResponseLog.deleteInstance();
 
     });
+    it("07 response content type not xml", async () => {
+
+        const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
+
+        const requestLogEntry: RequestLogEntry =
+            new RequestLogEntry(
+                "https://my.url.com",
+                "method",
+                "This is a description",
+                "text request body",
+            );
+
+        const responseLogEntry: ResponseLogEntry =
+            new ResponseLogEntry(
+                200,
+                "plain text body response",
+                "text/plain",
+                "location header");
+
+        try {
+            await rrLog.setContext(testContextName);
+            expect(true, "expect no exception").to.be.equal(true);
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        const rrLogEntries: RequestResponseLogEntry[] = await rrLog.getEntries();
+
+        expect(rrLogEntries).to.be.an("Array");
+        expect(rrLogEntries.length).to.be.equal(2);
+
+        RequestResponseLog.deleteInstance();
+
+    });
 });

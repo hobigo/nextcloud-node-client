@@ -2,11 +2,13 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
+    FakeServer,
     NCClient,
     NCFile,
     NCFolder,
 } from "../ncClient";
 import NCTag from "../ncTag";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
 let client: NCClient;
@@ -16,7 +18,7 @@ let client: NCClient;
 describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
-    beforeEach(async function() {
+    beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
@@ -365,6 +367,48 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             expect(tags.length, "Expect new file not to have any tags").to.be.equal(0);
             await file1.delete();
         }
+    });
+
+    it("14 create tag returning no content location", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+
+        entries.push({
+            request: {
+                description: "Tags get",
+                method: "PROPFIND",
+                url: "/remote.php/dav/systemtags/",
+            },
+            response: {
+                body: "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        entries.push({
+            request: {
+                description: "Tag Create",
+                method: "POST",
+                url: "/remote.php/dav/systemtags/",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                // no content location!
+                status: 201,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+
+        const tagName: string = "tag-14";
+        try {
+            const tag: NCTag = await lclient.createTag(tagName);
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
+        }
+
     });
 
     it("98 delete all tags", async () => {
