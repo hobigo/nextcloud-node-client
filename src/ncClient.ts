@@ -857,16 +857,13 @@ export default class NCClient {
             const stat: IStat = await this.stat(fileName);
             debug(": SUCCESS!!");
             if (stat.type === "file") {
-                if (!stat.fileid) {
-                    stat.fileid = -1;
-                }
                 return new NCFile(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,
                     stat.lastmod,
-                    stat.size || 0,
+                    stat.size!,
                     stat.mime || "",
-                    stat.fileid);
+                    stat.fileid || -1);
             } else {
                 debug("getFile: found object is a folder not a file");
                 return null;
@@ -1125,64 +1122,18 @@ export default class NCClient {
             [207],
             { description: "File get comments" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-
-        if (!responseObject.multistatus) {
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
-
-        debug("getComments: responseObject %O", responseObject);
-
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
         const comments: string[] = [];
-        if (responseObject.multistatus.response.href) {
-            responseObject.multistatus.response = new Array(responseObject.multistatus.response);
+        for (const prop of properties) {
+            comments.push(prop.message);
         }
-        for (const res of responseObject.multistatus.response) {
-            if (res.propstat) {
-                if (res.propstat.status === "HTTP/1.1 200 OK") {
-                    // debug(res.href);
-                    // debug(res.propstat);
-                    // debug(res.propstat.prop.message);
-                    comments.push(res.propstat.prop.message);
-                }
-            }
-        }
+
         return comments;
     }
 
     // ***************************************************************************************
     // private methods
     // ***************************************************************************************
-
-    /**
-     * ckecks of the response has a body containing valid xml and returns the json representation
-     * @param response the http response
-     * @returns the parsed object
-     * @throws NCError
-     */
-    private async getParseXMLFromResponse(response: Response): Promise<any> {
-        const responseContentType: string | null = response.headers.get("content-type");
-
-        if (!responseContentType) {
-            throw new NCError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
-        }
-
-        if (responseContentType.indexOf("application/xml") === -1) {
-            throw new NCError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
-        }
-
-        const xmlBody: string = await response.text();
-
-        if (parser.validate(xmlBody) !== true) {
-            throw new NCError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
-        }
-        const options: any = {
-            ignoreNameSpace: true,
-        };
-        const responseObject: any = parser.parse(xmlBody, options);
-        return responseObject;
-    }
 
     /**
      * asserts valid xml
@@ -1508,55 +1459,31 @@ export default class NCClient {
             throw err;
         }
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-
-        if (!responseObject.multistatus) {
-            debug("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4));
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_EXPECTED_IN_STAT");
-        }
-
-        if (!responseObject.multistatus.response) {
-            debug("Response XML has no response: " + JSON.stringify(responseObject.multistatus, null, 4));
-            throw new NCError("Response XML has no response: " + JSON.stringify(responseObject.multistatus, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED_IN_STAT");
-        }
-
-        if (!responseObject.multistatus.response.propstat) {
-            debug("Response XML has no propertystatus: " + JSON.stringify(responseObject.multistatus.response, null, 4));
-            throw new NCError("Response XML has no propertystatus: " + JSON.stringify(responseObject.multistatus, null, 4),
-                "ERR_MULISTATUS_RESPONSE_STATUS_EXPECTED_IN_STAT");
-        }
-
-        let propStats = responseObject.multistatus.response.propstat;
-        if (!isArray(propStats)) {
-            propStats = Array(responseObject.multistatus.response.propstat);
-        }
-
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
         let resultStat: IStat | null = null;
-        for (const propStat of propStats) {
-            if (propStat.status === "HTTP/1.1 200 OK") {
-                // debug(propStat);
-                resultStat = {
-                    basename: basename(fileName),
-                    fileid: propStat.prop.fileid,
-                    filename: fileName,
-                    lastmod: propStat.prop.getlastmodified,
-                    type: "file",
-                };
-                if (propStat.prop.getcontentlength) {
-                    resultStat.size = propStat.prop.getcontentlength;
-                } else {
-                    resultStat.type = "directory";
-                }
-                if (propStat.prop.getcontenttype) {
-                    resultStat.mime = propStat.prop.getcontenttype;
-                }
+
+        for (const prop of properties) {
+            resultStat = {
+                basename: basename(fileName),
+                fileid: prop.fileid,
+                filename: fileName,
+                lastmod: prop.getlastmodified,
+                type: "file",
+            };
+
+            if (prop.getcontentlength) {
+                resultStat.size = prop.getcontentlength;
+            } else {
+                resultStat.type = "directory";
+            }
+
+            if (prop.getcontenttype) {
+                resultStat.mime = prop.getcontenttype;
             }
         }
 
         if (!resultStat) {
-            debug("Error: response %s", JSON.stringify(responseObject, null, 4));
+            debug("Error: response %s", JSON.stringify(properties, null, 4));
             throw new NCError("Error getting status information from : " + url,
                 "ERR_STAT");
         }

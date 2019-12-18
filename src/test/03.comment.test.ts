@@ -11,10 +11,10 @@ import { getNextcloudClient } from "./testUtils";
 let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
-describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function() {
+describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
     this.timeout(1 * 60 * 1000);
 
-    beforeEach(async function() {
+    beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);
         }
@@ -90,6 +90,14 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function() {
             } catch (e) {
                 expect(e.message, "expect no exception").to.be.equal("");
             }
+
+            try {
+                const comments = await folder.getComments();
+                expect(comments[0]).to.be.equal("C4");
+            } catch (e) {
+                expect(e.message, "expect no exception").to.be.equal("");
+            }
+            await folder.delete();
         }
     });
 

@@ -853,6 +853,52 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
+    it("36 get file with folder name", async () => {
+
+        const dirName = "/test/folder36";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+
+        // returns null only for coverage
+        await client.getFile(dirName);
+
+        await baseDir.delete();
+    });
+
+    it("37 get file with incomplete server response", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "File/Folder get details",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/test/folder37",
+            },
+            response: {
+                body: "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/files/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 18 Dec 2019 17:38:35 GMT</d:getlastmodified><d:getetag>&quot;75087567dd1ebe3c04d134837063aeca&quot;</d:getetag><d:MISSINGgetcontenttype>text/plain</d:MISSINGgetcontenttype><d:resourcetype/><oc:MISSINGfileid>78891</oc:MISSINGfileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        // console.log(JSON.stringify(this.tests[0].title, null, 4));
+        let q;
+        try {
+            q = await lclient.getFile("some dummy name");
+            // expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(e.message);
+        }
+
+    });
+
     it("50 fake server without responses and request without method", async () => {
         const requestInit: RequestInit = {};
         const fs: FakeServer = new FakeServer([]);
