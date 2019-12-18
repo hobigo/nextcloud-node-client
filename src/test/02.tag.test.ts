@@ -18,6 +18,7 @@ let client: NCClient;
 describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     this.timeout(1 * 60 * 1000);
 
+    // tslint:disable-next-line:space-before-function-paren
     beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);

@@ -534,23 +534,11 @@ export default class NCClient {
             [207],
             { description: "File get id" });
 
-        const responseObject: any = await this.getParseXMLFromResponse(response);
-        debug("getFileId parsed response body %O", responseObject);
-        if (!responseObject.multistatus) {
-            throw new NCError("Response XML is not a multistatus response: " + JSON.stringify(responseObject, null, 4),
-                "ERR_MULISTATUS_RESPONSE_EXPECTED");
-        }
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
 
-        const tags: NCTag[] = [];
-        if (responseObject.multistatus.response &&
-            responseObject.multistatus.response.propstat &&
-            responseObject.multistatus.response.propstat.status &&
-            responseObject.multistatus.response.propstat.prop &&
-            responseObject.multistatus.response.propstat.prop.fileid) {
-            const propstat = responseObject.multistatus.response.propstat;
-            if (propstat.status === "HTTP/1.1 200 OK") {
-                debug("getFileId file id for %s is %s", fileUrl, propstat.prop.fileid);
-                return propstat.prop.fileid;
+        for (const prop of properties) {
+            if (prop.fileid) {
+                return prop.fileid;
             }
         }
 

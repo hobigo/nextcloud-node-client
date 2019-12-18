@@ -865,7 +865,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it("51 fake server without response conten type", async () => {
+    it("51 fake server without response content type", async () => {
         const requestInit: RequestInit = {};
         const fs: FakeServer = new FakeServer([
             {
@@ -883,6 +883,32 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         } catch (e) {
             expect(true, "expect no exception").to.be.equal(e.message);
+        }
+
+    });
+
+    it("60 get file id with missing fileId", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "File get id",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/test/fileId/file1.txt",
+            },
+            response: {
+                body: "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileId/file1.txt</d:href><d:propstat><d:prop><oc:NOfileid>78843</oc:NOfileid></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.getFileId("some/url");
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
         }
 
     });
