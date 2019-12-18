@@ -913,6 +913,58 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
+    it("61 create folder error handling", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "File/Folder get details",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/x",
+            },
+            response: {
+                body: "",
+                contentType: "text/html; charset=UTF-8",
+                status: 404,
+            },
+        });
+
+        entries.push({
+            request: {
+                description: "Folder create",
+                method: "MKCOL",
+                url: "/remote.php/webdav/x",
+            },
+            response: {
+                body: "",
+                contentType: "text/html; charset=UTF-8",
+                status: 201,
+            },
+        });
+
+        entries.push({
+            request: {
+                description: "File/Folder get details",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/x",
+            },
+            response: {
+                body: "",
+                contentType: "text/html; charset=UTF-8",
+                status: 404, // this should cause the error
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.createFolder("/x");
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
+        }
+
+    });
+
     it("99 delete directory", async () => {
 
         const dirName = "/test";
