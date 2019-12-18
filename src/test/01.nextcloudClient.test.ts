@@ -1011,6 +1011,66 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
+    it("62 move file that does not exist", async () => {
+
+        const dirName = "/test/renameFile62";
+        const sourceFileName = "sourceFile.txt";
+        const targetFileName = dirName + "/targetFile.txt";
+
+        const baseDir = await client.createFolder(dirName);
+
+        const file = await baseDir.createFile(sourceFileName, Buffer.from("File"));
+
+        await file!.delete();
+
+        try {
+            await file!.move(targetFileName);
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
+        }
+
+        await baseDir.delete();
+    });
+
+    it("63 move file to an unexisting folder", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "File move",
+                method: "MOVE",
+                url: "/remote.php/webdav/test/renameFile63/sourceFile.txt",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                status: 201,
+            },
+        });
+
+        entries.push({
+            request: {
+                description: "File/Folder get details",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/test/renameFile63",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                status: 404,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        // console.log(JSON.stringify(this.tests[0].title, null, 4));
+        let q;
+        try {
+            q = await lclient.moveFile("from", "to");
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
+        }
+        expect(q).to.be.equal(undefined);
+    });
+
     it("99 delete directory", async () => {
 
         const dirName = "/test";
