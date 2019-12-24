@@ -27,7 +27,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 18 Dec 2019 17:39:35 GMT</d:getlastmodified><d:getetag>&quot;5dfa645707695&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78872</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>35</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 23 Dec 2019 14:29:31 GMT</d:getlastmodified><d:getetag>&quot;5e00cf4bd38cc&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78936</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>39</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -37,14 +37,14 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 18 Dec 2019 17:39:35 GMT",
-                                    "getetag": "&quot;5dfa645707695&quot;",
+                                    "getlastmodified": "Mon, 23 Dec 2019 14:29:31 GMT",
+                                    "getetag": "&quot;5e00cf4bd38cc&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 78872,
+                                    "fileid": 78936,
                                     "permissions": "RGDNVCK",
-                                    "size": 35,
+                                    "size": 39,
                                     "has-preview": false,
                                     "favorite": 0,
                                     "comments-unread": 0,
@@ -94,7 +94,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 18 Dec 2019 17:39:35 GMT</d:getlastmodified><d:getetag>&quot;5dfa645707695&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78872</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>35</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 23 Dec 2019 14:29:31 GMT</d:getlastmodified><d:getetag>&quot;5e00cf4bd38cc&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>78936</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>39</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -104,14 +104,14 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 18 Dec 2019 17:39:35 GMT",
-                                    "getetag": "&quot;5dfa645707695&quot;",
+                                    "getlastmodified": "Mon, 23 Dec 2019 14:29:31 GMT",
+                                    "getetag": "&quot;5e00cf4bd38cc&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 78872,
+                                    "fileid": 78936,
                                     "permissions": "RGDNVCK",
-                                    "size": 35,
+                                    "size": 39,
                                     "has-preview": false,
                                     "favorite": 0,
                                     "comments-unread": 0,

@@ -3,8 +3,6 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
-import HttpProxyAgent from "http-proxy-agent";
-import fetch from "node-fetch";
 import {
     Headers,
     RequestInit,
@@ -12,13 +10,12 @@ import {
     ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
-import { isArray } from "util";
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
+import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "./ncHttpClient";
 import NCTag from "./ncTag";
-import RequestResponseLog from "./requestResponseLog";
-import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 
 export {
     NCClient,
@@ -35,14 +32,6 @@ export interface IBasicAuth {
     "password": string;
 }
 
-export interface IProxy {
-    "host": string;
-    "port": string;
-    "protocol": string;
-    "secureProxy": boolean;
-    "proxyAuthorizationHeader"?: string;
-}
-
 interface IStat {
     "type": string;
     "filename": string;
@@ -51,10 +40,6 @@ interface IStat {
     "size"?: number;
     "mime"?: string;
     "fileid"?: number;
-}
-
-interface IRequestContext {
-    "description"?: string;
 }
 
 export class FakeServer {
@@ -206,14 +191,8 @@ export default class NCClient {
     private proxy?: IProxy;
     private fakeServer?: FakeServer;
     private logRequestResponse: boolean = false;
+    private httpClient?: NCHttpClient;
 
-    /**
-     * constructor of the nextcloud client
-     * @param url the WebDAV url of the nextcloud server
-     * @param authentication basic authentication information
-     * @param proxyAgent the proxy agent optional
-     */
-    //    public constructor(url: string, authentication: IBasicAuth, proxy?: IProxy) {
     public constructor(server: NextcloudServer | FakeServer) {
         debug("constructor");
         this.nextcloudOrigin = "";
@@ -245,6 +224,15 @@ export default class NCClient {
             }
 
             this.logRequestResponse = server.logRequestResponse;
+
+            const options: INCHttpClientOptions = {
+                authorizationHeader: this.nextcloudAuthHeader,
+                logRequestResponse: this.logRequestResponse,
+                origin: this.nextcloudOrigin,
+                proxy: this.proxy,
+            };
+
+            this.httpClient = new NCHttpClient(options);
         }
 
         if (server instanceof FakeServer) {
@@ -1245,94 +1233,8 @@ export default class NCClient {
         if (this.fakeServer) {
             return await this.fakeServer.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
         }
+        return await this.httpClient!.getHttpResponse(url, requestInit, expectedHttpStatusCode, context);
 
-        if (requestInit.headers instanceof Headers) {
-            requestInit.headers.append("Authorization", this.nextcloudAuthHeader);
-            requestInit.headers.append("User-Agent", "nextcloud-node-client");
-        } else {
-            throw Error("getHTTPResponse: Error headers is not a Headers object");
-        }
-
-        //        const headers: { [index: string]: string } = requestInit.headers;
-        // headers.Authorization = this.nextcloudAuthHeader;
-        // headers["User-Agent"] = "nextcloud-node-client";
-
-        if (this.nextcloudRequestToken === "" && requestInit.method !== "GET") {
-            // this.nextcloudRequestToken = await this.getCSRFToken();
-        }
-        if (requestInit.method !== "GET") {
-            // requestInit.headers.append("requesttoken", this.nextcloudRequestToken);
-        }
-
-        // set the proxy
-        if (this.proxy) {
-            debug("proxy agent used");
-            const proxyAgent = new HttpProxyAgent({
-                host: this.proxy.host,
-                port: this.proxy.port,
-                protocol: this.proxy.protocol,
-            });
-            requestInit.agent = proxyAgent;
-            if (this.proxy.proxyAuthorizationHeader) {
-                requestInit.headers.append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
-            }
-        }
-
-        debug("getHttpResponse request header %O", requestInit.headers);
-        debug("getHttpResponse url:%s, %O", url, requestInit);
-
-        const response: Response = await fetch(url, requestInit);
-        const responseText = await response.text();
-
-        if (this.logRequestResponse) {
-
-            // overwrite response functions as the body uses a stearm object...
-            response.text = async () => {
-                return responseText;
-            };
-
-            response.json = async () => {
-                let res = null;
-                try {
-                    res = JSON.parse(responseText);
-                } catch (e) {
-                    return res;
-                }
-                return res;
-            };
-
-            response.buffer = async () => {
-                return Buffer.from(responseText);
-            };
-
-            const reqLogEntry: RequestLogEntry =
-                new RequestLogEntry(url.replace(this.nextcloudOrigin, ""),
-                    requestInit.method || "UNDEFIND", context.description || "",
-                    requestInit.body as string);
-
-            const resLogEntry: ResponseLogEntry =
-                new ResponseLogEntry(response.status,
-                    await response.text(),
-                    response.headers.get("content-type") || "",
-                    response.headers.get("Content-Location") || "");
-
-            const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
-            await rrLog.addEntry(new RequestResponseLogEntry(reqLogEntry, resLogEntry));
-        }
-
-        const responseContentType: string | null = response.headers.get("content-type");
-
-        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
-            debug("getHttpResponse description %s", context.description);
-            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
-            debug("getHttpResponse request body %s", requestInit.body);
-            debug("getHttpResponse text %s", await response.text());
-            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
-        }
-
-        return response;
     }
 
     /**
