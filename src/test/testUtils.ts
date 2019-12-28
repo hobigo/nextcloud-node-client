@@ -11,17 +11,14 @@ export const debug = debugFactory("Test");
 
 export const getNextcloudClient = async (context: string): Promise<NCClient> => {
 
-    const ncserver: NextcloudServer = NCClient.getCredentialsFromEnv();
     const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
     rrLog.baseDirectory = "testRecordings/";
     await rrLog.setContext(context);
 
     // use command line parameter to override recording settings
     if (process.argv.find((element) => element === "--record")) {
+        const ncserver: NextcloudServer = NCClient.getCredentialsFromEnv();
         ncserver.logRequestResponse = true;
-    }
-
-    if (ncserver.logRequestResponse) {
         // tslint:disable-next-line:no-console
         console.log("Test recording: " + rrLog.getFileName());
         return new NCClient(ncserver);

@@ -75,8 +75,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.20.1",
     "typedoc": "^0.14.1",
-    "typescript": "^3.7.3",
-    "x@types/node": "^8.10.45"
+    "typescript": "^3.7.3"
   },
   "bugs": {
     "url": "https://github.com/hobigo/nextcloud-node-client/issues"

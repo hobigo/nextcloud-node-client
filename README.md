@@ -7,11 +7,12 @@ Basic file and folder operations, tagging and comments are supported.
 File events will follow (nextcloud activities).
 The usage within browsers is not supported. The module is under development and API may change until version 1.0.0 is delivered.
 
-Tested with nextcloud 14.0.4 and 15.0.1
+Tested with nextcloud 17.0.1
 
 ## Concepts
+The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:
 ### Client 
-The client is the root object and represents the connection to the nextcloud server.
+The client is the root object and represents the connection to the nextcloud server. The client is used to get access to the root folder and the tag repository.
 
 ### Folder
 The folder is the representation of a nextcloud folder. It may contain many files. All files of a folder are deleted, if the folder is deleted.

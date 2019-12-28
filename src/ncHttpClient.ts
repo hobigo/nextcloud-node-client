@@ -36,14 +36,14 @@ export class NCHttpClient {
     private proxy?: IProxy;
     private authorizationHeader?: string;
     private logRequestResponse: boolean;
-    private origin?: string;
+    private origin: string;
 
     public constructor(options: INCHttpClientOptions) {
         debug("constructor");
         this.authorizationHeader = options.authorizationHeader;
         this.proxy = options.proxy;
         this.logRequestResponse = options.logRequestResponse || false;
-        this.origin = options.origin;
+        this.origin = options.origin || "";
     }
     public async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
 
@@ -51,14 +51,18 @@ export class NCHttpClient {
             requestInit.headers = new Headers();
         }
 
-        if (requestInit.headers instanceof Headers) {
-            if (this.authorizationHeader) {
-                (requestInit.headers as Headers).append("Authorization", this.authorizationHeader);
-            }
-            (requestInit.headers as Headers).append("User-Agent", "nextcloud-node-client");
-        } else {
-            throw Error("getHTTPResponse: Error headers is not a Headers object");
+        if (!requestInit.method) {
+            requestInit.method = "UNDEFINED";
         }
+
+        if (!context.description) {
+            context.description = "";
+        }
+
+        if (this.authorizationHeader) {
+            (requestInit.headers as Headers).append("Authorization", this.authorizationHeader);
+        }
+        (requestInit.headers as Headers).append("User-Agent", "nextcloud-node-client");
 
         // set the proxy
         if (this.proxy) {
@@ -70,7 +74,7 @@ export class NCHttpClient {
             });
             requestInit.agent = proxyAgent;
             if (this.proxy.proxyAuthorizationHeader) {
-                requestInit.headers.append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
+                (requestInit.headers as Headers).append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
             }
         }
 
@@ -88,15 +92,6 @@ export class NCHttpClient {
             };
 
             response.json = async () => {
-                /*
-                let res = null;
-                try {
-                    res = JSON.parse(responseText);
-                } catch (e) {
-                    return res;
-                }
-                return res;
-*/
                 return JSON.parse(responseText);
             };
 
@@ -105,14 +100,14 @@ export class NCHttpClient {
             };
 
             const reqLogEntry: RequestLogEntry =
-                new RequestLogEntry(url.replace(this.origin || "", ""),
-                    requestInit.method || "UNDEFIND", context.description || "",
+                new RequestLogEntry(url.replace(this.origin, ""),
+                    requestInit.method, context.description,
                     requestInit.body as string);
 
             const resLogEntry: ResponseLogEntry =
                 new ResponseLogEntry(response.status,
                     await response.text(),
-                    response.headers.get("content-type") || "",
+                    response.headers.get("content-type"),
                     response.headers.get("Content-Location") || "");
 
             const rrLog: RequestResponseLog = RequestResponseLog.getInstance();

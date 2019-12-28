@@ -412,6 +412,34 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     });
 
+    it("15 add tag to file permission fails", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+
+        entries.push({
+            request: {
+                description: "Tags get",
+                method: "PROPFIND",
+                url: "/remote.php/dav/systemtags/",
+            },
+            response: {
+                body: "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/644</d:href><d:propstat><d:prop><oc:id>644</oc:id><oc:display-name>tag-15</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>false</oc:user-assignable><oc:can-assign>false</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+
+        const tagName: string = "tag-15";
+        try {
+            await lclient.addTagToFile(123, tagName);
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal('Error: No permission to assign tag "tag-15" to file. Tag is not assignable');
+        }
+
+    });
+
     it("98 delete all tags", async () => {
         const tagName: string = "TagToBeDelete";
         await client.createTag(tagName);

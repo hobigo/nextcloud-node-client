@@ -189,4 +189,42 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
 
     });
 
+    it("05 without proxy auth header, origin, description and method", async () => {
+
+        // no proxyAuthorizationHeader
+        const proxy: IProxy = {
+            host: "host",
+            port: "1234",
+            protocol: "https",
+            secureProxy: true,
+        };
+
+        const options: INCHttpClientOptions = {
+            authorizationHeader: "basic 12343",
+            logRequestResponse: true,
+            // origin: "origin",
+            proxy,
+        };
+
+        const httpClient: NCHttpClient = new NCHttpClient(options);
+
+        const requestInit: RequestInit = {
+            timeout: 1,
+        };
+        const url: string = "https://this.server.does.not.exist:1234/root";
+
+        let response: Response;
+
+        try {
+            response = await httpClient.getHttpResponse(
+                url,
+                requestInit,
+                [200],
+                {});
+        } catch (e) {
+            expect("network timeout at: " + url, "expect an exception").to.be.equal(e.message);
+        }
+
+    });
+
 });

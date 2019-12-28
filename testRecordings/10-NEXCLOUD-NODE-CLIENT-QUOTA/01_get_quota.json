@@ -7,7 +7,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 23 Dec 2019 14:31:21 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>4710416497</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5e00cfb9cd6e8&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Donnerwetter.md</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 25 Nov 2019 07:56:30 GMT</d:getlastmodified><d:getcontentlength>99</d:getcontentlength><d:resourcetype/><d:getetag>&quot;200fe307b08fcbedb5606bba4ba5354d&quot;</d:getetag><d:getcontenttype>text/markdown</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/SofortUpload/</d:href><d:propstat><d:prop><d:getlastmodified>Sun, 15 Dec 2019 13:39:03 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>476863281</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5df637777669d&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/bestellung%20buch%20caro.pdf</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 11 Dec 2019 07:55:54 GMT</d:getlastmodified><d:getcontentlength>63320</d:getcontentlength><d:resourcetype/><d:getetag>&quot;cbb8508498c886ff53e4e0f378f9bc49&quot;</d:getetag><d:getcontenttype>application/pdf</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/katze/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 03 Dec 2019 17:19:49 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>4233489797</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5de69935b3309&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/x/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 18 Dec 2019 17:12:46 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5dfa5e0e9ba91&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:31:47 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>5030985306</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5e079f93da21b&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/20191211_085655%20OCR.jpg</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 24 Dec 2019 15:22:48 GMT</d:getlastmodified><d:getcontentlength>947611</d:getcontentlength><d:resourcetype/><d:getetag>&quot;c23d26504a1ae02832185890ae25fdba&quot;</d:getetag><d:getcontenttype>image/jpeg</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/20191211_085655%20OCR.pdf</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 24 Dec 2019 15:23:21 GMT</d:getlastmodified><d:getcontentlength>1054434</d:getcontentlength><d:resourcetype/><d:getetag>&quot;dcbce05894dac54976ffca7f08f51929&quot;</d:getetag><d:getcontenttype>application/pdf</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Donnerwetter.md</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 25 Nov 2019 07:56:30 GMT</d:getlastmodified><d:getcontentlength>99</d:getcontentlength><d:resourcetype/><d:getetag>&quot;200fe307b08fcbedb5606bba4ba5354d&quot;</d:getetag><d:getcontenttype>text/markdown</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/SofortUpload/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 10:59:01 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>795430045</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5e07357551a06&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/bestellung%20buch%20caro.pdf</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 11 Dec 2019 07:55:54 GMT</d:getlastmodified><d:getcontentlength>63320</d:getcontentlength><d:resourcetype/><d:getetag>&quot;cbb8508498c886ff53e4e0f378f9bc49&quot;</d:getetag><d:getcontenttype>application/pdf</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/katze/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 03 Dec 2019 17:19:49 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>4233489797</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5de69935b3309&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/x/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 18 Dec 2019 17:12:46 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5dfa5e0e9ba91&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -17,16 +17,60 @@
                             "href": "/remote.php/webdav/",
                             "propstat": {
                                 "prop": {
-                                    "getlastmodified": "Mon, 23 Dec 2019 14:31:21 GMT",
+                                    "getlastmodified": "Sat, 28 Dec 2019 18:31:47 GMT",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "quota-used-bytes": 4710416497,
+                                    "quota-used-bytes": 5030985306,
                                     "quota-available-bytes": -3,
-                                    "getetag": "&quot;5e00cfb9cd6e8&quot;"
+                                    "getetag": "&quot;5e079f93da21b&quot;"
                                 },
                                 "status": "HTTP/1.1 200 OK"
                             }
+                        },
+                        {
+                            "href": "/remote.php/webdav/20191211_085655%20OCR.jpg",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 24 Dec 2019 15:22:48 GMT",
+                                        "getcontentlength": 947611,
+                                        "resourcetype": "",
+                                        "getetag": "&quot;c23d26504a1ae02832185890ae25fdba&quot;",
+                                        "getcontenttype": "image/jpeg"
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "quota-used-bytes": "",
+                                        "quota-available-bytes": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/20191211_085655%20OCR.pdf",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 24 Dec 2019 15:23:21 GMT",
+                                        "getcontentlength": 1054434,
+                                        "resourcetype": "",
+                                        "getetag": "&quot;dcbce05894dac54976ffca7f08f51929&quot;",
+                                        "getcontenttype": "application/pdf"
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "quota-used-bytes": "",
+                                        "quota-available-bytes": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
                         },
                         {
                             "href": "/remote.php/webdav/Donnerwetter.md",
@@ -55,13 +99,13 @@
                             "propstat": [
                                 {
                                     "prop": {
-                                        "getlastmodified": "Sun, 15 Dec 2019 13:39:03 GMT",
+                                        "getlastmodified": "Sat, 28 Dec 2019 10:59:01 GMT",
                                         "resourcetype": {
                                             "collection": ""
                                         },
-                                        "quota-used-bytes": 476863281,
+                                        "quota-used-bytes": 795430045,
                                         "quota-available-bytes": -3,
-                                        "getetag": "&quot;5df637777669d&quot;"
+                                        "getetag": "&quot;5e07357551a06&quot;"
                                     },
                                     "status": "HTTP/1.1 200 OK"
                                 },

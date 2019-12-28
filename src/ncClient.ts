@@ -796,39 +796,19 @@ export default class NCClient {
      */
     public async createFile(fileName: string, data: Buffer): Promise<NCFile | null> {
 
-        const baseName: string = path.basename(fileName);
-        let folderName: string = path.dirname(fileName);
-        if (folderName === ".") {
-            folderName = "";
+        if (fileName.startsWith("./")) {
+            fileName = fileName.replace("./", "/");
         }
+
+        const baseName: string = path.basename(fileName);
+        const folderName: string = path.dirname(fileName);
+
         debug("createFile folder name %s base name %s", folderName, baseName);
 
-        // ensure that we have the folder
-        let folder: NCFolder | null;
+        // ensure that we have a folder
+        await this.createFolder(folderName);
+        await this.putFileContents(fileName, data);
 
-        try {
-            folder = await this.createFolder(folderName);
-        } catch (e) {
-            e.message = "Error creating file: " + e.message;
-            throw e;
-        }
-        if (folder === null) {
-            throw new NCError("File could not be created: Folder '" + folderName + "' could not be created",
-                "ERR_FOLDER_NOT_FOUND",
-                { folderName, baseName });
-        }
-
-        // fileName = "/d1/d2/file.txt"
-        const res: Response = await this.putFileContents(fileName, data);
-        // debug("%O", Object.keys(res));
-        debug("createFile Status %s", res.status);
-
-        if (!(res.status === 204 || res.status === 201)) {
-            throw new NCError("File could not be created: '" + fileName + "', response status " + res.status + " " + res.statusText,
-                "ERR_FILE_CREATE_FAILED",
-                { folderName, baseName });
-        }
-        debug("createFile file successfully created");
         let file: NCFile | null;
         file = await this.getFile(fileName);
         return file;
@@ -988,11 +968,8 @@ export default class NCClient {
      */
     public async addTagToFile(fileId: number, tagName: string): Promise<void> {
         debug("addTagToFile file:%s tag:%s", fileId, tagName);
-        const tag: NCTag | null = await this.createTag(tagName);
+        const tag: NCTag  = await this.createTag(tagName);
 
-        if (!tag) {
-            return;
-        }
         if (!tag.canAssign) {
             throw new NCError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
         }
@@ -1205,24 +1182,26 @@ export default class NCClient {
      * this function is currently not used
      * @returns the csrf token / requesttoken
      */
-    private async getCSRFToken(): Promise<string> {
+    /*
+        private async getCSRFToken(): Promise<string> {
 
-        const requestInit: RequestInit = {
-            method: "GET",
-        };
+            const requestInit: RequestInit = {
+                method: "GET",
+            };
 
-        const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin,
-            requestInit,
-            [200],
-            { description: "CSER token get" });
+            const response: Response = await this.getHttpResponse(
+                this.nextcloudOrigin,
+                requestInit,
+                [200],
+                { description: "CSER token get" });
 
-        const html = await response.text();
+            const html = await response.text();
 
-        const requestToken: string = html.substr(html.indexOf("data-requesttoken=") + 19, 89);
-        debug("getCSRFToken  %s", requestToken);
-        return requestToken;
-    }
+            const requestToken: string = html.substr(html.indexOf("data-requesttoken=") + 19, 89);
+            debug("getCSRFToken  %s", requestToken);
+            return requestToken;
+        }
+    */
 
     private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
 
