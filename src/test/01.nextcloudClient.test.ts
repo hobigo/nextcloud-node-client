@@ -1175,6 +1175,83 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(q).to.be.equal(undefined);
     });
 
+    it("64 response without content type", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "",
+                method: "",
+                url: "",
+            },
+            response: {
+                body: "body",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.getQuota();
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("XML response content type expected");
+        }
+
+    });
+
+    it("65 expect xml content type", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "",
+                method: "",
+                url: "",
+            },
+            response: {
+                body: "body",
+                contentType: "text/plain",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.getQuota();
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("XML response content type expected");
+        }
+
+    });
+
+    it.only("66 invalid xml response", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "",
+                method: "",
+                url: "",
+            },
+            response: {
+                body: "NO XML",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.getQuota();
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("XML response content type expected");
+        }
+
+    });
+
     it("99 delete folder", async () => {
 
         const dirName = "/test";

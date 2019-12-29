@@ -29,7 +29,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
         } catch (e) {
             // throw new Error(`Error: recording does not exist for '${context}' file name; '${rrLog.getFileName()}'`);
             // tslint:disable-next-line:no-console
-            console.log(`recording does not exist for '${context}' file name; '${rrLog.getFileName()}'`);
+            // console.log(`recording does not exist for '${context}' file name; '${rrLog.getFileName()}'`);
             entries = [];
         }
         const fncserver: FakeServer = new FakeServer(entries);
