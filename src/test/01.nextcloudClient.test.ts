@@ -1175,7 +1175,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(q).to.be.equal(undefined);
     });
 
-    it("64 response without content type", async () => {
+    it("64 response without content type and body", async () => {
 
         const entries: RequestResponseLogEntry[] = [];
         entries.push({
@@ -1185,7 +1185,6 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                 url: "",
             },
             response: {
-                body: "body",
                 status: 207,
             },
         });
@@ -1195,7 +1194,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
         } catch (e) {
-            expect(e.message, "expect an exception").to.be.equal("XML response content type expected");
+            expect(e.message, "expect an exception").to.be.equal("Response content type expected");
         }
 
     });
@@ -1226,7 +1225,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
-    it.only("66 invalid xml response", async () => {
+    it("66 invalid xml response", async () => {
 
         const entries: RequestResponseLogEntry[] = [];
         entries.push({
@@ -1247,7 +1246,33 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
         } catch (e) {
-            expect(e.message, "expect an exception").to.be.equal("XML response content type expected");
+            expect(e.message, "expect an exception").to.be.equal("The response is not valid XML: NO XML");
+        }
+
+    });
+
+    it("67 multistatus response without href", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "",
+                method: "",
+                url: "",
+            },
+            response: {
+                body: "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\"    xmlns:s=\"http://sabredav.org/ns\"     xmlns:oc=\"http://owncloud.org/ns\"     xmlns:nc=\"http://nextcloud.org/ns\">    <d:response>        <d:NOhref>/remote.php/webdav/</d:NOhref>        <d:propstat>            <d:prop>                <d:getlastmodified>Sat, 28 Dec 2019 18:31:47 GMT</d:getlastmodified>               <d:resourcetype>                    <d:collection/>                </d:resourcetype>                <d:quota-used-bytes>5030985306</d:quota-used-bytes>                <d:quota-available-bytes>-3</d:quota-available-bytes>                <d:getetag>&quot;5e079f93da21b&quot;</d:getetag>            </d:prop>            <d:status>HTTP/1.1 200 OK</d:status>        </d:propstat>    </d:response></d:multistatus>",
+                contentType: "application/xml; charset=utf-8",
+                status: 207,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        try {
+            await lclient.getQuota();
+            expect(true, "expect an exception").to.be.equal(false);
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("The mulitstatus response must have a href");
         }
 
     });

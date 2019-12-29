@@ -968,7 +968,7 @@ export default class NCClient {
      */
     public async addTagToFile(fileId: number, tagName: string): Promise<void> {
         debug("addTagToFile file:%s tag:%s", fileId, tagName);
-        const tag: NCTag  = await this.createTag(tagName);
+        const tag: NCTag = await this.createTag(tagName);
 
         if (!tag.canAssign) {
             throw new NCError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
@@ -1111,7 +1111,7 @@ export default class NCClient {
      * @throws NCError
      */
     private async getPropertiesFromWebDAVMultistatusResponse(response: Response, href: string): Promise<any[]> {
-        const responseContentType: string | null = response.headers.get("content-type");
+        const responseContentType: string | null = response.headers.get("Content-Type");
 
         if (!responseContentType) {
             throw new NCError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
@@ -1140,6 +1140,11 @@ export default class NCClient {
         if (body.multistatus.response.href) {
             body.multistatus.response = new Array(body.multistatus.response);
         }
+
+        if (body.multistatus.response.propstat) {
+            body.multistatus.response = [body.multistatus.response];
+        }
+
         const responseProperties: any[] = [];
         for (const res of body.multistatus.response) {
 

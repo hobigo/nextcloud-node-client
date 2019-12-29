@@ -20,11 +20,11 @@ export class ResponseLogEntry {
     public contentLocation?: string;
     public jsonBody?: any;
     public status: number;
-    public constructor(status: number, body?: string, contentType?: string | null, contentLocation?: string | null) {
+    public constructor(status: number, body?: string, contentType?: string, contentLocation?: string) {
         this.status = status;
         this.body = body;
-        this.contentType = contentType as string;
-        this.contentLocation = contentLocation as string;
+        this.contentType = contentType;
+        this.contentLocation = contentLocation;
     }
 }
 
