@@ -10,6 +10,8 @@ import {
     ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
+import NCEnvironment from "./ncEnvironment";
+import NCEnvironmentVcapServices from "./ncEnvironmentVcapServices";
 import NCError from "./ncError";
 import NCFakeServer from "./ncFakeServer";
 import NCFile from "./ncFile";
@@ -17,7 +19,6 @@ import NCFolder from "./ncFolder";
 import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "./ncHttpClient";
 import { NCServer } from "./ncServer";
 import NCTag from "./ncTag";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
 
 export {
     NCClient,
@@ -51,6 +52,9 @@ export default class NCClient {
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
     public static getCredentialsFromEnv(): NCServer {
+        return new NCEnvironment().getServer();
+
+        /*
 
         if (!process.env.NEXTCLOUD_URL) {
             throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
@@ -82,8 +86,9 @@ export default class NCClient {
                 password: process.env.NEXTCLOUD_PASSWORD,
                 username: process.env.NEXTCLOUD_USERNAME,
             }, undefined, logRequestResponse);
+            */
     }
-    
+
     /**
      * returns the nextcloud credentials that is defined in the
      * "user-provided" service section of the VCAP_SERVICES environment
@@ -92,6 +97,8 @@ export default class NCClient {
      */
     public static getCredentialsFromVcapServicesEnv(instanceName: string): NCServer {
 
+        return new NCEnvironmentVcapServices(instanceName).getServer();
+        /*
         if (!process.env.VCAP_SERVICES) {
             throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
         }
@@ -123,6 +130,7 @@ export default class NCClient {
         }
 
         return new NCServer(cred.url, { username: cred.username, password: cred.password });
+        */
     }
 
     private nextcloudOrigin: string;

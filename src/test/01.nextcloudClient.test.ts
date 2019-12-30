@@ -695,7 +695,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             // const cred: ICredentials = NCClient.getCredentialsFromVcapServicesEnv("");
             NCClient.getCredentialsFromVcapServicesEnv("");
         } catch (e) {
-            expect(false, "no not expect an exception: " + e.message).to.be.equal(true);
+            expect(false, "expect no exception: " + e.message).to.be.equal(true);
         } finally {
             restore();
         }

@@ -4,13 +4,19 @@ require("dotenv").config();
 import debugFactory from "debug";
 import NCError from "./ncError";
 import { NCServer } from "./ncServer";
+export { NCServer };
 
 const debug = debugFactory("NCEnvironmentVcapServices");
 
+/**
+ * returns the nextcloud credentials that is defined in the
+ * "user-provided" service section of the VCAP_SERVICES environment
+ * instanceName: the name of the nextcloud user provided service instance
+ */
 export default class NCEnvironmentVcapServices {
-    public readonly url?: string;
-    public readonly userName?: string;
-    public readonly password?: string;
+    public readonly url: string;
+    public readonly userName: string;
+    public readonly password: string;
 
     public constructor(instanceName: string) {
 
@@ -44,9 +50,9 @@ export default class NCEnvironmentVcapServices {
                 { credentials: cred });
         }
 
-        this.url = cred.url;
-        this.userName = cred.userName;
-        this.password = cred.password;
+        this.url = cred.url as string;
+        this.userName = cred.username as string;
+        this.password = cred.password as string;
     }
 
     /**
@@ -56,21 +62,6 @@ export default class NCEnvironmentVcapServices {
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
     public getServer(): NCServer {
-
-        if (!this.url) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
-                , "ERR_NEXTCLOUD_URL_NOT_DEFINED");
-        }
-
-        if (!this.userName) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_USERNAME not defined in environment"
-                , "ERR_NEXTCLOUD_USERNAME_NOT_DEFINED");
-        }
-
-        if (!this.password) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_PASSWORD not defined in environment"
-                , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
-        }
 
         return new NCServer(this.url,
             {
