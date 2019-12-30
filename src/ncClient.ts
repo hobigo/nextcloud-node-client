@@ -10,11 +10,12 @@ import {
     ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
-import FakeServer from "./fakeServer";
 import NCError from "./ncError";
+import NCFakeServer from "./ncFakeServer";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "./ncHttpClient";
+import { NCServer } from "./ncServer";
 import NCTag from "./ncTag";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 
@@ -24,15 +25,10 @@ export {
     NCFolder,
     NCFile,
     NCTag,
-    FakeServer,
+    NCFakeServer,
 };
 
 const debug = debugFactory("NCClient");
-
-export interface IBasicAuth {
-    "username": string;
-    "password": string;
-}
 
 interface IStat {
     "type": string;
@@ -44,66 +40,6 @@ interface IStat {
     "fileid"?: number;
 }
 
-/*
-export class FakeServer {
-    public fakeResponses: RequestResponseLogEntry[] = [];
-    public constructor(fakeResponses: RequestResponseLogEntry[]) {
-        this.fakeResponses = fakeResponses;
-    }
-    public async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
-        debug("getFakeHttpResponse");
-        if (!requestInit.method) {
-            requestInit.method = "UNDEFINED";
-        }
-
-        const rrEntry: RequestResponseLogEntry | undefined = this.fakeResponses.shift();
-        if (!rrEntry) {
-            throw new Error(`error providing fake http response. No fake response available`);
-        }
-        const responseInit: ResponseInit = {
-            status: rrEntry.response.status,
-        };
-
-        const response: Response = new Response(rrEntry.response.body, responseInit);
-
-        if (rrEntry.response.contentType) {
-            response.headers.append("Content-Type", rrEntry.response.contentType);
-        }
-
-        if (rrEntry.response.contentLocation) {
-            response.headers.append("Content-Location", rrEntry.response.contentLocation);
-        }
-
-        if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
-            debug("getHttpResponse description %s", context.description);
-            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
-            debug("getHttpResponse request body %s", requestInit.body);
-            debug("getHttpResponse text %s", await response.text());
-            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
-        }
-        return response;
-    }
-}
-
-*/
-
-// tslint:disable-next-line: max-classes-per-file
-export class NextcloudServer {
-    public url: string;
-    public basicAuth: IBasicAuth;
-    public proxy?: IProxy;
-    public logRequestResponse: boolean;
-    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse: boolean = false) {
-        this.url = url;
-        this.basicAuth = basicAuth;
-        this.proxy = proxy;
-        this.logRequestResponse = logRequestResponse;
-    }
-}
-
-// tslint:disable-next-line: max-classes-per-file
 export default class NCClient {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
@@ -114,7 +50,7 @@ export default class NCClient {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromEnv(): NextcloudServer {
+    public static getCredentialsFromEnv(): NCServer {
 
         if (!process.env.NEXTCLOUD_URL) {
             throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
@@ -141,20 +77,20 @@ export default class NCClient {
             logRequestResponse = true;
         }
 
-        return new NextcloudServer(process.env.NEXTCLOUD_URL,
+        return new NCServer(process.env.NEXTCLOUD_URL,
             {
                 password: process.env.NEXTCLOUD_PASSWORD,
                 username: process.env.NEXTCLOUD_USERNAME,
             }, undefined, logRequestResponse);
     }
-
+    
     /**
      * returns the nextcloud credentials that is defined in the
      * "user-provided" service section of the VCAP_SERVICES environment
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public static getCredentialsFromVcapServicesEnv(instanceName: string): NextcloudServer {
+    public static getCredentialsFromVcapServicesEnv(instanceName: string): NCServer {
 
         if (!process.env.VCAP_SERVICES) {
             throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
@@ -186,7 +122,7 @@ export default class NCClient {
                 { credentials: cred });
         }
 
-        return new NextcloudServer(cred.url, { username: cred.username, password: cred.password });
+        return new NCServer(cred.url, { username: cred.username, password: cred.password });
     }
 
     private nextcloudOrigin: string;
@@ -194,18 +130,18 @@ export default class NCClient {
     private nextcloudRequestToken: string;
     private webDAVUrl: string;
     private proxy?: IProxy;
-    private fakeServer?: FakeServer;
+    private fakeServer?: NCFakeServer;
     private logRequestResponse: boolean = false;
     private httpClient?: NCHttpClient;
 
-    public constructor(server: NextcloudServer | FakeServer) {
+    public constructor(server: NCServer | NCFakeServer) {
         debug("constructor");
         this.nextcloudOrigin = "";
         this.nextcloudAuthHeader = "";
         this.nextcloudRequestToken = "";
         this.webDAVUrl = "";
 
-        if (server instanceof NextcloudServer) {
+        if (server instanceof NCServer) {
 
             this.proxy = server.proxy;
 
@@ -240,7 +176,7 @@ export default class NCClient {
             this.httpClient = new NCHttpClient(options);
         }
 
-        if (server instanceof FakeServer) {
+        if (server instanceof NCFakeServer) {
             this.fakeServer = server;
             this.webDAVUrl = "https://fake.server" + NCClient.webDavUrlPath;
         }

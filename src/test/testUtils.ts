@@ -2,7 +2,9 @@
 require("dotenv").config();
 
 import debugFactory from "debug";
-import NCClient, { FakeServer, NextcloudServer } from "../ncClient";
+import NCClient from "../ncClient";
+import NCFakeServer from "../ncFakeServer";
+import { NCServer } from "../ncServer";
 import RequestResponseLog from "../requestResponseLog";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 
@@ -17,7 +19,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
 
     // use command line parameter to override recording settings
     if (process.argv.find((element) => element === "--record")) {
-        const ncserver: NextcloudServer = NCClient.getCredentialsFromEnv();
+        const ncserver: NCServer = NCClient.getCredentialsFromEnv();
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console
         console.log("Test recording: " + rrLog.getFileName());
@@ -32,7 +34,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
             // console.log(`recording does not exist for '${context}' file name; '${rrLog.getFileName()}'`);
             entries = [];
         }
-        const fncserver: FakeServer = new FakeServer(entries);
+        const fncserver: NCFakeServer = new NCFakeServer(entries);
         return new NCClient(fncserver);
     }
 };

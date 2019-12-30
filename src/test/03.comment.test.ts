@@ -11,9 +11,11 @@ import { getNextcloudClient } from "./testUtils";
 let client: NCClient;
 
 // tslint:disable-next-line:only-arrow-functions
+// tslint:disable-next-line:space-before-function-paren
 describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
     this.timeout(1 * 60 * 1000);
 
+    // tslint:disable-next-line:space-before-function-paren
     beforeEach(async function () {
         if (this.currentTest && this.currentTest.parent) {
             client = await getNextcloudClient(this.currentTest.parent.title + "/" + this.currentTest.title);

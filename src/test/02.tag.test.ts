@@ -2,8 +2,8 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    FakeServer,
     NCClient,
+    NCFakeServer,
     NCFile,
     NCFolder,
 } from "../ncClient";
@@ -400,7 +400,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
 
         const tagName: string = "tag-14";
         try {
@@ -429,7 +429,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
 
         const tagName: string = "tag-15";
         try {

@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
-
 import debugFactory from "debug";
 import {
     RequestInit,
@@ -10,9 +7,9 @@ import {
 import { IRequestContext } from "./ncHttpClient";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 
-const debug = debugFactory("FakeServer");
+const debug = debugFactory("NCFakeServer");
 
-export default class FakeServer {
+export default class NCFakeServer {
     public fakeResponses: RequestResponseLogEntry[] = [];
     public constructor(fakeResponses: RequestResponseLogEntry[]) {
         this.fakeResponses = fakeResponses;

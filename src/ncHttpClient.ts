@@ -107,7 +107,7 @@ export class NCHttpClient {
             const resLogEntry: ResponseLogEntry =
                 new ResponseLogEntry(response.status,
                     await response.text(),
-                    response.headers.get("content-type"),
+                    response.headers.get("Content-Type") as string,
                     response.headers.get("Content-Location") || "");
 
             const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
