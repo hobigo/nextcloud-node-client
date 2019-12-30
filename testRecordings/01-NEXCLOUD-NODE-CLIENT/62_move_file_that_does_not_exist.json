@@ -73,7 +73,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:29:34 GMT</d:getlastmodified><d:getetag>&quot;5e079f0e87203&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>79998</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:44:51 GMT</d:getlastmodified><d:getetag>&quot;5e09c71347822&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80436</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -83,12 +83,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:29:34 GMT",
-                                    "getetag": "&quot;5e079f0e87203&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:44:51 GMT",
+                                    "getetag": "&quot;5e09c71347822&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 79998,
+                                    "fileid": 80436,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -140,7 +140,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:29:34 GMT</d:getlastmodified><d:getetag>&quot;5e079f0e87203&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>79998</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:44:51 GMT</d:getlastmodified><d:getetag>&quot;5e09c71347822&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80436</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -150,12 +150,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:29:34 GMT",
-                                    "getetag": "&quot;5e079f0e87203&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:44:51 GMT",
+                                    "getetag": "&quot;5e09c71347822&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 79998,
+                                    "fileid": 80436,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -229,7 +229,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/sourceFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:29:36 GMT</d:getlastmodified><d:getetag>&quot;48721ab5deab341e0caa97f2b9fea4b9&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>79999</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/sourceFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:44:52 GMT</d:getlastmodified><d:getetag>&quot;7d20b7f6f12628d89dd075d023d33b0a&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>80437</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -238,11 +238,11 @@
                         "href": "/remote.php/webdav/test/renameFile62/sourceFile.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Sat, 28 Dec 2019 18:29:36 GMT",
-                                "getetag": "&quot;48721ab5deab341e0caa97f2b9fea4b9&quot;",
+                                "getlastmodified": "Mon, 30 Dec 2019 09:44:52 GMT",
+                                "getetag": "&quot;7d20b7f6f12628d89dd075d023d33b0a&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 79999,
+                                "fileid": 80437,
                                 "permissions": "RGDNVW",
                                 "size": 4,
                                 "getcontentlength": 4,
@@ -313,7 +313,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:29:37 GMT</d:getlastmodified><d:getetag>&quot;5e079f1125638&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>79998</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile62/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:44:53 GMT</d:getlastmodified><d:getetag>&quot;5e09c715d9f75&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80436</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -323,12 +323,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:29:37 GMT",
-                                    "getetag": "&quot;5e079f1125638&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:44:53 GMT",
+                                    "getetag": "&quot;5e09c715d9f75&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 79998,
+                                    "fileid": 80436,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,

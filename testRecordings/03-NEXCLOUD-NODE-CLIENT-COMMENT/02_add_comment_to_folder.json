@@ -79,7 +79,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:31:24 GMT</d:getlastmodified><d:getetag>&quot;5e079f7c8d8ce&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80012</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>18</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:46:24 GMT</d:getlastmodified><d:getetag>&quot;5e09c7707fb83&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80450</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>18</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -89,12 +89,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:31:24 GMT",
-                                    "getetag": "&quot;5e079f7c8d8ce&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:46:24 GMT",
+                                    "getetag": "&quot;5e09c7707fb83&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 80012,
+                                    "fileid": 80450,
                                     "permissions": "RGDNVCK",
                                     "size": 18,
                                     "has-preview": false,
@@ -238,7 +238,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:31:33 GMT</d:getlastmodified><d:getetag>&quot;5e079f8559f5d&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80016</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:46:31 GMT</d:getlastmodified><d:getetag>&quot;5e09c7778a3f2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80454</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -248,12 +248,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:31:33 GMT",
-                                    "getetag": "&quot;5e079f8559f5d&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:46:31 GMT",
+                                    "getetag": "&quot;5e09c7778a3f2&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 80016,
+                                    "fileid": 80454,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -279,7 +279,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C1\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -288,12 +288,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/80016/402"
+            "contentLocation": "/remote.php/dav/comments/files/80454/410"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C2\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -302,12 +302,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/80016/403"
+            "contentLocation": "/remote.php/dav/comments/files/80454/411"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C3\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -316,12 +316,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/80016/404"
+            "contentLocation": "/remote.php/dav/comments/files/80454/412"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C4\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -330,12 +330,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/80016/405"
+            "contentLocation": "/remote.php/dav/comments/files/80454/413"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "REPORT",
             "description": "File get comments",
             "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n                    <oc:filter-comments xmlns:D=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n                        <oc:limit>1</oc:limit>\n                        <oc:offset>1</oc:offset>\n                    </oc:filter-comments>",
@@ -348,27 +348,27 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80016/404</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>404</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Sat, 28 Dec 2019 18:31:35 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80016</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80454/412</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>412</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 30 Dec 2019 09:46:33 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80454</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
                         "status": "HTTP/1.1 200 OK",
-                        "href": "/remote.php/dav/comments/files/80016/404",
+                        "href": "/remote.php/dav/comments/files/80454/412",
                         "propstat": {
                             "prop": {
-                                "id": 404,
+                                "id": 412,
                                 "parentId": 0,
                                 "topmostParentId": 0,
                                 "childrenCount": 0,
                                 "verb": "comment",
                                 "actorType": "users",
                                 "actorId": "holger",
-                                "creationDateTime": "Sat, 28 Dec 2019 18:31:35 GMT",
+                                "creationDateTime": "Mon, 30 Dec 2019 09:46:33 GMT",
                                 "latestChildDateTime": "",
                                 "objectType": "files",
-                                "objectId": 80016,
+                                "objectId": 80454,
                                 "message": "C3",
                                 "actorDisplayName": "Holger Gockel",
                                 "isUnread": false,
@@ -383,7 +383,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/80016",
+            "url": "/remote.php/dav/comments/files/80454",
             "method": "REPORT",
             "description": "File get comments",
             "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n                    <oc:filter-comments xmlns:D=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n                        <oc:limit>30</oc:limit>\n                        <oc:offset>0</oc:offset>\n                    </oc:filter-comments>",
@@ -396,7 +396,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80016/405</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>405</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Sat, 28 Dec 2019 18:31:36 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80016</oc:objectId>\n    <oc:message>C4</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80016/404</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>404</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Sat, 28 Dec 2019 18:31:35 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80016</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80016/403</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>403</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Sat, 28 Dec 2019 18:31:35 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80016</oc:objectId>\n    <oc:message>C2</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80016/402</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>402</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Sat, 28 Dec 2019 18:31:34 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80016</oc:objectId>\n    <oc:message>C1</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80454/413</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>413</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 30 Dec 2019 09:46:33 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80454</oc:objectId>\n    <oc:message>C4</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80454/412</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>412</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 30 Dec 2019 09:46:33 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80454</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80454/411</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>411</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 30 Dec 2019 09:46:32 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80454</oc:objectId>\n    <oc:message>C2</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/80454/410</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>410</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>holger</oc:actorId>\n    <oc:creationDateTime>Mon, 30 Dec 2019 09:46:32 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>80454</oc:objectId>\n    <oc:message>C1</oc:message>\n    <oc:actorDisplayName>Holger Gockel</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -404,20 +404,20 @@
                     "response": [
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/80016/405",
+                            "href": "/remote.php/dav/comments/files/80454/413",
                             "propstat": {
                                 "prop": {
-                                    "id": 405,
+                                    "id": 413,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "holger",
-                                    "creationDateTime": "Sat, 28 Dec 2019 18:31:36 GMT",
+                                    "creationDateTime": "Mon, 30 Dec 2019 09:46:33 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 80016,
+                                    "objectId": 80454,
                                     "message": "C4",
                                     "actorDisplayName": "Holger Gockel",
                                     "isUnread": false,
@@ -428,20 +428,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/80016/404",
+                            "href": "/remote.php/dav/comments/files/80454/412",
                             "propstat": {
                                 "prop": {
-                                    "id": 404,
+                                    "id": 412,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "holger",
-                                    "creationDateTime": "Sat, 28 Dec 2019 18:31:35 GMT",
+                                    "creationDateTime": "Mon, 30 Dec 2019 09:46:33 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 80016,
+                                    "objectId": 80454,
                                     "message": "C3",
                                     "actorDisplayName": "Holger Gockel",
                                     "isUnread": false,
@@ -452,20 +452,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/80016/403",
+                            "href": "/remote.php/dav/comments/files/80454/411",
                             "propstat": {
                                 "prop": {
-                                    "id": 403,
+                                    "id": 411,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "holger",
-                                    "creationDateTime": "Sat, 28 Dec 2019 18:31:35 GMT",
+                                    "creationDateTime": "Mon, 30 Dec 2019 09:46:32 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 80016,
+                                    "objectId": 80454,
                                     "message": "C2",
                                     "actorDisplayName": "Holger Gockel",
                                     "isUnread": false,
@@ -476,20 +476,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/80016/402",
+                            "href": "/remote.php/dav/comments/files/80454/410",
                             "propstat": {
                                 "prop": {
-                                    "id": 402,
+                                    "id": 410,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "holger",
-                                    "creationDateTime": "Sat, 28 Dec 2019 18:31:34 GMT",
+                                    "creationDateTime": "Mon, 30 Dec 2019 09:46:32 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 80016,
+                                    "objectId": 80454,
                                     "message": "C1",
                                     "actorDisplayName": "Holger Gockel",
                                     "isUnread": false,
@@ -531,7 +531,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:31:33 GMT</d:getlastmodified><d:getetag>&quot;5e079f8559f5d&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80016</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:46:31 GMT</d:getlastmodified><d:getetag>&quot;5e09c7778a3f2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80454</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -541,12 +541,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Sat, 28 Dec 2019 18:31:33 GMT",
-                                    "getetag": "&quot;5e079f8559f5d&quot;",
+                                    "getlastmodified": "Mon, 30 Dec 2019 09:46:31 GMT",
+                                    "getetag": "&quot;5e09c7778a3f2&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 80016,
+                                    "fileid": 80454,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,

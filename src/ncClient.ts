@@ -10,6 +10,7 @@ import {
     ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
+import FakeServer from "./fakeServer";
 import NCError from "./ncError";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
@@ -23,6 +24,7 @@ export {
     NCFolder,
     NCFile,
     NCTag,
+    FakeServer,
 };
 
 const debug = debugFactory("NCClient");
@@ -42,6 +44,7 @@ interface IStat {
     "fileid"?: number;
 }
 
+/*
 export class FakeServer {
     public fakeResponses: RequestResponseLogEntry[] = [];
     public constructor(fakeResponses: RequestResponseLogEntry[]) {
@@ -83,6 +86,8 @@ export class FakeServer {
         return response;
     }
 }
+
+*/
 
 // tslint:disable-next-line: max-classes-per-file
 export class NextcloudServer {
@@ -998,6 +1003,9 @@ export default class NCClient {
     // ***************************************************************************************
     // activity
     // ***************************************************************************************
+    /*
+    to be refactored to eventing
+
     public async getActivities(): Promise<string[]> {
         const result: string[] = [];
         const requestInit: RequestInit = {
@@ -1026,7 +1034,7 @@ export default class NCClient {
 
         return result;
     }
-
+*/
     // ***************************************************************************************
     // comments
     // ***************************************************************************************
@@ -1137,14 +1145,14 @@ export default class NCClient {
         }
 
         // ensure that response is always an array
-        if (body.multistatus.response.href) {
+        if (body.multistatus.response.href || body.multistatus.response.propstat) {
             body.multistatus.response = new Array(body.multistatus.response);
         }
-
-        if (body.multistatus.response.propstat) {
-            body.multistatus.response = [body.multistatus.response];
-        }
-
+        /*
+                if (body.multistatus.response.propstat) {
+                    body.multistatus.response = [body.multistatus.response];
+                }
+        */
         const responseProperties: any[] = [];
         for (const res of body.multistatus.response) {
 
@@ -1152,14 +1160,13 @@ export default class NCClient {
                 throw new NCError(`The mulitstatus response must have a href`, "ERR_RESPONSE_MISSING_HREF_MULTISTATUS");
             }
 
-            //            if (res.href === href) {
             if (!res.propstat) {
                 throw new NCError(`The mulitstatus response must have a "propstat" container`, "ERR_RESPONSE_MISSING_PROPSTAT");
             }
             let propStats = res.propstat;
 
             // ensure an array
-            if (res.propstat.prop) {
+            if (res.propstat.status || res.propstat.prop) {
                 propStats = [res.propstat];
             }
 
@@ -1214,11 +1221,12 @@ export default class NCClient {
             requestInit.headers = new Headers();
         }
 
+        /* istanbul ignore else */
         if (this.fakeServer) {
             return await this.fakeServer.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
+        } else {
+            return await this.httpClient!.getHttpResponse(url, requestInit, expectedHttpStatusCode, context);
         }
-        return await this.httpClient!.getHttpResponse(url, requestInit, expectedHttpStatusCode, context);
-
     }
 
     /**
@@ -1248,14 +1256,14 @@ export default class NCClient {
 
             for (const folderElement of folderContentsArray) {
                 if (folderElement.type === "directory") {
-                    if (folderIndicator === true) {
-                        resultArray.push(folderElement);
-                    }
+                    // if (folderIndicator === true) {
+                    resultArray.push(folderElement);
+                    // }
                 } else {
-                    if (folderIndicator === false) {
-                        debug("Contents folder element file %O ", folderElement);
-                        resultArray.push(folderElement);
-                    }
+                    // if (folderIndicator === false) {
+                    debug("Contents folder element file %O ", folderElement);
+                    resultArray.push(folderElement);
+                    // }
                 }
             }
         } catch (e) {
@@ -1386,18 +1394,13 @@ export default class NCClient {
             method: "PUT",
         };
         let response: Response;
-        try {
-            response = await this.getHttpResponse(
-                url,
-                requestInit,
-                [201, 204],
-                { description: "File save content" },
-            );
+        response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [201, 204],
+            { description: "File save content" },
+        );
 
-        } catch (err) {
-            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
-            throw err;
-        }
         return response;
     }
 

@@ -51,7 +51,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Sat, 28 Dec 2019 18:28:59 GMT</d:getlastmodified><d:getetag>&quot;4ba873fe3b38e938dc115edfe01922ac&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>79987</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:44:21 GMT</d:getlastmodified><d:getetag>&quot;09ea7e14631320c0f1877dfa096e8dee&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>80424</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Holger Gockel</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -60,11 +60,11 @@
                         "href": "/remote.php/webdav/file1.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Sat, 28 Dec 2019 18:28:59 GMT",
-                                "getetag": "&quot;4ba873fe3b38e938dc115edfe01922ac&quot;",
+                                "getlastmodified": "Mon, 30 Dec 2019 09:44:21 GMT",
+                                "getetag": "&quot;09ea7e14631320c0f1877dfa096e8dee&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 79987,
+                                "fileid": 80424,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,
