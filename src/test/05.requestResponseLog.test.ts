@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
-
 import { expect } from "chai";
 import { promises as fsPromises } from "fs";
 import "mocha";

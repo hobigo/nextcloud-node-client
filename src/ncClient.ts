@@ -1,23 +1,17 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
-
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
     Headers,
     RequestInit,
     Response,
-    ResponseInit,
 } from "node-fetch";
 import path, { basename } from "path";
-import NCEnvironment from "./ncEnvironment";
-import NCEnvironmentVcapServices from "./ncEnvironmentVcapServices";
 import NCError from "./ncError";
 import NCFakeServer from "./ncFakeServer";
 import NCFile from "./ncFile";
 import NCFolder from "./ncFolder";
 import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "./ncHttpClient";
-import { NCServer } from "./ncServer";
+import NCServer from "./ncServer";
 import NCTag from "./ncTag";
 
 export {
@@ -44,94 +38,6 @@ interface IStat {
 export default class NCClient {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
-
-    /**
-     * returns the nextcloud credentials that is defined in the
-     * "user-provided" service section of the VCAP_SERVICES environment
-     * @param instanceName the name of the nextcloud user provided service instance
-     * @returns credentials from the VCAP_SERVICES environment (user provided service)
-     */
-    public static getCredentialsFromEnv(): NCServer {
-        return new NCEnvironment().getServer();
-
-        /*
-
-        if (!process.env.NEXTCLOUD_URL) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
-                , "ERR_NEXTCLOUD_URL_NOT_DEFINED");
-        }
-
-        if (!process.env.NEXTCLOUD_USERNAME) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_USERNAME not defined in environment"
-                , "ERR_NEXTCLOUD_USERNAME_NOT_DEFINED");
-        }
-
-        if (!process.env.NEXTCLOUD_PASSWORD) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_PASSWORD not defined in environment"
-                , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
-        }
-
-        let logRequestResponse: boolean;
-
-        if ((process.env.TEST_RECORDING_ACTIVE &&
-            (process.env.TEST_RECORDING_ACTIVE === "0" || process.env.TEST_RECORDING_ACTIVE === "false" || process.env.TEST_RECORDING_ACTIVE === "inactive")) ||
-            !process.env.TEST_RECORDING_ACTIVE) {
-            logRequestResponse = false;
-        } else {
-            logRequestResponse = true;
-        }
-
-        return new NCServer(process.env.NEXTCLOUD_URL,
-            {
-                password: process.env.NEXTCLOUD_PASSWORD,
-                username: process.env.NEXTCLOUD_USERNAME,
-            }, undefined, logRequestResponse);
-            */
-    }
-
-    /**
-     * returns the nextcloud credentials that is defined in the
-     * "user-provided" service section of the VCAP_SERVICES environment
-     * @param instanceName the name of the nextcloud user provided service instance
-     * @returns credentials from the VCAP_SERVICES environment (user provided service)
-     */
-    public static getCredentialsFromVcapServicesEnv(instanceName: string): NCServer {
-
-        return new NCEnvironmentVcapServices(instanceName).getServer();
-        /*
-        if (!process.env.VCAP_SERVICES) {
-            throw new NCError("NCClient getCredentials: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
-        }
-
-        const vcapServices = require("vcap_services");
-        const cred = vcapServices.getCredentials("user-provided", null, instanceName);
-
-        if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password)) {
-            debug("NCClient: error credentials not found or not fully specified %O", cred);
-            throw new NCError(`NCClient getCredentials: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
-        }
-
-        if (!cred.url) {
-            throw new NCError("NCClient getCredentials: VCAP_SERVICES url not defined in user provided services for nextcloud"
-                , "ERR_VCAP_SERVICES_URL_NOT_DEFINED",
-                { credentials: cred });
-        }
-
-        if (!cred.password) {
-            throw new NCError("NCClient getCredentials VCAP_SERVICES password not defined in user provided services for nextcloud",
-                "ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED",
-                { credentials: cred });
-        }
-
-        if (!cred.username) {
-            throw new NCError("NCClient getCredentials VCAP_SERVICES username not defined in user provided services for nextcloud",
-                "ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED",
-                { credentials: cred });
-        }
-
-        return new NCServer(cred.url, { username: cred.username, password: cred.password });
-        */
-    }
 
     private nextcloudOrigin: string;
     private nextcloudAuthHeader: string;
@@ -743,7 +649,7 @@ export default class NCClient {
      * @param fileName the file name /folder1/folder2/filename.txt
      * @param data the buffer object
      */
-    public async createFile(fileName: string, data: Buffer): Promise<NCFile | null> {
+    public async createFile(fileName: string, data: Buffer): Promise<NCFile> {
 
         if (fileName.startsWith("./")) {
             fileName = fileName.replace("./", "/");
@@ -760,6 +666,10 @@ export default class NCClient {
 
         let file: NCFile | null;
         file = await this.getFile(fileName);
+
+        if (!file) {
+            throw new Error("createFile: Error creating file " + fileName);
+        }
         return file;
     }
 

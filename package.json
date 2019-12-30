@@ -51,19 +51,19 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/debug": "0.0.31",
-    "@types/node": "^12.12.14",
+    "@types/node": "^12.12.22",
     "@types/node-fetch": "^2.5.4",
     "debug": "^4.1.0",
     "dotenv": "^6.2.0",
-    "fast-xml-parser": "^3.15.0",
+    "fast-xml-parser": "^3.15.1",
     "http-proxy-agent": "^2.1.0",
     "node-fetch": "^2.6.0",
-    "npm": "^6.13.2",
+    "npm": "^6.13.4",
     "ts-md5": "^1.2.7",
     "vcap_services": "^0.6.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.6",
+    "@types/chai": "^4.2.7",
     "@types/debug": "0.0.30",
     "@types/http-proxy-agent": "^2.0.2",
     "@types/mocha": "^5.2.7",
@@ -75,7 +75,7 @@
     "ts-node": "^7.0.1",
     "tslint": "^5.20.1",
     "typedoc": "^0.14.1",
-    "typescript": "^3.7.3"
+    "typescript": "^3.7.4"
   },
   "bugs": {
     "url": "https://github.com/hobigo/nextcloud-node-client/issues"

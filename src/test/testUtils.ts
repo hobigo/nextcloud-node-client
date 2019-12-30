@@ -1,10 +1,8 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
-
 import debugFactory from "debug";
 import NCClient from "../ncClient";
+import NCEnvironment from "../ncEnvironment";
 import NCFakeServer from "../ncFakeServer";
-import { NCServer } from "../ncServer";
+import NCServer from "../ncServer";
 import RequestResponseLog from "../requestResponseLog";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 
@@ -19,7 +17,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
 
     // use command line parameter to override recording settings
     if (process.argv.find((element) => element === "--record")) {
-        const ncserver: NCServer = NCClient.getCredentialsFromEnv();
+        const ncserver: NCServer = new NCEnvironment().getServer();
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console
         console.log("Test recording: " + rrLog.getFileName());

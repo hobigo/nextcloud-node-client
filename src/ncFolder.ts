@@ -72,7 +72,7 @@ export default class NCFolder {
      * @returns the new file or null
      * @throws Error
      */
-    public async createFile(fileBaseName: string, data: Buffer): Promise<NCFile | null> {
+    public async createFile(fileBaseName: string, data: Buffer): Promise<NCFile> {
         // must not contain :/\*"<>?
         debug("createFile fileBaseName = %s", fileBaseName);
         const invalidChars: string[] = [":", "*", "/", "\\", "\"", "?", "<", ">"];

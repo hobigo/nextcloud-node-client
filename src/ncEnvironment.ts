@@ -3,7 +3,7 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import NCError from "./ncError";
-import { NCServer } from "./ncServer";
+import NCServer from "./ncServer";
 
 const debug = debugFactory("NCEnvironment");
 
@@ -36,25 +36,29 @@ export default class NCEnvironment {
     public getServer(): NCServer {
 
         if (!this.url) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_URL not defined in environment"
+            throw new NCError("NCEnvironment: NEXTCLOUD_URL not defined in environment"
                 , "ERR_NEXTCLOUD_URL_NOT_DEFINED");
         }
 
         if (!this.userName) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_USERNAME not defined in environment"
+            throw new NCError("NCEnvironment: NEXTCLOUD_USERNAME not defined in environment"
                 , "ERR_NEXTCLOUD_USERNAME_NOT_DEFINED");
         }
 
         if (!this.password) {
-            throw new NCError("NCClient getCredentialsFromEnv: NEXTCLOUD_PASSWORD not defined in environment"
+            throw new NCError("NCEnvironment: NEXTCLOUD_PASSWORD not defined in environment"
                 , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
         }
 
-        return new NCServer(this.url,
-            {
+        return new NCServer({
+            basicAuth: {
                 password: this.password,
                 username: this.userName,
-            }, undefined, this.recordingActive);
+            },
+            logRequestResponse: this.recordingActive,
+            url: this.url,
+        });
+
     }
 
 }
