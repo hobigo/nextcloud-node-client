@@ -1394,6 +1394,50 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     });
 
+    it("72 create file fails", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        // save content
+        entries.push({
+            request: {
+                description: "File save content",
+                method: "PUT",
+                url: "/remote.php/webdav/file72.txt",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                status: 201,
+            },
+        });
+        // file not available
+        entries.push({
+            request: {
+                description: "File/Folder get details",
+                method: "PROPFIND",
+                url: "/remote.php/webdav/file72.txt",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                status: 404,
+            },
+        });
+
+        let errorOccurred;
+        const fileName = "/file72.txt";
+
+        let file: NCFile | null = null;
+        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        try {
+            file = await lclient.createFile(fileName, Buffer.from("this is a test text"));
+            errorOccurred = false;
+        } catch (e) {
+            errorOccurred = true;
+            expect(e.message, "expect no exception").to.be.equal("createFile: Error creating file /file72.txt");
+        }
+        //  expect(errorOccurred, "expect no exception").to.be.equal(false);
+
+    });
+
     it("99 delete folder", async () => {
 
         const dirName = "/test";
