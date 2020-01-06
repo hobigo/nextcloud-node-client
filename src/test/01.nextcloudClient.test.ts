@@ -33,16 +33,50 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     });
 
     this.timeout(1 * 60 * 1000);
-    it("01 create client", async () => {
 
-        let exceptionOccurred;
+    it("01 create client fails", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: undefined,
+            VCAP_SERVICES: undefined,
+        });
 
         try {
-
-            exceptionOccurred = false;
+            // tslint:disable-next-line:no-unused-expression
+            new NCClient();
+            expect(false, "expect an exception").to.be.equal(true);
         } catch (e) {
-            exceptionOccurred = true;
-            expect(exceptionOccurred, "expect that no exception occures when creating a nextcloud client: exception: " + e.message).to.be.equal(false);
+            // should fail, if env is not set correctly
+            expect(e).to.have.property("message");
+            expect(e).to.have.property("code");
+            expect(e.code).to.be.equal("ERR_NEXTCLOUD_URL_NOT_DEFINED");
+        } finally {
+            restore();
+        }
+    });
+
+    it("02 create client success", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: undefined,
+            VCAP_SERVICES: JSON.stringify(
+                {
+                    "user-provided":
+                        [{
+                            credentials: {
+                                password: "somePassword",
+                                url: "https://some.host-name.com/remote.php/webdav",
+                                username: "someUserName",
+                            },
+                            name: "nextcloud",
+                        }],
+                }),
+        });
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            new NCClient();
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("expect no exception");
+        } finally {
+            restore();
         }
     });
 
@@ -361,7 +395,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
-        const id: number = await file!.getId();
+        const id: number = await file!.id;
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
@@ -374,7 +408,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         const baseDir = await client.createFolder(dirName);
 
-        const id: number = await baseDir!.getId();
+        const id: number = await baseDir!.id;
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
@@ -453,7 +487,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         expect(file, "expect file not to be null").to.be.not.equal(null);
         if (file) {
-            const fileId: number = await file.getId();
+            const fileId: number = await file.id;
             expect(fileId, "expect fileid to a number").to.be.a("number");
             expect(fileId).not.to.be.equal(-1);
 
@@ -541,7 +575,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         await baseDir.delete();
         try {
             // tslint:disable-next-line:no-unused-expression
-            await baseDir.getId();
+            await baseDir.id;
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -585,7 +619,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
             try {
                 // tslint:disable-next-line:no-unused-expression
-                await file.getId();
+                await file.id;
             } catch (e) {
                 expect(e).to.have.property("message");
                 expect(e).to.have.property("code");
@@ -613,6 +647,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         try {
             new NCEnvironmentVcapServices("").getServer();
+            expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -628,13 +663,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                         [{
                             credentials: {
                             },
-                            instance_name: "test",
+                            name: "test",
                         }],
                 }),
         });
 
         try {
             new NCEnvironmentVcapServices("").getServer();
+            expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -652,13 +688,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                                 url: "https://some.host-name.com/remote.php/webdav",
                                 username: "someUserName",
                             },
-                            instance_name: "test",
+                            name: "test",
                         }],
                 }),
         });
 
         try {
             new NCEnvironmentVcapServices("").getServer();
+            expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -676,13 +713,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                                 password: "somePassword",
                                 url: "https://some.host-name.com/remote.php/webdav",
                             },
-                            instance_name: "test",
+                            name: "test",
                         }],
                 }),
         });
 
         try {
             new NCEnvironmentVcapServices("").getServer();
+            expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -701,7 +739,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                                 url: "https://some.host-name.com/remote.php/webdav",
                                 username: "someUserName",
                             },
-                            instance_name: "test",
+                            name: "test",
                         }],
                 }),
         });
@@ -723,7 +761,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
                                 password: "somePassword",
                                 username: "someUserName",
                             },
-                            instance_name: "test",
+                            name: "test",
                         }],
                 }),
         });
@@ -1436,6 +1474,121 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         }
         //  expect(errorOccurred, "expect no exception").to.be.equal(false);
 
+    });
+
+    it("73 access propertries of a deleted file should fail", async () => {
+
+        const dirName = "/test/fileDelete73";
+        const fileName1 = "file1.txt";
+
+        const baseDir = await client.createFolder(dirName);
+        await baseDir.createFile(fileName1, Buffer.from("File 1"));
+
+        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+
+        await file!.delete();
+        const arr: any[] = [];
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.baseName);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.name);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.id);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.lastmod);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.mime);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(file!.size);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        expect(arr.length, "expect that no property is accessible").to.be.equal(0);
+        await baseDir.delete();
+    });
+
+    it("74 access propertries of a deleted folder should fail", async () => {
+
+        const dirName = "/test/fileDelete74";
+
+        const baseDir = await client.createFolder(dirName);
+
+        await baseDir.delete();
+        const arr: any[] = [];
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(baseDir.baseName);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(baseDir.name);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(baseDir.id);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            arr.push(baseDir.lastmod);
+            // tslint:disable-next-line:no-empty
+        } catch (e) { }
+
+        expect(arr.length, "expect that no property is accessible").to.be.equal(0);
+        await baseDir.delete();
+    });
+
+    it("75 move file fails", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "File move",
+                method: "MOVE",
+                url: "/remote.php/webdav/test/renameFile75/sourceFile.txt",
+            },
+            response: {
+                contentType: "text/html; charset=UTF-8",
+                status: 500,
+            },
+        });
+
+        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        let q;
+        try {
+            q = await lclient.moveFile("from", "to");
+        } catch (e) {
+            expect(true, "expect an exception").to.be.equal(true);
+        }
+        expect(q).to.be.equal(undefined);
     });
 
     it("99 delete folder", async () => {

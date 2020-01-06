@@ -114,7 +114,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
-        const id: number = await file!.getId();
+        const id: number = await file!.id;
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
@@ -153,7 +153,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
-        const id: number = await file!.getId();
+        const id: number = await file!.id;
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);
@@ -255,7 +255,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
-        const id: number = await file!.getId();
+        const id: number = await file!.id;
 
         expect(id, "expect id to be a number").to.be.a("number");
         expect(id, "expect id to be not -1").to.be.not.equal(-1);

@@ -6,18 +6,44 @@ import NCError from "./ncError";
 import NCFile from "./ncFile";
 
 export default class NCFolder {
-    public name: string;
-    public baseName: string;
-    public lastmod: Date;
     private client: NCClient;
-    private id: number;
+    private memento: {
+        baseName: string,
+        id: number,
+        deleted: boolean,
+        lastmod: Date,
+        name: string,
+    };
     constructor(client: NCClient, name: string, baseName: string, lastmod: string, id: number = -1) {
 
         this.client = client;
-        this.name = name;
-        this.baseName = baseName;
-        this.lastmod = new Date(lastmod);
-        this.id = id;
+        this.memento = {
+            baseName,
+            deleted: false,
+            id,
+            lastmod: new Date(lastmod),
+            name,
+        };
+    }
+
+    get name(): string {
+        this.assertExistence();
+        return this.memento.name;
+    }
+
+    get baseName(): string {
+        this.assertExistence();
+        return this.memento.baseName;
+    }
+
+    get lastmod(): Date {
+        this.assertExistence();
+        return this.memento.lastmod;
+    }
+
+    get id(): number {
+        this.assertExistence();
+        return this.memento.id;
     }
 
     /**
@@ -25,6 +51,7 @@ export default class NCFolder {
      * @throws Error
      */
     public async getSubFolders(): Promise<NCFolder[]> {
+        this.assertExistence();
         return await this.client.getSubFolders(this.name);
     }
 
@@ -33,6 +60,7 @@ export default class NCFolder {
      * @param subFolderBaseName the base name of the subfolder like "products"
      */
     public async hasSubFolder(subFolderBaseName: string): Promise<boolean> {
+        this.assertExistence();
         const subFolder: NCFolder | null = await this.client.getFolder(this.name + "/" + subFolderBaseName);
         if (subFolder) {
             return true;
@@ -44,7 +72,8 @@ export default class NCFolder {
      * @returns all files of the folder
      */
     public async getFiles(): Promise<NCFile[]> {
-        return this.client.getFiles(this.name);
+        this.assertExistence();
+        return await this.client.getFiles(this.name);
     }
 
     /**
@@ -52,7 +81,8 @@ export default class NCFolder {
      * @param subFolderBaseName  name of the subfolder basename
      */
     public async createSubFolder(subFolderBaseName: string): Promise<NCFolder> {
-        return this.client.createFolder(this.name + "/" + subFolderBaseName);
+        this.assertExistence();
+        return await this.client.createFolder(this.name + "/" + subFolderBaseName);
     }
 
     /**
@@ -62,6 +92,7 @@ export default class NCFolder {
      * @throws Error
      */
     public async getFile(fileBaseName: string): Promise<NCFile | null> {
+        this.assertExistence();
         return this.client.getFile(this.name + "/" + fileBaseName);
     }
 
@@ -73,6 +104,7 @@ export default class NCFolder {
      * @throws Error
      */
     public async createFile(fileBaseName: string, data: Buffer): Promise<NCFile> {
+        this.assertExistence();
         // must not contain :/\*"<>?
         debug("createFile fileBaseName = %s", fileBaseName);
         const invalidChars: string[] = [":", "*", "/", "\\", "\"", "?", "<", ">"];
@@ -95,8 +127,8 @@ export default class NCFolder {
      */
     public async delete(): Promise<void> {
         debug("delete");
-        this.id = -1;
-        return await this.client.deleteFolder(this.name);
+        this.memento.deleted = true;
+        return await this.client.deleteFolder(this.memento.name);
     }
 
     /**
@@ -106,10 +138,11 @@ export default class NCFolder {
      * @throws Error
      */
     public async move(targetFolderName: string): Promise<NCFolder> {
+        this.assertExistence();
         const folder: NCFolder = await this.client.moveFolder(this.name, targetFolderName);
-        this.name = folder.name;
-        this.baseName = folder.baseName;
-        this.lastmod = folder.lastmod;
+        this.memento.name = folder.name;
+        this.memento.baseName = folder.baseName;
+        this.memento.lastmod = folder.lastmod;
         return this;
     }
 
@@ -118,6 +151,7 @@ export default class NCFolder {
      * @throws Error
      */
     public getUrl(): string {
+        this.assertExistence();
         return this.client.getLink(this.name);
     }
 
@@ -125,19 +159,9 @@ export default class NCFolder {
      * @returns the url of the folder in the UI
      * @throws Error
      */
-    public async getUIUrl(): Promise<string> {
-        return this.client.getUILink(await this.getId());
-    }
-
-    /**
-     * @returns the id of the folder, -1 if the folder has been deleted
-     * @throws Error
-     */
-    public async getId(): Promise<number> {
-        if (this.id === -1) {
-            throw new NCError("Folder does not exist", "ERR_FOLDER_NOT_EXISTING");
-        }
-        return this.id;
+    public getUIUrl(): string {
+        this.assertExistence();
+        return this.client.getUILink( this.id);
     }
 
     /**
@@ -146,6 +170,7 @@ export default class NCFolder {
      * @throws Error
      */
     public async containsFile(fileBaseName: string): Promise<boolean> {
+        this.assertExistence();
         let file: NCFile | null;
         file = await this.getFile(fileBaseName);
         if (file) {
@@ -159,7 +184,7 @@ export default class NCFolder {
      * @param tagName name of the tag
      */
     public async addTag(tagName: string): Promise<void> {
-        return this.client.addTagToFile(await this.getId(), tagName);
+        return await this.client.addTagToFile( this.id, tagName);
     }
 
     /**
@@ -167,7 +192,8 @@ export default class NCFolder {
      * @returns array of tag names
      */
     public async getTags(): Promise<string[]> {
-        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        this.assertExistence();
+        const map: Map<string, number> = await this.client.getTagsOfFile( this.id);
         const tagNames: string[] = [];
         for (const tagName of map) {
             tagNames.push(tagName[0]);
@@ -180,12 +206,13 @@ export default class NCFolder {
      * @param tagName the name of the tag
      */
     public async removeTag(tagName: string): Promise<void> {
-        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        this.assertExistence();
+        const map: Map<string, number> = await this.client.getTagsOfFile( this.id);
         const tagNames: string[] = [];
 
         const tagId: number | undefined = map.get(tagName);
         if (tagId) {
-            await this.client.removeTagOfFile(await this.getId(), tagId);
+            await this.client.removeTagOfFile( this.id, tagId);
         }
     }
 
@@ -194,7 +221,8 @@ export default class NCFolder {
      * @param comment the comment
      */
     public async addComment(comment: string): Promise<void> {
-        return this.client.addCommentToFile(await this.getId(), comment);
+        this.assertExistence();
+        return await this.client.addCommentToFile( this.id, comment);
     }
 
     /**
@@ -205,6 +233,14 @@ export default class NCFolder {
      * @throws Exception
      */
     public async getComments(top?: number, skip?: number): Promise<string[]> {
-        return this.client.getFileComments(await this.getId(), top, skip);
+        this.assertExistence();
+        return await this.client.getFileComments( this.id, top, skip);
     }
+
+    private assertExistence(): void {
+        if (this.memento.deleted) {
+            throw new NCError("Folder does not exist", "ERR_FOLDER_NOT_EXISTING");
+        }
+    }
+
 }

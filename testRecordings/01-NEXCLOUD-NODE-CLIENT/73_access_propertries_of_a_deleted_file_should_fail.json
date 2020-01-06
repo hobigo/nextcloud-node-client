@@ -1,7 +1,7 @@
 [
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder",
+            "url": "/remote.php/webdav/test/fileDelete73",
             "method": "PROPFIND",
             "description": "File/Folder get details",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
@@ -34,7 +34,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder",
+            "url": "/remote.php/webdav/test/fileDelete73",
             "method": "MKCOL",
             "description": "Folder create"
         },
@@ -47,7 +47,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder",
+            "url": "/remote.php/webdav/test/fileDelete73",
             "method": "PROPFIND",
             "description": "File/Folder get details",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
@@ -73,22 +73,22 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/getFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:24:23 GMT</d:getlastmodified><d:getetag>&quot;5e0f408730a24&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83552</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileDelete73/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:25:22 GMT</d:getlastmodified><d:getetag>&quot;5e0f40c20e1ca&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83568</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
-                        "href": "/remote.php/webdav/test/getFolder/",
+                        "href": "/remote.php/webdav/test/fileDelete73/",
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Fri, 03 Jan 2020 13:24:23 GMT",
-                                    "getetag": "&quot;5e0f408730a24&quot;",
+                                    "getlastmodified": "Fri, 03 Jan 2020 13:25:22 GMT",
+                                    "getetag": "&quot;5e0f40c20e1ca&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 83552,
+                                    "fileid": 83568,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -114,7 +114,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder",
+            "url": "/remote.php/webdav/test/fileDelete73",
             "method": "PROPFIND",
             "description": "File/Folder get details",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
@@ -140,22 +140,22 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/getFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:24:23 GMT</d:getlastmodified><d:getetag>&quot;5e0f408730a24&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83552</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileDelete73/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:25:22 GMT</d:getlastmodified><d:getetag>&quot;5e0f40c20e1ca&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83568</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
-                        "href": "/remote.php/webdav/test/getFolder/",
+                        "href": "/remote.php/webdav/test/fileDelete73/",
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Fri, 03 Jan 2020 13:24:23 GMT",
-                                    "getetag": "&quot;5e0f408730a24&quot;",
+                                    "getlastmodified": "Fri, 03 Jan 2020 13:25:22 GMT",
+                                    "getetag": "&quot;5e0f40c20e1ca&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 83552,
+                                    "fileid": 83568,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -181,7 +181,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder/file1.txt",
+            "url": "/remote.php/webdav/test/fileDelete73/file1.txt",
             "method": "PUT",
             "description": "File save content",
             "body": {
@@ -205,7 +205,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder/file1.txt",
+            "url": "/remote.php/webdav/test/fileDelete73/file1.txt",
             "method": "PROPFIND",
             "description": "File/Folder get details",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
@@ -231,20 +231,20 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/getFolder/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:24:25 GMT</d:getlastmodified><d:getetag>&quot;5bb75169a5ed312bd3c3f5df569daa10&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>83553</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileDelete73/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:25:24 GMT</d:getlastmodified><d:getetag>&quot;ef7abd80ae65eab8d9903c23c1d1857c&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>83569</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
-                        "href": "/remote.php/webdav/test/getFolder/file1.txt",
+                        "href": "/remote.php/webdav/test/fileDelete73/file1.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Fri, 03 Jan 2020 13:24:25 GMT",
-                                "getetag": "&quot;5bb75169a5ed312bd3c3f5df569daa10&quot;",
+                                "getlastmodified": "Fri, 03 Jan 2020 13:25:24 GMT",
+                                "getetag": "&quot;ef7abd80ae65eab8d9903c23c1d1857c&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 83553,
+                                "fileid": 83569,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,
@@ -263,7 +263,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/webdav/test/getFolder/file1.txt",
+            "url": "/remote.php/webdav/test/fileDelete73/file1.txt",
             "method": "PROPFIND",
             "description": "File/Folder get details",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
@@ -289,20 +289,20 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/getFolder/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:24:25 GMT</d:getlastmodified><d:getetag>&quot;5bb75169a5ed312bd3c3f5df569daa10&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>83553</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileDelete73/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:25:24 GMT</d:getlastmodified><d:getetag>&quot;ef7abd80ae65eab8d9903c23c1d1857c&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>83569</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
-                        "href": "/remote.php/webdav/test/getFolder/file1.txt",
+                        "href": "/remote.php/webdav/test/fileDelete73/file1.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Fri, 03 Jan 2020 13:24:25 GMT",
-                                "getetag": "&quot;5bb75169a5ed312bd3c3f5df569daa10&quot;",
+                                "getlastmodified": "Fri, 03 Jan 2020 13:25:24 GMT",
+                                "getetag": "&quot;ef7abd80ae65eab8d9903c23c1d1857c&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 83553,
+                                "fileid": 83569,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,
@@ -317,6 +317,99 @@
                     }
                 }
             }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/test/fileDelete73/file1.txt",
+            "method": "DELETE",
+            "description": "File delete"
+        },
+        "response": {
+            "status": 204,
+            "body": "",
+            "contentType": "text/html; charset=UTF-8",
+            "contentLocation": ""
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/test/fileDelete73",
+            "method": "PROPFIND",
+            "description": "File/Folder get details",
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
+        },
+        "response": {
+            "status": 207,
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileDelete73/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:25:27 GMT</d:getlastmodified><d:getetag>&quot;5e0f40c785629&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83568</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/test/fileDelete73/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Fri, 03 Jan 2020 13:25:27 GMT",
+                                    "getetag": "&quot;5e0f40c785629&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 83568,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Horst-Thorsten Borstenson",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/test/fileDelete73",
+            "method": "DELETE",
+            "description": "File delete"
+        },
+        "response": {
+            "status": 204,
+            "body": "",
+            "contentType": "text/html; charset=UTF-8",
+            "contentLocation": ""
         }
     }
 ]

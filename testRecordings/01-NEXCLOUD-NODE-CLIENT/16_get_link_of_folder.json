@@ -27,7 +27,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileLink/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:43:51 GMT</d:getlastmodified><d:getetag>&quot;5e09c6d711949&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>80410</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>6</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileLink/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:23:41 GMT</d:getlastmodified><d:getetag>&quot;5e0f405d55468&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>83540</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>6</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -37,12 +37,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 30 Dec 2019 09:43:51 GMT",
-                                    "getetag": "&quot;5e09c6d711949&quot;",
+                                    "getlastmodified": "Fri, 03 Jan 2020 13:23:41 GMT",
+                                    "getetag": "&quot;5e0f405d55468&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 80410,
+                                    "fileid": 83540,
                                     "permissions": "RGDNVCK",
                                     "size": 6,
                                     "has-preview": false,

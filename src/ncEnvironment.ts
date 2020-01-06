@@ -12,7 +12,6 @@ export default class NCEnvironment {
     public readonly userName?: string;
     public readonly password?: string;
     public readonly recordingActive: boolean;
-    public readonly vcapServices?: string;
 
     public constructor() {
         this.url = process.env.NEXTCLOUD_URL;

@@ -25,7 +25,7 @@ export default class NCEnvironmentVcapServices {
         }
 
         const vcapServices = require("vcap_services");
-        const cred = vcapServices.getCredentials("user-provided", null, instanceName);
+        const cred = vcapServices.getCredentials("user-provided", undefined, instanceName);
 
         if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password)) {
             debug("NCEnvironmentVcapServices: error credentials not found or not fully specified %O", cred);

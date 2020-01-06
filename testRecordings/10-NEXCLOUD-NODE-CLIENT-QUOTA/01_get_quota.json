@@ -7,7 +7,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 30 Dec 2019 09:46:40 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>-3</d:quota-available-bytes><d:getetag>&quot;5e09c780b555e&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 03 Jan 2020 13:28:27 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>5368709120</d:quota-available-bytes><d:getetag>&quot;5e0f417b26c84&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -16,13 +16,13 @@
                         "href": "/remote.php/webdav/",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Mon, 30 Dec 2019 09:46:40 GMT",
+                                "getlastmodified": "Fri, 03 Jan 2020 13:28:27 GMT",
                                 "resourcetype": {
                                     "collection": ""
                                 },
                                 "quota-used-bytes": 0,
-                                "quota-available-bytes": -3,
-                                "getetag": "&quot;5e09c780b555e&quot;"
+                                "quota-available-bytes": 5368709120,
+                                "getetag": "&quot;5e0f417b26c84&quot;"
                             },
                             "status": "HTTP/1.1 200 OK"
                         }

@@ -2,11 +2,11 @@
 import NCClient from "./ncClient";
 
 export default class NCTag {
-    public id: number;
-    public name: string;
-    public visible: boolean;
-    public assignable: boolean;
-    public canAssign: boolean;
+    public readonly id: number;
+    public readonly name: string;
+    public readonly visible: boolean;
+    public readonly assignable: boolean;
+    public readonly canAssign: boolean;
     private client: NCClient;
     constructor(client: NCClient, id: number, name: string, visible: boolean, assignable: boolean, canAssign: boolean) {
         this.client = client;

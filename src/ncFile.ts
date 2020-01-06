@@ -2,29 +2,63 @@
 import NCClient, { NCError } from "./ncClient";
 
 export default class NCFile {
-    public name: string;
-    public baseName: string;
-    public lastmod: Date;
-    public size: number;
-    public mime: string;
-    private id: number;
+    private memento: {
+        baseName: string,
+        id: number,
+        deleted: boolean,
+        lastmod: Date,
+        mime: string,
+        name: string,
+        size: number,
+    };
     private client: NCClient;
     constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number) {
+        this.memento = {
+            baseName,
+            deleted: false,
+            id,
+            lastmod: new Date(lastmod),
+            mime,
+            name,
+            size,
+        };
         this.client = client;
-        this.name = name;
-        this.baseName = baseName;
-        this.lastmod = new Date(lastmod);
-        this.size = size;
-        this.mime = mime;
-        this.id = id;
     }
+
+    get name(): string {
+        this.assertExistence();
+        return this.memento.name;
+    }
+
+    get baseName(): string {
+        this.assertExistence();
+        return this.memento.baseName;
+    }
+
+    get lastmod(): Date {
+        this.assertExistence();
+        return this.memento.lastmod;
+    }
+    get size(): number {
+        this.assertExistence();
+        return this.memento.size;
+    }
+    get mime(): string {
+        this.assertExistence();
+        return this.memento.mime;
+    }
+    get id(): number {
+        this.assertExistence();
+        return this.memento.id;
+    }
+
     /**
      * deletes a file
      * @throws Error
      */
     public async delete(): Promise<void> {
-        this.id = -1;
-        return await this.client.deleteFile(this.name);
+        this.memento.deleted = true;
+        return await this.client.deleteFile(this.memento.name);
     }
 
     /**
@@ -34,24 +68,14 @@ export default class NCFile {
      * @throws Error
      */
     public async move(targetFileName: string): Promise<NCFile> {
+        this.assertExistence();
         const file: NCFile = await this.client.moveFile(this.name, targetFileName);
-        this.name = file.name;
-        this.baseName = file.baseName;
-        this.lastmod = file.lastmod;
-        this.mime = file.mime;
-        this.size = file.size;
+        this.memento.name = file.name;
+        this.memento.baseName = file.baseName;
+        this.memento.lastmod = file.lastmod;
+        this.memento.mime = file.mime;
+        this.memento.size = file.size;
         return this;
-    }
-
-    /**
-     * @returns the id of the file, -1 if the file has been deleted
-     * @throws Error
-     */
-    public async getId(): Promise<number> {
-        if (this.id === -1) {
-            throw new NCError("File does not exist", "ERR_FILE_NOT_EXISTING");
-        }
-        return this.id;
     }
 
     /**
@@ -59,6 +83,7 @@ export default class NCFile {
      * @throws Error
      */
     public async getContent(): Promise<Buffer> {
+        this.assertExistence();
         return this.client.getContent(this.name);
     }
 
@@ -67,6 +92,7 @@ export default class NCFile {
      * @throws Error
      */
     public getUrl(): string {
+        this.assertExistence();
         return this.client.getLink(this.name);
     }
 
@@ -74,8 +100,9 @@ export default class NCFile {
      * @returns the url of the file in the UI
      * @throws Error
      */
-    public async getUIUrl(): Promise<string> {
-        return this.client.getUILink(await this.getId());
+    public getUIUrl(): string {
+        this.assertExistence();
+        return this.client.getUILink(this.id);
     }
 
     /**
@@ -83,7 +110,8 @@ export default class NCFile {
      * @param tagName name of the tag
      */
     public async addTag(tagName: string): Promise<void> {
-        return this.client.addTagToFile(await this.getId(), tagName);
+        this.assertExistence();
+        return this.client.addTagToFile(this.id, tagName);
     }
 
     /**
@@ -91,7 +119,8 @@ export default class NCFile {
      * @returns array of tag names
      */
     public async getTags(): Promise<string[]> {
-        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
+        this.assertExistence();
+        const map: Map<string, number> = await this.client.getTagsOfFile(this.id);
         const tagNames: string[] = [];
         for (const tagName of map) {
             tagNames.push(tagName[0]);
@@ -104,12 +133,12 @@ export default class NCFile {
      * @param tagName the name of the tag
      */
     public async removeTag(tagName: string): Promise<void> {
-        const map: Map<string, number> = await this.client.getTagsOfFile(await this.getId());
-        const tagNames: string[] = [];
+        this.assertExistence();
+        const map: Map<string, number> = await this.client.getTagsOfFile(this.id);
 
         const tagId: number | undefined = map.get(tagName);
         if (tagId) {
-            await this.client.removeTagOfFile(await this.getId(), tagId);
+            await this.client.removeTagOfFile(this.id, tagId);
         }
     }
 
@@ -118,7 +147,8 @@ export default class NCFile {
      * @param comment the comment
      */
     public async addComment(comment: string): Promise<void> {
-        return this.client.addCommentToFile(await this.getId(), comment);
+        this.assertExistence();
+        return await this.client.addCommentToFile(this.id, comment);
     }
 
     /**
@@ -129,7 +159,13 @@ export default class NCFile {
      * @throws Exception
      */
     public async getComments(top?: number, skip?: number): Promise<string[]> {
-        return this.client.getFileComments(await this.getId(), top, skip);
+        this.assertExistence();
+        return await this.client.getFileComments(this.id, top, skip);
     }
 
+    private assertExistence(): void {
+        if (this.memento.deleted) {
+            throw new NCError("File does not exist", "ERR_FILE_NOT_EXISTING");
+        }
+    }
 }

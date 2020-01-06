@@ -6,6 +6,8 @@ import {
     Response,
 } from "node-fetch";
 import path, { basename } from "path";
+import NCEnvironment from "./ncEnvironment";
+import NCEnvironmentVcapServices from "./ncEnvironmentVcapServices";
 import NCError from "./ncError";
 import NCFakeServer from "./ncFakeServer";
 import NCFile from "./ncFile";
@@ -35,6 +37,9 @@ interface IStat {
     "fileid"?: number;
 }
 
+/**
+ * The nextcloud client is the root object to access the remote api of the nextcloud server.<br>
+ */
 export default class NCClient {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
@@ -48,12 +53,42 @@ export default class NCClient {
     private logRequestResponse: boolean = false;
     private httpClient?: NCHttpClient;
 
-    public constructor(server: NCServer | NCFakeServer) {
+    /**
+     * Creates a new instance of a nextcloud client.<br/>
+     * Use the server to provide server connectivity information to the client.<br/>
+     * (The FakeServer is only used for testing and code coverage)<br/><br/>
+     * If the server is not provided the client tries to find the connectivity information
+     * in the environment.<br/>
+     * If a <b>VCAP_SERVICES</b> environment variable is available, the client tries to find
+     * a service with the name <b>"nextcloud"</b> in the user-provides-services section.<br/>
+     * If no VCAP_SERVICES are available, the client uses the following variables 
+     * from the envirnonment for the connectivity:<br/>
+     * <ul>
+     * <li>NEXTCLOUD_URL - the WebDAV url of the nextcloud server</li>
+     * <li>NEXTCLOUD_USERNAME - the user name</li>
+     * <li>NEXTCLOUD_PASSWORD - the application password</li>
+     * </ul>
+     * @param server optional server information to connection to a nextcloud server
+     * @constructor
+     */
+    public constructor(server?: NCServer | NCFakeServer) {
         debug("constructor");
         this.nextcloudOrigin = "";
         this.nextcloudAuthHeader = "";
         this.nextcloudRequestToken = "";
         this.webDAVUrl = "";
+
+        // if no server is provided, try to get a server from VCAP_S environment "nextcloud" instance
+        // If no VCAP_S environment exists try from environment
+        if (!server) {
+            try {
+                const env: NCEnvironmentVcapServices = new NCEnvironmentVcapServices("nextcloud");
+                server = env.getServer();
+            } catch (e) {
+                const env: NCEnvironment = new NCEnvironment();
+                server = env.getServer();
+            }
+        }
 
         if (server instanceof NCServer) {
 
