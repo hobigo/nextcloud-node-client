@@ -1,6 +1,6 @@
 {
   "name": "nextcloud-node-client",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Nextcloud client API for node.js",
   "main": "dist/ncClient.js",
   "types": "dist/ncClient.d.ts",
@@ -62,11 +62,10 @@
     "node-fetch": "^2.6.0",
     "npm": "^6.13.4",
     "ts-md5": "^1.2.7",
-    "vcap_services": "^0.6.0"
+    "vcap_services": "^0.7.1"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
-    "@types/debug": "0.0.30",
     "@types/http-proxy-agent": "^2.0.2",
     "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
@@ -76,7 +75,7 @@
     "ts-loader": "^4.4.1",
     "ts-node": "^7.0.1",
     "tslint": "^5.20.1",
-    "typedoc": "^0.14.1",
+    "typedoc": "^0.15.6",
     "typescript": "^3.7.4"
   },
   "bugs": {
