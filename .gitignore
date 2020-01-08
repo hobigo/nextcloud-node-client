@@ -49,6 +49,5 @@ jspm_packages
 lib/*.js
 dist/**/*.js
 dist/**/*.ts
-docs/**
 *.map
 package-lock.json
