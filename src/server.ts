@@ -1,5 +1,5 @@
 import debugFactory from "debug";
-import { IProxy } from "./ncHttpClient";
+import { IProxy } from "./httpClient";
 
 const debug = debugFactory("NCServer");
 
@@ -16,7 +16,7 @@ export interface IServerOptions {
 }
 
 // tslint:disable-next-line: max-classes-per-file
-export default class NCServer {
+export default class Server {
     public url: string;
     public basicAuth: IBasicAuth;
     public proxy?: IProxy;

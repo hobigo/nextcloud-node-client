@@ -3,8 +3,8 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import NCError from "./ncError";
-import NCServer from "./ncServer";
-export { NCServer };
+import Server from "./server";
+export { Server as NCServer };
 
 const debug = debugFactory("NCEnvironmentVcapServices");
 
@@ -13,7 +13,7 @@ const debug = debugFactory("NCEnvironmentVcapServices");
  * "user-provided" service section of the VCAP_SERVICES environment
  * instanceName: the name of the nextcloud user provided service instance
  */
-export default class NCEnvironmentVcapServices {
+export default class EnvironmentVcapServices {
     public readonly url: string;
     public readonly userName: string;
     public readonly password: string;
@@ -61,8 +61,8 @@ export default class NCEnvironmentVcapServices {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public getServer(): NCServer {
-        return new NCServer({
+    public getServer(): Server {
+        return new Server({
             basicAuth: {
                 password: this.password,
                 username: this.userName,

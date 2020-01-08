@@ -1,8 +1,8 @@
 import debugFactory from "debug";
-import NCClient from "../ncClient";
-import NCEnvironment from "../ncEnvironment";
-import NCFakeServer from "../ncFakeServer";
-import NCServer from "../ncServer";
+import NCClient from "../client";
+import Environment from "../environment";
+import FakeServer from "../fakeServer";
+import Server from "../server";
 import RequestResponseLog from "../requestResponseLog";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 
@@ -17,7 +17,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
 
     // use command line parameter to override recording settings
     if (process.argv.find((element) => element === "--record")) {
-        const ncserver: NCServer = new NCEnvironment().getServer();
+        const ncserver: Server = new Environment().getServer();
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console
         console.log("Test recording: " + rrLog.getFileName());
@@ -32,7 +32,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
             // console.log(`recording does not exist for '${context}' file name; '${rrLog.getFileName()}'`);
             entries = [];
         }
-        const fncserver: NCFakeServer = new NCFakeServer(entries);
+        const fncserver: FakeServer = new FakeServer(entries);
         return new NCClient(fncserver);
     }
 };

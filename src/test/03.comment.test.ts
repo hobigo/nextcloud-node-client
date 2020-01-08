@@ -5,7 +5,7 @@ import {
     NCClient,
     NCFile,
     NCFolder,
-} from "../ncClient";
+} from "../client";
 import { getNextcloudClient } from "./testUtils";
 
 let client: NCClient;

@@ -5,8 +5,8 @@ import {
     NCClient,
     NCFile,
     NCFolder,
-} from "../ncClient";
-import NCServer from "../ncServer";
+} from "../client";
+import Server from "../server";
 import { getNextcloudClient } from "./testUtils";
 
 // tslint:disable-next-line:only-arrow-functions
@@ -18,7 +18,7 @@ describe("05-NEXCLOUD-NODE-CLIENT-README", function () {
 
         // service instance name from VCAP_SERVICES environment - "user-provided" section
         try {
-            const server = new NCServer({ url: "http:/test.test", basicAuth: { username: "user", password: "password" } });
+            const server = new Server({ url: "http:/test.test", basicAuth: { username: "user", password: "password" } });
             const client = new NCClient(server);
             const folder: NCFolder = await client.createFolder("test");
             const file: NCFile = await folder.createFile("myFile.txt", Buffer.from("My file content"));

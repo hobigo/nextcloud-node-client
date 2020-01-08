@@ -1,7 +1,7 @@
 
-import NCClient, { NCError } from "./ncClient";
+import NCClient, { NCError } from "./client";
 
-export default class NCFile {
+export default class File {
     private memento: {
         baseName: string,
         id: number,
@@ -67,9 +67,9 @@ export default class NCFile {
      * @param targetFileName the name of the target file /f1/f2/myfile.txt
      * @throws Error
      */
-    public async move(targetFileName: string): Promise<NCFile> {
+    public async move(targetFileName: string): Promise<File> {
         this.assertExistence();
-        const file: NCFile = await this.client.moveFile(this.name, targetFileName);
+        const file: File = await this.client.moveFile(this.name, targetFileName);
         this.memento.name = file.name;
         this.memento.baseName = file.baseName;
         this.memento.lastmod = file.lastmod;

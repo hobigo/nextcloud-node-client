@@ -1,7 +1,7 @@
 
-import NCClient from "./ncClient";
+import NCClient from "./client";
 
-export default class NCTag {
+export default class Tag {
     public readonly id: number;
     public readonly name: string;
     public readonly visible: boolean;

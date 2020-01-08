@@ -4,8 +4,8 @@ import { expect } from "chai";
 import "mocha";
 import {
     NCClient,
-} from "../ncClient";
-import NCFakeServer from "../ncFakeServer";
+} from "../client";
+import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
@@ -53,7 +53,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -81,7 +81,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
 
         let q;
         try {
@@ -109,7 +109,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -136,7 +136,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: NCClient = new NCClient(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {

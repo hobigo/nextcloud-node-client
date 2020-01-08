@@ -29,7 +29,7 @@ export interface INCHttpClientOptions {
     "proxy"?: IProxy;
     "origin"?: string;
 }
-export class NCHttpClient {
+export class HttpClient {
     private proxy?: IProxy;
     private authorizationHeader?: string;
     private logRequestResponse: boolean;

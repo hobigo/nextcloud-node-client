@@ -3,11 +3,11 @@ require("dotenv").config();
 
 import debugFactory from "debug";
 import NCError from "./ncError";
-import NCServer from "./ncServer";
+import Server from "./server";
 
 const debug = debugFactory("NCEnvironment");
 
-export default class NCEnvironment {
+export default class Environment {
     public readonly url?: string;
     public readonly userName?: string;
     public readonly password?: string;
@@ -32,7 +32,7 @@ export default class NCEnvironment {
      * @param instanceName the name of the nextcloud user provided service instance
      * @returns credentials from the VCAP_SERVICES environment (user provided service)
      */
-    public getServer(): NCServer {
+    public getServer(): Server {
 
         if (!this.url) {
             throw new NCError("NCEnvironment: NEXTCLOUD_URL not defined in environment"
@@ -49,7 +49,7 @@ export default class NCEnvironment {
                 , "ERR_NEXTCLOUD_PASSWORD_NOT_DEFINED");
         }
 
-        return new NCServer({
+        return new Server({
             basicAuth: {
                 password: this.password,
                 username: this.userName,

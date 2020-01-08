@@ -4,12 +4,12 @@ import {
     Response,
     ResponseInit,
 } from "node-fetch";
-import { IRequestContext } from "./ncHttpClient";
+import { IRequestContext } from "./httpClient";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 
 const debug = debugFactory("NCFakeServer");
 
-export default class NCFakeServer {
+export default class FakeServer {
     public fakeResponses: RequestResponseLogEntry[] = [];
     public constructor(fakeResponses: RequestResponseLogEntry[]) {
         this.fakeResponses = fakeResponses;

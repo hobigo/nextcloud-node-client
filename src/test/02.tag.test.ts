@@ -6,8 +6,8 @@ import {
     NCFakeServer,
     NCFile,
     NCFolder,
-} from "../ncClient";
-import NCTag from "../ncTag";
+} from "../client";
+import Tag from "../tag";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
@@ -27,7 +27,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
 
     it("01 get tags", async () => {
 
-        const tags: NCTag[] = await client.getTags();
+        const tags: Tag[] = await client.getTags();
 
         for (const x of tags) {
             // tslint:disable-next-line:no-console
@@ -39,7 +39,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     it("02 create tag", async () => {
 
         const tagName: string = "Tag1";
-        const tag: NCTag = await client.createTag(tagName);
+        const tag: Tag = await client.createTag(tagName);
 
         expect(tag, "expect tag to be an object").to.be.a("object");
         expect(tag.name).to.be.equal(tagName);
@@ -51,13 +51,13 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     it("03 delete tag", async () => {
 
         const tagName: string = "Tag-to-be-deleted";
-        const tag: NCTag = await client.createTag(tagName);
+        const tag: Tag = await client.createTag(tagName);
 
         expect(tag, "expect tag to be an object").to.be.a("object");
         expect(tag.name).to.be.equal(tagName);
         await tag.delete();
 
-        const deletedTag: NCTag | null = await client.getTagByName(tagName);
+        const deletedTag: Tag | null = await client.getTagByName(tagName);
         expect(deletedTag).to.be.equal(null);
 
     });
@@ -65,12 +65,12 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     it("04 get tag by name", async () => {
 
         const tagName: string = "get-Tag-by-name";
-        const tag: NCTag = await client.createTag(tagName);
+        const tag: Tag = await client.createTag(tagName);
 
         expect(tag, "expect tag to be an object").to.be.a("object");
         expect(tag.name).to.be.equal(tagName);
 
-        const getTag: NCTag | null = await client.getTagByName(tagName);
+        const getTag: Tag | null = await client.getTagByName(tagName);
         expect(getTag).not.to.be.equal(null);
         expect(getTag!.name).to.be.equal(tagName);
         if (getTag) {
@@ -85,16 +85,16 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     it("05 get tag by id", async () => {
 
         const tagName: string = "get-Tag-by-id";
-        const tag: NCTag = await client.createTag(tagName);
+        const tag: Tag = await client.createTag(tagName);
 
         expect(tag, "expect tag to be an object").to.be.a("object");
         expect(tag.name).to.be.equal(tagName);
 
-        const getTag: NCTag | null = await client.getTagById(tag.id);
+        const getTag: Tag | null = await client.getTagById(tag.id);
         expect(getTag).not.to.be.equal(null);
         expect(getTag!.name).to.be.equal(tagName);
 
-        const getTag2: NCTag | null = await client.getTagById(11223344);
+        const getTag2: Tag | null = await client.getTagById(11223344);
         expect(getTag2).to.be.equal(null);
 
         await tag.delete();
@@ -126,7 +126,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             expect(true, "we do not expect an exception adding tags").to.be.equal(false);
         }
 
-        let tag: NCTag | null = await client.getTagByName(`tag-61`);
+        let tag: Tag | null = await client.getTagByName(`tag-61`);
         if (tag) {
             await tag.delete();
         }
@@ -177,7 +177,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames[2], "Tag has value").to.be.equal(tagsCreated[2]);
         await file!.delete();
 
-        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        let tag: Tag | null = await client.getTagByName(tagsCreated[0]);
         if (tag) {
             await tag.delete();
         }
@@ -225,7 +225,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames2.length).to.be.equal(2);
 
         await folder.delete();
-        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        let tag: Tag | null = await client.getTagByName(tagsCreated[0]);
         if (tag) {
             await tag.delete();
         }
@@ -277,7 +277,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         expect(tagNames.length, "only two tags should exist").to.be.equal(2);
         await file!.delete();
 
-        let tag: NCTag | null = await client.getTagByName(tagsCreated[0]);
+        let tag: Tag | null = await client.getTagByName(tagsCreated[0]);
         if (tag) {
             await tag.delete();
         }
@@ -298,13 +298,13 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
     it("10 create a tag twice", async () => {
 
         const tagName: string = "Tag10";
-        const tag: NCTag = await client.createTag(tagName);
+        const tag: Tag = await client.createTag(tagName);
 
         expect(tag, "expect tag to be an object").to.be.a("object");
         expect(tag.name).to.be.equal(tagName);
 
         // the second tag should be like the first tag
-        const tag2: NCTag = await client.createTag(tagName);
+        const tag2: Tag = await client.createTag(tagName);
         expect(tag2, "expect tag to be an object").to.be.a("object");
         expect(tag2.name).to.be.equal(tagName);
         await tag.delete();
@@ -404,7 +404,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
 
         const tagName: string = "tag-14";
         try {
-            const tag: NCTag = await lclient.createTag(tagName);
+            const tag: Tag = await lclient.createTag(tagName);
             expect(true, "expect an exception").to.be.equal(false);
         } catch (e) {
             expect(true, "expect an exception").to.be.equal(true);
@@ -444,7 +444,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const tagName: string = "TagToBeDelete";
         await client.createTag(tagName);
         await client.deleteAllTags();
-        const tag: NCTag | null = await client.getTagByName(tagName);
+        const tag: Tag | null = await client.getTagByName(tagName);
 
         expect(tag).to.be.equal(null);
 

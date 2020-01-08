@@ -6,23 +6,23 @@ import {
     Response,
 } from "node-fetch";
 import path, { basename } from "path";
-import NCEnvironment from "./ncEnvironment";
-import NCEnvironmentVcapServices from "./ncEnvironmentVcapServices";
+import Environment from "./environment";
+import EnvironmentVcapServices from "./environmentVcapServices";
 import NCError from "./ncError";
-import NCFakeServer from "./ncFakeServer";
-import NCFile from "./ncFile";
-import NCFolder from "./ncFolder";
-import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "./ncHttpClient";
-import NCServer from "./ncServer";
-import NCTag from "./ncTag";
+import FakeServer from "./fakeServer";
+import File from "./file";
+import Folder from "./folder";
+import { INCHttpClientOptions, IProxy, IRequestContext, HttpClient } from "./httpClient";
+import Server from "./server";
+import Tag from "./tag";
 
 export {
     NCClient,
     NCError,
-    NCFolder,
-    NCFile,
-    NCTag,
-    NCFakeServer,
+    Folder as NCFolder,
+    File as NCFile,
+    Tag as NCTag,
+    FakeServer as NCFakeServer,
 };
 
 const debug = debugFactory("NCClient");
@@ -49,9 +49,9 @@ export default class NCClient {
     private nextcloudRequestToken: string;
     private webDAVUrl: string;
     private proxy?: IProxy;
-    private fakeServer?: NCFakeServer;
+    private fakeServer?: FakeServer;
     private logRequestResponse: boolean = false;
-    private httpClient?: NCHttpClient;
+    private httpClient?: HttpClient;
 
     /**
      * Creates a new instance of a nextcloud client.<br/>
@@ -71,7 +71,7 @@ export default class NCClient {
      * @param server optional server information to connection to a nextcloud server
      * @constructor
      */
-    public constructor(server?: NCServer | NCFakeServer) {
+    public constructor(server?: Server | FakeServer) {
         debug("constructor");
         this.nextcloudOrigin = "";
         this.nextcloudAuthHeader = "";
@@ -82,15 +82,15 @@ export default class NCClient {
         // If no VCAP_S environment exists try from environment
         if (!server) {
             try {
-                const env: NCEnvironmentVcapServices = new NCEnvironmentVcapServices("nextcloud");
+                const env: EnvironmentVcapServices = new EnvironmentVcapServices("nextcloud");
                 server = env.getServer();
             } catch (e) {
-                const env: NCEnvironment = new NCEnvironment();
+                const env: Environment = new Environment();
                 server = env.getServer();
             }
         }
 
-        if (server instanceof NCServer) {
+        if (server instanceof Server) {
 
             this.proxy = server.proxy;
 
@@ -122,10 +122,10 @@ export default class NCClient {
                 proxy: this.proxy,
             };
 
-            this.httpClient = new NCHttpClient(options);
+            this.httpClient = new HttpClient(options);
         }
 
-        if (server instanceof NCFakeServer) {
+        if (server instanceof FakeServer) {
             this.fakeServer = server;
             this.webDAVUrl = "https://fake.server" + NCClient.webDavUrlPath;
         }
@@ -179,10 +179,10 @@ export default class NCClient {
      * @param tagName the name of the tag
      * @returns tagId
      */
-    public async createTag(tagName: string): Promise<NCTag> {
+    public async createTag(tagName: string): Promise<Tag> {
 
         debug("createTag");
-        let tag: NCTag | null;
+        let tag: Tag | null;
         // is the tag already existing?
         tag = await this.getTagByName(tagName);
         if (tag) {
@@ -211,7 +211,7 @@ export default class NCClient {
         // the number id of the tag is the last element in the id (path)
         const tagId: number = this.getTagIdFromHref(tagString);
 
-        tag = new NCTag(this, tagId, tagName, true, true, true);
+        tag = new Tag(this, tagId, tagName, true, true, true);
         return tag;
     }
 
@@ -220,11 +220,11 @@ export default class NCClient {
      * @param tagName the name of the tag
      * @returns tag or null
      */
-    public async getTagByName(tagName: string): Promise<NCTag | null> {
+    public async getTagByName(tagName: string): Promise<Tag | null> {
 
         debug("getTag");
 
-        const tags: NCTag[] = await this.getTags();
+        const tags: Tag[] = await this.getTags();
         for (const tag of tags) {
             if (tag.name === tagName) {
                 return tag;
@@ -238,11 +238,11 @@ export default class NCClient {
      * @param tagId the id of the tag
      * @returns tag or null
      */
-    public async getTagById(tagId: number): Promise<NCTag | null> {
+    public async getTagById(tagId: number): Promise<Tag | null> {
 
         debug("getTagById");
 
-        const tags: NCTag[] = await this.getTags();
+        const tags: Tag[] = await this.getTags();
         for (const tag of tags) {
             if (tag.id === tagId) {
                 return tag;
@@ -279,7 +279,7 @@ export default class NCClient {
 
         debug("deleteAllTags");
 
-        const tags: NCTag[] = await this.getTags();
+        const tags: Tag[] = await this.getTags();
 
         for (const tag of tags) {
             // debug("deleteAllTags tag: %O", tag);
@@ -291,7 +291,7 @@ export default class NCClient {
      * returns a list of tags
      * @returns array of tags
      */
-    public async getTags(): Promise<NCTag[]> {
+    public async getTags(): Promise<Tag[]> {
         debug("getTags PROPFIND %s", this.nextcloudOrigin + "/remote.php/dav/systemtags/");
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
@@ -316,10 +316,10 @@ export default class NCClient {
             { description: "Tags get" });
 
         const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, relUrl + "/*");
-        const tags: NCTag[] = [];
+        const tags: Tag[] = [];
 
         for (const prop of properties) {
-            tags.push(new NCTag(this,
+            tags.push(new Tag(this,
                 this.getTagIdFromHref(prop._href),
                 prop["display-name"],
                 prop["user-visible"],
@@ -496,7 +496,7 @@ export default class NCClient {
      * @param folderName name of the folder /folder/subfolder/subfolder
      * @returns a folder object
      */
-    public async createFolder(folderName: string): Promise<NCFolder> {
+    public async createFolder(folderName: string): Promise<Folder> {
         folderName = this.sanitizeFolderName(folderName);
         debug("createFolder: folderName=%s", folderName);
 
@@ -507,7 +507,7 @@ export default class NCClient {
             }
         }
 
-        let folder: NCFolder | null;
+        let folder: Folder | null;
 
         folder = await this.getFolder(folderName);
         if (folder) {
@@ -588,7 +588,7 @@ export default class NCClient {
         folderName = this.sanitizeFolderName(folderName);
         debug("deleteFolder:");
 
-        const folder: NCFolder | null = await this.getFolder(folderName);
+        const folder: Folder | null = await this.getFolder(folderName);
 
         if (folder) {
             await this.deleteFile(folderName);
@@ -600,20 +600,20 @@ export default class NCClient {
      * @param folderName Name of the folder like "/company/branches/germany"
      * @returns null if the folder does not exist or an folder object
      */
-    public async getFolder(folderName: string): Promise<NCFolder | null> {
+    public async getFolder(folderName: string): Promise<Folder | null> {
         folderName = this.sanitizeFolderName(folderName);
         debug("getFolder %s", folderName);
 
         // return root folder
         if (folderName === "/" || folderName === "") {
-            return new NCFolder(this, "/", "", "");
+            return new Folder(this, "/", "", "");
         }
 
         try {
             const stat: IStat = await this.stat(folderName);
             debug(": SUCCESS!!");
             if (stat.type !== "file") {
-                return new NCFolder(this,
+                return new Folder(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,
                     stat.lastmod,
@@ -633,16 +633,16 @@ export default class NCClient {
      * @param folderName Name of the folder like "/company/branches/germany"
      * @returns array of folder objects
      */
-    public async getSubFolders(folderName: string): Promise<NCFolder[]> {
+    public async getSubFolders(folderName: string): Promise<Folder[]> {
         debug("getSubFolders: folder %s", folderName);
-        const folders: NCFolder[] = [];
+        const folders: Folder[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
         const folderElements: any[] = await this.Contents(folderName, true);
 
         for (const folderElement of folderElements) {
             debug("getSubFolders: adding subfolders %s", folderElement.filename);
-            folders.push(new NCFolder(this,
+            folders.push(new Folder(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
                 folderElement.lastmod,
@@ -657,9 +657,9 @@ export default class NCClient {
      * @param folderName Name of the folder like "/company/branches/germany"
      * @returns array of file objects
      */
-    public async getFiles(folderName: string): Promise<NCFile[]> {
+    public async getFiles(folderName: string): Promise<File[]> {
         debug("getFiles: folder %s", folderName);
-        const files: NCFile[] = [];
+        const files: File[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
         const fileElements: any[] = await this.Contents(folderName, false);
@@ -667,7 +667,7 @@ export default class NCClient {
         for (const folderElement of fileElements) {
             debug("getFiles: adding file %s", folderElement.filename);
             // debug("getFiles: adding file %O", folderElement);
-            files.push(new NCFile(this,
+            files.push(new File(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
                 folderElement.lastmod,
@@ -684,7 +684,7 @@ export default class NCClient {
      * @param fileName the file name /folder1/folder2/filename.txt
      * @param data the buffer object
      */
-    public async createFile(fileName: string, data: Buffer): Promise<NCFile> {
+    public async createFile(fileName: string, data: Buffer): Promise<File> {
 
         if (fileName.startsWith("./")) {
             fileName = fileName.replace("./", "/");
@@ -699,7 +699,7 @@ export default class NCClient {
         await this.createFolder(folderName);
         await this.putFileContents(fileName, data);
 
-        let file: NCFile | null;
+        let file: File | null;
         file = await this.getFile(fileName);
 
         if (!file) {
@@ -712,14 +712,14 @@ export default class NCClient {
      * returns a nextcloud file object
      * @param fileName the full file name /folder1/folder2/file.pdf
      */
-    public async getFile(fileName: string): Promise<NCFile | null> {
+    public async getFile(fileName: string): Promise<File | null> {
         debug("getFile fileName = %s", fileName);
 
         try {
             const stat: IStat = await this.stat(fileName);
             debug(": SUCCESS!!");
             if (stat.type === "file") {
-                return new NCFile(this,
+                return new File(this,
                     stat.filename.replace(/\\/g, "/"),
                     stat.basename,
                     stat.lastmod,
@@ -741,7 +741,7 @@ export default class NCClient {
      * @param sourceFileName source file name
      * @param targetFileName target file name
      */
-    public async moveFile(sourceFileName: string, targetFileName: string): Promise<NCFile> {
+    public async moveFile(sourceFileName: string, targetFileName: string): Promise<File> {
 
         const url: string = this.webDAVUrl + sourceFileName;
         const destinationUrl: string = this.webDAVUrl + targetFileName;
@@ -765,7 +765,7 @@ export default class NCClient {
             throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + err.message, "ERR_FILE_MOVE_FAILED");
         }
 
-        const targetFile: NCFile | null = await this.getFile(targetFileName);
+        const targetFile: File | null = await this.getFile(targetFileName);
         if (!targetFile) {
             throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName, "ERR_FILE_MOVE_FAILED");
         }
@@ -778,7 +778,7 @@ export default class NCClient {
      * @param sourceFolderName source folder name
      * @param tarName target folder name
      */
-    public async moveFolder(sourceFolderName: string, tarName: string): Promise<NCFolder> {
+    public async moveFolder(sourceFolderName: string, tarName: string): Promise<Folder> {
 
         const url: string = this.webDAVUrl + sourceFolderName;
         const destinationUrl: string = this.webDAVUrl + tarName;
@@ -802,7 +802,7 @@ export default class NCClient {
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
         }
 
-        const tar: NCFolder | null = await this.getFolder(tarName);
+        const tar: Folder | null = await this.getFolder(tarName);
         if (!tar) {
             throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
         }
@@ -862,7 +862,7 @@ export default class NCClient {
      */
     public async addTagToFile(fileId: number, tagName: string): Promise<void> {
         debug("addTagToFile file:%s tag:%s", fileId, tagName);
-        const tag: NCTag = await this.createTag(tagName);
+        const tag: Tag = await this.createTag(tagName);
 
         if (!tag.canAssign) {
             throw new NCError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
@@ -1126,7 +1126,7 @@ export default class NCClient {
      */
     private async Contents(folderName: string, folderIndicator: boolean): Promise<any[]> {
         debug("Contents: folder %s", folderName);
-        const folders: NCFolder[] = [];
+        const folders: Folder[] = [];
         folderName = this.sanitizeFolderName(folderName);
         const resultArray: any[] = [];
 

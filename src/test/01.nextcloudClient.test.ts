@@ -12,10 +12,10 @@ import {
     NCFakeServer,
     NCFile,
     NCFolder,
-} from "../ncClient";
-import NCEnvironment from "../ncEnvironment";
-import NCEnvironmentVcapServices from "../ncEnvironmentVcapServices";
-import NCServer from "../ncServer";
+} from "../client";
+import Environment from "../environment";
+import EnvironmentVcapServices from "../environmentVcapServices";
+import Server from "../server";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
@@ -430,7 +430,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     });
 
     it("23 create client with wrong webdav url", async () => {
-        const ncserver: NCServer = new NCServer(
+        const ncserver: Server = new Server(
             {
                 basicAuth:
                 {
@@ -451,7 +451,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     });
 
     it("24 create a client with url ", async () => {
-        const ncserver: NCServer = new NCServer(
+        const ncserver: Server = new Server(
             {
                 basicAuth:
                 {
@@ -646,7 +646,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
             expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
@@ -669,7 +669,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
             expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
@@ -694,7 +694,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
             expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
@@ -719,7 +719,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
             expect(true, "expect no exception").to.be.equal(false);
         } catch (e) {
             expect(e).to.have.property("message");
@@ -745,7 +745,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
         } catch (e) {
             expect(false, "expect no exception: " + e.message).to.be.equal(true);
         } finally {
@@ -767,7 +767,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironmentVcapServices("").getServer();
+            new EnvironmentVcapServices("").getServer();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -786,7 +786,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -802,7 +802,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -818,7 +818,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -834,7 +834,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -849,7 +849,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -864,7 +864,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -879,7 +879,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -894,7 +894,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new NCEnvironment().getServer();
+            new Environment().getServer();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {

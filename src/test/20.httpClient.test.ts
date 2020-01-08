@@ -8,7 +8,7 @@ import {
     Response,
     ResponseInit,
 } from "node-fetch";
-import { INCHttpClientOptions, IProxy, IRequestContext, NCHttpClient } from "../ncHttpClient";
+import { INCHttpClientOptions, IProxy, IRequestContext, HttpClient } from "../httpClient";
 import RequestResponseLog from "../requestResponseLog";
 
 // tslint:disable-next-line:only-arrow-functions
@@ -34,7 +34,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             proxy,
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             method: "GET",
@@ -64,7 +64,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             origin: "https://ptsv2.com",
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             headers: new Headers(),
@@ -96,7 +96,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             origin: "https://ptsv2.com",
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             method: "POST",
@@ -129,7 +129,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             origin: "https://ptsv2.com",
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             method: "POST",
@@ -169,7 +169,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             origin: "https://ptsv2.com",
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             method: "POST",
@@ -206,7 +206,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             proxy,
         };
 
-        const httpClient: NCHttpClient = new NCHttpClient(options);
+        const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
             timeout: 1,

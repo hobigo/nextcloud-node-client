@@ -1,11 +1,11 @@
 // tslint:disable-next-line:no-var-requires
 const debug = require("debug").debug("NCFolder");
 
-import NCClient from "./ncClient";
+import NCClient from "./client";
 import NCError from "./ncError";
-import NCFile from "./ncFile";
+import File from "./file";
 
-export default class NCFolder {
+export default class Folder {
     private client: NCClient;
     private memento: {
         baseName: string,
@@ -50,7 +50,7 @@ export default class NCFolder {
      * @returns an array of subfolders
      * @throws Error
      */
-    public async getSubFolders(): Promise<NCFolder[]> {
+    public async getSubFolders(): Promise<Folder[]> {
         this.assertExistence();
         return await this.client.getSubFolders(this.name);
     }
@@ -61,7 +61,7 @@ export default class NCFolder {
      */
     public async hasSubFolder(subFolderBaseName: string): Promise<boolean> {
         this.assertExistence();
-        const subFolder: NCFolder | null = await this.client.getFolder(this.name + "/" + subFolderBaseName);
+        const subFolder: Folder | null = await this.client.getFolder(this.name + "/" + subFolderBaseName);
         if (subFolder) {
             return true;
         }
@@ -71,7 +71,7 @@ export default class NCFolder {
     /**
      * @returns all files of the folder
      */
-    public async getFiles(): Promise<NCFile[]> {
+    public async getFiles(): Promise<File[]> {
         this.assertExistence();
         return await this.client.getFiles(this.name);
     }
@@ -80,7 +80,7 @@ export default class NCFolder {
      * creates a subfolder
      * @param subFolderBaseName  name of the subfolder basename
      */
-    public async createSubFolder(subFolderBaseName: string): Promise<NCFolder> {
+    public async createSubFolder(subFolderBaseName: string): Promise<Folder> {
         this.assertExistence();
         return await this.client.createFolder(this.name + "/" + subFolderBaseName);
     }
@@ -91,7 +91,7 @@ export default class NCFolder {
      * @returns the file of null
      * @throws Error
      */
-    public async getFile(fileBaseName: string): Promise<NCFile | null> {
+    public async getFile(fileBaseName: string): Promise<File | null> {
         this.assertExistence();
         return this.client.getFile(this.name + "/" + fileBaseName);
     }
@@ -103,7 +103,7 @@ export default class NCFolder {
      * @returns the new file or null
      * @throws Error
      */
-    public async createFile(fileBaseName: string, data: Buffer): Promise<NCFile> {
+    public async createFile(fileBaseName: string, data: Buffer): Promise<File> {
         this.assertExistence();
         // must not contain :/\*"<>?
         debug("createFile fileBaseName = %s", fileBaseName);
@@ -137,9 +137,9 @@ export default class NCFolder {
      * @param targetFolderName the name of the target folder /f1/f2/target
      * @throws Error
      */
-    public async move(targetFolderName: string): Promise<NCFolder> {
+    public async move(targetFolderName: string): Promise<Folder> {
         this.assertExistence();
-        const folder: NCFolder = await this.client.moveFolder(this.name, targetFolderName);
+        const folder: Folder = await this.client.moveFolder(this.name, targetFolderName);
         this.memento.name = folder.name;
         this.memento.baseName = folder.baseName;
         this.memento.lastmod = folder.lastmod;
@@ -171,7 +171,7 @@ export default class NCFolder {
      */
     public async containsFile(fileBaseName: string): Promise<boolean> {
         this.assertExistence();
-        let file: NCFile | null;
+        let file: File | null;
         file = await this.getFile(fileBaseName);
         if (file) {
             return true;
