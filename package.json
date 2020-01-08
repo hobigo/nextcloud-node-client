@@ -2,8 +2,8 @@
   "name": "nextcloud-node-client",
   "version": "0.4.0",
   "description": "Nextcloud client API for node.js",
-  "main": "dist/ncClient.js",
-  "types": "dist/ncClient.d.ts",
+  "main": "dist/client.js",
+  "types": "dist/client.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
@@ -11,11 +11,11 @@
   "scripts": {
     "build-watch": "node ./node_modules/typescript/bin/tsc -w",
     "build": "node ./node_modules/typescript/bin/tsc",
-    "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/ncClient.ts",
+    "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/client.ts",
     "test": "mocha -r ts-node/register src/test/*test.ts",
     "cover": "nyc mocha -r ts-node/register src/test/*test.ts && nyc report --reporter=text-lcov > coverage.lcov",
     "record": "nyc mocha -r ts-node/register src/test/*test.ts --record",
-    "documentation": "typedoc --out ./docs/api ./src/ncClient.ts",
+    "documentation": "typedoc --out ./docs/api ./src/client.ts",
     "create-lcov": "nyc report --reporter=text-lcov > coverage.lcov"
   },
   "nyc": {

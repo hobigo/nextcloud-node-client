@@ -6,10 +6,10 @@ import {
     RequestInit,
     Response,
 } from "node-fetch";
-import RequestResponseLog from "./requestResponseLog";
-import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
+import RequestResponseLog from "./test/requestResponseLog";
+import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./test/requestResponseLogEntry";
 
-const debug = debugFactory("NCHttpClient");
+const debug = debugFactory("HttpClient");
 
 export interface IRequestContext {
     "description"?: string;
@@ -23,7 +23,7 @@ export interface IProxy {
     "proxyAuthorizationHeader"?: string;
 }
 
-export interface INCHttpClientOptions {
+export interface IHttpClientOptions {
     "authorizationHeader"?: string;
     "logRequestResponse"?: boolean;
     "proxy"?: IProxy;
@@ -35,7 +35,7 @@ export class HttpClient {
     private logRequestResponse: boolean;
     private origin: string;
 
-    public constructor(options: INCHttpClientOptions) {
+    public constructor(options: IHttpClientOptions) {
         debug("constructor");
         this.authorizationHeader = options.authorizationHeader;
         this.proxy = options.proxy;

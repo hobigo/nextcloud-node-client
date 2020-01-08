@@ -8,21 +8,21 @@ import {
 import path, { basename } from "path";
 import Environment from "./environment";
 import EnvironmentVcapServices from "./environmentVcapServices";
-import NCError from "./ncError";
+import ClientError from "./error";
 import FakeServer from "./fakeServer";
 import File from "./file";
 import Folder from "./folder";
-import { INCHttpClientOptions, IProxy, IRequestContext, HttpClient } from "./httpClient";
+import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
 import Server from "./server";
 import Tag from "./tag";
 
 export {
-    NCClient,
-    NCError,
-    Folder as NCFolder,
-    File as NCFile,
-    Tag as NCTag,
-    FakeServer as NCFakeServer,
+    Client,
+    ClientError,
+    Folder,
+    File,
+    Tag,
+    FakeServer,
 };
 
 const debug = debugFactory("NCClient");
@@ -40,7 +40,7 @@ interface IStat {
 /**
  * The nextcloud client is the root object to access the remote api of the nextcloud server.<br>
  */
-export default class NCClient {
+export default class Client {
 
     public static webDavUrlPath: string = "/remote.php/webdav";
 
@@ -61,7 +61,7 @@ export default class NCClient {
      * in the environment.<br/>
      * If a <b>VCAP_SERVICES</b> environment variable is available, the client tries to find
      * a service with the name <b>"nextcloud"</b> in the user-provides-services section.<br/>
-     * If no VCAP_SERVICES are available, the client uses the following variables 
+     * If no VCAP_SERVICES are available, the client uses the following variables
      * from the envirnonment for the connectivity:<br/>
      * <ul>
      * <li>NEXTCLOUD_URL - the WebDAV url of the nextcloud server</li>
@@ -96,12 +96,12 @@ export default class NCClient {
 
             debug("constructor: webdav url %s", server.url);
 
-            if (server.url.indexOf(NCClient.webDavUrlPath) === -1) {
+            if (server.url.indexOf(Client.webDavUrlPath) === -1) {
                 // not a valid nextcloud url
-                throw new NCError(`The provided nextcloud url "${server.url}" does not comply to the nextcloud url standard, "${NCClient.webDavUrlPath}" is missing`,
+                throw new ClientError(`The provided nextcloud url "${server.url}" does not comply to the nextcloud url standard, "${Client.webDavUrlPath}" is missing`,
                     "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
             }
-            this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(NCClient.webDavUrlPath));
+            this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(Client.webDavUrlPath));
 
             debug("constructor: nextcloud url %s", this.nextcloudOrigin);
 
@@ -115,7 +115,7 @@ export default class NCClient {
 
             this.logRequestResponse = server.logRequestResponse;
 
-            const options: INCHttpClientOptions = {
+            const options: IHttpClientOptions = {
                 authorizationHeader: this.nextcloudAuthHeader,
                 logRequestResponse: this.logRequestResponse,
                 origin: this.nextcloudOrigin,
@@ -127,7 +127,7 @@ export default class NCClient {
 
         if (server instanceof FakeServer) {
             this.fakeServer = server;
-            this.webDAVUrl = "https://fake.server" + NCClient.webDavUrlPath;
+            this.webDAVUrl = "https://fake.server" + Client.webDavUrlPath;
         }
     }
 
@@ -146,7 +146,7 @@ export default class NCClient {
             [207],
             { description: "Client get quota" });
 
-        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, NCClient.webDavUrlPath + "/");
+        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, Client.webDavUrlPath + "/");
 
         let quota: { used: number, available: number | string } | null = null;
         for (const prop of properties) {
@@ -163,7 +163,7 @@ export default class NCClient {
 
         if (!quota) {
             debug("Error, quota not available: %s ", JSON.stringify(properties, null, 4));
-            throw new NCError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
+            throw new ClientError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
         }
         debug("getQuota = %O", quota);
         return quota;
@@ -205,7 +205,7 @@ export default class NCClient {
         const tagString: string | null = response.headers.get("Content-Location");
         debug("createTag new tagId %s, tagName %s", tagString, tagName);
         if (tagString === "" || tagString === null) {
-            throw new NCError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
+            throw new ClientError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
         }
 
         // the number id of the tag is the last element in the id (path)
@@ -465,7 +465,7 @@ export default class NCClient {
         const folderContents: any[] = [];
         // tslint:disable-next-line:no-empty
         for (const prop of properties) {
-            let fileName = decodeURI(prop._href.substr(prop._href.indexOf(NCClient.webDavUrlPath) + 18));
+            let fileName = decodeURI(prop._href.substr(prop._href.indexOf(Client.webDavUrlPath) + 18));
             if (fileName.endsWith("/")) {
                 fileName = fileName.slice(0, -1);
             }
@@ -503,7 +503,7 @@ export default class NCClient {
         const parts1: string[] = folderName.split("/");
         for (const p of parts1) {
             if ((p) === "." || p === "..") {
-                throw new NCError(`Error creating folder, folder name "${folderName}" invalid`, "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME");
+                throw new ClientError(`Error creating folder, folder name "${folderName}" invalid`, "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME");
             }
         }
 
@@ -762,12 +762,12 @@ export default class NCClient {
 
         } catch (err) {
             debug("Error in move file %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
-            throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + err.message, "ERR_FILE_MOVE_FAILED");
+            throw new ClientError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + err.message, "ERR_FILE_MOVE_FAILED");
         }
 
         const targetFile: File | null = await this.getFile(targetFileName);
         if (!targetFile) {
-            throw new NCError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName, "ERR_FILE_MOVE_FAILED");
+            throw new ClientError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName, "ERR_FILE_MOVE_FAILED");
         }
 
         return targetFile;
@@ -799,12 +799,12 @@ export default class NCClient {
 
         } catch (err) {
             debug("Error in move folder %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
-            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
+            throw new ClientError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
         }
 
         const tar: Folder | null = await this.getFolder(tarName);
         if (!tar) {
-            throw new NCError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
+            throw new ClientError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
         }
 
         return tar;
@@ -865,7 +865,7 @@ export default class NCClient {
         const tag: Tag = await this.createTag(tagName);
 
         if (!tag.canAssign) {
-            throw new NCError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
+            throw new ClientError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
         }
 
         const addTagBody: any = {
@@ -1005,23 +1005,23 @@ export default class NCClient {
      * @param response the http response
      * @param href get only properties that match the href
      * @returns array of properties
-     * @throws NCError
+     * @throws GeneralError
      */
     private async getPropertiesFromWebDAVMultistatusResponse(response: Response, href: string): Promise<any[]> {
         const responseContentType: string | null = response.headers.get("Content-Type");
 
         if (!responseContentType) {
-            throw new NCError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
+            throw new ClientError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
         }
 
         if (responseContentType.indexOf("application/xml") === -1) {
-            throw new NCError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
+            throw new ClientError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
         }
 
         const xmlBody: string = await response.text();
 
         if (parser.validate(xmlBody) !== true) {
-            throw new NCError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
+            throw new ClientError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
         }
         const options: any = {
             ignoreNameSpace: true,
@@ -1030,7 +1030,7 @@ export default class NCClient {
 
         // ensure that we have a multistatus response
         if (!body.multistatus || !body.multistatus.response) {
-            throw new NCError(`The response is is not a WebDAV multistatus response`, "ERR_RESPONSE_NO_MULTISTATUS_XML");
+            throw new ClientError(`The response is is not a WebDAV multistatus response`, "ERR_RESPONSE_NO_MULTISTATUS_XML");
         }
 
         // ensure that response is always an array
@@ -1046,11 +1046,11 @@ export default class NCClient {
         for (const res of body.multistatus.response) {
 
             if (!res.href) {
-                throw new NCError(`The mulitstatus response must have a href`, "ERR_RESPONSE_MISSING_HREF_MULTISTATUS");
+                throw new ClientError(`The mulitstatus response must have a href`, "ERR_RESPONSE_MISSING_HREF_MULTISTATUS");
             }
 
             if (!res.propstat) {
-                throw new NCError(`The mulitstatus response must have a "propstat" container`, "ERR_RESPONSE_MISSING_PROPSTAT");
+                throw new ClientError(`The mulitstatus response must have a "propstat" container`, "ERR_RESPONSE_MISSING_PROPSTAT");
             }
             let propStats = res.propstat;
 
@@ -1061,11 +1061,11 @@ export default class NCClient {
 
             for (const propStat of propStats) {
                 if (!propStat.status) {
-                    throw new NCError(`The propstat must have a "status"`, "ERR_RESPONSE_MISSING_PROPSTAT_STATUS");
+                    throw new ClientError(`The propstat must have a "status"`, "ERR_RESPONSE_MISSING_PROPSTAT_STATUS");
                 }
                 if (propStat.status === "HTTP/1.1 200 OK") {
                     if (!propStat.prop) {
-                        throw new NCError(`The propstat must have a "prop"`, "ERR_RESPONSE_MISSING_PROPSTAT_PROP");
+                        throw new ClientError(`The propstat must have a "prop"`, "ERR_RESPONSE_MISSING_PROPSTAT_PROP");
                     }
                     const property: any = propStat.prop;
                     property._href = res.href;
@@ -1267,7 +1267,7 @@ export default class NCClient {
 
         if (!resultStat) {
             debug("Error: response %s", JSON.stringify(properties, null, 4));
-            throw new NCError("Error getting status information from : " + url,
+            throw new ClientError("Error getting status information from : " + url,
                 "ERR_STAT");
         }
         return resultStat;

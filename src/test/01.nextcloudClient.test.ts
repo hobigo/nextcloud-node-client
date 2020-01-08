@@ -7,19 +7,19 @@ import {
     RequestInit,
 } from "node-fetch";
 import {
-    NCClient,
-    NCError,
-    NCFakeServer,
-    NCFile,
-    NCFolder,
+    Client,
+    ClientError,
+    FakeServer,
+    File,
+    Folder,
 } from "../client";
 import Environment from "../environment";
 import EnvironmentVcapServices from "../environmentVcapServices";
 import Server from "../server";
-import RequestResponseLogEntry from "../requestResponseLogEntry";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
-let client: NCClient;
+let client: Client;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -42,7 +42,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient();
+            new Client();
             expect(false, "expect an exception").to.be.equal(true);
         } catch (e) {
             // should fail, if env is not set correctly
@@ -72,7 +72,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient();
+            new Client();
         } catch (e) {
             expect(e.message, "expect an exception").to.be.equal("expect no exception");
         } finally {
@@ -83,7 +83,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("03 get and create folder", async () => {
 
         let errorOccurred;
-        let folder: NCFolder | null = null;
+        let folder: Folder | null = null;
         const dirName = "/test/a/b/c/d/xx";
 
         folder = await client.createFolder(dirName);
@@ -96,14 +96,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         }
 
         expect(folder, "expect folder to a object").to.be.a("object");
-        expect(folder, "expect folder to be a NCFolder").to.be.instanceOf(NCFolder);
+        expect(folder, "expect folder to be a Folder").to.be.instanceOf(Folder);
 
     });
 
     it("04 delete folder", async () => {
 
         let errorOccurred;
-        let folder: NCFolder | null = null;
+        let folder: Folder | null = null;
         const dirName = "/test/deleteme";
 
         try {
@@ -114,7 +114,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         }
 
         expect(folder, "expect folder to an object").to.be.a("object");
-        expect(folder, "expect folder to be a NCFolder").to.be.instanceOf(NCFolder);
+        expect(folder, "expect folder to be a Folder").to.be.instanceOf(Folder);
 
         try {
             folder = await client.getFolder(dirName);
@@ -124,7 +124,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         }
 
         expect(folder, "expect folder to an object").to.be.a("object");
-        expect(folder, "expect folder to be a NCFolder").to.be.instanceOf(NCFolder);
+        expect(folder, "expect folder to be a Folder").to.be.instanceOf(Folder);
 
         let deleteResponse: any;
         try {
@@ -148,7 +148,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("05 get root folder", async () => {
 
         let errorOccurred;
-        let folder: NCFolder | null = null;
+        let folder: Folder | null = null;
         const dirName = "";
 
         folder = await client.createFolder(dirName);
@@ -161,14 +161,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         }
 
         expect(folder, "expect folder to a object").to.be.a("object");
-        expect(folder, "expect folder to be a NCFolder").to.be.instanceOf(NCFolder);
+        expect(folder, "expect folder to be a Folder").to.be.instanceOf(Folder);
 
     });
 
     it("06 create . folder", async () => {
 
         let errorOccurred;
-        let folder: NCFolder | null = null;
+        let folder: Folder | null = null;
         const dirName = "/test/aa/..";
 
         try {
@@ -187,7 +187,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         let errorOccurred;
         const fileName = "/test/test07/file1.txt";
 
-        let file: NCFile | null = null;
+        let file: File | null = null;
 
         try {
             file = await client.createFile(fileName, Buffer.from("this is a test text"));
@@ -198,12 +198,12 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         expect(errorOccurred, "expect no exception").to.be.equal(false);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
-        // expect(file, "expect file to be a NCFolder").to.be.instanceOf(NCFile);
+        // expect(file, "expect file to be a Folder").to.be.instanceOf(File);
 
         expect(file, "expect file to a object").to.be.a("object");
-        expect(file, "expect file to be a NCFolder").to.be.instanceOf(NCFile);
+        expect(file, "expect file to be a Folder").to.be.instanceOf(File);
 
     });
 
@@ -289,9 +289,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
         const content: Buffer = await file!.getContent();
         expect(content.toString(), "expect file content to be 'File 1'").to.be.equal("File 1");
@@ -306,9 +306,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        let file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        let file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
         await file!.delete();
         file = await baseDir.getFile(fileName1);
@@ -325,9 +325,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         const url = file!.getUrl();
@@ -377,7 +377,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("19 get non existing file", async () => {
 
         const fileName = "/test/doesNotExist.txt";
-        const file: NCFile | null = await client.getFile(fileName);
+        const file: File | null = await client.getFile(fileName);
 
         expect(file, "expect file to be null").to.be.equal(null);
     });
@@ -390,9 +390,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         const id: number = await file!.id;
@@ -442,7 +442,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(ncserver);
+            new Client(ncserver);
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -463,7 +463,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(ncserver);
+            new Client(ncserver);
         } catch (e) {
             expect(e, "No exception expected").to.be.equal("");
         }
@@ -471,7 +471,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         ncserver.url += "/";
         try {
             // tslint:disable-next-line:no-unused-expression
-            new NCClient(ncserver);
+            new Client(ncserver);
         } catch (e) {
             expect(e, "No exception expected").to.be.equal("");
         }
@@ -483,7 +483,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         expect(file, "expect file not to be null").to.be.not.equal(null);
         if (file) {
@@ -517,11 +517,11 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         if (file) {
-            const folder: NCFolder | null = await client.getFolder(file.name);
+            const folder: Folder | null = await client.getFolder(file.name);
             expect(folder, "expect folder to be null").to.be.equal(null);
         }
 
@@ -532,7 +532,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const dirName = "./";
         const fileName1 = "file1.txt";
 
-        const file: NCFile | null = await client.createFile(dirName + fileName1, Buffer.from("File 1"));
+        const file: File | null = await client.createFile(dirName + fileName1, Buffer.from("File 1"));
 
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
@@ -563,7 +563,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("30 get folder url, UIUrl and id", async () => {
 
         const dirName = "/test/getFolder";
-        const baseDir: NCFolder = await client.createFolder(dirName);
+        const baseDir: Folder = await client.createFolder(dirName);
         const url = baseDir.getUrl();
         expect(url).to.be.an("string");
         expect(url).not.to.be.equal("");
@@ -590,7 +590,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
         expect(file, "expect file not to be null").to.be.not.equal(null);
         expect(await baseDir.containsFile(fileName1)).to.be.equal(true);
         expect(await baseDir.containsFile("nonExistingFile.txt")).to.be.equal(false);
@@ -603,7 +603,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         expect(file, "expect file not to be null").to.be.not.equal(null);
         if (file) {
@@ -632,10 +632,10 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("33 create subfolder", async () => {
 
         const dirName = "/test/subfolderTest";
-        const baseDir: NCFolder = await client.createFolder(dirName);
+        const baseDir: Folder = await client.createFolder(dirName);
         const subfolderName = "subFolder";
 
-        const subfolder: NCFolder = await baseDir.createSubFolder("subsubfolder");
+        const subfolder: Folder = await baseDir.createSubFolder("subsubfolder");
         expect(subfolder.name).not.to.be.equal(baseDir.name + "/" + subfolderName);
 
     });
@@ -911,9 +911,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
         // returns null only for coverage
         await client.getFile(dirName);
@@ -937,7 +937,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -978,9 +978,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const sourceDirName = "/test/sourcefolder";
         const targetDirName = "/test/targetFolder";
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
 
-        let folder: NCFolder;
+        let folder: Folder;
         try {
             folder = await lclient.moveFolder(sourceDirName, targetDirName);
         } catch (e) {
@@ -1021,9 +1021,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const sourceDirName = "/test/sourcefolder";
         const targetDirName = "/test/targetFolder";
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
 
-        let folder: NCFolder;
+        let folder: Folder;
         try {
             folder = await lclient.moveFolder(sourceDirName, targetDirName);
         } catch (e) {
@@ -1039,8 +1039,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const fileName1 = "file1.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file1: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
-        const file2: NCFile | null = await baseDir.getFile(fileName1);
+        const file1: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file2: File | null = await baseDir.getFile(fileName1);
 
         await file1!.delete();
 
@@ -1055,7 +1055,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     it("50 fake server without responses and request without method", async () => {
         const requestInit: RequestInit = {};
-        const fs: NCFakeServer = new NCFakeServer([]);
+        const fs: FakeServer = new FakeServer([]);
         try {
             await fs.getFakeHttpResponse("", requestInit, [201], { description: "get response without method" });
             expect(true, "expect an exception").to.be.equal(false);
@@ -1067,7 +1067,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
     it("51 fake server without response content type", async () => {
         const requestInit: RequestInit = {};
-        const fs: NCFakeServer = new NCFakeServer([
+        const fs: FakeServer = new FakeServer([
             {
                 request:
                 {
@@ -1103,7 +1103,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getFileId("some/url");
             expect(true, "expect an exception").to.be.equal(false);
@@ -1155,7 +1155,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.createFolder("/x");
             expect(true, "expect an exception").to.be.equal(false);
@@ -1214,7 +1214,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -1239,7 +1239,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1265,7 +1265,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1291,7 +1291,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1317,7 +1317,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1343,7 +1343,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1369,7 +1369,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1395,7 +1395,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getQuota();
             expect(true, "expect an exception").to.be.equal(false);
@@ -1422,7 +1422,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getFolder("ThisFolderDoesNotExists");
             // returns null
@@ -1463,8 +1463,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         let errorOccurred;
         const fileName = "/file72.txt";
 
-        let file: NCFile | null = null;
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        let file: File | null = null;
+        const lclient: Client = new Client(new FakeServer(entries));
         try {
             file = await lclient.createFile(fileName, Buffer.from("this is a test text"));
             errorOccurred = false;
@@ -1484,9 +1484,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
         await file!.delete();
         const arr: any[] = [];
@@ -1581,7 +1581,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         let q;
         try {
             q = await lclient.moveFile("from", "to");
@@ -1595,7 +1595,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
         const dirName = "/test";
 
-        let baseDir: NCFolder | null = await client.createFolder(dirName);
+        let baseDir: Folder | null = await client.createFolder(dirName);
         if (baseDir) {
             await baseDir.delete();
         }

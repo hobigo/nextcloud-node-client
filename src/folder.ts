@@ -1,12 +1,12 @@
 // tslint:disable-next-line:no-var-requires
-const debug = require("debug").debug("NCFolder");
+const debug = require("debug").debug("Folder");
 
-import NCClient from "./client";
-import NCError from "./ncError";
+import Client from "./client";
+import ClientError from "./error";
 import File from "./file";
 
 export default class Folder {
-    private client: NCClient;
+    private client: Client;
     private memento: {
         baseName: string,
         id: number,
@@ -14,7 +14,7 @@ export default class Folder {
         lastmod: Date,
         name: string,
     };
-    constructor(client: NCClient, name: string, baseName: string, lastmod: string, id: number = -1) {
+    constructor(client: Client, name: string, baseName: string, lastmod: string, id: number = -1) {
 
         this.client = client;
         this.memento = {
@@ -112,7 +112,7 @@ export default class Folder {
 
         for (const invalidChar of invalidChars) {
             if (fileBaseName.indexOf(invalidChar) !== -1) {
-                throw new NCError("Filename contains an invalid character '" + invalidChar + "'",
+                throw new ClientError("Filename contains an invalid character '" + invalidChar + "'",
                     "ERR_INVALID_CHAR_IN_FILE_NAME",
                     { fileBaseName });
             }
@@ -239,7 +239,7 @@ export default class Folder {
 
     private assertExistence(): void {
         if (this.memento.deleted) {
-            throw new NCError("Folder does not exist", "ERR_FOLDER_NOT_EXISTING");
+            throw new ClientError("Folder does not exist", "ERR_FOLDER_NOT_EXISTING");
         }
     }
 

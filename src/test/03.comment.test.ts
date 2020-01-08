@@ -2,13 +2,13 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    NCClient,
-    NCFile,
-    NCFolder,
+    Client,
+    File,
+    Folder,
 } from "../client";
 import { getNextcloudClient } from "./testUtils";
 
-let client: NCClient;
+let client: Client;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -26,7 +26,7 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         let errorOccurred;
         const fileName = "/test/comments/fileComments.txt";
 
-        let file: NCFile | null = null;
+        let file: File | null = null;
 
         try {
             file = await client.createFile(fileName, Buffer.from("file with comments"));
@@ -36,7 +36,7 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         }
 
         expect(errorOccurred, "expect no exception").to.be.equal(false);
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
 
         if (file) {
             try {
@@ -63,7 +63,7 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         let errorOccurred;
         const folderName = "/test/folder/comments";
 
-        let folder: NCFolder | null = null;
+        let folder: Folder | null = null;
 
         try {
             folder = await client.createFolder(folderName);
@@ -73,7 +73,7 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
         }
 
         expect(errorOccurred, "expect no exception").to.be.equal(false);
-        expect(folder, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFolder);
+        expect(folder, "expect file to a object").to.be.a("object").that.is.instanceOf(Folder);
 
         if (folder) {
             try {
@@ -107,7 +107,7 @@ describe("03-NEXCLOUD-NODE-CLIENT-COMMENT", function () {
 
         const dirName = "/test";
 
-        let baseDir: NCFolder | null = await client.createFolder(dirName);
+        let baseDir: Folder | null = await client.createFolder(dirName);
         if (baseDir) {
             await baseDir.delete();
         }

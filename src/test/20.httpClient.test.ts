@@ -8,8 +8,8 @@ import {
     Response,
     ResponseInit,
 } from "node-fetch";
-import { INCHttpClientOptions, IProxy, IRequestContext, HttpClient } from "../httpClient";
-import RequestResponseLog from "../requestResponseLog";
+import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "../httpClient";
+import RequestResponseLog from "./requestResponseLog";
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -27,7 +27,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             secureProxy: true,
         };
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             authorizationHeader: "basic 12343",
             logRequestResponse: true,
             origin: "origin",
@@ -58,7 +58,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
 
     it("02 post with basic auth", async () => {
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             authorizationHeader: "Basic dGVzdDp0ZXN0", // test test
             logRequestResponse: false,
             origin: "https://ptsv2.com",
@@ -91,7 +91,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
 
     it("03 post without credentials", async () => {
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             logRequestResponse: false,
             origin: "https://ptsv2.com",
         };
@@ -124,7 +124,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
         const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
         await rrLog.setContext("04 post without credentials recording mode");
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             logRequestResponse: true,
             origin: "https://ptsv2.com",
         };
@@ -164,7 +164,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
         const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
         await rrLog.setContext("04 post without credentials recording mode");
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             logRequestResponse: true,
             origin: "https://ptsv2.com",
         };
@@ -199,7 +199,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
             secureProxy: true,
         };
 
-        const options: INCHttpClientOptions = {
+        const options: IHttpClientOptions = {
             authorizationHeader: "basic 12343",
             logRequestResponse: true,
             // origin: "origin",

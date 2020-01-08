@@ -2,9 +2,9 @@
 require("dotenv").config();
 
 import debugFactory from "debug";
-import NCError from "./ncError";
+import ClientError from "./error";
 import Server from "./server";
-export { Server as NCServer };
+export { Server };
 
 const debug = debugFactory("NCEnvironmentVcapServices");
 
@@ -21,7 +21,7 @@ export default class EnvironmentVcapServices {
     public constructor(instanceName: string) {
 
         if (!process.env.VCAP_SERVICES) {
-            throw new NCError("NCEnvironmentVcapServices: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
+            throw new ClientError("NCEnvironmentVcapServices: environment VCAP_SERVICES not found", "ERR_VCAP_SERVICES_NOT_FOUND");
         }
 
         const vcapServices = require("vcap_services");
@@ -29,23 +29,23 @@ export default class EnvironmentVcapServices {
 
         if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password)) {
             debug("NCEnvironmentVcapServices: error credentials not found or not fully specified %O", cred);
-            throw new NCError(`NCEnvironmentVcapServices: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
+            throw new ClientError(`NCEnvironmentVcapServices: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
         }
 
         if (!cred.url) {
-            throw new NCError("NCEnvironmentVcapServices: VCAP_SERVICES url not defined in user provided services for nextcloud"
+            throw new ClientError("NCEnvironmentVcapServices: VCAP_SERVICES url not defined in user provided services for nextcloud"
                 , "ERR_VCAP_SERVICES_URL_NOT_DEFINED",
                 { credentials: cred });
         }
 
         if (!cred.password) {
-            throw new NCError("NCEnvironmentVcapServices: VCAP_SERVICES password not defined in user provided services for nextcloud",
+            throw new ClientError("NCEnvironmentVcapServices: VCAP_SERVICES password not defined in user provided services for nextcloud",
                 "ERR_VCAP_SERVICES_PASSWORD_NOT_DEFINED",
                 { credentials: cred });
         }
 
         if (!cred.username) {
-            throw new NCError("NCEnvironmentVcapServices: VCAP_SERVICES username not defined in user provided services for nextcloud",
+            throw new ClientError("NCEnvironmentVcapServices: VCAP_SERVICES username not defined in user provided services for nextcloud",
                 "ERR_VCAP_SERVICES_USERNAME_NOT_DEFINED",
                 { credentials: cred });
         }

@@ -1,5 +1,5 @@
 
-import NCClient, { NCError } from "./client";
+import Client, { ClientError } from "./client";
 
 export default class File {
     private memento: {
@@ -11,8 +11,8 @@ export default class File {
         name: string,
         size: number,
     };
-    private client: NCClient;
-    constructor(client: NCClient, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number) {
+    private client: Client;
+    constructor(client: Client, name: string, baseName: string, lastmod: string, size: number, mime: string, id: number) {
         this.memento = {
             baseName,
             deleted: false,
@@ -165,7 +165,7 @@ export default class File {
 
     private assertExistence(): void {
         if (this.memento.deleted) {
-            throw new NCError("File does not exist", "ERR_FILE_NOT_EXISTING");
+            throw new ClientError("File does not exist", "ERR_FILE_NOT_EXISTING");
         }
     }
 }

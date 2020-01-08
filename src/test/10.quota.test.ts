@@ -3,13 +3,13 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    NCClient,
+    Client,
 } from "../client";
 import FakeServer from "../fakeServer";
-import RequestResponseLogEntry from "../requestResponseLogEntry";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
-let client: NCClient;
+let client: Client;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -53,7 +53,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -81,7 +81,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
 
         let q;
         try {
@@ -109,7 +109,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {
@@ -136,7 +136,7 @@ describe("10-NEXCLOUD-NODE-CLIENT-QUOTA", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new FakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
         // console.log(JSON.stringify(this.tests[0].title, null, 4));
         let q;
         try {

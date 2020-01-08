@@ -2,16 +2,16 @@ import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
-    NCClient,
-    NCFakeServer,
-    NCFile,
-    NCFolder,
+    Client,
+    FakeServer,
+    File,
+    Folder,
 } from "../client";
 import Tag from "../tag";
-import RequestResponseLogEntry from "../requestResponseLogEntry";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
-let client: NCClient;
+let client: Client;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
@@ -109,9 +109,9 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         const id: number = await file!.id;
@@ -148,9 +148,9 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         const id: number = await file!.id;
@@ -250,9 +250,9 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const baseDir = await client.createFolder(dirName);
         await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
-        const file: NCFile | null = await client.getFile(dirName + "/" + fileName1);
+        const file: File | null = await client.getFile(dirName + "/" + fileName1);
 
-        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(NCFile);
+        expect(file, "expect file to a object").to.be.a("object").that.is.instanceOf(File);
         expect(file, "expect file not to be null").to.be.not.equal(null);
 
         const id: number = await file!.id;
@@ -318,7 +318,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const fileName1 = "fileWithoutTags.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file1: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file1: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         expect(file1, "Expect that the file cloud be created").not.to.be.equal(null);
 
@@ -359,7 +359,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
         const fileName1 = "fileWithoutTags2.txt";
 
         const baseDir = await client.createFolder(dirName);
-        const file1: NCFile | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
+        const file1: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
 
         expect(file1, "Expect that the file cloud be created").not.to.be.equal(null);
 
@@ -400,7 +400,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
 
         const tagName: string = "tag-14";
         try {
@@ -429,7 +429,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
             },
         });
 
-        const lclient: NCClient = new NCClient(new NCFakeServer(entries));
+        const lclient: Client = new Client(new FakeServer(entries));
 
         const tagName: string = "tag-15";
         try {
@@ -454,7 +454,7 @@ describe("02-NEXCLOUD-NODE-CLIENT-TAG", function () {
 
         const dirName = "/test";
 
-        let baseDir: NCFolder | null = await client.createFolder(dirName);
+        let baseDir: Folder | null = await client.createFolder(dirName);
         if (baseDir) {
             await baseDir.delete();
         }

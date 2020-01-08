@@ -1,5 +1,5 @@
 
-import NCClient from "./client";
+import Client from "./client";
 
 export default class Tag {
     public readonly id: number;
@@ -7,8 +7,8 @@ export default class Tag {
     public readonly visible: boolean;
     public readonly assignable: boolean;
     public readonly canAssign: boolean;
-    private client: NCClient;
-    constructor(client: NCClient, id: number, name: string, visible: boolean, assignable: boolean, canAssign: boolean) {
+    private client: Client;
+    constructor(client: Client, id: number, name: string, visible: boolean, assignable: boolean, canAssign: boolean) {
         this.client = client;
         this.name = name;
         this.visible = visible;

@@ -5,7 +5,7 @@ import {
     ResponseInit,
 } from "node-fetch";
 import { IRequestContext } from "./httpClient";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
+import RequestResponseLogEntry from "./test/requestResponseLogEntry";
 
 const debug = debugFactory("NCFakeServer");
 

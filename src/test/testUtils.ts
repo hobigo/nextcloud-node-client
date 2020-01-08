@@ -1,15 +1,15 @@
 import debugFactory from "debug";
-import NCClient from "../client";
+import Client from "../client";
 import Environment from "../environment";
 import FakeServer from "../fakeServer";
 import Server from "../server";
-import RequestResponseLog from "../requestResponseLog";
-import RequestResponseLogEntry from "../requestResponseLogEntry";
+import RequestResponseLog from "./requestResponseLog";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 
 export const debug = debugFactory("Test");
 // console.log(process.env);
 
-export const getNextcloudClient = async (context: string): Promise<NCClient> => {
+export const getNextcloudClient = async (context: string): Promise<Client> => {
 
     const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
     rrLog.baseDirectory = "testRecordings/";
@@ -21,7 +21,7 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console
         console.log("Test recording: " + rrLog.getFileName());
-        return new NCClient(ncserver);
+        return new Client(ncserver);
     } else {
         let entries: RequestResponseLogEntry[];
         try {
@@ -33,6 +33,6 @@ export const getNextcloudClient = async (context: string): Promise<NCClient> => 
             entries = [];
         }
         const fncserver: FakeServer = new FakeServer(entries);
-        return new NCClient(fncserver);
+        return new Client(fncserver);
     }
 };
