@@ -1,13 +1,50 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 # nextcloud-node-client
-The nextcloud node client provides a TypeScript/JavaScript API for node applications to access nextcloud remotely.
+The nextcloud node client enables node.js applications to access nextcloud remotely using a rich TypeScript/JavaScript API.
+## functional scope
+* Folder and file operations
+* Comments
+* Tagging
 
-Basic file and folder operations, tagging and comments are supported. 
-File events will follow (nextcloud activities).
-The usage within browsers is not supported. The module is under development and API may change until version 1.0.0 is delivered.
+*planned:*
+* Events and event handler
+* User management
 
+## Quality
+The module is under development and API may change until version 1.0.0 is delivered.
 Tested with nextcloud 17.0.1
+
+# Example
+```typescript
+  // typescript
+  import Client, {File, Folder} from "nextcloud-node-client";
+
+  (async() => {
+    try {
+        // create a new client using connectivity information from environment 
+        const client = new Client();
+        // create a folder structure
+        const folder: Folder = await client.createFolder("folder/subfolder");
+        // create file within the folder
+        const file: File = await folder.createFile("myFile.txt", Buffer.from("My file content"));
+        // add a tag to the file and create the tag if not existing
+        await file.addTag("MyTag");
+        // add a comment to the file
+        await file.addComment("myComment");
+        // get the file content
+        const content: Buffer = await file.getContent();        
+        // delete the folder including the file
+        await folder.delete();
+    } catch (e) {
+          // some error handling
+    }
+ })();
+```
+# Documentation
+* [Installation](##-installation)
+* [Concepts](##-concepts)
+* [Architecture](##-architecture)
 
 ## Concepts
 The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:
@@ -68,7 +105,7 @@ npm install nextcloud-node-client
 
 ## Architecture
 
-![alt text](docs/media/ncnc-architecture.png)
+![alt text](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/docs/media/ncnc-architecture.png)
 
 ## Security and access management
 [Security and access management](docs/security_and_access_management.md)
@@ -77,20 +114,18 @@ npm install nextcloud-node-client
 
 ## Environment
 
-
-
 ## Creating a client
 Creating a nextcloud client with reference to a service name
 
 ```typescript
   // typescript
-  import { ICredentials, NCClient } from "nextcloud-node-client";
+  import { ICredentials, Client } from "nextcloud-node-client";
 
   (async() => {
     // service instance name from VCAP_SERVICES environment - "user-provided" section      
-    const credentials: ICredentials = NCClient.getCredentialsFromEnv("myServiceInstanceName");
+    const credentials: ICredentials = Client.getCredentialsFromEnv("myServiceInstanceName");
     try {
-        const client = new NCClient(credentials.url, credentials.basicAuth);
+        const client = new Client(credentials.url, credentials.basicAuth);
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
@@ -100,14 +135,14 @@ Creating a nextcloud client with reference to a service name
 
 ```javascript
   // javascript
-  const NCClient = require("nextcloud-node-client").NCClient;
+  const Client = require("nextcloud-node-client").Client;
 
   (async() => {
     // service instance name from VCAP_SERVICES environment - "user-provided" section      
-    const credentials = NCClient.getCredentialsFromEnv("myServiceInstanceName");
+    const credentials = Client.getCredentialsFromEnv("myServiceInstanceName");
     try {
         // service instance name from VCAP_SERVICES environment - "user-provided" section        
-        const client = new NCClient(credentials.url, credentials.basicAuth);
+        const client = new Client(credentials.url, credentials.basicAuth);
         //  do cool stuff with the client
     } catch (e) {
           // some error handling
@@ -119,11 +154,11 @@ Creating a nextcloud client with explicite credentials
 
 ```typescript
   // typescript
-  import { NCClient } from "nextcloud-node-client";
+  import { Client } from "nextcloud-node-client";
 
   (async() => {
     try {
-        const client = new NCClient("https://myNextcloudServer.com/remote.php/webdav", { username: "<my user>", password: "<my password>" } );
+        const client = new Client("https://myNextcloudServer.com/remote.php/webdav", { username: "<my user>", password: "<my password>" } );
         //  do cool stuff with the client
     } catch (e) {
           // some error handling

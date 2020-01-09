@@ -69,11 +69,59 @@
 				<a href="#nextcloud-node-client" id="nextcloud-node-client" style="color: inherit; text-decoration: none;">
 					<h1>nextcloud-node-client</h1>
 				</a>
-				<p>The nextcloud node client provides a TypeScript/JavaScript API for node applications to access nextcloud remotely.</p>
-				<p>Basic file and folder operations, tagging and comments are supported.
-					File events will follow (nextcloud activities).
-				The usage within browsers is not supported. The module is under development and API may change until version 1.0.0 is delivered.</p>
-				<p>Tested with nextcloud 17.0.1</p>
+				<p>The nextcloud node client enables node.js applications to access nextcloud remotely using a rich TypeScript/JavaScript API.</p>
+				<a href="#functional-scope" id="functional-scope" style="color: inherit; text-decoration: none;">
+					<h2>functional scope</h2>
+				</a>
+				<ul>
+					<li>Folder and file operations</li>
+					<li>Comments</li>
+					<li>Tagging</li>
+				</ul>
+				<p><em>planned:</em></p>
+				<ul>
+					<li>Events and event handler</li>
+					<li>User management</li>
+				</ul>
+				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
+					<h2>Quality</h2>
+				</a>
+				<p>The module is under development and API may change until version 1.0.0 is delivered.
+				Tested with nextcloud 17.0.1</p>
+				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
+					<h1>Example</h1>
+				</a>
+				<pre><code class="language-typescript">  <span class="hljs-comment">// typescript</span>
+  <span class="hljs-keyword">import</span> Client <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+
+  <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span>(<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// create a new client using connectivity information from environment </span>
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// create a folder structure</span>
+        <span class="hljs-keyword">const</span> folder: Folder = <span class="hljs-keyword">await</span> client.createFolder(<span class="hljs-params">"folder/subfolder"</span>);
+        <span class="hljs-comment">// create file within the folder</span>
+        <span class="hljs-keyword">const</span> file: File = <span class="hljs-keyword">await</span> folder.createFile(<span class="hljs-params">"myFile.txt", Buffer.<span class="hljs-keyword">from</span>(<span class="hljs-params">"My file content"</span>)</span>);
+        <span class="hljs-comment">// add a tag to the file and create the tag if not existing</span>
+        <span class="hljs-keyword">await</span> file.addTag(<span class="hljs-params">"MyTag"</span>);
+        <span class="hljs-comment">// add a comment to the file</span>
+        <span class="hljs-keyword">await</span> file.addComment(<span class="hljs-params">"myComment"</span>);
+        <span class="hljs-comment">// get the file content</span>
+        <span class="hljs-keyword">const</span> content: Buffer = <span class="hljs-keyword">await</span> file.getContent(<span class="hljs-params"></span>);        
+        <span class="hljs-comment">// delete the folder including the file</span>
+        <span class="hljs-keyword">await</span> folder.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
+          <span class="hljs-comment">// some error handling</span>
+    }
+ }</span>)<span class="hljs-params">()</span>;</span></code></pre>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h1>Documentation</h1>
+				</a>
+				<ul>
+					<li><a href="##-installation">Installation</a></li>
+					<li><a href="##-concepts">Concepts</a></li>
+					<li><a href="##-architecture">Architecture</a></li>
+				</ul>
 				<a href="#concepts" id="concepts" style="color: inherit; text-decoration: none;">
 					<h2>Concepts</h2>
 				</a>
@@ -151,38 +199,41 @@
 				<a href="#architecture" id="architecture" style="color: inherit; text-decoration: none;">
 					<h2>Architecture</h2>
 				</a>
-				<p><img src="docs/media/ncnc-architecture.png" alt="alt text"></p>
+				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/docs/media/ncnc-architecture.png" alt="alt text"></p>
 				<a href="#security-and-access-management" id="security-and-access-management" style="color: inherit; text-decoration: none;">
 					<h2>Security and access management</h2>
 				</a>
 				<p><a href="docs/security_and_access_management.md">Security and access management</a></p>
 				<p><a href="###-Client">client</a></p>
+				<a href="#environment" id="environment" style="color: inherit; text-decoration: none;">
+					<h2>Environment</h2>
+				</a>
 				<a href="#creating-a-client" id="creating-a-client" style="color: inherit; text-decoration: none;">
 					<h2>Creating a client</h2>
 				</a>
 				<p>Creating a nextcloud client with reference to a service name</p>
 				<pre><code class="language-typescript">  <span class="hljs-comment">// typescript</span>
-  <span class="hljs-keyword">import</span> { ICredentials, NCClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+  <span class="hljs-keyword">import</span> { ICredentials, Client } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
 
   <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span>(<span class="hljs-params"></span>) =&gt; {
     <span class="hljs-comment">// service instance name from VCAP_SERVICES environment - "user-provided" section      </span>
-    <span class="hljs-keyword">const</span> credentials: ICredentials = NCClient.getCredentialsFromEnv(<span class="hljs-params">"myServiceInstanceName"</span>);
+    <span class="hljs-keyword">const</span> credentials: ICredentials = Client.getCredentialsFromEnv(<span class="hljs-params">"myServiceInstanceName"</span>);
     <span class="hljs-keyword">try</span> {
-        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> NCClient(<span class="hljs-params">credentials.url, credentials.basicAuth</span>);
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-params">credentials.url, credentials.basicAuth</span>);
         <span class="hljs-comment">//  do cool stuff with the client</span>
     } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
           <span class="hljs-comment">// some error handling</span>
     }
  }</span>)<span class="hljs-params">()</span>;</span></code></pre>
 				<pre><code class="language-javascript">  <span class="hljs-comment">// javascript</span>
-  <span class="hljs-keyword">const</span> NCClient = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nextcloud-node-client"</span>).NCClient;
+  <span class="hljs-keyword">const</span> Client = <span class="hljs-built_in">require</span>(<span class="hljs-string">"nextcloud-node-client"</span>).Client;
 
   <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span>(</span>) =&gt;</span> {
     <span class="hljs-comment">// service instance name from VCAP_SERVICES environment - "user-provided" section      </span>
-    <span class="hljs-keyword">const</span> credentials = NCClient.getCredentialsFromEnv(<span class="hljs-string">"myServiceInstanceName"</span>);
+    <span class="hljs-keyword">const</span> credentials = Client.getCredentialsFromEnv(<span class="hljs-string">"myServiceInstanceName"</span>);
     <span class="hljs-keyword">try</span> {
         <span class="hljs-comment">// service instance name from VCAP_SERVICES environment - "user-provided" section        </span>
-        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> NCClient(credentials.url, credentials.basicAuth);
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(credentials.url, credentials.basicAuth);
         <span class="hljs-comment">//  do cool stuff with the client</span>
     } <span class="hljs-keyword">catch</span> (e) {
           <span class="hljs-comment">// some error handling</span>
@@ -190,11 +241,11 @@
  })();</code></pre>
 				<p>Creating a nextcloud client with explicite credentials</p>
 				<pre><code class="language-typescript">  <span class="hljs-comment">// typescript</span>
-  <span class="hljs-keyword">import</span> { NCClient } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+  <span class="hljs-keyword">import</span> { Client } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
 
   <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span>(<span class="hljs-params"></span>) =&gt; {
     <span class="hljs-keyword">try</span> {
-        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> NCClient(<span class="hljs-params">"https:<span class="hljs-comment">//myNextcloudServer.com/remote.php/webdav", { username: "&lt;my user&gt;", password: "&lt;my password&gt;" } );</span>
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-params">"https:<span class="hljs-comment">//myNextcloudServer.com/remote.php/webdav", { username: "&lt;my user&gt;", password: "&lt;my password&gt;" } );</span>
         <span class="hljs-comment">//  do cool stuff with the client</span>
     } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
           <span class="hljs-comment">// some error handling</span>

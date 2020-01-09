@@ -23,6 +23,7 @@ export {
     File,
     Tag,
     FakeServer,
+    Server,
 };
 
 const debug = debugFactory("NCClient");
