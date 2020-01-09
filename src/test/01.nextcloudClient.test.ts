@@ -1470,7 +1470,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
             errorOccurred = false;
         } catch (e) {
             errorOccurred = true;
-            expect(e.message, "expect no exception").to.be.equal("createFile: Error creating file /file72.txt");
+            expect(e.message, "expect no exception").to.be.equal(`Error creating file, file name "/file72.txt"`);
         }
         //  expect(errorOccurred, "expect no exception").to.be.equal(false);
 

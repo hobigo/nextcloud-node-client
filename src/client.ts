@@ -549,7 +549,8 @@ export default class Client {
             debug("createFolder: new folder %O", folder.name);
             return folder;
         } else {
-            throw new Error("createFolder: Error creating folder " + folderName);
+            throw new ClientError(`Error creating folder, folder name "${folderName}"
+            `, "ERR_CREATE_FOLDER_FAILED");
         }
 
     }
@@ -703,7 +704,7 @@ export default class Client {
         file = await this.getFile(fileName);
 
         if (!file) {
-            throw new Error("createFile: Error creating file " + fileName);
+            throw new ClientError(`Error creating file, file name "${fileName}"`, "ERR_CREATE_FILE_FAILED");
         }
         return file;
     }

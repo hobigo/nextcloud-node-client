@@ -6,6 +6,7 @@ import {
     RequestInit,
     Response,
 } from "node-fetch";
+import ClientError from "./error";
 import RequestResponseLog from "./test/requestResponseLog";
 import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./test/requestResponseLogEntry";
 
@@ -120,7 +121,13 @@ export class HttpClient {
             debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
             debug("getHttpResponse request body %s", requestInit.body);
             debug("getHttpResponse text %s", await response.text());
-            throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
+            throw new ClientError(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`,
+                "ERR_UNEXPECTED_HTTP_STATUS",
+                {
+                    expectedHttpStatusCodes: expectedHttpStatusCode,
+                    responseStatus: response.status,
+                    responseStatusText: response.statusText,
+                });
         }
         return response;
     }

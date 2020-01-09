@@ -66,8 +66,18 @@ Please refer to test file and the ``/docs`` folder with the generated documentat
 npm install nextcloud-node-client
 ``
 
+## Architecture
+
+![alt text](docs/media/ncnc-architecture.png)
+
 ## Security and access management
 [Security and access management](docs/security_and_access_management.md)
+
+[client](###-Client)
+
+## Environment
+
+
 
 ## Creating a client
 Creating a nextcloud client with reference to a service name
