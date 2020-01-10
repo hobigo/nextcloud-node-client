@@ -16,14 +16,11 @@ jobs:
         node-version: '12.x'
         
     - name: Install Dependencies
-      run: |
-        npm install  
-        npm run build 
-        npm run cover 
-        npm publish --access public --dry-run
+      run: npm install  
+    - name: Build
+      run: npm run build 
     - name: Run tests and coverage
-      run: 
-        npm run cover 
+      run: npm run cover 
     - name: NPM publish dryrun
       run: npm publish --access public --dry-run       
     - name: Run a one-line script
