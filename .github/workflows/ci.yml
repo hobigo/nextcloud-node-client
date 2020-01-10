@@ -16,7 +16,7 @@ jobs:
         node-version: '12.x'
         
     - name: Install Dependencies
-      run: 
+      run: |
         npm install  
         npm run build 
         npm run cover 
