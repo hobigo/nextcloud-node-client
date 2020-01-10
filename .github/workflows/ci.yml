@@ -18,7 +18,9 @@ jobs:
     - name: Install Dependencies
       run: 
         npm install  
-        npm run cover
+    - name: Run tests and coverage
+      run: 
+        npm run cover        
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
