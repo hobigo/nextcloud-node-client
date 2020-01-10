@@ -2,9 +2,9 @@ import debugFactory from "debug";
 import Client from "../client";
 import Environment from "../environment";
 import FakeServer from "../fakeServer";
+import RequestResponseLog from "../requestResponseLog";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import Server from "../server";
-import RequestResponseLog from "./requestResponseLog";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
 
 export const debug = debugFactory("Test");
 // console.log(process.env);

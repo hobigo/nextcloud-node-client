@@ -9,7 +9,7 @@ import {
     ResponseInit,
 } from "node-fetch";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "../httpClient";
-import RequestResponseLog from "./requestResponseLog";
+import RequestResponseLog from "../requestResponseLog";
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren

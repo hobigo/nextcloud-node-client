@@ -1,8 +1,8 @@
 import { expect } from "chai";
 import { promises as fsPromises } from "fs";
 import "mocha";
-import RequestResponseLog from "./requestResponseLog";
-import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
+import RequestResponseLog from "../requestResponseLog";
+import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "../requestResponseLogEntry";
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren

@@ -6,7 +6,7 @@ import {
     Client,
 } from "../client";
 import FakeServer from "../fakeServer";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
 let client: Client;

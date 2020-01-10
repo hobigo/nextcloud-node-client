@@ -7,8 +7,8 @@ import {
     File,
     Folder,
 } from "../client";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import Tag from "../tag";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
 let client: Client;

@@ -9,6 +9,7 @@ testRecordings
 coverage
 .nyc_output
 .vscode
+todo.txt
 coverage.lcov
 # exclude local environment definition .en
 .env

@@ -15,8 +15,8 @@ import {
 } from "../client";
 import Environment from "../environment";
 import EnvironmentVcapServices from "../environmentVcapServices";
+import RequestResponseLogEntry from "../requestResponseLogEntry";
 import Server from "../server";
-import RequestResponseLogEntry from "./requestResponseLogEntry";
 import { getNextcloudClient } from "./testUtils";
 
 let client: Client;

@@ -7,8 +7,8 @@ import {
     Response,
 } from "node-fetch";
 import ClientError from "./error";
-import RequestResponseLog from "./test/requestResponseLog";
-import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./test/requestResponseLogEntry";
+import RequestResponseLog from "./requestResponseLog";
+import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
 
 const debug = debugFactory("HttpClient");
 
