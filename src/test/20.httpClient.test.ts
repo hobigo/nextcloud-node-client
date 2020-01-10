@@ -43,6 +43,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
         const url: string = "https://this.server.does.not.exist:1234/root";
 
         let response: Response;
+        let exceptionOccurred: boolean = false;
 
         try {
             response = await httpClient.getHttpResponse(
@@ -51,9 +52,9 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
                 [200],
                 { description: "test Call" });
         } catch (e) {
-            expect("network timeout at: " + url, "expect an exception").to.be.equal(e.message);
+            exceptionOccurred = true;
         }
-
+        expect(exceptionOccurred, "expect an exception").to.be.equal(true);
     });
 
     it("02 post with basic auth", async () => {
