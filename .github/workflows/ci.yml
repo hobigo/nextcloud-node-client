@@ -18,6 +18,9 @@ jobs:
     - name: Install Dependencies
       run: 
         npm install  
+        npm run build 
+        npm run cover 
+        npm publish --access public --dry-run
     - name: Run tests and coverage
       run: 
         npm run cover 
