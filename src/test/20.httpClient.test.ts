@@ -189,7 +189,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
 
     });
 
-    it("05 without proxy auth header, origin, description and method", async () => {
+    it("06 without proxy auth header, origin, description and method", async () => {
 
         // no proxyAuthorizationHeader
         const proxy: IProxy = {
@@ -214,7 +214,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
         const url: string = "https://this.server.does.not.exist:1234/root";
 
         let response: Response;
-
+        let exceptionOccurred: boolean = false;
         try {
             response = await httpClient.getHttpResponse(
                 url,
@@ -222,9 +222,9 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
                 [200],
                 {});
         } catch (e) {
-            expect("network timeout at: " + url, "expect an exception").to.be.equal(e.message);
+            exceptionOccurred = true;
         }
-
+        expect(exceptionOccurred).to.be.equal(true);
     });
 
 });
