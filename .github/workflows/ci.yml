@@ -22,7 +22,9 @@ jobs:
     - name: Run tests and coverage
       run: npm run cover 
     - name: NPM publish dryrun
-      run: npm publish --access public --dry-run       
+      run: npm publish --access public --dry-run     
+    - name: Generate documentation    
+      run: npm run documentation
     - name: Upload docs to hobigo.de/nextcloud-node-client
       uses: sebastianpopp/ftp-action@releases/v1
       with:
