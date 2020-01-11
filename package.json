@@ -60,8 +60,6 @@
     "fast-xml-parser": "^3.15.1",
     "http-proxy-agent": "^2.1.0",
     "node-fetch": "^2.6.0",
-    "npm": "^6.13.4",
-    "ts-md5": "^1.2.7",
     "vcap_services": "^0.7.1"
   },
   "devDependencies": {
