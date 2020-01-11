@@ -31,6 +31,11 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "docs"
         remoteDir: "www/hobigo.de/nextcloud-node-client"      
+      
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} #required
+        file: ./coverage.xml #optional
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
