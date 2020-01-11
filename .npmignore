@@ -5,7 +5,6 @@ node_modules
 tsconfig.json
 tslint.json
 dist/test
-testRecordings
 coverage
 .nyc_output
 .vscode

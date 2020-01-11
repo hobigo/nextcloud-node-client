@@ -12,7 +12,7 @@ export const debug = debugFactory("Test");
 export const getNextcloudClient = async (context: string): Promise<Client> => {
 
     const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
-    rrLog.baseDirectory = "testRecordings/";
+    rrLog.baseDirectory = "src/test/recordings/";
     await rrLog.setContext(context);
 
     // use command line parameter to override recording settings
