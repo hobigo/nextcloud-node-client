@@ -16,7 +16,7 @@
     "cover": "nyc mocha -r ts-node/register src/test/*test.ts && nyc report --reporter=text-lcov > coverage.lcov",
     "record": "nyc mocha -r ts-node/register src/test/*test.ts --record",
     "documentation": "typedoc --out ./docs ./src/client.ts",
-    "create-lcov": "./node_modules/.bin/codecov -t xxx"
+    "create-lcov": "./node_modules/.bin/codecov -t <token>"
   },
   "nyc": {
     "extension": [

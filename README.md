@@ -1,5 +1,6 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
+[![codecov](https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg)](https://codecov.io/gh/hobigo/nextcloud-node-client)
 # nextcloud-node-client
 The nextcloud node client enables node.js applications to access nextcloud remotely using a rich TypeScript/JavaScript API.
 ## functional scope
