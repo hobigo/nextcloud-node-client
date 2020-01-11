@@ -23,9 +23,16 @@ jobs:
       run: npm run cover 
     - name: NPM publish dryrun
       run: npm publish --access public --dry-run     
-    - name: Generate documentation    
+    # - name: Upload to codecov 1
+      # run: ./node_modules/.bin/codecov -t ${{ secrets.CODECOV_TOKEN }}      
+    - name: Upload to Codecov 
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }} #required
+  ### documentation
+    - name: Generate documentation with typedoc
       run: npm run documentation
-    - name: Upload docs to hobigo.de/nextcloud-node-client
+    - name: Upload documentation to hobigo.de/nextcloud-node-client
       uses: sebastianpopp/ftp-action@releases/v1
       with:
         host: ${{ secrets.FTP_SERVER }}
@@ -33,13 +40,8 @@ jobs:
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "docs"
         remoteDir: "/"
-    - name: Upload to codecov 1
-      run: ./node_modules/.bin/codecov -t ${{ secrets.CODECOV_TOKEN }}      
-    - name: Upload to codecov 2
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} #required
-        file: ./coverage.lcov #optional
+   
+      
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
