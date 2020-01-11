@@ -32,9 +32,11 @@ jobs:
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "docs"
-        remoteDir: ""
-      
-    - uses: codecov/codecov-action@v1
+        remoteDir: "/"
+    - name: Upload to codecov 1
+      run: ./node_modules/.bin/codecov -t ${{ secrets.CODECOV_TOKEN }}      
+    - name: Upload to codecov 2
+      uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} #required
         file: ./coverage.lcov #optional
