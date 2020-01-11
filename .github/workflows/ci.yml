@@ -32,12 +32,12 @@ jobs:
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "docs"
-        remoteDir: "nextcloud-node-client"
+        remoteDir: ""
       
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} #required
-        file: ./coverage.xml #optional
+        file: ./coverage.lcov #optional
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
