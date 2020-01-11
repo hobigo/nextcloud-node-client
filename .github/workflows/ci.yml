@@ -32,7 +32,7 @@ jobs:
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
         localDir: "docs"
-        remoteDir: "www/hobigo.de/nextcloud-node-client"      
+        remoteDir: "nextcloud-node-client"
       
     - uses: codecov/codecov-action@v1
       with:
