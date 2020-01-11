@@ -11,5 +11,7 @@ coverage
 .vscode
 todo.txt
 coverage.lcov
+.github
+docs
 # exclude local environment definition .en
 .env
