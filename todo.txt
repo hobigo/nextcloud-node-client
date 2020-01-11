@@ -1,4 +1,1 @@
-- rename nc* to *
-- move requestResponseLog to /test
-- move testRecordings to /test/recordings
-- ftp upload https://github.com/sebastianpopp/ftp-action
+- none

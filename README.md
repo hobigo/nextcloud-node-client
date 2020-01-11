@@ -2,30 +2,22 @@
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 [![codecov](https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg)](https://codecov.io/gh/hobigo/nextcloud-node-client)
 # nextcloud-node-client
+ <img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
 The nextcloud node client enables node.js applications to access nextcloud remotely using a rich TypeScript/JavaScript API.
-## functional scope
-* Folder and file operations
-* Comments
-* Tagging
 
-*planned:*
-* Events and event handler
-* User management
-
-## Quality
-The module is under development and API may change until version 1.0.0 is delivered.
-Tested with nextcloud 17.0.1
+The client supports folder and file operations including tagging and comments.
+User management and event subscription and event handling is planned.
 
 # Example
 ```typescript
-  // typescript
-  import Client, {File, Folder} from "nextcloud-node-client";
+// typescript
+import Client, { File, Folder, Tag, } from "nextcloud-node-client";
 
-  (async() => {
+(async () => {
     try {
         // create a new client using connectivity information from environment 
         const client = new Client();
-        // create a folder structure
+        // create a folder structure if not available
         const folder: Folder = await client.createFolder("folder/subfolder");
         // create file within the folder
         const file: File = await folder.createFile("myFile.txt", Buffer.from("My file content"));
@@ -34,18 +26,81 @@ Tested with nextcloud 17.0.1
         // add a comment to the file
         await file.addComment("myComment");
         // get the file content
-        const content: Buffer = await file.getContent();        
+        const content: Buffer = await file.getContent();
         // delete the folder including the file
         await folder.delete();
     } catch (e) {
-          // some error handling
+        // some error handling   
+        console.log(e);
     }
- })();
+})();
 ```
 # Documentation
 * [Installation](##-installation)
+* [Security and access management](##-security-and-access-management)
 * [Concepts](##-concepts)
+* [API](##-api)
 * [Architecture](##-architecture)
+
+## Installation
+``
+npm install nextcloud-node-client
+``
+
+## Security and access management
+The client requires the WebDAV url of the nextcloud server and the credentials. 
+
+Use an app specific password generated in the security - devices & sessions section of the nextcloud settings.
+
+### Environment
+Credentials can be specified in the environment:
+```
+NEXTCLOUD_USERNAME= "<your user name>"
+NEXTCLOUD_PASSWORD = "<your password>"
+NEXTCLOUD_URL= "https://<your nextcloud host>/remote.php/webdav"
+```
+
+The cloud service configuration `VCAP_SERVICES` can be used alternativley (refer to the Cloud Foundry documentation for details).
+
+The nextcloud credentials are stored in the section for user provided services `user-provided`.
+The client is able to access the service credentials by providing the instance name.
+```json
+{
+    "user-provided": [
+        {
+            "credentials": {
+                "password": "<your password>",
+                "url": "https://<your nextcloud host>/remote.php/webdav",
+                "username": "<your user name>"
+            },
+            "name": "<your service instance name>"
+        }
+    ]
+}
+```
+
+### Creating a client
+Creating a nextcloud client 
+
+```typescript
+  // uses the environment to initialize
+  import Client from "nextcloud-node-client";
+  const client = new Client();
+```
+
+```typescript
+  // uses explicite credentials
+  import Client, { Server } from "nextcloud-node-client";
+  const server: Server = new Server(
+            { basicAuth:
+                { password: "<your password>",
+                  username: "<your user name>",
+                },
+                url: "https://<your nextcloud host>/remote.php/webdav",
+            });
+
+  const client = new Client(server);
+```
 
 ## Concepts
 The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:
@@ -61,9 +116,10 @@ The file is the representation of a nextcloud file. Every file is contained in a
 ### Tag
 Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.
 
-## API overview
-The API usage is currently not yet documented. 
-Please refer to test file and the ``/docs`` folder with the generated documentation.
+## API
+This is an overview of the client API.
+Details can be found in the [API docs](http://hobigo.de/nextcloud-node-client/)
+
 
 ### Client
 - factory method for client 
@@ -99,157 +155,14 @@ Please refer to test file and the ``/docs`` folder with the generated documentat
 
 \* admin permissions required
 
-## Installation
-``
-npm install nextcloud-node-client
-``
-
-## Architecture
-
-![alt text](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/docs/media/ncnc-architecture.png)
-
-## Security and access management
-[Security and access management](docs/security_and_access_management.md)
-
-[client](###-Client)
-
-## Environment
-
-## Creating a client
-Creating a nextcloud client with reference to a service name
-
-```typescript
-  // typescript
-  import { ICredentials, Client } from "nextcloud-node-client";
-
-  (async() => {
-    // service instance name from VCAP_SERVICES environment - "user-provided" section      
-    const credentials: ICredentials = Client.getCredentialsFromEnv("myServiceInstanceName");
-    try {
-        const client = new Client(credentials.url, credentials.basicAuth);
-        //  do cool stuff with the client
-    } catch (e) {
-          // some error handling
-    }
- })();
-```
-
-```javascript
-  // javascript
-  const Client = require("nextcloud-node-client").Client;
-
-  (async() => {
-    // service instance name from VCAP_SERVICES environment - "user-provided" section      
-    const credentials = Client.getCredentialsFromEnv("myServiceInstanceName");
-    try {
-        // service instance name from VCAP_SERVICES environment - "user-provided" section        
-        const client = new Client(credentials.url, credentials.basicAuth);
-        //  do cool stuff with the client
-    } catch (e) {
-          // some error handling
-    }
- })();
-```
-
-Creating a nextcloud client with explicite credentials
-
-```typescript
-  // typescript
-  import { Client } from "nextcloud-node-client";
-
-  (async() => {
-    try {
-        const client = new Client("https://myNextcloudServer.com/remote.php/webdav", { username: "<my user>", password: "<my password>" } );
-        //  do cool stuff with the client
-    } catch (e) {
-          // some error handling
-    }
- })();
-```
-
-## Defining a nextcloud service instance
-A nextcloud service instance is required to access the credentials of the nextcloud server.
-Storing security configuration in the environment separate from code is based on The Twelve-Factor App methodology.
-The service configuration is stored in the environment variable `VCAP_SERVICES` (refer to the Cloud Foundry documentation for details).
-The nextcloud credentials are stored in the section for user provided services `user-provided`.
-The client is able to access the service credentials by providing the instance name.
-
-### template for VCAP_SERVICES
-
-```
-VCAP_SERVICES={
-    "user-provided": [
-        {
-            "binding_name": null,
-            "credentials": {
-                "password": "<your password>",
-                "url": "<your WebDAV url to nextcloud>",
-                "username": "<your user name>"
-            },
-            "instance_name": "<your service instance name>",
-            "label": "user-provided",
-            "name": "<your service instance name>",
-            "syslog_drain_url": "",
-            "tags": [],
-            "volume_mounts": []
-        }
-    ]
-}
-```
-
-In one line
-
-``
-VCAP_SERVICES={
-    "user-provided": [
-        {
-            "binding_name": null,
-            "credentials": {
-                "password": "<your password>",
-                "url": "<your WebDAV url to nextcloud>",
-                "username": "<your user name>"
-            },
-            "instance_name": "<your service instance name>",
-            "label": "user-provided",
-            "name": "<your service instance name>",
-            "syslog_drain_url": "",
-            "tags": [],
-            "volume_mounts": []
-        }
-    ]
-}
-``
-
-Find a template for a `.env` file in the root folder.
-
-### CloudFoundry Integration
-Cloud foundry apps use the credentials provided in the environment.
-Create a user provided service from a json file to store the credentials securely in the environment.
-
-cloud foundry command line:
-
-``
-cf create-user-provided-service myServiceInstanceName -p ./userProvidedService.json
-``
-
-Structure of the userProvidedService.json file
-
-```
-{
-    "url": "<url - WebDAV endpoint of the nextcloud server>",
-    "username": "<user name>",
-    "password": "<password>"
-}
-```
-
-## API
-### Quota
+### API Examples
+#### Quota
 ```javascript
     q = await client.getQuota();  
     // { used: 479244777, available: 10278950773 }
 ```
 
-### Create folder
+#### Create folder
 ```javascript
     // create folder
     const folder = await client.createFolder("/products/brooms");
@@ -259,7 +172,7 @@ Structure of the userProvidedService.json file
     
 ```
 
-### Get folder(s)
+#### Get folder(s)
 ```javascript
     // get folder
     const folder = await client.getFolder("/products");
@@ -267,18 +180,18 @@ Structure of the userProvidedService.json file
     const subfolders = await folder.getSubFolders();    
 ```
 
-### Delete folder
+#### Delete folder
 ```javascript
     // get folder
     const folder = await client.getFolder("/products");
     await folder.delete();
 ```
-### Create file
+#### Create file
 ```javascript
     const folder = await client.getFolder("/products");
     const file = folder.createFile("MyFile.txt", new Buffer("My new file"));
 ```
-### Get file
+#### Get file
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     // or
@@ -286,46 +199,46 @@ Structure of the userProvidedService.json file
     const file = await folder.getFile("MyFile.txt");
     // file: name, baseName, lastmod, size, mime
 ```
-### Get file content
+#### Get file content
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     const buffer = await file.getContent();
 ```
-### Get file Url
+#### Get file Url
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     const url = await file.getUrl();
 ```
-### Add tag to file
+#### Add tag to file
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     await file.addTag("myTag");
 ```
-### Delete file
+#### Delete file
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     await file.delete();
 ```
-### Get files
+#### Get files
 ```javascript
     const folder = await client.getFolder("/products");
     const files = await folder.getFiles();
 ```
-### Move and/or rename file
+#### Move and/or rename file
 ```javascript
     const file = await client.getFile("/products/MyFile.txt");
     await file.move("/products/brooms/MyFileRenamed.txt");
 ```
 
-## Development
-set the NODE_ENV to "development" and locate the userProvidedService.json file in the root directory for local development.
+## Architecture
+The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.
 
-Use ``npm run build-watch`` to build js files.
 
-## Test
+![alt text](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png)
 
-Use ``npm run test`` to execute automated tests
-Use ``npm run test-d`` to execute automated tests with debug information
+
+## Quality
+Tested with nextcloud 17.0.1
 
 ## License
 Apache
