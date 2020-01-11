@@ -1,5 +1,5 @@
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\client.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\client.ts
 FN:75,(anonymous_9)
 FN:138,(anonymous_10)
 FN:183,(anonymous_12)
@@ -598,7 +598,7 @@ BRF:117
 BRH:117
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\environment.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\environment.ts
 FN:16,(anonymous_1)
 FN:35,(anonymous_2)
 FNF:2
@@ -643,7 +643,7 @@ BRF:13
 BRH:13
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\environmentVcapServices.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\environmentVcapServices.ts
 FN:21,(anonymous_1)
 FN:64,(anonymous_2)
 FNF:2
@@ -695,7 +695,7 @@ BRF:15
 BRH:15
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\error.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\error.ts
 FN:8,(anonymous_0)
 FNF:1
 FNH:1
@@ -711,7 +711,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\fakeServer.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\fakeServer.ts
 FN:14,(anonymous_8)
 FN:17,(anonymous_9)
 FNF:2
@@ -761,7 +761,7 @@ BRF:10
 BRH:10
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\file.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\file.ts
 FN:15,(anonymous_7)
 FN:28,(anonymous_8)
 FN:33,(anonymous_9)
@@ -861,7 +861,7 @@ BRF:4
 BRH:4
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\folder.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\folder.ts
 FN:17,(anonymous_8)
 FN:29,(anonymous_9)
 FN:34,(anonymous_10)
@@ -995,7 +995,7 @@ BRF:11
 BRH:11
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\httpClient.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\httpClient.ts
 FN:39,(anonymous_9)
 FN:46,(anonymous_10)
 FN:88,(anonymous_12)
@@ -1096,7 +1096,7 @@ BRF:22
 BRH:22
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\requestResponseLog.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\requestResponseLog.ts
 FN:27,(anonymous_8)
 FN:13,(anonymous_9)
 FN:16,(anonymous_10)
@@ -1197,7 +1197,7 @@ BRF:20
 BRH:20
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\requestResponseLogEntry.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\requestResponseLogEntry.ts
 FN:8,(anonymous_0)
 FN:23,(anonymous_1)
 FN:35,(anonymous_2)
@@ -1225,7 +1225,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\server.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\server.ts
 FN:25,(anonymous_1)
 FNF:1
 FNH:1
@@ -1248,7 +1248,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:C:\Users\d024197\dev\nextcloud-node-client\src\tag.ts
+SF:C:\Users\holger\Documents\GitHub\nextcloud-node-client\src\tag.ts
 FN:11,(anonymous_7)
 FN:19,(anonymous_8)
 FN:22,(anonymous_10)

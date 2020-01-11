@@ -23,6 +23,14 @@ jobs:
       run: npm run cover 
     - name: NPM publish dryrun
       run: npm publish --access public --dry-run       
+    - name: Upload docs to hobigo.de/nextcloud-node-client
+      uses: sebastianpopp/ftp-action@releases/v1
+      with:
+        host: ${{ secrets.FTP_SERVER }}
+        user: ${{ secrets.FTP_USERNAME }}
+        password: ${{ secrets.FTP_PASSWORD }}
+        localDir: "docs"
+        remoteDir: "www/hobigo.de/nextcloud-node-client"
     - name: Run a one-line script
       run: echo Hello, world!
     - name: Run a multi-line script
