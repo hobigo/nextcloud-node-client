@@ -1,6 +1,6 @@
 {
   "name": "nextcloud-node-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Nextcloud client API for node.js",
   "main": "dist/client.js",
   "types": "dist/client.d.ts",
@@ -45,10 +45,6 @@
     "node",
     "cloud foundry"
   ],
-  "engines": {
-    "node": "8.x",
-    "npm": "6.4.1"
-  },
   "author": "Holger Gockel",
   "license": "Apache-2.0",
   "dependencies": {
