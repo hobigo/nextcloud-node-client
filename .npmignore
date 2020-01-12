@@ -12,5 +12,6 @@ todo.txt
 coverage.lcov
 .github
 docs
+demo
 # exclude local environment definition .en
 .env
