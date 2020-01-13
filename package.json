@@ -70,7 +70,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.1",
     "tslint": "^5.20.1",
-    "typedoc": "^0.15.6",
+    "typedoc": "^0.12.2",
     "typescript": "^3.7.4"
   },
   "bugs": {
