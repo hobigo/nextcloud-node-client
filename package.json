@@ -42,8 +42,7 @@
     "tag",
     "tagging",
     "nodejs",
-    "node",
-    "cloud foundry"
+    "node"
   ],
   "author": "Holger Gockel",
   "license": "Apache-2.0",
