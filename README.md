@@ -7,6 +7,9 @@ Access nextcloud remotely from node.js applications with a rich and simple TypeS
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 [![codecov](https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg)](https://codecov.io/gh/hobigo/nextcloud-node-client)
+[![Install Size](https://packagephobia.now.sh/badge?p=commander)](https://packagephobia.now.sh/result?p=nextcloud-node-client)
+[![Gitter](https://badges.gitter.im/nextcloud-node-client/community.svg)](https://gitter.im/nextcloud-node-client/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 
 The nextcloud node client supports folder and file operations including tagging and comments.
 User management, event subscription and event handling is on the roadmap.
