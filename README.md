@@ -1,13 +1,15 @@
+# nextcloud-node-client
+ <img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
+
+Access nextcloud remotely from node.js applications with a rich and simple TypeScript/JavaScript API.
+
 ![](https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg)
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 [![codecov](https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg)](https://codecov.io/gh/hobigo/nextcloud-node-client)
-# nextcloud-node-client
- <img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
-The nextcloud node client enables node.js applications to access nextcloud remotely using a rich TypeScript/JavaScript API.
 
-The client supports folder and file operations including tagging and comments.
-User management and event subscription and event handling is planned.
+The nextcloud node client supports folder and file operations including tagging and comments.
+User management, event subscription and event handling is on the roadmap.
 
 # Example
 ```typescript
@@ -119,7 +121,7 @@ Tags are used to filter for file and folders. Tags can be created and assigned t
 
 ## API
 This is an overview of the client API.
-Details can be found in the [API docs](http://hobigo.de/nextcloud-node-client/)
+Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-client)
 
 
 ### Client
