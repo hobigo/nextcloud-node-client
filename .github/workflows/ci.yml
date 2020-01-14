@@ -38,7 +38,7 @@ jobs:
         host: ${{ secrets.FTP_SERVER }}
         user: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        localDir: "docs/api"
+        localDir: "typedoc"
         remoteDir: "/api"
     - name: Upload code coverage to hobigo.de/nextcloud-node-client/coverage
       uses: sebastianpopp/ftp-action@releases/v1
