@@ -30,24 +30,24 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }} #required
   ### documentation
-    - name: Generate documentation with typedoc
-      run: npm run documentation
-    - name: Upload API documentation to hobigo.de/nextcloud-node-client/api
-      uses: sebastianpopp/ftp-action@releases/v1
-      with:
-        host: ${{ secrets.FTP_SERVER }}
-        user: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        localDir: "typedoc"
-        remoteDir: "/api"
-    - name: Upload code coverage to hobigo.de/nextcloud-node-client/coverage
-      uses: sebastianpopp/ftp-action@releases/v1
-      with:
-        host: ${{ secrets.FTP_SERVER }}
-        user: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        localDir: "coverage"
-        remoteDir: "/coverage"
+#    - name: Generate documentation with typedoc
+#      run: npm run documentation
+#    - name: Upload API documentation to hobigo.de/nextcloud-node-client/api
+#      uses: sebastianpopp/ftp-action@releases/v1
+#      with:
+#        host: ${{ secrets.FTP_SERVER }}
+#        user: ${{ secrets.FTP_USERNAME }}
+#        password: ${{ secrets.FTP_PASSWORD }}
+#        localDir: "typedoc"
+#        remoteDir: "/api"
+#    - name: Upload code coverage to hobigo.de/nextcloud-node-client/coverage
+#      uses: sebastianpopp/ftp-action@releases/v1
+#      with:
+#        host: ${{ secrets.FTP_SERVER }}
+#       user: ${{ secrets.FTP_USERNAME }}
+#        password: ${{ secrets.FTP_PASSWORD }}
+#        localDir: "coverage"
+#        remoteDir: "/coverage"
 
 #    - name: Publish if version has been updated
 #      uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4
@@ -58,10 +58,4 @@ jobs:
 #      env: # More info about the environment variables in the README
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
 #        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
-      
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+     
