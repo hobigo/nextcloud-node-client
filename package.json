@@ -56,12 +56,12 @@
     "vcap_services": "^0.7.1"
   },
   "devDependencies": {
-    "@types/debug": "^4.1.5",
-    "@types/node": "^13.1.6",
-    "@types/node-fetch": "^2.5.4",
     "@types/chai": "^4.2.7",
+    "@types/debug": "^4.1.5",
     "@types/http-proxy-agent": "^2.0.2",
     "@types/mocha": "^5.2.7",
+    "@types/node": "^13.1.6",
+    "@types/node-fetch": "^2.5.4",
     "chai": "^4.2.0",
     "codecov": "^3.6.1",
     "mocha": "^7.0.0",
@@ -70,7 +70,7 @@
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.1",
     "tslint": "^5.20.1",
-    "typedoc": "^0.12.2",
+    "typedoc": "^0.16.2",
     "typescript": "^3.7.4"
   },
   "bugs": {
