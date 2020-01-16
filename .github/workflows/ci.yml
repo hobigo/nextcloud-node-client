@@ -37,10 +37,9 @@ jobs:
       uses: EndBug/version-check@v1.1.1
       id: versionChange
       with: # You can find more info about inputs below
-        diff-search: 'true'
-        file-name: package.json
-        token: ${{ secrets.GITHUB_TOKEN }}
-        scope: "@hobigo"
+#        diff-search: 'true'
+#        file-name: package.json
+#        token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: version change output
       run: 'echo "VC -> ${{ steps.versionChange.outputs }}"'
@@ -53,7 +52,7 @@ jobs:
       if: steps.versionChange.outputs.changed == 'true'
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}        
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         
   ### documentation
 #    - name: Generate documentation with typedoc
