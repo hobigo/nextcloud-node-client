@@ -51,7 +51,7 @@ jobs:
     - name: create .npmrc
       run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc      
     - name: show .npmrc      
-      run: cat /home/runner/work/_temp/.npmrc
+      run: 'cat /home/runner/work/_temp/.npmrc'
       
     - name: Publish package to NPM
 ##      if: steps.versionChange.outputs.changed == 'true'
