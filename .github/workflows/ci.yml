@@ -49,10 +49,10 @@ jobs:
       run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
         
     - name: Publish package to NPM
-      if: steps.versionChange.outputs.changed == 'true'
+##      if: steps.versionChange.outputs.changed == 'true'
       run: npm publish
       env:
-        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         
   ### documentation
 #    - name: Generate documentation with typedoc
