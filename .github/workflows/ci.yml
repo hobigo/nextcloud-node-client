@@ -29,6 +29,28 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} #required
+        
+        
+    - name: Check version changes
+      uses: EndBug/version-check@v1.0.0
+      id: versionChange
+
+    - name: Check if version has been changed
+      if: steps.versionChange.outputs.changed == 'true'
+      run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
+      
+    - name: Set up Node.js for NPM
+      if: steps.versionChange.outputs.changed == 'true'
+      uses: actions/setup-node@v1.2.0
+      with:
+        registry-url: 'https://registry.npmjs.org'
+        
+    - name: Publish package to NPM
+      if: steps.versionChange.outputs.changed == 'true'
+      run: npm publish
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}        
+        
   ### documentation
 #    - name: Generate documentation with typedoc
 #      run: npm run documentation
