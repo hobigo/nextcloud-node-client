@@ -6,9 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Readme documentation update and badges
 
-## 1.0.0 - 2020-01-12
+## 1.0.3 - 2020-01-16
+- Readme documentation update and badges
+- Documentation pages
+
+## 1.0.2 - 2020-01-12
 ### Changed
 - testing: extend tests to reach code coverage 100%
 - incompatible api changes: rename of all class names, new client constructor
