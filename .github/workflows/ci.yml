@@ -35,6 +35,9 @@ jobs:
       uses: EndBug/version-check@v1.0.0
       id: versionChange
 
+    - name: version change output
+      run: 'echo "VC -> ${{ steps.versionChange.outputs }}"'
+
     - name: Check if version has been changed
       if: steps.versionChange.outputs.changed == 'true'
       run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
