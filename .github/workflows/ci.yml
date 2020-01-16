@@ -52,7 +52,7 @@ jobs:
 ##      if: steps.versionChange.outputs.changed == 'true'
       run: npm publish
       env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         
   ### documentation
 #    - name: Generate documentation with typedoc
