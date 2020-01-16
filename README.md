@@ -8,6 +8,7 @@ Access nextcloud remotely from node.js applications with a rich and simple TypeS
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
 [![codecov](https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg)](https://codecov.io/gh/hobigo/nextcloud-node-client)
 [![Install Size](https://packagephobia.now.sh/badge?p=commander)](https://packagephobia.now.sh/result?p=nextcloud-node-client)
+[![documentation](https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website)](https://hobigo.github.io/nextcloud-node-client)
 [![Gitter](https://badges.gitter.im/nextcloud-node-client/community.svg)](https://gitter.im/nextcloud-node-client/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 

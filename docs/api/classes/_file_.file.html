@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>File | nextcloud-node-client - v1.0.2</title>
+	<title>File | nextcloud-node-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">nextcloud-node-client - v1.0.2</a>
+					<a href="../index.html" class="title">nextcloud-node-client</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -69,6 +69,14 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>The file class represents a file in nextcloud.
+						It exposes file properties and content handling, commenting and tagging</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -136,7 +144,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L14">src/file.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L18">file.ts:18</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -176,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="_client_.client.html" class="tsd-signature-type">Client</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L14">src/file.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L18">file.ts:18</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -186,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">memento<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L5">src/file.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L9">file.ts:9</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -229,9 +237,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L33">src/file.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L44">file.ts:44</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The base name of the file (file name without path)
+									The base name is readonly</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -246,9 +260,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L50">src/file.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L78">file.ts:78</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The unique id of the file.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -263,9 +282,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L38">src/file.ts:38</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L53">file.ts:53</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The timestamp of the last file change
+									readonly</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Date</span></h4>
 						</li>
 					</ul>
@@ -280,9 +305,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L46">src/file.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L70">file.ts:70</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The mime type (content type) of the file</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -297,9 +327,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L28">src/file.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L35">file.ts:35</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The name of the file including the path
+									The name is readonly</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -314,9 +350,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L42">src/file.ts:42</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L62">file.ts:62</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>The file size in bytes
+									readonly</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
 						</li>
 					</ul>
@@ -334,7 +376,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L149">src/file.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L177">file.ts:177</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -365,7 +407,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L112">src/file.ts:112</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L140">file.ts:140</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,7 +438,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L166">src/file.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L194">file.ts:194</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -413,7 +455,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L59">src/file.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L87">file.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -440,7 +482,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L161">src/file.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L189">file.ts:189</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -483,7 +525,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L85">src/file.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L113">file.ts:113</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -508,7 +550,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L121">src/file.ts:121</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L149">file.ts:149</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -531,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L103">src/file.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L131">file.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -556,7 +598,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L94">src/file.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L122">file.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -581,7 +623,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L70">src/file.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L98">file.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -618,7 +660,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/1c6d8ee/src/file.ts#L135">src/file.ts:135</a></li>
+									<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/26115ab/src/file.ts#L163">file.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -651,43 +693,43 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_client_.html">&quot;client&quot;</a>
+						<a href="../modules/_client_.html">"client"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_environment_.html">&quot;environment&quot;</a>
+						<a href="../modules/_environment_.html">"environment"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_environmentvcapservices_.html">&quot;environment<wbr>Vcap<wbr>Services&quot;</a>
+						<a href="../modules/_environmentvcapservices_.html">"environment<wbr>Vcap<wbr>Services"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_error_.html">&quot;error&quot;</a>
+						<a href="../modules/_error_.html">"error"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_fakeserver_.html">&quot;fake<wbr>Server&quot;</a>
+						<a href="../modules/_fakeserver_.html">"fake<wbr>Server"</a>
 					</li>
 					<li class="current tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_file_.html">&quot;file&quot;</a>
+						<a href="../modules/_file_.html">"file"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_folder_.html">&quot;folder&quot;</a>
+						<a href="../modules/_folder_.html">"folder"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_httpclient_.html">&quot;http<wbr>Client&quot;</a>
+						<a href="../modules/_httpclient_.html">"http<wbr>Client"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_requestresponselog_.html">&quot;request<wbr>Response<wbr>Log&quot;</a>
+						<a href="../modules/_requestresponselog_.html">"request<wbr>Response<wbr>Log"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_requestresponselogentry_.html">&quot;request<wbr>Response<wbr>Log<wbr>Entry&quot;</a>
+						<a href="../modules/_requestresponselogentry_.html">"request<wbr>Response<wbr>Log<wbr>Entry"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_server_.html">&quot;server&quot;</a>
+						<a href="../modules/_server_.html">"server"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="../modules/_tag_.html">&quot;tag&quot;</a>
+						<a href="../modules/_tag_.html">"tag"</a>
 					</li>
 				</ul>
 			</nav>
@@ -779,7 +821,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -828,7 +869,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>

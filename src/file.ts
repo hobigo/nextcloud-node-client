@@ -1,6 +1,10 @@
 
 import Client, { ClientError } from "./client";
 
+/**
+ * The file class represents a file in nextcloud.
+ * It exposes file properties and content handling, commenting and tagging
+ */
 export default class File {
     private memento: {
         baseName: string,
@@ -24,29 +28,53 @@ export default class File {
         };
         this.client = client;
     }
-
+    /**
+     * The name of the file including the path
+     * The name is readonly
+     */
     get name(): string {
         this.assertExistence();
         return this.memento.name;
     }
 
+    /**
+     * The base name of the file (file name without path)
+     * The base name is readonly
+     */
     get baseName(): string {
         this.assertExistence();
         return this.memento.baseName;
     }
 
+    /**
+     * The timestamp of the last file change
+     * readonly
+     */
     get lastmod(): Date {
         this.assertExistence();
         return this.memento.lastmod;
     }
+
+    /**
+     * The file size in bytes
+     * readonly
+     */
     get size(): number {
         this.assertExistence();
         return this.memento.size;
     }
+
+    /**
+     * The mime type (content type) of the file
+     */
     get mime(): string {
         this.assertExistence();
         return this.memento.mime;
     }
+
+    /**
+     * The unique id of the file.
+     */
     get id(): number {
         this.assertExistence();
         return this.memento.id;

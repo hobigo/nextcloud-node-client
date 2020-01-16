@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nextcloud-node-client - v1.0.2</title>
+	<title>nextcloud-node-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">nextcloud-node-client - v1.0.2</a>
+					<a href="index.html" class="title">nextcloud-node-client</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> nextcloud-node-client - v1.0.2</h1>
+			<h1> nextcloud-node-client</h1>
 		</div>
 	</div>
 </header>
@@ -64,9 +64,7 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#nextcloud-node-client" id="nextcloud-node-client" style="color: inherit; text-decoration: none;">
-					<h1>nextcloud-node-client</h1>
-				</a>
+				<h1 id="nextcloud-node-client">nextcloud-node-client</h1>
 				<img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
 				<p>Access nextcloud remotely from node.js applications with a rich and simple TypeScript/JavaScript API.</p>
 				<p><img src="https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg" alt="">
@@ -74,12 +72,11 @@
 					<a href="https://david-dm.org/hobigo/nextcloud-node-client"><img src="https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat" alt="Dependency Status"></a>
 					<a href="https://codecov.io/gh/hobigo/nextcloud-node-client"><img src="https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg" alt="codecov"></a>
 					<a href="https://packagephobia.now.sh/result?p=nextcloud-node-client"><img src="https://packagephobia.now.sh/badge?p=commander" alt="Install Size"></a>
+					<a href="https://hobigo.github.io/nextcloud-node-client"><img src="https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website" alt="documentation"></a>
 				<a href="https://gitter.im/nextcloud-node-client/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/nextcloud-node-client/community.svg" alt="Gitter"></a></p>
 				<p>The nextcloud node client supports folder and file operations including tagging and comments.
 				User management, event subscription and event handling is on the roadmap.</p>
-				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
-					<h1>Example</h1>
-				</a>
+				<h1 id="example">Example</h1>
 				<pre><code class="language-typescript"><span class="hljs-comment">// typescript</span>
 <span class="hljs-keyword">import</span> Client, { File, Folder, Tag, } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
 
@@ -104,9 +101,7 @@
         <span class="hljs-built_in">console</span>.log(<span class="hljs-params">e</span>);
     }
 }</span>)<span class="hljs-params">()</span>;</span></code></pre>
-				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
-					<h1>Documentation</h1>
-				</a>
+				<h1 id="documentation">Documentation</h1>
 				<ul>
 					<li><a href="##-installation">Installation</a></li>
 					<li><a href="##-security-and-access-management">Security and access management</a></li>
@@ -114,18 +109,12 @@
 					<li><a href="##-api">API</a></li>
 					<li><a href="##-architecture">Architecture</a></li>
 				</ul>
-				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
-					<h2>Installation</h2>
-				</a>
+				<h2 id="installation">Installation</h2>
 				<p><code>npm install nextcloud-node-client</code></p>
-				<a href="#security-and-access-management" id="security-and-access-management" style="color: inherit; text-decoration: none;">
-					<h2>Security and access management</h2>
-				</a>
+				<h2 id="security-and-access-management">Security and access management</h2>
 				<p>The client requires the WebDAV url of the nextcloud server and the credentials. </p>
 				<p>Use an app specific password generated in the security - devices &amp; sessions section of the nextcloud settings.</p>
-				<a href="#environment" id="environment" style="color: inherit; text-decoration: none;">
-					<h3>Environment</h3>
-				</a>
+				<h3 id="environment">Environment</h3>
 				<p>Credentials can be specified in the environment:</p>
 				<pre><code><span class="hljs-attr">NEXTCLOUD_USERNAME</span>= <span class="hljs-string">"&lt;your user name&gt;"</span>
 <span class="hljs-attr">NEXTCLOUD_PASSWORD</span> = <span class="hljs-string">"&lt;your password&gt;"</span>
@@ -144,9 +133,7 @@
         }
     ]
 }</code></pre>
-				<a href="#creating-a-client" id="creating-a-client" style="color: inherit; text-decoration: none;">
-					<h3>Creating a client</h3>
-				</a>
+				<h3 id="creating-a-client">Creating a client</h3>
 				<p>Creating a nextcloud client </p>
 				<pre><code class="language-typescript">  <span class="hljs-comment">// uses the environment to initialize</span>
   <span class="hljs-keyword">import</span> Client <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
@@ -162,34 +149,20 @@
             });
 
   <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(server);</code></pre>
-				<a href="#concepts" id="concepts" style="color: inherit; text-decoration: none;">
-					<h2>Concepts</h2>
-				</a>
+				<h2 id="concepts">Concepts</h2>
 				<p>The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:</p>
-				<a href="#client" id="client" style="color: inherit; text-decoration: none;">
-					<h3>Client</h3>
-				</a>
+				<h3 id="client">Client</h3>
 				<p>The client is the root object and represents the connection to the nextcloud server. The client is used to get access to the root folder and the tag repository.</p>
-				<a href="#folder" id="folder" style="color: inherit; text-decoration: none;">
-					<h3>Folder</h3>
-				</a>
+				<h3 id="folder">Folder</h3>
 				<p>The folder is the representation of a nextcloud folder. It may contain many files. All files of a folder are deleted, if the folder is deleted.</p>
-				<a href="#file" id="file" style="color: inherit; text-decoration: none;">
-					<h3>File</h3>
-				</a>
+				<h3 id="file">File</h3>
 				<p>The file is the representation of a nextcloud file. Every file is contained in a folder.</p>
-				<a href="#tag" id="tag" style="color: inherit; text-decoration: none;">
-					<h3>Tag</h3>
-				</a>
+				<h3 id="tag">Tag</h3>
 				<p>Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.</p>
-				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
-					<h2>API</h2>
-				</a>
+				<h2 id="api">API</h2>
 				<p>This is an overview of the client API.
 				Details can be found in the <a href="https://hobigo.github.io/nextcloud-node-client">API docs</a></p>
-				<a href="#client-1" id="client-1" style="color: inherit; text-decoration: none;">
-					<h3>Client</h3>
-				</a>
+				<h3 id="client">Client</h3>
 				<ul>
 					<li>factory method for client </li>
 					<li>create folder</li>
@@ -198,10 +171,7 @@
 					<li>get file</li>
 					<li>create tag*</li>
 					<li>get tags, by name, by id</li>
-					<li>get quota
-						<a href="#folder-1" id="folder-1" style="color: inherit; text-decoration: none;">
-							<h3>Folder</h3>
-						</a>
+					<li>get quota<h3 id="folder">Folder</h3>
 					</li>
 					<li>get name, id, base name, URL</li>
 					<li>delete</li>
@@ -212,10 +182,7 @@
 					<li>get tags, add tag, remove tag</li>
 					<li>add comment</li>
 					<li>get comments</li>
-					<li>move/rename
-						<a href="#file-1" id="file-1" style="color: inherit; text-decoration: none;">
-							<h3>File</h3>
-						</a>
+					<li>move/rename<h3 id="file">File</h3>
 					</li>
 					<li>get name, id, base name, URL</li>
 					<li>get content</li>
@@ -223,100 +190,65 @@
 					<li>get tags, add tag, remove tag</li>
 					<li>add comment</li>
 					<li>get comments</li>
-					<li>move/rename
-						<a href="#tag-1" id="tag-1" style="color: inherit; text-decoration: none;">
-							<h3>Tag</h3>
-						</a>
+					<li>move/rename<h3 id="tag">Tag</h3>
 					</li>
 					<li>get name, id</li>
 					<li>delete*</li>
 				</ul>
 				<p>* admin permissions required</p>
-				<a href="#api-examples" id="api-examples" style="color: inherit; text-decoration: none;">
-					<h3>API Examples</h3>
-				</a>
-				<a href="#quota" id="quota" style="color: inherit; text-decoration: none;">
-					<h4>Quota</h4>
-				</a>
+				<h3 id="api-examples">API Examples</h3>
+				<h4 id="quota">Quota</h4>
 				<pre><code class="language-javascript">    q = <span class="hljs-keyword">await</span> client.getQuota();
     <span class="hljs-comment">// { used: 479244777, available: 10278950773 }</span></code></pre>
-				<a href="#create-folder" id="create-folder" style="color: inherit; text-decoration: none;">
-					<h4>Create folder</h4>
-				</a>
+				<h4 id="create-folder">Create folder</h4>
 				<pre><code class="language-javascript">    <span class="hljs-comment">// create folder</span>
     <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.createFolder(<span class="hljs-string">"/products/brooms"</span>);
     <span class="hljs-comment">// create subfolder</span>
     <span class="hljs-keyword">const</span> subfolder = <span class="hljs-keyword">await</span> folder.createSubFolder(<span class="hljs-string">"soft brooms"</span>);
     <span class="hljs-comment">// "/products/brooms/soft brooms"</span>
 </code></pre>
-				<a href="#get-folders" id="get-folders" style="color: inherit; text-decoration: none;">
-					<h4>Get folder(s)</h4>
-				</a>
+				<h4 id="get-folder-s-">Get folder(s)</h4>
 				<pre><code class="language-javascript">    <span class="hljs-comment">// get folder</span>
     <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-comment">// get subfolders</span>
     <span class="hljs-keyword">const</span> subfolders = <span class="hljs-keyword">await</span> folder.getSubFolders();    </code></pre>
-				<a href="#delete-folder" id="delete-folder" style="color: inherit; text-decoration: none;">
-					<h4>Delete folder</h4>
-				</a>
+				<h4 id="delete-folder">Delete folder</h4>
 				<pre><code class="language-javascript">    <span class="hljs-comment">// get folder</span>
     <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-keyword">await</span> folder.delete();</code></pre>
-				<a href="#create-file" id="create-file" style="color: inherit; text-decoration: none;">
-					<h4>Create file</h4>
-				</a>
+				<h4 id="create-file">Create file</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-keyword">const</span> file = folder.createFile(<span class="hljs-string">"MyFile.txt"</span>, <span class="hljs-keyword">new</span> Buffer(<span class="hljs-string">"My new file"</span>));</code></pre>
-				<a href="#get-file" id="get-file" style="color: inherit; text-decoration: none;">
-					<h4>Get file</h4>
-				</a>
+				<h4 id="get-file">Get file</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-comment">// or</span>
     <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> folder.getFile(<span class="hljs-string">"MyFile.txt"</span>);
     <span class="hljs-comment">// file: name, baseName, lastmod, size, mime</span></code></pre>
-				<a href="#get-file-content" id="get-file-content" style="color: inherit; text-decoration: none;">
-					<h4>Get file content</h4>
-				</a>
+				<h4 id="get-file-content">Get file content</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-keyword">const</span> buffer = <span class="hljs-keyword">await</span> file.getContent();</code></pre>
-				<a href="#get-file-url" id="get-file-url" style="color: inherit; text-decoration: none;">
-					<h4>Get file Url</h4>
-				</a>
+				<h4 id="get-file-url">Get file Url</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-keyword">const</span> url = <span class="hljs-keyword">await</span> file.getUrl();</code></pre>
-				<a href="#add-tag-to-file" id="add-tag-to-file" style="color: inherit; text-decoration: none;">
-					<h4>Add tag to file</h4>
-				</a>
+				<h4 id="add-tag-to-file">Add tag to file</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-keyword">await</span> file.addTag(<span class="hljs-string">"myTag"</span>);</code></pre>
-				<a href="#delete-file" id="delete-file" style="color: inherit; text-decoration: none;">
-					<h4>Delete file</h4>
-				</a>
+				<h4 id="delete-file">Delete file</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-keyword">await</span> file.delete();</code></pre>
-				<a href="#get-files" id="get-files" style="color: inherit; text-decoration: none;">
-					<h4>Get files</h4>
-				</a>
+				<h4 id="get-files">Get files</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-keyword">const</span> files = <span class="hljs-keyword">await</span> folder.getFiles();</code></pre>
-				<a href="#move-andor-rename-file" id="move-andor-rename-file" style="color: inherit; text-decoration: none;">
-					<h4>Move and/or rename file</h4>
-				</a>
+				<h4 id="move-and-or-rename-file">Move and/or rename file</h4>
 				<pre><code class="language-javascript">    <span class="hljs-keyword">const</span> file = <span class="hljs-keyword">await</span> client.getFile(<span class="hljs-string">"/products/MyFile.txt"</span>);
     <span class="hljs-keyword">await</span> file.move(<span class="hljs-string">"/products/brooms/MyFileRenamed.txt"</span>);</code></pre>
-				<a href="#architecture" id="architecture" style="color: inherit; text-decoration: none;">
-					<h2>Architecture</h2>
-				</a>
+				<h2 id="architecture">Architecture</h2>
 				<p>The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.</p>
 				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png" alt="alt text"></p>
-				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
-					<h2>Quality</h2>
-				</a>
+				<h2 id="quality">Quality</h2>
 				<p>Tested with nextcloud 17.0.1</p>
-				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
-					<h2>License</h2>
-				</a>
+				<h2 id="license">License</h2>
 				<p>Apache</p>
 			</div>
 		</div>
@@ -330,43 +262,43 @@
 						<span>Internals</span>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_client_.html">&quot;client&quot;</a>
+						<a href="modules/_client_.html">"client"</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_environment_.html">&quot;environment&quot;</a>
+						<a href="modules/_environment_.html">"environment"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_environmentvcapservices_.html">&quot;environment<wbr>Vcap<wbr>Services&quot;</a>
+						<a href="modules/_environmentvcapservices_.html">"environment<wbr>Vcap<wbr>Services"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_error_.html">&quot;error&quot;</a>
+						<a href="modules/_error_.html">"error"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_fakeserver_.html">&quot;fake<wbr>Server&quot;</a>
+						<a href="modules/_fakeserver_.html">"fake<wbr>Server"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_file_.html">&quot;file&quot;</a>
+						<a href="modules/_file_.html">"file"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_folder_.html">&quot;folder&quot;</a>
+						<a href="modules/_folder_.html">"folder"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_httpclient_.html">&quot;http<wbr>Client&quot;</a>
+						<a href="modules/_httpclient_.html">"http<wbr>Client"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_requestresponselog_.html">&quot;request<wbr>Response<wbr>Log&quot;</a>
+						<a href="modules/_requestresponselog_.html">"request<wbr>Response<wbr>Log"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_requestresponselogentry_.html">&quot;request<wbr>Response<wbr>Log<wbr>Entry&quot;</a>
+						<a href="modules/_requestresponselogentry_.html">"request<wbr>Response<wbr>Log<wbr>Entry"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_server_.html">&quot;server&quot;</a>
+						<a href="modules/_server_.html">"server"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_tag_.html">&quot;tag&quot;</a>
+						<a href="modules/_tag_.html">"tag"</a>
 					</li>
 				</ul>
 			</nav>
@@ -389,7 +321,6 @@
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -438,7 +369,7 @@
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
