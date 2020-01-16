@@ -31,26 +31,27 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }} #required
+########################        
+#    - name: Determine. if the version have been updated
+#      uses: EndBug/version-check@v1.1.1
+#      id: versionChange
         
-    - name: Determine. if the version have been updated
-      uses: EndBug/version-check@v1.1.1
-      id: versionChange
-        
-    - name: Check if version has been changed
-      if: steps.versionChange.outputs.changed == 'true'
-      run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
+#    - name: Check if version has been changed
+#      if: steps.versionChange.outputs.changed == 'true'
+#      run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
       
-    - name: Publish package to NPM
-      if: steps.versionChange.outputs.changed == 'true'
-      run: npm publish
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-        
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        WITH_V: true        
+ #   - name: Publish package to NPM
+ #     if: steps.versionChange.outputs.changed == 'true'
+ #     run: npm publish
+ #     env:
+ #       NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+####################    
+    
+#    - name: Bump version and push tag
+#      uses: anothrNick/github-tag-action@master
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        WITH_V: true        
         
   ### documentation
 #    - name: Generate documentation with typedoc
@@ -72,13 +73,13 @@ jobs:
 #        localDir: "coverage"
 #        remoteDir: "/coverage"
 
-#    - name: Publish if version has been updated
-#      uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4
-#      with: # All of theses inputs are optional
-#        tag_name: "v%s"
-#        tag_message: "v%s"
-#        commit_pattern: "^Release (\\S+)"
-#      env: # More info about the environment variables in the README
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
-#        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
+    - name: Publish if version has been updated with the commit message "Release vX.Y.Z"
+      uses: pascalgn/npm-publish-action@51fdb4531e99aac1873764ef7271af448dc42ab4
+      with: # All of theses inputs are optional
+        tag_name: "v%s"
+        tag_message: "v%s"
+        commit_pattern: "^Release (\\S+)"
+      env: # More info about the environment variables in the README
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
      
