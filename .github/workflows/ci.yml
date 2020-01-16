@@ -36,7 +36,7 @@ jobs:
     - name: Determine. if the version have been updated
       uses: EndBug/version-check@v1.1.1
       id: versionChange
-      with: # You can find more info about inputs below
+#      with: # You can find more info about inputs below
 #        diff-search: 'true'
 #        file-name: package.json
 #        token: ${{ secrets.GITHUB_TOKEN }}
