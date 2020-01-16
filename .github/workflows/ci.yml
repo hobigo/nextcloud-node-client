@@ -31,10 +31,14 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }} #required
         
         
-    - name: Check version changes
+    - name: Determine. if the version have been updated
       uses: EndBug/version-check@v1.0.0
       id: versionChange
-
+      with: # You can find more info about inputs below
+        diff-search: 'true'
+        file-name: package.json
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: version change output
       run: 'echo "VC -> ${{ steps.versionChange.outputs }}"'
 
