@@ -12,8 +12,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
+        node-version: '12.x'      
+        registry-url: 'https://registry.npmjs.org'
         
     - name: Install Dependencies
       run: npm install  
@@ -32,12 +34,13 @@ jobs:
         
         
     - name: Determine. if the version have been updated
-      uses: EndBug/version-check@v1.0.0
+      uses: EndBug/version-check@v1.1.1
       id: versionChange
       with: # You can find more info about inputs below
         diff-search: 'true'
         file-name: package.json
         token: ${{ secrets.GITHUB_TOKEN }}
+        scope: "@hobigo"
         
     - name: version change output
       run: 'echo "VC -> ${{ steps.versionChange.outputs }}"'
@@ -45,12 +48,6 @@ jobs:
     - name: Check if version has been changed
       if: steps.versionChange.outputs.changed == 'true'
       run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
-      
-    - name: Set up Node.js for NPM
-      if: steps.versionChange.outputs.changed == 'true'
-      uses: actions/setup-node@v1.2.0
-      with:
-        registry-url: 'https://registry.npmjs.org'
         
     - name: Publish package to NPM
       if: steps.versionChange.outputs.changed == 'true'
