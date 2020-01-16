@@ -47,7 +47,10 @@ jobs:
     - name: Check if version has been changed
       if: steps.versionChange.outputs.changed == 'true'
       run: 'echo "Version change! -> ${{ steps.versionChange.outputs.type }}"'
-        
+
+    - name: create .npmrc
+      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc      
+      
     - name: Publish package to NPM
 ##      if: steps.versionChange.outputs.changed == 'true'
       run: npm publish
