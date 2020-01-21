@@ -245,7 +245,7 @@ The nextcloud node client can be used by node applications to extend the nextclo
 
 
 ## Quality
-Tested with nextcloud 17.0.1
+Tested with nextcloud 17.0.1, 18.0.0
 
 ## License
 Apache

@@ -1,0 +1,15 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v2.php/apps/serverinfo/api/v1/info?format=json",
+            "method": "GET",
+            "description": "SystemInfo get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"nextcloud\":{\"system\":{\"version\":\"18.0.0.10\",\"theme\":\"\",\"enable_avatars\":\"yes\",\"enable_previews\":\"yes\",\"memcache.local\":\"\\\\OC\\\\Memcache\\\\APCu\",\"memcache.distributed\":\"none\",\"filelocking.enabled\":\"yes\",\"memcache.locking\":\"\\\\OC\\\\Memcache\\\\Redis\",\"debug\":\"no\",\"freespace\":248183681024,\"cpuload\":[0,0.04,0.08],\"mem_total\":4039484,\"mem_free\":2891144,\"swap_total\":2097148,\"swap_free\":2072428,\"apps\":{\"num_installed\":48,\"num_updates_available\":0,\"app_updates\":[]}},\"storage\":{\"num_users\":2,\"num_files\":103909,\"num_storages\":4,\"num_storages_local\":2,\"num_storages_home\":2,\"num_storages_other\":0},\"shares\":{\"num_shares\":2,\"num_shares_user\":0,\"num_shares_groups\":0,\"num_shares_link\":2,\"num_shares_mail\":0,\"num_shares_room\":0,\"num_shares_link_no_password\":2,\"num_fed_shares_sent\":0,\"num_fed_shares_received\":0,\"permissions_3_1\":\"2\"}},\"server\":{\"webserver\":\"nginx\\/1.14.0\",\"php\":{\"version\":\"7.2.24\",\"memory_limit\":536870912,\"max_execution_time\":3600,\"upload_max_filesize\":2097152},\"database\":{\"type\":\"mysql\",\"version\":\"10.1.43\",\"size\":92266496}},\"activeUsers\":{\"last5minutes\":1,\"last1hour\":1,\"last24hours\":2}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": ""
+        }
+    }
+]

@@ -37,6 +37,22 @@ interface IStat {
     "mime"?: string;
     "fileid"?: number;
 }
+export interface ISysInfoNextcloudSystem {
+    "version": string;
+}
+
+export interface ISysInfoNextcloudClient {
+    "version": string;
+}
+
+export interface ISysInfoNextcloud {
+    "system": ISysInfoNextcloudSystem;
+}
+
+export interface ISystemInfo {
+    "nextcloud": ISysInfoNextcloud;
+    "nextcloudClient": ISysInfoNextcloudClient;
+}
 
 /**
  * The nextcloud client is the root object to access the remote api of the nextcloud server.<br>
@@ -848,6 +864,10 @@ export default class Client {
         return this.webDAVUrl + fileName;
     }
 
+    /**
+     * returns the url to the file in the nextcloud UI
+     * @param fileId the id of the file
+     */
     public getUILink(fileId: number): string {
         debug("getUILink of %s", fileId);
         return `${this.nextcloudOrigin}/apps/files/?fileid=${fileId}`;
@@ -930,6 +950,11 @@ export default class Client {
     // comments
     // ***************************************************************************************
 
+    /**
+     * adds a comment to a file
+     * @param fileId the id of the file
+     * @param comment the comment to be added to the file
+     */
     public async addCommentToFile(fileId: number, comment: string): Promise<void> {
         debug("addCommentToFile file:%s comment:%s", fileId, comment);
 
@@ -993,6 +1018,49 @@ export default class Client {
         }
 
         return comments;
+    }
+
+    /**
+     * returns sysm information about the nextcloud server and the nextcloud client
+     */
+    public async getSystemInfo(): Promise<ISystemInfo> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info?format=json",
+            requestInit,
+            [200],
+            { description: "SystemInfo get" });
+
+        const rawResult: any = await response.json();
+        // validate the raw result
+        let version: string;
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.nextcloud &&
+            rawResult.ocs.data.nextcloud.system &&
+            rawResult.ocs.data.nextcloud.system.version) {
+            version = rawResult.ocs.data.nextcloud.system.version;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud system version missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+        const result: ISystemInfo = {
+            nextcloud:
+            {
+                system:
+                {
+                    version,
+                },
+            },
+            nextcloudClient:
+            {
+                version: require("../package.json").version,
+            },
+        };
+        return result;
     }
 
     // ***************************************************************************************
