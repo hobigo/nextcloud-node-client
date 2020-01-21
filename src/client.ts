@@ -50,8 +50,14 @@ export interface ISysInfoNextcloud {
 }
 
 export interface ISystemInfo {
+
     "nextcloud": ISysInfoNextcloud;
     "nextcloudClient": ISysInfoNextcloudClient;
+}
+
+export interface IQuota {
+    used: number;
+    available: number | string;
 }
 
 /**
@@ -151,7 +157,7 @@ export default class Client {
     /**
      * returns the used and free quota of the nextcloud account
      */
-    public async getQuota() {
+    public async getQuota(): Promise<IQuota> {
         debug("getQuota");
         const requestInit: RequestInit = {
             method: "PROPFIND",
@@ -165,7 +171,7 @@ export default class Client {
 
         const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, Client.webDavUrlPath + "/");
 
-        let quota: { used: number, available: number | string } | null = null;
+        let quota: IQuota | null = null;
         for (const prop of properties) {
             if (prop["quota-available-bytes"]) {
                 quota = {

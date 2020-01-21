@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;client&quot; | nextcloud-node-client</title>
+	<title>IQuota | nextcloud-node-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,55 +56,60 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_client_.html">&quot;client&quot;</a>
+					<a href="../modules/_client_.html">&quot;client&quot;</a>
+				</li>
+				<li>
+					<a href="_client_.iquota.html">IQuota</a>
 				</li>
 			</ul>
-			<h1>External module &quot;client&quot;</h1>
+			<h1>Interface IQuota</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">IQuota</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_client_.client.html" class="tsd-kind-icon">Client</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_client_.iquota.html" class="tsd-kind-icon">IQuota</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported"><a href="../interfaces/_client_.istat.html" class="tsd-kind-icon">IStat</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_client_.isysinfonextcloud.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_client_.isysinfonextcloudclient.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>Client</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_client_.isysinfonextcloudsystem.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>System</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/_client_.isysteminfo.html" class="tsd-kind-icon">ISystem<wbr>Info</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_client_.html#debug" class="tsd-kind-icon">debug</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.iquota.html#available" class="tsd-kind-icon">available</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_client_.iquota.html#used" class="tsd-kind-icon">used</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Variables</h2>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-					<a name="debug" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> debug</h3>
-					<div class="tsd-signature tsd-kind-icon">debug<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Debugger</span><span class="tsd-signature-symbol"> = debugFactory(&quot;NCClient&quot;)</span></div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="available" class="tsd-anchor"></a>
+					<h3>available</h3>
+					<div class="tsd-signature tsd-kind-icon">available<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/e7c29cc/src/client.ts#L29">src/client.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/e7c29cc/src/client.ts#L60">src/client.ts:60</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="used" class="tsd-anchor"></a>
+					<h3>used</h3>
+					<div class="tsd-signature tsd-kind-icon">used<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/e7c29cc/src/client.ts#L59">src/client.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -120,43 +125,43 @@
 						<span>Internals</span>
 					</li>
 					<li class="current tsd-kind-external-module">
-						<a href="_client_.html">&quot;client&quot;</a>
+						<a href="../modules/_client_.html">&quot;client&quot;</a>
 					</li>
 					<li class="label tsd-is-external">
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_environment_.html">&quot;environment&quot;</a>
+						<a href="../modules/_environment_.html">&quot;environment&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_environmentvcapservices_.html">&quot;environment<wbr>Vcap<wbr>Services&quot;</a>
+						<a href="../modules/_environmentvcapservices_.html">&quot;environment<wbr>Vcap<wbr>Services&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_error_.html">&quot;error&quot;</a>
+						<a href="../modules/_error_.html">&quot;error&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_fakeserver_.html">&quot;fake<wbr>Server&quot;</a>
+						<a href="../modules/_fakeserver_.html">&quot;fake<wbr>Server&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_file_.html">&quot;file&quot;</a>
+						<a href="../modules/_file_.html">&quot;file&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_folder_.html">&quot;folder&quot;</a>
+						<a href="../modules/_folder_.html">&quot;folder&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_httpclient_.html">&quot;http<wbr>Client&quot;</a>
+						<a href="../modules/_httpclient_.html">&quot;http<wbr>Client&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_requestresponselog_.html">&quot;request<wbr>Response<wbr>Log&quot;</a>
+						<a href="../modules/_requestresponselog_.html">&quot;request<wbr>Response<wbr>Log&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_requestresponselogentry_.html">&quot;request<wbr>Response<wbr>Log<wbr>Entry&quot;</a>
+						<a href="../modules/_requestresponselogentry_.html">&quot;request<wbr>Response<wbr>Log<wbr>Entry&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_server_.html">&quot;server&quot;</a>
+						<a href="../modules/_server_.html">&quot;server&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="_tag_.html">&quot;tag&quot;</a>
+						<a href="../modules/_tag_.html">&quot;tag&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -165,26 +170,38 @@
 					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_client_.client.html" class="tsd-kind-icon">Client</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_client_.iquota.html" class="tsd-kind-icon">IQuota</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="_client_.iquota.html" class="tsd-kind-icon">IQuota</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_client_.iquota.html#available" class="tsd-kind-icon">available</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_client_.iquota.html#used" class="tsd-kind-icon">used</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../interfaces/_client_.istat.html" class="tsd-kind-icon">IStat</a>
+						<a href="_client_.istat.html" class="tsd-kind-icon">IStat</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_client_.isysinfonextcloud.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud</a>
+						<a href="_client_.isysinfonextcloud.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_client_.isysinfonextcloudclient.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>Client</a>
+						<a href="_client_.isysinfonextcloudclient.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>Client</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_client_.isysinfonextcloudsystem.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>System</a>
+						<a href="_client_.isysinfonextcloudsystem.html" class="tsd-kind-icon">ISys<wbr>Info<wbr>Nextcloud<wbr>System</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_client_.isysteminfo.html" class="tsd-kind-icon">ISystem<wbr>Info</a>
+						<a href="_client_.isysteminfo.html" class="tsd-kind-icon">ISystem<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="_client_.html#debug" class="tsd-kind-icon">debug</a>
+						<a href="../modules/_client_.html#debug" class="tsd-kind-icon">debug</a>
 					</li>
 				</ul>
 			</nav>

@@ -239,29 +239,33 @@
 				<a href="#quota" id="quota" style="color: inherit; text-decoration: none;">
 					<h4>Quota</h4>
 				</a>
-				<pre><code class="language-javascript">    q = <span class="hljs-keyword">await</span> client.getQuota();
+				<pre><code class="language-typescript">    <span class="hljs-keyword">const</span> q: IQuota = <span class="hljs-keyword">await</span> client.getQuota();
     <span class="hljs-comment">// { used: 479244777, available: 10278950773 }</span></code></pre>
+				<a href="#sytem-information" id="sytem-information" style="color: inherit; text-decoration: none;">
+					<h4>Sytem information</h4>
+				</a>
+				<pre><code class="language-typescript">    <span class="hljs-keyword">const</span> si: ISystemInfo = <span class="hljs-keyword">await</span> client.getSystemInfo();  </code></pre>
 				<a href="#create-folder" id="create-folder" style="color: inherit; text-decoration: none;">
 					<h4>Create folder</h4>
 				</a>
-				<pre><code class="language-javascript">    <span class="hljs-comment">// create folder</span>
-    <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.createFolder(<span class="hljs-string">"/products/brooms"</span>);
+				<pre><code class="language-typescript">    <span class="hljs-comment">// create folder</span>
+    <span class="hljs-keyword">const</span> folder: Folder = <span class="hljs-keyword">await</span> client.createFolder(<span class="hljs-string">"/products/brooms"</span>);
     <span class="hljs-comment">// create subfolder</span>
-    <span class="hljs-keyword">const</span> subfolder = <span class="hljs-keyword">await</span> folder.createSubFolder(<span class="hljs-string">"soft brooms"</span>);
+    <span class="hljs-keyword">const</span> subfolder: Folder = <span class="hljs-keyword">await</span> folder.createSubFolder(<span class="hljs-string">"soft brooms"</span>);
     <span class="hljs-comment">// "/products/brooms/soft brooms"</span>
 </code></pre>
 				<a href="#get-folders" id="get-folders" style="color: inherit; text-decoration: none;">
 					<h4>Get folder(s)</h4>
 				</a>
-				<pre><code class="language-javascript">    <span class="hljs-comment">// get folder</span>
-    <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
+				<pre><code class="language-typescript">    <span class="hljs-comment">// get folder</span>
+    <span class="hljs-keyword">const</span> folder: Folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-comment">// get subfolders</span>
-    <span class="hljs-keyword">const</span> subfolders = <span class="hljs-keyword">await</span> folder.getSubFolders();    </code></pre>
+    <span class="hljs-keyword">const</span> subfolders: Folder[] = <span class="hljs-keyword">await</span> folder.getSubFolders();    </code></pre>
 				<a href="#delete-folder" id="delete-folder" style="color: inherit; text-decoration: none;">
 					<h4>Delete folder</h4>
 				</a>
-				<pre><code class="language-javascript">    <span class="hljs-comment">// get folder</span>
-    <span class="hljs-keyword">const</span> folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
+				<pre><code class="language-typescript">    <span class="hljs-comment">// get folder</span>
+    <span class="hljs-keyword">const</span> folder: Folder = <span class="hljs-keyword">await</span> client.getFolder(<span class="hljs-string">"/products"</span>);
     <span class="hljs-keyword">await</span> folder.delete();</code></pre>
 				<a href="#create-file" id="create-file" style="color: inherit; text-decoration: none;">
 					<h4>Create file</h4>

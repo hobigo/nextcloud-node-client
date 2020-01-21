@@ -164,33 +164,38 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 
 ### API Examples
 #### Quota
-```javascript
-    q = await client.getQuota();  
+```typescript
+    const q: IQuota = await client.getQuota();  
     // { used: 479244777, available: 10278950773 }
 ```
 
+#### Sytem information
+```typescript
+    const si: ISystemInfo = await client.getSystemInfo();  
+```
+
 #### Create folder
-```javascript
+```typescript
     // create folder
-    const folder = await client.createFolder("/products/brooms");
+    const folder: Folder = await client.createFolder("/products/brooms");
     // create subfolder
-    const subfolder = await folder.createSubFolder("soft brooms");
+    const subfolder: Folder = await folder.createSubFolder("soft brooms");
     // "/products/brooms/soft brooms"
     
 ```
 
 #### Get folder(s)
-```javascript
+```typescript
     // get folder
-    const folder = await client.getFolder("/products");
+    const folder: Folder = await client.getFolder("/products");
     // get subfolders
-    const subfolders = await folder.getSubFolders();    
+    const subfolders: Folder[] = await folder.getSubFolders();    
 ```
 
 #### Delete folder
-```javascript
+```typescript
     // get folder
-    const folder = await client.getFolder("/products");
+    const folder: Folder = await client.getFolder("/products");
     await folder.delete();
 ```
 #### Create file
