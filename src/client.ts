@@ -1027,7 +1027,7 @@ export default class Client {
     }
 
     /**
-     * returns sysm information about the nextcloud server and the nextcloud client
+     * returns system information about the nextcloud server and the nextcloud client
      */
     public async getSystemInfo(): Promise<ISystemInfo> {
         const requestInit: RequestInit = {
@@ -1069,6 +1069,32 @@ export default class Client {
         return result;
     }
 
+    // ***************************************************************************************
+    // user management
+    // ***************************************************************************************
+    /**
+     * returns users
+     */
+    public async getUserIDs(): Promise<string[]> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/users?perPage=1",
+            requestInit,
+            [200],
+            { description: "Users get" });
+        const rawResult: any = await response.json();
+        let users: string[] = [];
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.users) {
+            users = rawResult.ocs.data.users;
+        }
+        return users;
+    }
     // ***************************************************************************************
     // private methods
     // ***************************************************************************************

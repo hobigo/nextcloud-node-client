@@ -1,0 +1,32 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?perPage=1",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"htborstenson\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "holger",
+                            "htborstenson"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+]

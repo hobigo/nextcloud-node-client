@@ -39,6 +39,9 @@ export default class RequestResponseLog {
             if (logEntry.response.contentType.indexOf("application/xml") !== -1) {
                 logEntry.response.jsonBody = this.xmlToJson(logEntry.response.body);
             }
+            if (logEntry.response.contentType.indexOf("application/json") !== -1) {
+                logEntry.response.jsonBody = JSON.parse(logEntry.response.body);
+            }
         }
 
         if (logEntry.request.body) {
