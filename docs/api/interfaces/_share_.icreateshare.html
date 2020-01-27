@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IRequestContext | nextcloud-node-client</title>
+	<title>ICreateShare | nextcloud-node-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_httpclient_.html">&quot;httpClient&quot;</a>
+					<a href="../modules/_share_.html">&quot;share&quot;</a>
 				</li>
 				<li>
-					<a href="_httpclient_.irequestcontext.html">IRequestContext</a>
+					<a href="_share_.icreateshare.html">ICreateShare</a>
 				</li>
 			</ul>
-			<h1>Interface IRequestContext</h1>
+			<h1>Interface ICreateShare</h1>
 		</div>
 	</div>
 </header>
@@ -73,7 +73,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">IRequestContext</span>
+						<span class="target">ICreateShare</span>
 					</li>
 				</ul>
 			</section>
@@ -84,7 +84,9 @@
 						<section class="tsd-index-section tsd-is-external">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_httpclient_.irequestcontext.html#description" class="tsd-kind-icon">description</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_share_.icreateshare.html#password" class="tsd-kind-icon">password</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_share_.icreateshare.html#publicupload" class="tsd-kind-icon">public<wbr>Upload</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-external"><a href="_share_.icreateshare.html#resource" class="tsd-kind-icon">resource</a></li>
 							</ul>
 						</section>
 					</div>
@@ -93,12 +95,32 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-external">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-					<a name="description" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> description</h3>
-					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
+					<a name="password" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> password</h3>
+					<div class="tsd-signature tsd-kind-icon">password<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/9786ad6/src/httpClient.ts#L16">src/httpClient.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/9786ad6/src/share.ts#L25">src/share.ts:25</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="publicupload" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> public<wbr>Upload</h3>
+					<div class="tsd-signature tsd-kind-icon">public<wbr>Upload<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/9786ad6/src/share.ts#L24">src/share.ts:24</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+					<a name="resource" class="tsd-anchor"></a>
+					<h3>resource</h3>
+					<div class="tsd-signature tsd-kind-icon">resource<span class="tsd-signature-symbol">:</span> <a href="../classes/_folder_.folder.html" class="tsd-signature-type">Folder</a><span class="tsd-signature-symbol"> | </span><a href="../classes/_file_.file.html" class="tsd-signature-type">File</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/hobigo/nextcloud-node-client/blob/9786ad6/src/share.ts#L22">src/share.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -137,7 +159,7 @@
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_folder_.html">&quot;folder&quot;</a>
 					</li>
-					<li class="current tsd-kind-external-module tsd-is-external">
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_httpclient_.html">&quot;http<wbr>Client&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -149,7 +171,7 @@
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_server_.html">&quot;server&quot;</a>
 					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
+					<li class="current tsd-kind-external-module tsd-is-external">
 						<a href="../modules/_share_.html">&quot;share&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -159,30 +181,36 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-external tsd-is-not-exported">
+						<a href="../enums/_share_.shareitemtype.html" class="tsd-kind-icon">Share<wbr>Item<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-external">
+						<a href="../enums/_share_.sharepermission.html" class="tsd-kind-icon">Share<wbr>Permission</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module tsd-is-external tsd-is-not-exported">
+						<a href="../enums/_share_.sharetype.html" class="tsd-kind-icon">Share<wbr>Type</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-external">
-						<a href="../classes/_httpclient_.httpclient.html" class="tsd-kind-icon">Http<wbr>Client</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_httpclient_.ihttpclientoptions.html" class="tsd-kind-icon">IHttp<wbr>Client<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_httpclient_.iproxy.html" class="tsd-kind-icon">IProxy</a>
+						<a href="../classes/_share_.share.html" class="tsd-kind-icon">Share</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-is-external">
-						<a href="_httpclient_.irequestcontext.html" class="tsd-kind-icon">IRequest<wbr>Context</a>
+						<a href="_share_.icreateshare.html" class="tsd-kind-icon">ICreate<wbr>Share</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
-								<a href="_httpclient_.irequestcontext.html#description" class="tsd-kind-icon">description</a>
+								<a href="_share_.icreateshare.html#password" class="tsd-kind-icon">password</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_share_.icreateshare.html#publicupload" class="tsd-kind-icon">public<wbr>Upload</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-external">
+								<a href="_share_.icreateshare.html#resource" class="tsd-kind-icon">resource</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-external tsd-is-not-exported">
-						<a href="../modules/_httpclient_.html#debug" class="tsd-kind-icon">debug</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

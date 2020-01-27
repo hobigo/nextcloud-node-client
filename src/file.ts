@@ -1,5 +1,7 @@
 
+import path from "path";
 import Client, { ClientError } from "./client";
+import Folder from "./folder";
 
 /**
  * The file class represents a file in nextcloud.
@@ -87,6 +89,21 @@ export default class File {
     public async delete(): Promise<void> {
         this.memento.deleted = true;
         return await this.client.deleteFile(this.memento.name);
+    }
+
+    /**
+     * get folder of the file
+     * @throws ClientError
+     * @returns the parent folder
+     */
+    public async getFolder(): Promise<Folder> {
+        this.assertExistence();
+        const folder: Folder | null = await this.client.getFolder(path.dirname((this.memento.name)));
+
+        if (folder) {
+            return folder;
+        }
+        throw new ClientError("Error, the folder of the file does not exist anymore", "ERR_FILE_FOLDER_DOES_NOT_EXIST");
     }
 
     /**

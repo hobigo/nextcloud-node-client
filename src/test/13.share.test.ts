@@ -26,9 +26,9 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
 
     this.timeout(1 * 60 * 1000);
 
-    it.skip("01 create public share", async () => {
+    it("01 create public share", async () => {
 
-        const fileName = "/test/share1/file2.txt";
+        const fileName = "/ncncTest/share1/file2.txt";
 
         let file: File;
 

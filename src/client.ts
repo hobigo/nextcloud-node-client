@@ -30,6 +30,7 @@ export {
 };
 
 const debug = debugFactory("NCClient");
+// const debug = console.log;
 
 interface IStat {
     "type": string;
@@ -1128,34 +1129,76 @@ export default class Client {
     // shares
     // https://docs.nextcloud.com/server/latest/developer_manual/client_apis/OCS/ocs-share-api.html
     // ***************************************************************************************
+
+    /**
+     * create a new share
+     */
     public async createShare(options: ICreateShare): Promise<Share> {
 
         const shareRequest = Share.createShareRequestBody(options);
-        // console.log(shareRequest);
+        debug(shareRequest);
+
+        const headers = {
+            "Accept": "application/json",
+            "Content-Type": "application/json;charset=UTF-8",
+            "OCS-APIRequest": "true",
+        };
 
         const requestInit: RequestInit = {
             body: shareRequest,
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                "OCS-APIRequest": "true",
-            }),
+            headers: new Headers(headers),
             method: "POST",
         };
-        const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares",
-            requestInit,
-            [200],
-            { description: "Public Share create" });
+        const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares";
 
-        const rawResult: any = await response.json();
+        try {
+            const response: Response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [200],
+                { description: "Share create" });
 
-        // console.log("result" + JSON.stringify(rawResult, null, 4));
-        // console.log(response);
+            const rawResult: any = await response.json();
+            debug(rawResult);
+            return Share.getShare(this, rawResult.ocs.data.id);
+        } catch (e) {
+            debug("result " + e.message);
+            debug("requestInit ", JSON.stringify(requestInit, null, 4));
+            debug("headers " + JSON.stringify(headers, null, 4));
+            debug("url ", url);
+            throw e;
+        }
+    }
 
-        return Share.getShare(this, rawResult.id);
+    public async getShare(shareId: string): Promise<any> {
 
+        const headers = {
+            "Accept": "application/json",
+            "OCS-APIRequest": "true",
+        };
+
+        const requestInit: RequestInit = {
+            headers: new Headers(headers),
+            method: "GET",
+        };
+        const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
+
+        try {
+            const response: Response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [200],
+                { description: "Share get" });
+
+            const rawResult: any = await response.json();
+            return rawResult;
+        } catch (e) {
+            debug("result " + e.message);
+            debug("requestInit ", JSON.stringify(requestInit, null, 4));
+            debug("headers " + JSON.stringify(headers, null, 4));
+            debug("url ", url);
+            throw e;
+        }
     }
 
     // ***************************************************************************************

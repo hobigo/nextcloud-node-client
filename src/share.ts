@@ -11,9 +11,16 @@ export enum SharePermission {
     share = 16,
 }
 
+enum ShareType {
+    user = 0,
+    group = 1,
+    publicLink = 3,
+    email = 4,
+}
+
 export interface ICreateShare {
     "resource": Folder | File;
-    // @todo "shareWith"?: User | UserGroup | EMail | Circle | Conversation;
+    // @todo "shareWith"?: User | UserGroup | EMail;
     "publicUpload"?: boolean;
     "password"?: string;
 }
@@ -26,11 +33,12 @@ export default class Share {
 
     public static async getShare(client: Client, id: string): Promise<Share> {
         const share: Share = new Share(client, id);
+        await share.initialize();
         return share;
     }
 
     public static createShareRequestBody(createShare: ICreateShare): string {
-        const shareType = 1;
+        const shareType: ShareType = ShareType.publicLink;
 
         const shareRequest: {
             path: string,
@@ -86,5 +94,8 @@ export default class Share {
         this.client = client;
         this.id = id;
     }
-
+    private async initialize(): Promise<void> {
+        const rawShareData = await this.client.getShare(this.id);
+        console.log(rawShareData);
+    }
 }
