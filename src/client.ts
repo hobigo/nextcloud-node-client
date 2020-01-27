@@ -1082,7 +1082,8 @@ export default class Client {
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/users?perPage=1",
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
             { description: "Users get" });
@@ -1095,6 +1096,68 @@ export default class Client {
         }
         return users;
     }
+
+    public async createUser(): Promise<void> {
+        const requestInit: RequestInit = {
+            headers: new Headers({
+                "Content-Type": "application/x-www-form-urlencoded",
+                "OCS-APIRequest": "true",
+            }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
+            requestInit,
+            [200],
+            { description: "Users get" });
+        const rawResult: any = await response.json();
+        let users: string[] = [];
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.users) {
+            users = rawResult.ocs.data.users;
+        }
+    }
+
+    // ***************************************************************************************
+    // shares
+    // https://docs.nextcloud.com/server/latest/developer_manual/client_apis/OCS/ocs-share-api.html
+    // ***************************************************************************************
+    public async createPublicShare(sharePath: string): Promise<void> {
+
+        const shareRequest: {
+            path: string,
+            shareType: number,
+            //    permissions: number | number[]
+        } = {
+            path: sharePath,
+            //            permissions: 1,
+            shareType: 3,
+        };
+
+        const requestInit: RequestInit = {
+            body: JSON.stringify(shareRequest, null, 4),
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                "OCS-APIRequest": "true",
+            }),
+            method: "POST",
+        };
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares",
+            requestInit,
+            [200, 400, 404],
+            { description: "Public Share create" });
+        // const rawResult: any = await response.json();
+        const rawResult: any = await response.json();
+        // console.log("result" + JSON.stringify(rawResult, null, 4));
+        // console.log(response);
+    }
+
     // ***************************************************************************************
     // private methods
     // ***************************************************************************************
