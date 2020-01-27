@@ -5,6 +5,7 @@ import "mocha";
 import {
     Client,
     File,
+    ICreateShare,
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -25,7 +26,7 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
 
     this.timeout(1 * 60 * 1000);
 
-    it("01 create public share", async () => {
+    it.skip("01 create public share", async () => {
 
         const fileName = "/test/share1/file2.txt";
 
@@ -33,11 +34,14 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
 
         file = await client.createFile(fileName, Buffer.from("this is a test text"));
 
+        const createShare: ICreateShare = { resource: file };
+
         try {
-            await client.createPublicShare(file.name);
+            await client.createShare(createShare);
         } catch (e) {
             expect(e.message, "expect no exception").to.be.equal(null);
         }
+        await file.delete();
     });
 
 });

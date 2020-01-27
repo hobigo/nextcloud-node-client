@@ -14,6 +14,7 @@ import File from "./file";
 import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
 import Server from "./server";
+import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 
 export {
@@ -21,9 +22,11 @@ export {
     ClientError,
     Folder,
     File,
+    ICreateShare,
     Tag,
     FakeServer,
     Server,
+    SharePermission,
 };
 
 const debug = debugFactory("NCClient");
@@ -1125,20 +1128,13 @@ export default class Client {
     // shares
     // https://docs.nextcloud.com/server/latest/developer_manual/client_apis/OCS/ocs-share-api.html
     // ***************************************************************************************
-    public async createPublicShare(sharePath: string): Promise<void> {
+    public async createShare(options: ICreateShare): Promise<Share> {
 
-        const shareRequest: {
-            path: string,
-            shareType: number,
-            //    permissions: number | number[]
-        } = {
-            path: sharePath,
-            //            permissions: 1,
-            shareType: 3,
-        };
+        const shareRequest = Share.createShareRequestBody(options);
+        // console.log(shareRequest);
 
         const requestInit: RequestInit = {
-            body: JSON.stringify(shareRequest, null, 4),
+            body: shareRequest,
             headers: new Headers({
                 "Accept": "application/json",
                 "Content-Type": "application/json;charset=UTF-8",
@@ -1150,12 +1146,16 @@ export default class Client {
             // ?perPage=1 page=
             this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares",
             requestInit,
-            [200, 400, 404],
+            [200],
             { description: "Public Share create" });
-        // const rawResult: any = await response.json();
+
         const rawResult: any = await response.json();
+
         // console.log("result" + JSON.stringify(rawResult, null, 4));
         // console.log(response);
+
+        return Share.getShare(this, rawResult.id);
+
     }
 
     // ***************************************************************************************
