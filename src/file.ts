@@ -1,13 +1,14 @@
 
 import path from "path";
 import Client, { ClientError } from "./client";
+import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 
 /**
  * The file class represents a file in nextcloud.
  * It exposes file properties and content handling, commenting and tagging
  */
-export default class File {
+export default class File implements FileSystemElement {
     private memento: {
         baseName: string,
         id: number,

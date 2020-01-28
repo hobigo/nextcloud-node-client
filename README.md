@@ -242,6 +242,19 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
     await file.move("/products/brooms/MyFileRenamed.txt");
 ```
 
+#### Create, change and delete a share
+```typescript
+    const file = await client.getFile("/products/MyFile.txt");
+    // share the file (works also for folder)
+    const createShare: ICreateShare = { fileSystemElement: file };
+    const share: Share = await client.createShare(createShare);
+    await share.setPassword("some password");
+    await share.setNote("some note\nnew line");
+    await share.setExpiration(new Date(2020, 11, 5));        
+    await share.delete();
+```
+
+
 ## Architecture
 The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.
 

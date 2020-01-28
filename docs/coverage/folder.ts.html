@@ -303,13 +303,15 @@
 <a name='L244'></a><a href='#L244'>244</a>
 <a name='L245'></a><a href='#L245'>245</a>
 <a name='L246'></a><a href='#L246'>246</a>
-<a name='L247'></a><a href='#L247'>247</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -321,8 +323,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">103x</span>
-<span class="cline-any cline-yes">103x</span>
+<span class="cline-any cline-yes">105x</span>
+<span class="cline-any cline-yes">105x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -337,8 +339,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -431,9 +433,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
+<span class="cline-any cline-yes">23x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -543,7 +545,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">175x</span>
+<span class="cline-any cline-yes">176x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -555,8 +557,9 @@ const debug = require("debug").debug("Folder");
 import Client from "./client";
 import ClientError from "./error";
 import File from "./file";
+import FileSystemElement from "./fileSystemElement";
 &nbsp;
-export default class Folder {
+export default class Folder implements FileSystemElement {
     private client: Client;
     private memento: {
         baseName: string,
@@ -712,7 +715,7 @@ export default class Folder {
      */
     public getUIUrl(): string {
         this.assertExistence();
-        return this.client.getUILink( this.id);
+        return this.client.getUILink(this.id);
     }
 &nbsp;
     /**
@@ -735,7 +738,7 @@ export default class Folder {
      * @param tagName name of the tag
      */
     public async addTag(tagName: string): Promise&lt;void&gt; {
-        return await this.client.addTagToFile( this.id, tagName);
+        return await this.client.addTagToFile(this.id, tagName);
     }
 &nbsp;
     /**
@@ -744,7 +747,7 @@ export default class Folder {
      */
     public async getTags(): Promise&lt;string[]&gt; {
         this.assertExistence();
-        const map: Map&lt;string, number&gt; = await this.client.getTagsOfFile( this.id);
+        const map: Map&lt;string, number&gt; = await this.client.getTagsOfFile(this.id);
         const tagNames: string[] = [];
         for (const tagName of map) {
             tagNames.push(tagName[0]);
@@ -758,12 +761,12 @@ export default class Folder {
      */
     public async removeTag(tagName: string): Promise&lt;void&gt; {
         this.assertExistence();
-        const map: Map&lt;string, number&gt; = await this.client.getTagsOfFile( this.id);
+        const map: Map&lt;string, number&gt; = await this.client.getTagsOfFile(this.id);
         const tagNames: string[] = [];
 &nbsp;
         const tagId: number | undefined = map.get(tagName);
         if (tagId) {
-            await this.client.removeTagOfFile( this.id, tagId);
+            await this.client.removeTagOfFile(this.id, tagId);
         }
     }
 &nbsp;
@@ -773,7 +776,7 @@ export default class Folder {
      */
     public async addComment(comment: string): Promise&lt;void&gt; {
         this.assertExistence();
-        return await this.client.addCommentToFile( this.id, comment);
+        return await this.client.addCommentToFile(this.id, comment);
     }
 &nbsp;
     /**
@@ -785,7 +788,7 @@ export default class Folder {
      */
     public async getComments(top?: number, skip?: number): Promise&lt;string[]&gt; {
         this.assertExistence();
-        return await this.client.getFileComments( this.id, top, skip);
+        return await this.client.getFileComments(this.id, top, skip);
     }
 &nbsp;
     private assertExistence(): void {
@@ -802,7 +805,7 @@ export default class Folder {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jan 27 2020 21:01:56 GMT+0100 (GMT+01:00)
+                at Tue Jan 28 2020 02:12:43 GMT+0100 (GMT+01:00)
             </div>
         </div>
         <script src="prettify.js"></script>

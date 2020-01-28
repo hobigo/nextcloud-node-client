@@ -1,7 +1,7 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users?perPage=1",
+            "url": "/ocs/v1.php/cloud/users",
             "method": "GET",
             "description": "Users get"
         },

@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.23% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>52/57</span>
+                <span class='fraction'>57/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.74% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>18/19</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.23% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>52/57</span>
+                <span class='fraction'>57/57</span>
             </div>
         
             
@@ -273,9 +273,11 @@
 <a name='L214'></a><a href='#L214'>214</a>
 <a name='L215'></a><a href='#L215'>215</a>
 <a name='L216'></a><a href='#L216'>216</a>
-<a name='L217'></a><a href='#L217'>217</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -310,8 +312,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -372,13 +374,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -484,7 +486,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">72x</span>
+<span class="cline-any cline-yes">75x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -492,13 +494,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
 import path from "path";
 import Client, { ClientError } from "./client";
+import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 &nbsp;
 /**
  * The file class represents a file in nextcloud.
  * It exposes file properties and content handling, commenting and tagging
  */
-export default class File {
+export default class File implements FileSystemElement {
     private memento: {
         baseName: string,
         id: number,
@@ -587,14 +590,14 @@ export default class File {
      * @throws ClientError
      * @returns the parent folder
      */
-    public async <span class="fstat-no" title="function not covered" >getFolder(</span>): Promise&lt;Folder&gt; {
-<span class="cstat-no" title="statement not covered" >        this.assertExistence();</span>
-        const folder: Folder | null = <span class="cstat-no" title="statement not covered" >await this.client.getFolder(path.dirname((this.memento.name)));</span>
+    public async getFolder(): Promise&lt;Folder&gt; {
+        this.assertExistence();
+        const folder: Folder | null = await this.client.getFolder(path.dirname((this.memento.name)));
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        if (folder) {</span>
-<span class="cstat-no" title="statement not covered" >            return folder;</span>
+        if (folder) {
+            return folder;
         }
-<span class="cstat-no" title="statement not covered" >        throw new ClientError("Error, the folder of the file does not exist anymore", "ERR_FILE_FOLDER_DOES_NOT_EXIST");</span>
+        throw new ClientError("Error, the folder of the file does not exist anymore", "ERR_FILE_FOLDER_DOES_NOT_EXIST");
     }
 &nbsp;
     /**
@@ -712,7 +715,7 @@ export default class File {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jan 27 2020 21:01:56 GMT+0100 (GMT+01:00)
+                at Tue Jan 28 2020 02:12:43 GMT+0100 (GMT+01:00)
             </div>
         </div>
         <script src="prettify.js"></script>

@@ -1,5 +1,6 @@
 import Client, { ClientError } from "./client";
 import File from "./file";
+import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 
 export enum SharePermission {
@@ -19,7 +20,7 @@ enum ShareType {
 }
 
 export interface ICreateShare {
-    "resource": Folder | File;
+    "fileSystemElement": FileSystemElement;
     // @todo "shareWith"?: User | UserGroup | EMail;
     "publicUpload"?: boolean;
     "password"?: string;
@@ -45,15 +46,17 @@ export default class Share {
             shareType: number,
             // @todo   permissions: number | number[]
             password?: string,
-            publicUpload?: boolean,
+            publicUpload?: string,
         } = {
-            path: createShare.resource.name,
+            path: createShare.fileSystemElement.name,
             //  @todo    permissions: 1,
             shareType,
         };
 
         if (createShare.publicUpload && createShare.publicUpload === true) {
-            shareRequest.publicUpload = true;
+            shareRequest.publicUpload = "enable";
+        } else {
+            shareRequest.publicUpload = "disable";
         }
 
         if (createShare.password) {
@@ -64,38 +67,142 @@ export default class Share {
     }
 
     private client: Client;
-    private id: string;
-    private memento?: {
-        share_type: number,
-        "uid_owner": string,
-        "displayname_owner": string,
-        "permissions": SharePermission,
-        "can_edit": boolean,
-        "can_delete": boolean,
-        "stime": Date,
-        "parent"?: Share,
-        "expiration"?: Date,
-        "token": string,
-        "uid_file_owner": string,
-        "note"?: string,
-        "label"?: string,
-        "displayname_file_owner": string,
-        "path": string,
-        "item_type": ShareItemType,
-        "mimetype"?: string,
-        "share_with"?: string,
-        "share_with_displayname"?: string,
-        "password"?: string,
-        "url": string,
-        "mail_send": boolean,
-        "hide_download": boolean,
+    private memento: {
+        expiration: Date | null,
+        id: string;
+        itemType: ShareItemType,
+        note: string,
+        token: string,
+        url: string,
+        // share_type: number,
+        // "uid_owner": string,
+        // "displayname_owner": string,
+        // "permissions": SharePermission,
+        // "can_edit": boolean,
+        // "can_delete": boolean,
+        // "stime": Date,
+        // "parent"?: Share,
+        // "uid_file_owner": string,
+        // "label"?: string,
+        // "displayname_file_owner": string,
+        // "path": string,
+        // "mimetype"?: string,
+        // "share_with"?: string,
+        // "share_with_displayname"?: string,
+        // "mail_send": boolean,
+        // "hide_download": boolean,
     };
+
     private constructor(client: Client, id: string) {
         this.client = client;
-        this.id = id;
+        this.memento = {
+            expiration: null,
+            id,
+            itemType: ShareItemType.file,
+            note: "",
+            token: "",
+            url: "",
+        };
     }
+
+    public async delete(): Promise<void> {
+        await this.client.deleteShare(this.memento.id);
+    }
+
+    public async setExpiration(expiration: Date): Promise<void> {
+        this.memento.expiration = expiration;
+        await this.client.updateShare(this.memento.id, { expireDate: expiration.toISOString().split("T")[0] });
+    }
+
+    /**
+     * set a new password
+     * @param password
+     */
+    public async setPassword(password: string): Promise<void> {
+        await this.client.updateShare(this.memento.id, { password });
+    }
+
+    public async setNote(note: string): Promise<void> {
+        this.memento.note = note;
+        await this.client.updateShare(this.memento.id, { note });
+    }
+
     private async initialize(): Promise<void> {
-        const rawShareData = await this.client.getShare(this.id);
-        console.log(rawShareData);
+        const rawShareData = await this.client.getShare(this.memento.id);
+
+        if (!rawShareData.ocs || !rawShareData.ocs.data[0]) {
+            throw new ClientError(`Error invalid share data received "ocs.data" missing`, "ERR_INVALID_SHARE_RESPONSE");
+        }
+
+        if (!rawShareData.ocs.data[0].url) {
+            throw new ClientError(`Error invalid share data received "url" missing`, "ERR_INVALID_SHARE_RESPONSE");
+        }
+        this.memento.url = rawShareData.ocs.data[0].url;
+
+        if (!rawShareData.ocs.data[0].token) {
+            throw new ClientError(`Error invalid share data received "token" missing`, "ERR_INVALID_SHARE_RESPONSE");
+        }
+        this.memento.token = rawShareData.ocs.data[0].token;
+
+        if (!rawShareData.ocs.data[0].item_type) {
+            throw new ClientError(`Error invalid share data received "item_type" missing`, "ERR_INVALID_SHARE_RESPONSE");
+        }
+
+        if (rawShareData.ocs.data[0].item_type === "file") {
+            this.memento.itemType = ShareItemType.file;
+        } else {
+            this.memento.itemType = ShareItemType.folder;
+        }
+        if (rawShareData.ocs.data[0].expiration) {
+            this.memento.expiration = new Date(rawShareData.ocs.data[0].expiration);
+        }
+
+        if (rawShareData.ocs.data[0].note) {
+            this.memento.note = rawShareData.ocs.data[0].note;
+        }
+
+        // console.log(JSON.stringify(rawShareData, null, 4));
+        // console.log(JSON.stringify(this, null, 4));
     }
+
+    /**
+     * token
+     * The token is readonly
+     */
+    public get token(): string {
+        return this.memento.token;
+    }
+
+    /**
+     * share url
+     * The share url is readonly
+     */
+    public get url(): string {
+        return this.memento.url;
+    }
+
+    /**
+     * expiration
+     * The expiration is readonly
+     */
+    public get expiration(): Date | null {
+        return this.memento.expiration;
+    }
+
+    /**
+     * note
+     * The note is readonly
+     */
+    public get note(): string {
+        return this.memento.note;
+    }
+
+    /**
+     * id
+     * The id is readonly
+     */
+    public get id(): string {
+        return this.memento.id;
+    }
+
 }

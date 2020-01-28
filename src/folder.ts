@@ -4,8 +4,9 @@ const debug = require("debug").debug("Folder");
 import Client from "./client";
 import ClientError from "./error";
 import File from "./file";
+import FileSystemElement from "./fileSystemElement";
 
-export default class Folder {
+export default class Folder implements FileSystemElement {
     private client: Client;
     private memento: {
         baseName: string,
@@ -161,7 +162,7 @@ export default class Folder {
      */
     public getUIUrl(): string {
         this.assertExistence();
-        return this.client.getUILink( this.id);
+        return this.client.getUILink(this.id);
     }
 
     /**
@@ -184,7 +185,7 @@ export default class Folder {
      * @param tagName name of the tag
      */
     public async addTag(tagName: string): Promise<void> {
-        return await this.client.addTagToFile( this.id, tagName);
+        return await this.client.addTagToFile(this.id, tagName);
     }
 
     /**
@@ -193,7 +194,7 @@ export default class Folder {
      */
     public async getTags(): Promise<string[]> {
         this.assertExistence();
-        const map: Map<string, number> = await this.client.getTagsOfFile( this.id);
+        const map: Map<string, number> = await this.client.getTagsOfFile(this.id);
         const tagNames: string[] = [];
         for (const tagName of map) {
             tagNames.push(tagName[0]);
@@ -207,12 +208,12 @@ export default class Folder {
      */
     public async removeTag(tagName: string): Promise<void> {
         this.assertExistence();
-        const map: Map<string, number> = await this.client.getTagsOfFile( this.id);
+        const map: Map<string, number> = await this.client.getTagsOfFile(this.id);
         const tagNames: string[] = [];
 
         const tagId: number | undefined = map.get(tagName);
         if (tagId) {
-            await this.client.removeTagOfFile( this.id, tagId);
+            await this.client.removeTagOfFile(this.id, tagId);
         }
     }
 
@@ -222,7 +223,7 @@ export default class Folder {
      */
     public async addComment(comment: string): Promise<void> {
         this.assertExistence();
-        return await this.client.addCommentToFile( this.id, comment);
+        return await this.client.addCommentToFile(this.id, comment);
     }
 
     /**
@@ -234,7 +235,7 @@ export default class Folder {
      */
     public async getComments(top?: number, skip?: number): Promise<string[]> {
         this.assertExistence();
-        return await this.client.getFileComments( this.id, top, skip);
+        return await this.client.getFileComments(this.id, top, skip);
     }
 
     private assertExistence(): void {

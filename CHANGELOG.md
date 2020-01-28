@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-
+## 1.1.0 - 2020-01-28
 ### Added
 - client.getSystemInfo
+- sharing api: client.createShare
 
 ## 1.0.7 - 2020-01-16
 - Readme documentation update and badges

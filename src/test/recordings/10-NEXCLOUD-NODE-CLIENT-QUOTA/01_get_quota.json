@@ -7,52 +7,26 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 21 Jan 2020 10:51:20 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>15</d:quota-used-bytes><d:quota-available-bytes>5368709105</d:quota-available-bytes><d:getetag>&quot;5e26d7a884d87&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/folder/</d:href><d:propstat><d:prop><d:getlastmodified>Sun, 12 Jan 2020 01:55:40 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>15</d:quota-used-bytes><d:quota-available-bytes>5368709105</d:quota-available-bytes><d:getetag>&quot;5e1a7c9cb0a44&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:49:13 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>5368709120</d:quota-available-bytes><d:getetag>&quot;5e2f76f921d23&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
-                    "response": [
-                        {
-                            "href": "/remote.php/webdav/",
-                            "propstat": {
-                                "prop": {
-                                    "getlastmodified": "Tue, 21 Jan 2020 10:51:20 GMT",
-                                    "resourcetype": {
-                                        "collection": ""
-                                    },
-                                    "quota-used-bytes": 15,
-                                    "quota-available-bytes": 5368709105,
-                                    "getetag": "&quot;5e26d7a884d87&quot;"
+                    "response": {
+                        "href": "/remote.php/webdav/",
+                        "propstat": {
+                            "prop": {
+                                "getlastmodified": "Mon, 27 Jan 2020 23:49:13 GMT",
+                                "resourcetype": {
+                                    "collection": ""
                                 },
-                                "status": "HTTP/1.1 200 OK"
-                            }
-                        },
-                        {
-                            "href": "/remote.php/webdav/folder/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Sun, 12 Jan 2020 01:55:40 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 15,
-                                        "quota-available-bytes": 5368709105,
-                                        "getetag": "&quot;5e1a7c9cb0a44&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
+                                "quota-used-bytes": 0,
+                                "quota-available-bytes": 5368709120,
+                                "getetag": "&quot;5e2f76f921d23&quot;"
+                            },
+                            "status": "HTTP/1.1 200 OK"
                         }
-                    ]
+                    }
                 }
             }
         }

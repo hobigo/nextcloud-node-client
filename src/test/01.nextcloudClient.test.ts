@@ -205,6 +205,16 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(file, "expect file to a object").to.be.a("object");
         expect(file, "expect file to be a Folder").to.be.instanceOf(File);
 
+        const folder: Folder = await file!.getFolder();
+        expect(folder.baseName, "base name of the file folder is 'test07'").to.be.equal("test07");
+
+        await folder.delete();
+        try {
+            await file!.getFolder();
+        } catch (e) {
+            expect(e.message, "expect an exception").to.be.equal("Error, the folder of the file does not exist anymore");
+        }
+
     });
 
     it("08 get sub directories of non existsing folder", async () => {
