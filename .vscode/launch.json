@@ -7,13 +7,30 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Mocha Tests",
+            "name": "coverage test",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "args": [
                 "-r",
                 "ts-node/register",
                 "${workspaceFolder}/src/**/*test.ts",
                 "${workspaceFolder}/src/test"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "record test",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": [
+                "-r",
+                "ts-node/register",
+                "${workspaceFolder}/src/**/*test.ts",
+                "${workspaceFolder}/src/test",
+                "--record"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [

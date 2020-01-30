@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.67% </span>
+                <span class="strong">98.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>444/450</span>
+                <span class='fraction'>444/449</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.52% </span>
+                <span class="strong">99.22% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>128/134</span>
+                <span class='fraction'>128/129</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.67% </span>
+                <span class="strong">98.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>444/450</span>
+                <span class='fraction'>444/449</span>
             </div>
         
             
@@ -1615,12 +1615,7 @@
 <a name='L1556'></a><a href='#L1556'>1556</a>
 <a name='L1557'></a><a href='#L1557'>1557</a>
 <a name='L1558'></a><a href='#L1558'>1558</a>
-<a name='L1559'></a><a href='#L1559'>1559</a>
-<a name='L1560'></a><a href='#L1560'>1560</a>
-<a name='L1561'></a><a href='#L1561'>1561</a>
-<a name='L1562'></a><a href='#L1562'>1562</a>
-<a name='L1563'></a><a href='#L1563'>1563</a>
-<a name='L1564'></a><a href='#L1564'>1564</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L1559'></a><a href='#L1559'>1559</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -2735,18 +2730,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -4288,28 +4278,23 @@ export default class Client {
         return users;
     }
 &nbsp;
-    public async <span class="fstat-no" title="function not covered" >createUser(</span>): Promise&lt;void&gt; {
+    public async <span class="fstat-no" title="function not covered" >createUser(</span>options: { userId: string, displayName: string, password: string }): Promise&lt;void&gt; {
         const requestInit: RequestInit = <span class="cstat-no" title="statement not covered" >{</span>
+            body: JSON.stringify(options, null, 4),
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",
                 "OCS-APIRequest": "true",
             }),
-            method: "GET",
+            method: "POST",
         };
-&nbsp;
+<span class="cstat-no" title="statement not covered" >        console.log("request body: ", requestInit.body);</span>
         const response: Response = <span class="cstat-no" title="statement not covered" >await this.getHttpResponse(</span>
-            // ?perPage=1 page=
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
-            { description: "Users get" });
+            { description: "User create" });
         const rawResult: any = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-        let users: string[] = <span class="cstat-no" title="statement not covered" >[];</span>
-<span class="cstat-no" title="statement not covered" >        if (rawResult.ocs &amp;&amp;</span>
-            rawResult.ocs.data &amp;&amp;
-            rawResult.ocs.data.users) {
-<span class="cstat-no" title="statement not covered" >            users = rawResult.ocs.data.users;</span>
-        }
+<span class="cstat-no" title="statement not covered" >        console.log(rawResult);</span>
     }
 &nbsp;
     // ***************************************************************************************
@@ -4753,7 +4738,7 @@ export default class Client {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Jan 28 2020 02:12:43 GMT+0100 (GMT+01:00)
+                at Thu Jan 30 2020 06:59:27 GMT+0100 (GMT+01:00)
             </div>
         </div>
         <script src="prettify.js"></script>

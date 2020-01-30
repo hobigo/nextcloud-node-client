@@ -1103,28 +1103,23 @@ export default class Client {
         return users;
     }
 
-    public async createUser(): Promise<void> {
+    public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
+            body: JSON.stringify(options, null, 4),
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",
                 "OCS-APIRequest": "true",
             }),
-            method: "GET",
+            method: "POST",
         };
-
+        console.log("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
-            { description: "Users get" });
+            { description: "User create" });
         const rawResult: any = await response.json();
-        let users: string[] = [];
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data.users) {
-            users = rawResult.ocs.data.users;
-        }
+        console.log(rawResult);
     }
 
     // ***************************************************************************************

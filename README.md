@@ -34,7 +34,11 @@ import Client, { File, Folder, Tag, } from "nextcloud-node-client";
         await file.addComment("myComment");
         // get the file content
         const content: Buffer = await file.getContent();
-        // delete the folder including the file
+        // share the file publicly with password and note
+        const share: Share = await client.createShare({ fileSystemElement: file });
+        await share.setPassword("some password");
+        await share.setNote("some note\nnew line");
+        // delete the folder including the file and share
         await folder.delete();
     } catch (e) {
         // some error handling   
@@ -123,6 +127,9 @@ The file is the representation of a nextcloud file. Every file is contained in a
 ### Tag
 Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.
 
+### Share
+Files and folders can be shared with user, user groups or publicly. The share can be password protected and an exiration date can be applied.
+
 ## API
 This is an overview of the client API.
 Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-client)
@@ -138,7 +145,7 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 - get tags, by name, by id
 - get quota
 ### Folder
-- get name, id, base name, URL
+- get name, id, base name, urls
 - delete
 - create sub folders 
 - get sub folder
@@ -149,16 +156,19 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 - get comments
 - move/rename
 ### File
-- get name, id, base name, URL
+- get name, id, base name, urls, content type
 - get content
 - delete
 - get tags, add tag, remove tag
 - add comment
 - get comments
+- get folder
 - move/rename
 ### Tag
 - get name, id
 - delete*
+### Share
+- create, update, delete
 
 \* admin permissions required
 

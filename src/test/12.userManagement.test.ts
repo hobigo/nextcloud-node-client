@@ -37,4 +37,12 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     });
 
+    it.skip("02 create users", async () => {
+
+        try {
+            await client.createUser({ userId: "ncnc-test-user-id-1", password: "This is a Password #2#3", displayName: "Petra Huber" });
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal(null);
+        }
+    });
 });

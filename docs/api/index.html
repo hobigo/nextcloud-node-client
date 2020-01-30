@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>nextcloud-node-client - v1.0.8</title>
+	<title>nextcloud-node-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">nextcloud-node-client - v1.0.8</a>
+					<a href="index.html" class="title">nextcloud-node-client</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> nextcloud-node-client - v1.0.8</h1>
+			<h1>nextcloud-node-client</h1>
 		</div>
 	</div>
 </header>
@@ -98,7 +98,11 @@
         <span class="hljs-keyword">await</span> file.addComment(<span class="hljs-params">"myComment"</span>);
         <span class="hljs-comment">// get the file content</span>
         <span class="hljs-keyword">const</span> content: Buffer = <span class="hljs-keyword">await</span> file.getContent(<span class="hljs-params"></span>);
-        <span class="hljs-comment">// delete the folder including the file</span>
+        <span class="hljs-comment">// share the file publicly with password and note</span>
+        <span class="hljs-keyword">const</span> share: Share = <span class="hljs-keyword">await</span> client.createShare(<span class="hljs-params">{ fileSystemElement: file }</span>);
+        <span class="hljs-keyword">await</span> share.setPassword(<span class="hljs-params">"some password"</span>);
+        <span class="hljs-keyword">await</span> share.setNote(<span class="hljs-params">"some note\nnew line"</span>);
+        <span class="hljs-comment">// delete the folder including the file and share</span>
         <span class="hljs-keyword">await</span> folder.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
     } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
         <span class="hljs-comment">// some error handling   </span>
@@ -183,6 +187,10 @@
 					<h3>Tag</h3>
 				</a>
 				<p>Tags are used to filter for file and folders. Tags can be created and assigned to files or folders.</p>
+				<a href="#share" id="share" style="color: inherit; text-decoration: none;">
+					<h3>Share</h3>
+				</a>
+				<p>Files and folders can be shared with user, user groups or publicly. The share can be password protected and an exiration date can be applied.</p>
 				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
 					<h2>API</h2>
 				</a>
@@ -204,7 +212,7 @@
 							<h3>Folder</h3>
 						</a>
 					</li>
-					<li>get name, id, base name, URL</li>
+					<li>get name, id, base name, urls</li>
 					<li>delete</li>
 					<li>create sub folders </li>
 					<li>get sub folder</li>
@@ -218,19 +226,25 @@
 							<h3>File</h3>
 						</a>
 					</li>
-					<li>get name, id, base name, URL</li>
+					<li>get name, id, base name, urls, content type</li>
 					<li>get content</li>
 					<li>delete</li>
 					<li>get tags, add tag, remove tag</li>
 					<li>add comment</li>
 					<li>get comments</li>
+					<li>get folder</li>
 					<li>move/rename
 						<a href="#tag-1" id="tag-1" style="color: inherit; text-decoration: none;">
 							<h3>Tag</h3>
 						</a>
 					</li>
 					<li>get name, id</li>
-					<li>delete*</li>
+					<li>delete*
+						<a href="#share-1" id="share-1" style="color: inherit; text-decoration: none;">
+							<h3>Share</h3>
+						</a>
+					</li>
+					<li>create, update, delete</li>
 				</ul>
 				<p>* admin permissions required</p>
 				<a href="#api-examples" id="api-examples" style="color: inherit; text-decoration: none;">
