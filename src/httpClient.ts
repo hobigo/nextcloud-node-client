@@ -1,5 +1,5 @@
 import debugFactory from "debug";
-import HttpProxyAgent from "http-proxy-agent";
+import HttpProxyAgent, { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";
 import {
     Headers,
@@ -65,11 +65,12 @@ export class HttpClient {
         // set the proxy
         if (this.proxy) {
             debug("proxy agent used");
-            const proxyAgent = new HttpProxyAgent({
+            const options: HttpProxyAgentOptions = {
                 host: this.proxy.host,
                 port: this.proxy.port,
                 protocol: this.proxy.protocol,
-            });
+            };
+            const proxyAgent = HttpProxyAgent(options);
             requestInit.agent = proxyAgent;
             if (this.proxy.proxyAuthorizationHeader) {
                 (requestInit.headers as Headers).append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
