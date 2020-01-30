@@ -38,6 +38,8 @@ import Client, { File, Folder, Tag, } from "nextcloud-node-client";
         const share: Share = await client.createShare({ fileSystemElement: file });
         await share.setPassword("some password");
         await share.setNote("some note\nnew line");
+        // use the url to access the share 
+        const shareLink:string = share.url;
         // delete the folder including the file and share
         await folder.delete();
     } catch (e) {
@@ -258,9 +260,13 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
     // share the file (works also for folder)
     const createShare: ICreateShare = { fileSystemElement: file };
     const share: Share = await client.createShare(createShare);
+    // change share settings
     await share.setPassword("some password");
     await share.setNote("some note\nnew line");
-    await share.setExpiration(new Date(2020, 11, 5));        
+    await share.setExpiration(new Date(2020, 11, 5));  
+    // use the url to access the share 
+    const shareLink:string = share.url;
+    // delete share, if not required anymore
     await share.delete();
 ```
 
