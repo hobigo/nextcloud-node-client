@@ -1,3 +1,5 @@
+// tslint:disable-next-line:no-var-requires
+require("dotenv").config();
 
 import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line

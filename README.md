@@ -280,6 +280,37 @@ The nextcloud node client can be used by node applications to extend the nextclo
 
 ## Quality
 Tested with nextcloud 17.0.1, 18.0.0
+100% codecoverage is aspired
+
+## Todo list
+
+### User management
+User: get, create, update, delete, deactivate, set group
+User group: get, create delete
+
+### Streams
+create file and get file using streams
+
+### Eventing
+create event objects
+start observer
+subscribe to events and register handler functions
+telegram support
+
+### Sharing
+share with user, usergroup, email-address
+
+### Access using tags
+get files and folders by tag
+
+### Refactoring
+introduction of exception classes instead of error codes (breaking change)
+move from codecov to coveralls
+
+### Search
+search for files api
+
+- client in github actions https://xinthink.com/build-your-own-github-actions-f3454f22f202
 
 ## License
 Apache

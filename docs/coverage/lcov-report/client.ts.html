@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">98.89% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>444/449</span>
+                <span class='fraction'>447/452</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">98.89% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>444/449</span>
+                <span class='fraction'>447/452</span>
             </div>
         
             
@@ -1615,7 +1615,15 @@
 <a name='L1556'></a><a href='#L1556'>1556</a>
 <a name='L1557'></a><a href='#L1557'>1557</a>
 <a name='L1558'></a><a href='#L1558'>1558</a>
-<a name='L1559'></a><a href='#L1559'>1559</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L1559'></a><a href='#L1559'>1559</a>
+<a name='L1560'></a><a href='#L1560'>1560</a>
+<a name='L1561'></a><a href='#L1561'>1561</a>
+<a name='L1562'></a><a href='#L1562'>1562</a>
+<a name='L1563'></a><a href='#L1563'>1563</a>
+<a name='L1564'></a><a href='#L1564'>1564</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1634,14 +1642,16 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -3173,7 +3183,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import debugFactory from "debug";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// tslint:disable-next-line:no-var-requires
+require("dotenv").config();
+&nbsp;
+import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
     Headers,
@@ -3189,6 +3202,7 @@ import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
@@ -3204,6 +3218,7 @@ export {
     FakeServer,
     Server,
     SharePermission,
+    RequestResponseLogEntry,
 };
 &nbsp;
 const debug = debugFactory("NCClient");
@@ -4287,14 +4302,14 @@ export default class Client {
             }),
             method: "POST",
         };
-<span class="cstat-no" title="statement not covered" >        console.log("request body: ", requestInit.body);</span>
+<span class="cstat-no" title="statement not covered" >        debug("request body: ", requestInit.body);</span>
         const response: Response = <span class="cstat-no" title="statement not covered" >await this.getHttpResponse(</span>
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
             { description: "User create" });
         const rawResult: any = <span class="cstat-no" title="statement not covered" >await response.json();</span>
-<span class="cstat-no" title="statement not covered" >        console.log(rawResult);</span>
+<span class="cstat-no" title="statement not covered" >        debug(rawResult);</span>
     }
 &nbsp;
     // ***************************************************************************************
@@ -4738,7 +4753,7 @@ export default class Client {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu Jan 30 2020 08:12:32 GMT+0100 (GMT+01:00)
+                at Wed Feb 05 2020 23:30:11 GMT+0100 (GMT+01:00)
             </div>
         </div>
         <script src="prettify.js"></script>

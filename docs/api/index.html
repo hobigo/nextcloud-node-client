@@ -102,6 +102,8 @@
         <span class="hljs-keyword">const</span> share: Share = <span class="hljs-keyword">await</span> client.createShare(<span class="hljs-params">{ fileSystemElement: file }</span>);
         <span class="hljs-keyword">await</span> share.setPassword(<span class="hljs-params">"some password"</span>);
         <span class="hljs-keyword">await</span> share.setNote(<span class="hljs-params">"some note\nnew line"</span>);
+        <span class="hljs-comment">// use the url to access the share </span>
+        <span class="hljs-keyword">const</span> shareLink:<span class="hljs-built_in">string</span> = share.url;
         <span class="hljs-comment">// delete the folder including the file and share</span>
         <span class="hljs-keyword">await</span> folder.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
     } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
@@ -331,9 +333,13 @@
     <span class="hljs-comment">// share the file (works also for folder)</span>
     <span class="hljs-keyword">const</span> createShare: ICreateShare = { fileSystemElement: file };
     <span class="hljs-keyword">const</span> share: Share = <span class="hljs-keyword">await</span> client.createShare(createShare);
+    <span class="hljs-comment">// change share settings</span>
     <span class="hljs-keyword">await</span> share.setPassword(<span class="hljs-string">"some password"</span>);
     <span class="hljs-keyword">await</span> share.setNote(<span class="hljs-string">"some note\nnew line"</span>);
-    <span class="hljs-keyword">await</span> share.setExpiration(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">11</span>, <span class="hljs-number">5</span>));        
+    <span class="hljs-keyword">await</span> share.setExpiration(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-number">2020</span>, <span class="hljs-number">11</span>, <span class="hljs-number">5</span>));  
+    <span class="hljs-comment">// use the url to access the share </span>
+    <span class="hljs-keyword">const</span> shareLink:<span class="hljs-built_in">string</span> = share.url;
+    <span class="hljs-comment">// delete share, if not required anymore</span>
     <span class="hljs-keyword">await</span> share.delete();</code></pre>
 				<a href="#architecture" id="architecture" style="color: inherit; text-decoration: none;">
 					<h2>Architecture</h2>
@@ -343,7 +349,47 @@
 				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
 					<h2>Quality</h2>
 				</a>
-				<p>Tested with nextcloud 17.0.1, 18.0.0</p>
+				<p>Tested with nextcloud 17.0.1, 18.0.0
+				100% codecoverage is aspired</p>
+				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
+					<h2>Todo list</h2>
+				</a>
+				<a href="#user-management" id="user-management" style="color: inherit; text-decoration: none;">
+					<h3>User management</h3>
+				</a>
+				<p>User: get, create, update, delete, deactivate, set group
+				User group: get, create delete</p>
+				<a href="#streams" id="streams" style="color: inherit; text-decoration: none;">
+					<h3>Streams</h3>
+				</a>
+				<p>create file and get file using streams</p>
+				<a href="#eventing" id="eventing" style="color: inherit; text-decoration: none;">
+					<h3>Eventing</h3>
+				</a>
+				<p>create event objects
+					start observer
+					subscribe to events and register handler functions
+				telegram support</p>
+				<a href="#sharing" id="sharing" style="color: inherit; text-decoration: none;">
+					<h3>Sharing</h3>
+				</a>
+				<p>share with user, usergroup, email-address</p>
+				<a href="#access-using-tags" id="access-using-tags" style="color: inherit; text-decoration: none;">
+					<h3>Access using tags</h3>
+				</a>
+				<p>get files and folders by tag</p>
+				<a href="#refactoring" id="refactoring" style="color: inherit; text-decoration: none;">
+					<h3>Refactoring</h3>
+				</a>
+				<p>introduction of exception classes instead of error codes (breaking change)
+				move from codecov to coveralls</p>
+				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
+					<h3>Search</h3>
+				</a>
+				<p>search for files api</p>
+				<ul>
+					<li>client in github actions <a href="https://xinthink.com/build-your-own-github-actions-f3454f22f202">https://xinthink.com/build-your-own-github-actions-f3454f22f202</a></li>
+				</ul>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>

@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
-
 import debugFactory from "debug";
 import ClientError from "./error";
 import Server from "./server";

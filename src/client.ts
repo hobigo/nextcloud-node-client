@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-var-requires
+require("dotenv").config();
+
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
@@ -14,6 +17,7 @@ import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
+import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
@@ -29,6 +33,7 @@ export {
     FakeServer,
     Server,
     SharePermission,
+    RequestResponseLogEntry,
 };
 
 const debug = debugFactory("NCClient");
@@ -1112,14 +1117,14 @@ export default class Client {
             }),
             method: "POST",
         };
-        console.log("request body: ", requestInit.body);
+        debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
             { description: "User create" });
         const rawResult: any = await response.json();
-        console.log(rawResult);
+        debug(rawResult);
     }
 
     // ***************************************************************************************
