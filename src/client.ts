@@ -1,5 +1,6 @@
-// tslint:disable-next-line:no-var-requires
-require("dotenv").config();
+// this must be the first
+import { config } from "dotenv";
+config();
 
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
@@ -17,6 +18,7 @@ import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
+import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
@@ -25,6 +27,7 @@ import Tag from "./tag";
 export {
     Client,
     ClientError,
+    Environment,
     Folder,
     File,
     FileSystemElement,
@@ -33,6 +36,7 @@ export {
     FakeServer,
     Server,
     SharePermission,
+    RequestResponseLog,
     RequestResponseLogEntry,
 };
 
