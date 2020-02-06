@@ -23,14 +23,14 @@ jobs:
       run: npm run build 
     - name: Run tests and coverage
       run: npm run cover 
-    - name: NPM publish dryrun
-      run: npm publish --access public --dry-run     
-    # - name: Upload to codecov 1
-      # run: ./node_modules/.bin/codecov -t ${{ secrets.CODECOV_TOKEN }}      
-    - name: Upload to Codecov 
-      uses: codecov/codecov-action@v1
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }} #required
+      
+#    - name: NPM publish dryrun
+#      run: npm publish --access public --dry-run     
+      
+#    - name: Upload to Codecov 
+#      uses: codecov/codecov-action@v1
+#      with:
+#        token: ${{ secrets.CODECOV_TOKEN }} #required
 
     - name: Upload to Coveralls
       uses: coverallsapp/github-action@master
