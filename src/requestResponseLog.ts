@@ -45,7 +45,7 @@ export default class RequestResponseLog {
         }
 
         if (logEntry.request.body) {
-            if (logEntry.request.body.indexOf("<?xml version") !== -1) {
+            if (logEntry.request.body.indexOf && logEntry.request.body.indexOf("<?xml version") !== -1) {
                 logEntry.request.jsonBody = this.xmlToJson(logEntry.request.body);
             }
         }

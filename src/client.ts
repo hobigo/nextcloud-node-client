@@ -723,7 +723,7 @@ export default class Client {
      * @param fileName the file name /folder1/folder2/filename.txt
      * @param data the buffer object
      */
-    public async createFile(fileName: string, data: Buffer): Promise<File> {
+    public async createFile(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<File> {
 
         if (fileName.startsWith("./")) {
             fileName = fileName.replace("./", "/");
@@ -873,6 +873,32 @@ export default class Client {
         }
 
         return Buffer.from(await response.buffer());
+    }
+
+    /**
+     * returns the content of a file
+     * @param fileName name of the file /d1/file1.txt
+     * @returns Buffer with file content
+     */
+    public async pipeContentStream(fileName: string, destination: NodeJS.WritableStream): Promise<void> {
+        const url = this.webDAVUrl + fileName;
+        debug("getContent GET %s", url);
+        const requestInit: RequestInit = {
+            method: "GET",
+        };
+        let response: Response;
+        try {
+            response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [200],
+                { description: "File pipe content stream" });
+        } catch (err) {
+            debug("Error getContent %s - error %s", url, err.message);
+            throw err;
+        }
+        response.body.pipe(destination);
+
     }
 
     /**
@@ -1544,7 +1570,7 @@ export default class Client {
         return resultStat;
     }
 
-    private async putFileContents(fileName: string, data: Buffer): Promise<Response> {
+    private async putFileContents(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<Response> {
 
         const url: string = this.webDAVUrl + fileName;
         debug("putFileContents %s", url);
@@ -1554,11 +1580,17 @@ export default class Client {
             method: "PUT",
         };
         let response: Response;
+        let description = "File save content ";
+        if (data instanceof Buffer) {
+            description += "from buffer";
+        } else {
+            description += "from stream";
+        }
         response = await this.getHttpResponse(
             url,
             requestInit,
             [201, 204],
-            { description: "File save content" },
+            { description },
         );
 
         return response;

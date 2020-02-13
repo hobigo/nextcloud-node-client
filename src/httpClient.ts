@@ -90,6 +90,10 @@ export class HttpClient {
                 return responseText;
             };
 
+            response.body.pipe = (destination: NodeJS.WritableStream, options?: { end?: boolean; }): any => {
+                destination.write(responseText);
+            };
+
             response.json = async () => {
                 return JSON.parse(responseText);
             };

@@ -100,11 +100,11 @@ export default class Folder implements FileSystemElement {
     /**
      * creates a file in the folder
      * @param fileBaseName the base name of the file
-     * @param data the buffer with file content
+     * @param data the buffer or stream with file content
      * @returns the new file or null
      * @throws Error
      */
-    public async createFile(fileBaseName: string, data: Buffer): Promise<File> {
+    public async createFile(fileBaseName: string, data: Buffer | NodeJS.ReadableStream): Promise<File> {
         this.assertExistence();
         // must not contain :/\*"<>?
         debug("createFile fileBaseName = %s", fileBaseName);
