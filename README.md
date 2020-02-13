@@ -49,11 +49,11 @@ import Client, { File, Folder, Tag, } from "nextcloud-node-client";
 })();
 ```
 # Documentation
-* [Installation](##-installation)
-* [Security and access management](##-security-and-access-management)
-* [Concepts](##-concepts)
-* [API](##-api)
-* [Architecture](##-architecture)
+* [Installation](#installation)
+* [Security and access management](#security-and-access-management)
+* [Concepts](#concepts)
+* [API](#api)
+* [Architecture](#architecture)
 
 ## Installation
 ``
