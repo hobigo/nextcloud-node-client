@@ -898,7 +898,6 @@ export default class Client {
             throw err;
         }
         response.body.pipe(destination);
-
     }
 
     /**

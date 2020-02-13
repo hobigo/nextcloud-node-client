@@ -49,7 +49,7 @@ describe("14-NEXCLOUD-NODE-CLIENT-STREAMS", function () {
         await file.delete();
     });
 
-    it.only("02 pipe file content stream", async () => {
+    it.skip("02 pipe file content stream", async () => {
 
         const sourceFileName = "./src/test/data/text1.txt";
         const rStream: NodeJS.ReadableStream = fs.createReadStream(sourceFileName);
