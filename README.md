@@ -115,7 +115,11 @@ Creating a nextcloud client
   const client = new Client(server);
 ```
 
-## Concepts
+## Concepts and Philosophy
+The nextcloud-node-client provids a object oriented API in TypeScript. The focus is to provide a simple access to the nextcloud resources rather than a full functional coverage.
+
+![nextcloud node client object model](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-object-model.png)
+
 The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:
 ### Client 
 The client is the root object and represents the connection to the nextcloud server. The client is used to get access to the root folder and the tag repository.
@@ -274,8 +278,7 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 ## Architecture
 The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.
 
-
-![alt text](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png)
+![nextcloud node client component architecture](https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png)
 
 
 ## Quality

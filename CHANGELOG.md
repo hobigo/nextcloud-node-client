@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Object model in readme 
+
+
 ## 1.1.1 - 2020-01-28
 ### Added
 - client.getSystemInfo
