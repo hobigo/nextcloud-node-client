@@ -265,4 +265,55 @@ describe("05-NEXCLOUD-NODE-CLIENT-REQUEST-RESPONSE-LOG", function () {
         RequestResponseLog.deleteInstance();
 
     });
+
+    it("08 response content type json", async () => {
+
+        // add a json response to the json body
+
+        const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
+        rrLog.baseDirectory = baseDirName;
+
+        const requestLogEntry: RequestLogEntry =
+            new RequestLogEntry(
+                "https://my.url.com",
+                "method",
+                "This is a description",
+                "text request body",
+            );
+
+        const responseLogEntry: ResponseLogEntry =
+            new ResponseLogEntry(
+                200,
+                "{\"jsonProperty\":42}",
+                "application/json",
+                "location header");
+
+        try {
+            await rrLog.setContext(testContextName);
+            expect(true, "expect no exception").to.be.equal(true);
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("no exception");
+        }
+
+        try {
+            await rrLog.addEntry(new RequestResponseLogEntry(requestLogEntry, responseLogEntry));
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal("expect no exception");
+        }
+
+        const rrLogEntries: RequestResponseLogEntry[] = await rrLog.getEntries();
+
+        expect(rrLogEntries).to.be.an("Array");
+        expect(rrLogEntries.length).to.be.equal(1);
+
+        expect(rrLogEntries[0]).to.have.property("response");
+        expect(rrLogEntries[0].response).to.have.property("jsonBody");
+        // console.log(rrLogEntries[0].response.jsonBody);
+        expect(rrLogEntries[0].response.jsonBody).to.be.an("object");
+        expect(rrLogEntries[0].response.jsonBody).to.have.property("jsonProperty");
+        expect(rrLogEntries[0].response.jsonBody.jsonProperty).to.be.equal(42);
+
+        RequestResponseLog.deleteInstance();
+
+    });
 });
