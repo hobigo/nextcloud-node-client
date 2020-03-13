@@ -72,7 +72,7 @@
 				<p><img src="https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg" alt="">
 					<a href="https://npmjs.org/package/nextcloud-node-client"><img src="https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat" alt="NPM Downloads"></a>
 					<a href="https://david-dm.org/hobigo/nextcloud-node-client"><img src="https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat" alt="Dependency Status"></a>
-					<a href="https://codecov.io/gh/hobigo/nextcloud-node-client"><img src="https://codecov.io/gh/hobigo/nextcloud-node-client/branch/master/graph/badge.svg" alt="codecov"></a>
+					<a href="https://coveralls.io/github/hobigo/nextcloud-node-client"><img src="https://coveralls.io/repos/github/hobigo/nextcloud-node-client/badge.svg" alt="Coverage Status"></a>
 					<a href="https://packagephobia.now.sh/result?p=nextcloud-node-client"><img src="https://packagephobia.now.sh/badge?p=commander" alt="Install Size"></a>
 					<a href="https://hobigo.github.io/nextcloud-node-client"><img src="https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website" alt="documentation"></a>
 				<a href="https://gitter.im/nextcloud-node-client/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/nextcloud-node-client/community.svg" alt="Gitter"></a></p>
@@ -115,11 +115,11 @@
 					<h1>Documentation</h1>
 				</a>
 				<ul>
-					<li><a href="##-installation">Installation</a></li>
-					<li><a href="##-security-and-access-management">Security and access management</a></li>
-					<li><a href="##-concepts">Concepts</a></li>
-					<li><a href="##-api">API</a></li>
-					<li><a href="##-architecture">Architecture</a></li>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#security-and-access-management">Security and access management</a></li>
+					<li><a href="#concepts">Concepts</a></li>
+					<li><a href="#api">API</a></li>
+					<li><a href="#architecture">Architecture</a></li>
 				</ul>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
@@ -169,9 +169,11 @@
             });
 
   <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(server);</code></pre>
-				<a href="#concepts" id="concepts" style="color: inherit; text-decoration: none;">
-					<h2>Concepts</h2>
+				<a href="#concepts-and-philosophy" id="concepts-and-philosophy" style="color: inherit; text-decoration: none;">
+					<h2>Concepts and Philosophy</h2>
 				</a>
+				<p>The nextcloud-node-client provids a object oriented API in TypeScript. The focus is to provide a simple access to the nextcloud resources rather than a full functional coverage.</p>
+				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-object-model.png" alt="nextcloud node client object model"></p>
 				<p>The client comes with an object oriented API to access the APIs of nextcloud. The following object types are supported:</p>
 				<a href="#client" id="client" style="color: inherit; text-decoration: none;">
 					<h3>Client</h3>
@@ -345,50 +347,72 @@
 					<h2>Architecture</h2>
 				</a>
 				<p>The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.</p>
-				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png" alt="alt text"></p>
+				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png" alt="nextcloud node client component architecture"></p>
 				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
 					<h2>Quality</h2>
 				</a>
-				<p>Tested with nextcloud 17.0.1, 18.0.0
-				100% codecoverage is aspired</p>
+				<p>Tested with nextcloud 17.0.1, 18.0.0</p>
+				<p>A code coverage of 100% is aspired</p>
 				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
 					<h2>Todo list</h2>
 				</a>
 				<a href="#user-management" id="user-management" style="color: inherit; text-decoration: none;">
 					<h3>User management</h3>
 				</a>
-				<p>User: get, create, update, delete, deactivate, set group
-				User group: get, create delete</p>
+				<p>User: </p>
+				<ul>
+					<li>get</li>
+					<li>create</li>
+					<li>update</li>
+					<li>delete </li>
+					<li>deactivate</li>
+					<li>add/remove group</li>
+				</ul>
+				<p>User group: </p>
+				<ul>
+					<li>get</li>
+					<li>create </li>
+					<li>delete</li>
+				</ul>
 				<a href="#streams" id="streams" style="color: inherit; text-decoration: none;">
 					<h3>Streams</h3>
 				</a>
-				<p>create file and get file using streams</p>
+				<p>Create file and get file using streams</p>
 				<a href="#eventing" id="eventing" style="color: inherit; text-decoration: none;">
 					<h3>Eventing</h3>
 				</a>
-				<p>create event objects
-					start observer
-					subscribe to events and register handler functions
-				telegram support</p>
+				<ul>
+					<li>create event objects</li>
+					<li>start observer</li>
+					<li>subscribe to events and register handler functions</li>
+					<li>telegram support</li>
+				</ul>
 				<a href="#sharing" id="sharing" style="color: inherit; text-decoration: none;">
 					<h3>Sharing</h3>
 				</a>
-				<p>share with user, usergroup, email-address</p>
+				<p>Share with </p>
+				<ul>
+					<li>user</li>
+					<li>usergroup</li>
+					<li>email-address</li>
+				</ul>
 				<a href="#access-using-tags" id="access-using-tags" style="color: inherit; text-decoration: none;">
 					<h3>Access using tags</h3>
 				</a>
-				<p>get files and folders by tag</p>
+				<p>Get files and folders by tag</p>
 				<a href="#refactoring" id="refactoring" style="color: inherit; text-decoration: none;">
 					<h3>Refactoring</h3>
 				</a>
-				<p>introduction of exception classes instead of error codes (breaking change)
-				move from codecov to coveralls</p>
+				<ul>
+					<li>Introduction of exception classes instead of error codes (breaking change)</li>
+					<li><strike>Move from codecov to coveralls</strike></li>
+				</ul>
 				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>
 				</a>
-				<p>search for files api</p>
+				<p>Search for files api</p>
 				<ul>
-					<li>client in github actions <a href="https://xinthink.com/build-your-own-github-actions-f3454f22f202">https://xinthink.com/build-your-own-github-actions-f3454f22f202</a></li>
+					<li>client in github actions - upload files</li>
 				</ul>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
