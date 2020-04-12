@@ -1179,6 +1179,29 @@ export default class Client {
         return result;
     }
 
+    public async sendNotificationToUser(options: { userId: string, shortMessage: string, longMessage?: string }): Promise<void> {
+        const requestInit: RequestInit = {
+            headers: new Headers({
+                "Content-Type": "application/x-www-form-urlencoded",
+                "OCS-APIRequest": "true",
+            }),
+            method: "POST",
+        };
+
+        let longMessage = ''
+        if (options.longMessage) {
+            longMessage = `&longMessage=${options.longMessage}`;
+        }
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${options.userId}?shortMessage=${options.shortMessage}${longMessage}&format=json`,
+            requestInit,
+            [200],
+            { description: "User create" });
+        const rawResult: any = await response.json();
+        debug(rawResult);
+    }
+
     // ***************************************************************************************
     // apps management
     // ***************************************************************************************
