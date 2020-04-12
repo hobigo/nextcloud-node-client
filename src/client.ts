@@ -1165,7 +1165,7 @@ export default class Client {
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v1/notifications?format=json",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications?format=json",
             requestInit,
             [200],
             { description: "SystemInfo get" });
