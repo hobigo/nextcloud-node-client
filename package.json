@@ -47,6 +47,9 @@
     "node"
   ],
   "author": "Holger Gockel",
+  "contributors": [
+    "Scrounger"
+  ],
   "license": "Apache-2.0",
   "dependencies": {
     "debug": "^4.1.0",
