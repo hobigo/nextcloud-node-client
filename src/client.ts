@@ -70,6 +70,11 @@ export interface ISystemInfo {
     "nextcloudClient": ISysInfoNextcloudClient;
 }
 
+export interface INotifications {
+    "list": Array<object>;
+}
+
+
 export interface IQuota {
     used: number;
     available: number | string;
@@ -1066,6 +1071,8 @@ export default class Client {
         return comments;
     }
 
+
+
     /**
      * returns system information about the nextcloud server and the nextcloud client
      */
@@ -1089,7 +1096,7 @@ export default class Client {
         let server = {};
         let activeUsers = {};
 
-        if (rawResult.ocs && rawResult.ocs.data && rawResult.ocs.data) {
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
             if (rawResult.ocs.data.nextcloud) {
                 if (rawResult.ocs.data.nextcloud.system) {
                     system = rawResult.ocs.data.nextcloud.system
@@ -1141,6 +1148,40 @@ export default class Client {
             {
                 version: require("../package.json").version,
             },
+        };
+        return result;
+    }
+
+    // ***************************************************************************************
+    // notfication management
+    // ***************************************************************************************
+    /**
+     * returns notifications
+     */
+    public async getNotifications(): Promise<INotifications> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v1/notifications?format=json",
+            requestInit,
+            [200],
+            { description: "SystemInfo get" });
+
+        const rawResult: any = await response.json();
+
+        let notifications = []
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            notifications = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: INotifications = {
+            list: notifications
         };
         return result;
     }
