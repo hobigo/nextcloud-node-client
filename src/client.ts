@@ -1180,6 +1180,66 @@ export default class Client {
     }
 
     // ***************************************************************************************
+    // apps management
+    // ***************************************************************************************
+    /**
+     * returns apps
+     */
+    public async getApps(): Promise<Array<string>> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/apps?format=json",
+            requestInit,
+            [200],
+            { description: "SystemInfo get" });
+
+        const rawResult: any = await response.json();
+
+        let apps = []
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            apps = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: Array<string> = apps;
+
+        return result;
+    }
+    public async getAppInfos(appName: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/apps/${appName}?format=json`,
+            requestInit,
+            [200],
+            { description: "SystemInfo get" });
+
+        const rawResult: any = await response.json();
+
+        let appInfo = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            appInfo = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = appInfo;
+
+        return result;
+    }
+
+
+    // ***************************************************************************************
     // user management
     // ***************************************************************************************
     /**
