@@ -1073,12 +1073,12 @@ export default class Client {
      */
     public async getSystemInfo(): Promise<ISystemInfo> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" }),
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info?format=json",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info",
             requestInit,
             [200],
             { description: "SystemInfo get" });
@@ -1155,15 +1155,15 @@ export default class Client {
      */
     public async getNotifications(): Promise<Array<object>> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" }),
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications?format=json",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
             requestInit,
             [200],
-            { description: "SystemInfo get" });
+            { description: "Notifications get" });
 
         const rawResult: any = await response.json();
 
@@ -1179,11 +1179,38 @@ export default class Client {
         return result;
     }
 
+    public async getUpdateNotifications(version: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`,
+            requestInit,
+            [200],
+            { description: "UpdateNotifications get" });
+
+        const rawResult: any = await response.json();
+
+        let updateNotification = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            updateNotification = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = updateNotification;
+        return result;
+    }
+
     public async sendNotificationToUser(options: { userId: string, shortMessage: string, longMessage?: string }): Promise<void> {
         const requestInit: RequestInit = {
             headers: new Headers({
                 "Content-Type": "application/x-www-form-urlencoded",
                 "OCS-APIRequest": "true",
+                "Accept": "application/json"
             }),
             method: "POST",
         };
@@ -1194,7 +1221,7 @@ export default class Client {
         }
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${options.userId}?shortMessage=${options.shortMessage}${longMessage}&format=json`,
+            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${options.userId}?shortMessage=${options.shortMessage}${longMessage}`,
             requestInit,
             [200],
             { description: "User create" });
@@ -1210,15 +1237,15 @@ export default class Client {
      */
     public async getApps(): Promise<Array<string>> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" }),
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/apps?format=json",
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/apps",
             requestInit,
             [200],
-            { description: "SystemInfo get" });
+            { description: "Apps get" });
 
         const rawResult: any = await response.json();
 
@@ -1236,15 +1263,15 @@ export default class Client {
     }
     public async getAppInfos(appName: string): Promise<object> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" }),
+            headers: new Headers({ "ocs-apirequest": "true" , "Accept": "application/json"}),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v1.php/cloud/apps/${appName}?format=json`,
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/apps/${appName}`,
             requestInit,
             [200],
-            { description: "SystemInfo get" });
+            { description: "App Infos get" });
 
         const rawResult: any = await response.json();
 
