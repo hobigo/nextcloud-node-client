@@ -49,3 +49,4 @@ dist/**/*.js
 dist/**/*.ts
 *.map
 package-lock.json
+*.code-workspace

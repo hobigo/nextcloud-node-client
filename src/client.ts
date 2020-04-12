@@ -52,21 +52,21 @@ interface IStat {
     "mime"?: string;
     "fileid"?: number;
 }
-export interface ISysInfoNextcloudSystem {
-    "version": string;
-}
 
 export interface ISysInfoNextcloudClient {
     "version": string;
 }
 
 export interface ISysInfoNextcloud {
-    "system": ISysInfoNextcloudSystem;
+    "system": object;
+    "storage": object;
+    "shares": object;
 }
 
 export interface ISystemInfo {
-
     "nextcloud": ISysInfoNextcloud;
+    "server": object;
+    "activeUsers": object;
     "nextcloudClient": ISysInfoNextcloudClient;
 }
 
@@ -1083,24 +1083,60 @@ export default class Client {
 
         const rawResult: any = await response.json();
         // validate the raw result
-        let version: string;
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data.nextcloud &&
-            rawResult.ocs.data.nextcloud.system &&
-            rawResult.ocs.data.nextcloud.system.version) {
-            version = rawResult.ocs.data.nextcloud.system.version;
+        let system = {};
+        let storage = {};
+        let shares = {};
+        let server = {};
+        let activeUsers = {};
+
+        if (rawResult.ocs && rawResult.ocs.data && rawResult.ocs.data) {
+            if (rawResult.ocs.data.nextcloud) {
+                if (rawResult.ocs.data.nextcloud.system) {
+                    system = rawResult.ocs.data.nextcloud.system
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.system missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+
+                if (rawResult.ocs.data.nextcloud.storage) {
+                    storage = rawResult.ocs.data.nextcloud.storage
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.storage missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+
+                if (rawResult.ocs.data.nextcloud.shares) {
+                    shares = rawResult.ocs.data.nextcloud.shares
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.shares missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.nextcloud missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
+            if (rawResult.ocs.data.server) {
+                server = rawResult.ocs.data.server
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.server missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
+            if (rawResult.ocs.data.activeUsers) {
+                activeUsers = rawResult.ocs.data.activeUsers
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.activeUsers missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
         } else {
-            throw new ClientError("Fatal Error: nextcloud system version missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            throw new ClientError("Fatal Error: nextcloud system data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
+
         const result: ISystemInfo = {
             nextcloud:
             {
-                system:
-                {
-                    version,
-                },
+                system: system,
+                storage: storage,
+                shares: shares
             },
+            server: server,
+            activeUsers: activeUsers,
             nextcloudClient:
             {
                 version: require("../package.json").version,
