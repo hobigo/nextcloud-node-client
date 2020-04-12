@@ -70,11 +70,6 @@ export interface ISystemInfo {
     "nextcloudClient": ISysInfoNextcloudClient;
 }
 
-export interface INotifications {
-    "list": Array<object>;
-}
-
-
 export interface IQuota {
     used: number;
     available: number | string;
@@ -1158,7 +1153,7 @@ export default class Client {
     /**
      * returns notifications
      */
-    public async getNotifications(): Promise<INotifications> {
+    public async getNotifications(): Promise<Array<object>> {
         const requestInit: RequestInit = {
             headers: new Headers({ "ocs-apirequest": "true" }),
             method: "GET",
@@ -1180,9 +1175,7 @@ export default class Client {
             throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
 
-        const result: INotifications = {
-            list: notifications
-        };
+        const result: Array<object> = notifications;
         return result;
     }
 
