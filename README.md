@@ -291,6 +291,7 @@ A code coverage of 100% is aspired
 ### User management
 User: 
 * get
+* getIds limit, offset, search
 * create
 * update
 * delete 

@@ -1137,12 +1137,14 @@ export default class Client {
         return users;
     }
 
-    public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
+    public async createUser(options: { userid: string, displayName: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
-            body: JSON.stringify(options, null, 4),
+            body: JSON.stringify({ userid: "aaaaaa", email: "gockel@hobigo.de" }, null, 4),// JSON.stringify(options, null, 4),
             headers: new Headers({
-                "Content-Type": "application/x-www-form-urlencoded",
+                // "Content-Type": "application/x-www-form-urlencoded",
                 "OCS-APIRequest": "true",
+                "Accept": "application/json",
+                "Content-Type": "application/json"
             }),
             method: "POST",
         };
@@ -1153,6 +1155,12 @@ export default class Client {
             [200],
             { description: "User create" });
         const rawResult: any = await response.json();
+
+        // ocs.meta.status=failure
+        // ocs.meta.statuscode: 102 already exists, 101 bad request
+        // ocs.meta.status=ok
+        // ocs.meta.statuscode: 100 ok
+
         debug(rawResult);
     }
 

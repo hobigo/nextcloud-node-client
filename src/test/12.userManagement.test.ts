@@ -37,10 +37,40 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     });
 
-    it.skip("02 create users", async () => {
+    it("02 get users with wrong response", async () => {
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "Users get",
+                method: "GET",
+                url: "/ocs/v1.php/cloud/users",
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"usersXXX\":[\"holger\",\"htborstenson\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+
+        let users;
+        try {
+            users = await lclient.getUserIDs();
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal(null);
+        }
+        expect(users).to.be.a("array");
+        if (users) {
+            expect(users.length, "expect an empty user list").to.be.equal(0);
+        }
+
+    });
+
+    it.only("03 create user", async () => {
 
         try {
-            await client.createUser({ userId: "ncnc-test-user-id-1", password: "This is a Password #2#3", displayName: "Petra Huber" });
+            await client.createUser({ userid: "ncnc-test-user-id-1", password: "This is a Password #2#3", displayName: "Petra Huber" });
         } catch (e) {
             expect(e.message, "expect no exception").to.be.equal(null);
         }
