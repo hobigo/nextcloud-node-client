@@ -1147,6 +1147,29 @@ export default class Client {
         return result;
     }
 
+    public async getSystemBasicData(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+            requestInit,
+            [200],
+            { description: "System Basic Data get" });
+
+        const rawResult: any = await response.json();
+
+        let basicData = {};
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            basicData = rawResult.ocs.data;
+        }
+        const result: object = basicData;
+
+        return result;
+    }
+
     // ***************************************************************************************
     // notfication management
     // ***************************************************************************************
