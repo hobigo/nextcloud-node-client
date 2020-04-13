@@ -1338,6 +1338,27 @@ export default class Client {
         return groupDetails;
     }
 
+    public async getGroupsDetailsByID(groupId: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/groups/${groupId}`,
+            requestInit,
+            [200],
+            { description: "UserDetailsByID get" });
+        const rawResult: any = await response.json();
+        let groupDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            groupDetails = rawResult.ocs.data;
+        }
+        return groupDetails;
+    }
+
     // ***************************************************************************************
     // user management
     // ***************************************************************************************
