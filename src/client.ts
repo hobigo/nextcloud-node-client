@@ -1288,6 +1288,55 @@ export default class Client {
         return result;
     }
 
+    // ***************************************************************************************
+    // group management
+    // ***************************************************************************************
+    /**
+     * returns groups
+     */
+    public async getGroups(): Promise<Array<string>> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups",
+            requestInit,
+            [200],
+            { description: "Groups get" });
+        const rawResult: any = await response.json();
+        let groups: Array<string> = [];
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data) {
+            groups = rawResult.ocs.data;
+        }
+        return groups;
+    }
+
+    public async getGroupsDetails(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups/details",
+            requestInit,
+            [200],
+            { description: "GroupsDetails get" });
+        const rawResult: any = await response.json();
+        let groupDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data) {
+            groupDetails = rawResult.ocs.data;
+        }
+        return groupDetails;
+    }
 
     // ***************************************************************************************
     // user management
