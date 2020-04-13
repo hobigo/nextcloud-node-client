@@ -1263,7 +1263,7 @@ export default class Client {
     }
     public async getAppInfos(appName: string): Promise<object> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" , "Accept": "application/json"}),
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
@@ -1306,7 +1306,7 @@ export default class Client {
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
-            { description: "Users get" });
+            { description: "UserIDs get" });
         const rawResult: any = await response.json();
         let users: string[] = [];
         if (rawResult.ocs &&
@@ -1315,6 +1315,49 @@ export default class Client {
             users = rawResult.ocs.data.users;
         }
         return users;
+    }
+
+    public async getUserDetails(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/users/details",
+            requestInit,
+            [200],
+            { description: "UserDetails get" });
+        const rawResult: any = await response.json();
+        let usersDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.users) {
+            usersDetails = rawResult.ocs.data.users;
+        }
+        return usersDetails;
+    }
+
+    public async getUserDetailsByID(userId: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/users/${userId}`,
+            requestInit,
+            [200],
+            { description: "UserDetailsByID get" });
+        const rawResult: any = await response.json();
+        let userDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            userDetails = rawResult.ocs.data;
+        }
+        return userDetails;
     }
 
     public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
