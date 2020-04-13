@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Object model in readme 
 - usage of coveralls
+- increaded vode coverage
 
 ## 1.1.1 - 2020-01-28
 ### Added
