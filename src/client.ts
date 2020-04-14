@@ -52,21 +52,21 @@ interface IStat {
     "mime"?: string;
     "fileid"?: number;
 }
-export interface ISysInfoNextcloudSystem {
-    "version": string;
-}
 
 export interface ISysInfoNextcloudClient {
     "version": string;
 }
 
 export interface ISysInfoNextcloud {
-    "system": ISysInfoNextcloudSystem;
+    "system": object;
+    "storage": object;
+    "shares": object;
 }
 
 export interface ISystemInfo {
-
     "nextcloud": ISysInfoNextcloud;
+    "server": object;
+    "activeUsers": object;
     "nextcloudClient": ISysInfoNextcloudClient;
 }
 
@@ -1066,47 +1066,320 @@ export default class Client {
         return comments;
     }
 
+
+
     /**
      * returns system information about the nextcloud server and the nextcloud client
      */
     public async getSystemInfo(): Promise<ISystemInfo> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true" }),
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info?format=json",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info",
             requestInit,
             [200],
             { description: "SystemInfo get" });
 
         const rawResult: any = await response.json();
         // validate the raw result
-        let version: string;
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data.nextcloud &&
-            rawResult.ocs.data.nextcloud.system &&
-            rawResult.ocs.data.nextcloud.system.version) {
-            version = rawResult.ocs.data.nextcloud.system.version;
+        let system = {};
+        let storage = {};
+        let shares = {};
+        let server = {};
+        let activeUsers = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            if (rawResult.ocs.data.nextcloud) {
+                if (rawResult.ocs.data.nextcloud.system) {
+                    system = rawResult.ocs.data.nextcloud.system
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.system missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+
+                if (rawResult.ocs.data.nextcloud.storage) {
+                    storage = rawResult.ocs.data.nextcloud.storage
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.storage missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+
+                if (rawResult.ocs.data.nextcloud.shares) {
+                    shares = rawResult.ocs.data.nextcloud.shares
+                } else {
+                    throw new ClientError("Fatal Error: nextcloud data.nextcloud.shares missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+                }
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.nextcloud missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
+            if (rawResult.ocs.data.server) {
+                server = rawResult.ocs.data.server
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.server missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
+            if (rawResult.ocs.data.activeUsers) {
+                activeUsers = rawResult.ocs.data.activeUsers
+            } else {
+                throw new ClientError("Fatal Error: nextcloud data.activeUsers missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            }
+
         } else {
-            throw new ClientError("Fatal Error: nextcloud system version missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            throw new ClientError("Fatal Error: nextcloud system data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
+
         const result: ISystemInfo = {
             nextcloud:
             {
-                system:
-                {
-                    version,
-                },
+                system: system,
+                storage: storage,
+                shares: shares
             },
+            server: server,
+            activeUsers: activeUsers,
             nextcloudClient:
             {
                 version: require("../package.json").version,
             },
         };
         return result;
+    }
+
+    public async getSystemBasicData(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+            requestInit,
+            [200],
+            { description: "System Basic Data get" });
+
+        const rawResult: any = await response.json();
+
+        let basicData = {};
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            basicData = rawResult.ocs.data;
+        }
+        const result: object = basicData;
+
+        return result;
+    }
+
+    // ***************************************************************************************
+    // notfication management
+    // ***************************************************************************************
+    /**
+     * returns notifications
+     */
+    public async getNotifications(): Promise<Array<object>> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
+            requestInit,
+            [200],
+            { description: "Notifications get" });
+
+        const rawResult: any = await response.json();
+
+        let notifications = []
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            notifications = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: Array<object> = notifications;
+        return result;
+    }
+
+    public async getUpdateNotifications(version: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`,
+            requestInit,
+            [200],
+            { description: "UpdateNotifications get" });
+
+        const rawResult: any = await response.json();
+
+        let updateNotification = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            updateNotification = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = updateNotification;
+        return result;
+    }
+
+    public async sendNotificationToUser(options: { userId: string, shortMessage: string, longMessage?: string }): Promise<void> {
+        const requestInit: RequestInit = {
+            headers: new Headers({
+                "Content-Type": "application/x-www-form-urlencoded",
+                "OCS-APIRequest": "true",
+                "Accept": "application/json"
+            }),
+            method: "POST",
+        };
+
+        let longMessage = ''
+        if (options.longMessage) {
+            longMessage = `&longMessage=${options.longMessage}`;
+        }
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${options.userId}?shortMessage=${options.shortMessage}${longMessage}`,
+            requestInit,
+            [200],
+            { description: "User create" });
+        const rawResult: any = await response.json();
+        debug(rawResult);
+    }
+
+    // ***************************************************************************************
+    // apps management
+    // ***************************************************************************************
+    /**
+     * returns apps
+     */
+    public async getApps(): Promise<Array<string>> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/apps",
+            requestInit,
+            [200],
+            { description: "Apps get" });
+
+        const rawResult: any = await response.json();
+
+        let apps = []
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            apps = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: Array<string> = apps;
+
+        return result;
+    }
+    public async getAppInfos(appName: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/apps/${appName}`,
+            requestInit,
+            [200],
+            { description: "App Infos get" });
+
+        const rawResult: any = await response.json();
+
+        let appInfo = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            appInfo = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = appInfo;
+
+        return result;
+    }
+
+    // ***************************************************************************************
+    // group management
+    // ***************************************************************************************
+    /**
+     * returns groups
+     */
+    public async getGroups(): Promise<Array<string>> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups",
+            requestInit,
+            [200],
+            { description: "Groups get" });
+        const rawResult: any = await response.json();
+        let groups: Array<string> = [];
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data) {
+            groups = rawResult.ocs.data;
+        }
+        return groups;
+    }
+
+    public async getGroupsDetails(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups/details",
+            requestInit,
+            [200],
+            { description: "GroupsDetails get" });
+        const rawResult: any = await response.json();
+        let groupDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data) {
+            groupDetails = rawResult.ocs.data;
+        }
+        return groupDetails;
+    }
+
+    public async getGroupsDetailsByID(groupId: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/groups/${groupId}`,
+            requestInit,
+            [200],
+            { description: "UserDetailsByID get" });
+        const rawResult: any = await response.json();
+        let groupDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            groupDetails = rawResult.ocs.data;
+        }
+        return groupDetails;
     }
 
     // ***************************************************************************************
@@ -1126,7 +1399,7 @@ export default class Client {
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
-            { description: "Users get" });
+            { description: "UserIDs get" });
         const rawResult: any = await response.json();
         let users: string[] = [];
         if (rawResult.ocs &&
@@ -1137,7 +1410,50 @@ export default class Client {
         return users;
     }
 
-    public async createUser(options: { userid: string, displayName: string, password: string }): Promise<void> {
+    public async getUserDetails(): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + "/ocs/v1.php/cloud/users/details",
+            requestInit,
+            [200],
+            { description: "UserDetails get" });
+        const rawResult: any = await response.json();
+        let usersDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.users) {
+            usersDetails = rawResult.ocs.data.users;
+        }
+        return usersDetails;
+    }
+
+    public async getUserDetailsByID(userId: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            // ?perPage=1 page=
+            this.nextcloudOrigin + `/ocs/v1.php/cloud/users/${userId}`,
+            requestInit,
+            [200],
+            { description: "UserDetailsByID get" });
+        const rawResult: any = await response.json();
+        let userDetails: object = {};
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            userDetails = rawResult.ocs.data;
+        }
+        return userDetails;
+    }
+
+    public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
             body: JSON.stringify({ userid: "aaaaaa", email: "gockel@hobigo.de" }, null, 4),// JSON.stringify(options, null, 4),
             headers: new Headers({

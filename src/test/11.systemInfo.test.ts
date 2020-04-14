@@ -32,8 +32,15 @@ describe("11-NEXCLOUD-NODE-CLIENT-SYSTEM-INFO", function () {
             sysInfo = await client.getSystemInfo();
             expect(sysInfo).to.have.property("nextcloud");
             expect(sysInfo.nextcloud).to.have.property("system");
-            expect(sysInfo.nextcloud.system).to.have.property("version");
-            expect(sysInfo.nextcloud.system.version).to.be.a("string");
+            expect(sysInfo.nextcloud.system).to.be.a("object");
+            expect(sysInfo.nextcloud).to.have.property("storage");
+            expect(sysInfo.nextcloud.storage).to.be.a("object");
+            expect(sysInfo.nextcloud).to.have.property("shares");
+            expect(sysInfo.nextcloud.shares).to.be.a("object");
+            expect(sysInfo).to.have.property("server");
+            expect(sysInfo.server).to.be.a("object");
+            expect(sysInfo).to.have.property("activeUsers");
+            expect(sysInfo.activeUsers).to.be.a("object");
             expect(sysInfo).to.have.property("nextcloudClient");
             expect(sysInfo.nextcloudClient).to.have.property("version");
             expect(sysInfo.nextcloudClient.version).to.be.a("string");
