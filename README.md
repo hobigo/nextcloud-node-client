@@ -6,7 +6,7 @@ Access nextcloud remotely from node.js applications with a rich and simple TypeS
 ![](https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg)
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
-[![Coverage Status](https://coveralls.io/repos/github/hobigo/nextcloud-node-client/badge.svg)](https://coveralls.io/github/hobigo/nextcloud-node-client)
+[![Coverage Status](https://coveralls.io/repos/github/hobigo/nextcloud-node-client/badge.svg?branch=master)](https://coveralls.io/github/hobigo/nextcloud-node-client?branch=master)
 [![Install Size](https://packagephobia.now.sh/badge?p=commander)](https://packagephobia.now.sh/result?p=nextcloud-node-client)
 [![documentation](https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website)](https://hobigo.github.io/nextcloud-node-client)
 [![Gitter](https://badges.gitter.im/nextcloud-node-client/community.svg)](https://gitter.im/nextcloud-node-client/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
