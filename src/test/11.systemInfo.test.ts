@@ -5,6 +5,7 @@ import "mocha";
 import {
     Client,
     ISystemInfo,
+    ISysBasicData,
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -233,5 +234,100 @@ describe("11-NEXCLOUD-NODE-CLIENT-SYSTEM-INFO", function () {
         expect(errorCode, "expect an exception with the code").to.be.equal("ERR_SYSTEM_INFO_MISSING_DATA");
     });
 
+    it("10 get system basic data", async () => {
+
+        let sysInfo: ISysBasicData;
+        try {
+            sysInfo = await client.getSystemBasicData();
+
+            expect(sysInfo).to.have.property("serverTimeString");
+            expect(sysInfo.serverTimeString).to.be.a("string");
+            expect(sysInfo).to.have.property("uptimeString");
+            expect(sysInfo.uptimeString).to.be.a("string");
+            expect(sysInfo).to.have.property("timeServersString");
+            expect(sysInfo.timeServersString).to.be.a("string");
+        } catch (e) {
+            expect(e, "expect no exception").to.be.equal(null);
+        }
+
+    });
+
+    it("11 get system basic data fails - servertime", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "SystemInfo get",
+                method: "GET",
+                url: "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"NOTFOUND-servertime\":\"Tue Apr 14 12:45:28 CEST 2020\\n\",\"uptime\":\"up 9 weeks, 5 days, 23 hours, 41 minutes\\n\",\"timeservers\":\" \"}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let errorCode = "";
+        try {
+            await lclient.getSystemBasicData();
+        } catch (e) {
+            errorCode = e.code || e.message;
+        }
+        expect(errorCode, "expect an exception with the code").to.be.equal("ERR_SYSTEM_INFO_MISSING_DATA");
+    });
+
+    it("12 get system basic data fails - uptime", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "SystemInfo get",
+                method: "GET",
+                url: "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Tue Apr 14 12:45:28 CEST 2020\\n\",\"NOTFOUND-uptime\":\"up 9 weeks, 5 days, 23 hours, 41 minutes\\n\",\"timeservers\":\" \"}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let errorCode = "";
+        try {
+            await lclient.getSystemBasicData();
+        } catch (e) {
+            errorCode = e.code || e.message;
+        }
+        expect(errorCode, "expect an exception with the code").to.be.equal("ERR_SYSTEM_INFO_MISSING_DATA");
+    });
+
+    it("13 get system basic data fails - timeservers", async () => {
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                description: "SystemInfo get",
+                method: "GET",
+                url: "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Tue Apr 14 12:45:28 CEST 2020\\n\",\"uptime\":\"up 9 weeks, 5 days, 23 hours, 41 minutes\\n\",\"NOTFOUND-timeservers\":\" \"}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let errorCode = "";
+        try {
+            await lclient.getSystemBasicData();
+        } catch (e) {
+            errorCode = e.code || e.message;
+        }
+        expect(errorCode, "expect an exception with the code").to.be.equal("ERR_SYSTEM_INFO_MISSING_DATA");
+    });
 
 });

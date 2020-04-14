@@ -63,9 +63,18 @@ export interface ISysInfoNextcloud {
     "shares": object;
 }
 
+
+export interface ISysBasicData {
+    "serverTimeString": string;
+    "uptimeString": string;
+    "timeServersString": string;
+}
+
 export interface ISystemInfo {
     "nextcloud": ISysInfoNextcloud;
+    // @todo change object to something strongly typed
     "server": object;
+    // @todo change object to something strongly typed
     "activeUsers": object;
     "nextcloudClient": ISysInfoNextcloudClient;
 }
@@ -1145,7 +1154,7 @@ export default class Client {
         return result;
     }
 
-    public async getSystemBasicData(): Promise<object> {
+    public async getSystemBasicData(): Promise<ISysBasicData> {
         const requestInit: RequestInit = {
             headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
@@ -1158,12 +1167,23 @@ export default class Client {
             { description: "System Basic Data get" });
 
         const rawResult: any = await response.json();
+        // console.log("Basic Data\n", JSON.stringify(rawResult));
+        let result: ISysBasicData;
 
-        let basicData = {};
-        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
-            basicData = rawResult.ocs.data;
+        if (rawResult &&
+            rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.servertime &&
+            rawResult.ocs.data.uptime &&
+            rawResult.ocs.data.timeservers) {
+            result = {
+                serverTimeString: rawResult.ocs.data.servertime.replace("\n", ""),
+                uptimeString: rawResult.ocs.data.uptime.replace("\n", ""),
+                timeServersString: rawResult.ocs.data.timeservers.trim(),
+            }
+        } else {
+            throw new ClientError("Fatal Error: nextcloud basic data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
-        const result: object = basicData;
 
         return result;
     }
