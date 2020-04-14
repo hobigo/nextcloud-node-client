@@ -1066,8 +1066,6 @@ export default class Client {
         return comments;
     }
 
-
-
     /**
      * returns system information about the nextcloud server and the nextcloud client
      */
@@ -1094,19 +1092,19 @@ export default class Client {
         if (rawResult && rawResult.ocs && rawResult.ocs.data) {
             if (rawResult.ocs.data.nextcloud) {
                 if (rawResult.ocs.data.nextcloud.system) {
-                    system = rawResult.ocs.data.nextcloud.system
+                    system = rawResult.ocs.data.nextcloud.system;
                 } else {
                     throw new ClientError("Fatal Error: nextcloud data.nextcloud.system missing", "ERR_SYSTEM_INFO_MISSING_DATA");
                 }
 
                 if (rawResult.ocs.data.nextcloud.storage) {
-                    storage = rawResult.ocs.data.nextcloud.storage
+                    storage = rawResult.ocs.data.nextcloud.storage;
                 } else {
                     throw new ClientError("Fatal Error: nextcloud data.nextcloud.storage missing", "ERR_SYSTEM_INFO_MISSING_DATA");
                 }
 
                 if (rawResult.ocs.data.nextcloud.shares) {
-                    shares = rawResult.ocs.data.nextcloud.shares
+                    shares = rawResult.ocs.data.nextcloud.shares;
                 } else {
                     throw new ClientError("Fatal Error: nextcloud data.nextcloud.shares missing", "ERR_SYSTEM_INFO_MISSING_DATA");
                 }
@@ -1115,13 +1113,13 @@ export default class Client {
             }
 
             if (rawResult.ocs.data.server) {
-                server = rawResult.ocs.data.server
+                server = rawResult.ocs.data.server;
             } else {
                 throw new ClientError("Fatal Error: nextcloud data.server missing", "ERR_SYSTEM_INFO_MISSING_DATA");
             }
 
             if (rawResult.ocs.data.activeUsers) {
-                activeUsers = rawResult.ocs.data.activeUsers
+                activeUsers = rawResult.ocs.data.activeUsers;
             } else {
                 throw new ClientError("Fatal Error: nextcloud data.activeUsers missing", "ERR_SYSTEM_INFO_MISSING_DATA");
             }
@@ -1131,18 +1129,18 @@ export default class Client {
         }
 
         const result: ISystemInfo = {
+            activeUsers,
             nextcloud:
             {
-                system: system,
-                storage: storage,
-                shares: shares
+                shares,
+                storage,
+                system,
             },
-            server: server,
-            activeUsers: activeUsers,
             nextcloudClient:
             {
                 version: require("../package.json").version,
             },
+            server,
         };
         return result;
     }
@@ -1176,7 +1174,7 @@ export default class Client {
     /**
      * returns notifications
      */
-    public async getNotifications(): Promise<Array<object>> {
+    public async getNotifications(): Promise<object[]> {
         const requestInit: RequestInit = {
             headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
@@ -1190,7 +1188,7 @@ export default class Client {
 
         const rawResult: any = await response.json();
 
-        let notifications = []
+        let notifications = [];
 
         if (rawResult && rawResult.ocs && rawResult.ocs.data) {
             notifications = rawResult.ocs.data;
@@ -1198,7 +1196,7 @@ export default class Client {
             throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
 
-        const result: Array<object> = notifications;
+        const result: object[] = notifications;
         return result;
     }
 
@@ -1231,14 +1229,14 @@ export default class Client {
     public async sendNotificationToUser(options: { userId: string, shortMessage: string, longMessage?: string }): Promise<void> {
         const requestInit: RequestInit = {
             headers: new Headers({
+                "Accept": "application/json",
                 "Content-Type": "application/x-www-form-urlencoded",
                 "OCS-APIRequest": "true",
-                "Accept": "application/json"
             }),
             method: "POST",
         };
 
-        let longMessage = ''
+        let longMessage = "";
         if (options.longMessage) {
             longMessage = `&longMessage=${options.longMessage}`;
         }
@@ -1258,7 +1256,7 @@ export default class Client {
     /**
      * returns apps
      */
-    public async getApps(): Promise<Array<string>> {
+    public async getApps(): Promise<string[]> {
         const requestInit: RequestInit = {
             headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
             method: "GET",
@@ -1272,7 +1270,7 @@ export default class Client {
 
         const rawResult: any = await response.json();
 
-        let apps = []
+        let apps = [];
 
         if (rawResult && rawResult.ocs && rawResult.ocs.data) {
             apps = rawResult.ocs.data;
@@ -1280,7 +1278,7 @@ export default class Client {
             throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
         }
 
-        const result: Array<string> = apps;
+        const result: string[] = apps;
 
         return result;
     }
@@ -1317,7 +1315,7 @@ export default class Client {
     /**
      * returns groups
      */
-    public async getGroups(): Promise<Array<string>> {
+    public async getGroups(): Promise<string[]> {
         const requestInit: RequestInit = {
             headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
             method: "GET",
@@ -1330,7 +1328,7 @@ export default class Client {
             [200],
             { description: "Groups get" });
         const rawResult: any = await response.json();
-        let groups: Array<string> = [];
+        let groups: string[] = [];
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data) {
@@ -1455,12 +1453,12 @@ export default class Client {
 
     public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
-            body: JSON.stringify({ userid: "aaaaaa", email: "gockel@hobigo.de" }, null, 4),// JSON.stringify(options, null, 4),
+            body: JSON.stringify(options, null, 4),
             headers: new Headers({
                 // "Content-Type": "application/x-www-form-urlencoded",
-                "OCS-APIRequest": "true",
                 "Accept": "application/json",
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "OCS-APIRequest": "true",
             }),
             method: "POST",
         };

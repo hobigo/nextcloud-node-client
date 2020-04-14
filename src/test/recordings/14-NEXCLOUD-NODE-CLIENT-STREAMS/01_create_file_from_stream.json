@@ -26,54 +26,8 @@
             }
         },
         "response": {
-            "status": 404,
-            "body": "",
-            "contentType": "text/html; charset=UTF-8",
-            "contentLocation": ""
-        }
-    },
-    {
-        "request": {
-            "url": "/remote.php/webdav/ncncTest/streams",
-            "method": "MKCOL",
-            "description": "Folder create"
-        },
-        "response": {
-            "status": 201,
-            "body": "",
-            "contentType": "text/html; charset=UTF-8",
-            "contentLocation": ""
-        }
-    },
-    {
-        "request": {
-            "url": "/remote.php/webdav/ncncTest/streams",
-            "method": "PROPFIND",
-            "description": "File/Folder get details",
-            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
-            "jsonBody": {
-                "propfind": {
-                    "prop": {
-                        "getlastmodified": "",
-                        "getetag": "",
-                        "getcontenttype": "",
-                        "resourcetype": "",
-                        "fileid": "",
-                        "permissions": "",
-                        "size": "",
-                        "getcontentlength": "",
-                        "has-preview": "",
-                        "favorite": "",
-                        "comments-unread": "",
-                        "owner-display-name": "",
-                        "share-types": ""
-                    }
-                }
-            }
-        },
-        "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/streams/</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 07 Feb 2020 10:20:02 GMT</d:getlastmodified><d:getetag>&quot;5e3d39d2b493e&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>202097</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/streams/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:07:03 GMT</d:getlastmodified><d:getetag>&quot;5e956117d3acc&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>202097</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -83,8 +37,8 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Fri, 07 Feb 2020 10:20:02 GMT",
-                                    "getetag": "&quot;5e3d39d2b493e&quot;",
+                                    "getlastmodified": "Tue, 14 Apr 2020 07:07:03 GMT",
+                                    "getetag": "&quot;5e956117d3acc&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
@@ -157,7 +111,7 @@
                 "mode": 438,
                 "end": null,
                 "autoClose": true,
-                "bytesRead": 1602,
+                "bytesRead": 2432,
                 "closed": true
             }
         },
@@ -196,7 +150,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/streams/14.streams.test.ts</d:href><d:propstat><d:prop><d:getlastmodified>Fri, 07 Feb 2020 10:20:03 GMT</d:getlastmodified><d:getetag>&quot;9e9d94e8b7626fd9c0483ddb79194244&quot;</d:getetag><d:getcontenttype>application/octet-stream</d:getcontenttype><d:resourcetype/><oc:fileid>202098</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>1602</oc:size><d:getcontentlength>1602</d:getcontentlength><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/streams/14.streams.test.ts</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:09:35 GMT</d:getlastmodified><d:getetag>&quot;3af4c146d7099ef2e82ced8fea15348d&quot;</d:getetag><d:getcontenttype>application/octet-stream</d:getcontenttype><d:resourcetype/><oc:fileid>208635</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>2432</oc:size><d:getcontentlength>2432</d:getcontentlength><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -205,14 +159,14 @@
                         "href": "/remote.php/webdav/ncncTest/streams/14.streams.test.ts",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Fri, 07 Feb 2020 10:20:03 GMT",
-                                "getetag": "&quot;9e9d94e8b7626fd9c0483ddb79194244&quot;",
+                                "getlastmodified": "Tue, 14 Apr 2020 07:09:35 GMT",
+                                "getetag": "&quot;3af4c146d7099ef2e82ced8fea15348d&quot;",
                                 "getcontenttype": "application/octet-stream",
                                 "resourcetype": "",
-                                "fileid": 202098,
+                                "fileid": 208635,
                                 "permissions": "RGDNVW",
-                                "size": 1602,
-                                "getcontentlength": 1602,
+                                "size": 2432,
+                                "getcontentlength": 2432,
                                 "has-preview": false,
                                 "favorite": 0,
                                 "comments-unread": 0,

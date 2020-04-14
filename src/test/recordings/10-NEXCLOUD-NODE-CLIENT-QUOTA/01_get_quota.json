@@ -7,26 +7,74 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:49:13 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>5368709120</d:quota-available-bytes><d:getetag>&quot;5e2f76f921d23&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:09:29 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>23</d:quota-used-bytes><d:quota-available-bytes>5368709097</d:quota-available-bytes><d:getetag>&quot;5e9561a93ce70&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/donnerwtter.md</d:href><d:propstat><d:prop><d:getlastmodified>Thu, 06 Feb 2020 11:02:35 GMT</d:getlastmodified><d:getcontentlength>23</d:getcontentlength><d:resourcetype/><d:getetag>&quot;579bab057d4fc8e97c0dea01ff08c95c&quot;</d:getetag><d:getcontenttype>text/markdown</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/ncncTest/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:07:03 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>5368709097</d:quota-available-bytes><d:getetag>&quot;5e956117d3acc&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
-                    "response": {
-                        "href": "/remote.php/webdav/",
-                        "propstat": {
-                            "prop": {
-                                "getlastmodified": "Mon, 27 Jan 2020 23:49:13 GMT",
-                                "resourcetype": {
-                                    "collection": ""
+                    "response": [
+                        {
+                            "href": "/remote.php/webdav/",
+                            "propstat": {
+                                "prop": {
+                                    "getlastmodified": "Tue, 14 Apr 2020 07:09:29 GMT",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "quota-used-bytes": 23,
+                                    "quota-available-bytes": 5368709097,
+                                    "getetag": "&quot;5e9561a93ce70&quot;"
                                 },
-                                "quota-used-bytes": 0,
-                                "quota-available-bytes": 5368709120,
-                                "getetag": "&quot;5e2f76f921d23&quot;"
-                            },
-                            "status": "HTTP/1.1 200 OK"
+                                "status": "HTTP/1.1 200 OK"
+                            }
+                        },
+                        {
+                            "href": "/remote.php/webdav/donnerwtter.md",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Thu, 06 Feb 2020 11:02:35 GMT",
+                                        "getcontentlength": 23,
+                                        "resourcetype": "",
+                                        "getetag": "&quot;579bab057d4fc8e97c0dea01ff08c95c&quot;",
+                                        "getcontenttype": "text/markdown"
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "quota-used-bytes": "",
+                                        "quota-available-bytes": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/ncncTest/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Tue, 14 Apr 2020 07:07:03 GMT",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "quota-used-bytes": 0,
+                                        "quota-available-bytes": 5368709097,
+                                        "getetag": "&quot;5e956117d3acc&quot;"
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
+                                },
+                                {
+                                    "prop": {
+                                        "getcontentlength": "",
+                                        "getcontenttype": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
                         }
-                    }
+                    ]
                 }
             }
         }

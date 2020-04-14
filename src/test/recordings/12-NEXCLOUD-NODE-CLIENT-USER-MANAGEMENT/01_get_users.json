@@ -3,11 +3,11 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users",
             "method": "GET",
-            "description": "Users get"
+            "description": "UserIDs get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"htborstenson\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"htborstenson\",\"martin\",\"peter\",\"tttttt\",\"ttttttt\"]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -22,7 +22,11 @@
                     "data": {
                         "users": [
                             "holger",
-                            "htborstenson"
+                            "htborstenson",
+                            "martin",
+                            "peter",
+                            "tttttt",
+                            "ttttttt"
                         ]
                     }
                 }

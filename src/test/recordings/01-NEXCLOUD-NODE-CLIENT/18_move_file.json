@@ -73,7 +73,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:48:27 GMT</d:getlastmodified><d:getetag>&quot;5e2f76cb2be6f&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>107145</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:08:29 GMT</d:getlastmodified><d:getetag>&quot;5e95616dcf380&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>208589</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -83,12 +83,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jan 2020 23:48:27 GMT",
-                                    "getetag": "&quot;5e2f76cb2be6f&quot;",
+                                    "getlastmodified": "Tue, 14 Apr 2020 07:08:29 GMT",
+                                    "getetag": "&quot;5e95616dcf380&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 107145,
+                                    "fileid": 208589,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -140,7 +140,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:48:27 GMT</d:getlastmodified><d:getetag>&quot;5e2f76cb2be6f&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>107145</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:08:29 GMT</d:getlastmodified><d:getetag>&quot;5e95616dcf380&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>208589</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -150,12 +150,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jan 2020 23:48:27 GMT",
-                                    "getetag": "&quot;5e2f76cb2be6f&quot;",
+                                    "getlastmodified": "Tue, 14 Apr 2020 07:08:29 GMT",
+                                    "getetag": "&quot;5e95616dcf380&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 107145,
+                                    "fileid": 208589,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -183,7 +183,7 @@
         "request": {
             "url": "/remote.php/webdav/test/renameFile/sourceFile.txt",
             "method": "PUT",
-            "description": "File save content",
+            "description": "File save content from buffer",
             "body": {
                 "type": "Buffer",
                 "data": [
@@ -229,7 +229,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/sourceFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:48:27 GMT</d:getlastmodified><d:getetag>&quot;aec6b00a2edc759907ef65c5d1620683&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>107146</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/sourceFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:08:30 GMT</d:getlastmodified><d:getetag>&quot;7cae68b3399893984a3fa5c6bb2b2fe0&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>208590</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -238,11 +238,11 @@
                         "href": "/remote.php/webdav/test/renameFile/sourceFile.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Mon, 27 Jan 2020 23:48:27 GMT",
-                                "getetag": "&quot;aec6b00a2edc759907ef65c5d1620683&quot;",
+                                "getlastmodified": "Tue, 14 Apr 2020 07:08:30 GMT",
+                                "getetag": "&quot;7cae68b3399893984a3fa5c6bb2b2fe0&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 107146,
+                                "fileid": 208590,
                                 "permissions": "RGDNVW",
                                 "size": 4,
                                 "getcontentlength": 4,
@@ -300,7 +300,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/targetFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jan 2020 23:48:27 GMT</d:getlastmodified><d:getetag>&quot;aec6b00a2edc759907ef65c5d1620683&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>107146</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/renameFile/targetFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 14 Apr 2020 07:08:30 GMT</d:getlastmodified><d:getetag>&quot;7cae68b3399893984a3fa5c6bb2b2fe0&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>208590</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>4</oc:size><d:getcontentlength>4</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -309,11 +309,11 @@
                         "href": "/remote.php/webdav/test/renameFile/targetFile.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Mon, 27 Jan 2020 23:48:27 GMT",
-                                "getetag": "&quot;aec6b00a2edc759907ef65c5d1620683&quot;",
+                                "getlastmodified": "Tue, 14 Apr 2020 07:08:30 GMT",
+                                "getetag": "&quot;7cae68b3399893984a3fa5c6bb2b2fe0&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 107146,
+                                "fileid": 208590,
                                 "permissions": "RGDNVW",
                                 "size": 4,
                                 "getcontentlength": 4,
