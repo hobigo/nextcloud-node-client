@@ -1192,7 +1192,7 @@ export default class Client {
     // notfication management
     // ***************************************************************************************
     /**
-     * returns notifications
+     * @returns array of notification objects
      */
     public async getNotifications(): Promise<object[]> {
         const requestInit: RequestInit = {
@@ -1201,10 +1201,15 @@ export default class Client {
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notification",
             requestInit,
-            [200],
+            [200, 404],
             { description: "Notifications get" });
+
+        // no notification found
+        if (response.status === 404) {
+            return [];
+        }
 
         const rawResult: any = await response.json();
 
@@ -1213,7 +1218,7 @@ export default class Client {
         if (rawResult && rawResult.ocs && rawResult.ocs.data) {
             notifications = rawResult.ocs.data;
         } else {
-            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA"); // @todo wrong error message
         }
 
         const result: object[] = notifications;
