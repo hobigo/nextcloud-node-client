@@ -73,7 +73,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 10:53:39 GMT</d:getlastmodified><d:getetag>&quot;5e96e7b3ad1d7&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>208915</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 16:03:58 GMT</d:getlastmodified><d:getetag>&quot;5e97306ebcd6e&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>209360</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -83,12 +83,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 15 Apr 2020 10:53:39 GMT",
-                                    "getetag": "&quot;5e96e7b3ad1d7&quot;",
+                                    "getlastmodified": "Wed, 15 Apr 2020 16:03:58 GMT",
+                                    "getetag": "&quot;5e97306ebcd6e&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 208915,
+                                    "fileid": 209360,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -140,7 +140,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 10:53:39 GMT</d:getlastmodified><d:getetag>&quot;5e96e7b3ad1d7&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>208915</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 16:03:58 GMT</d:getlastmodified><d:getetag>&quot;5e97306ebcd6e&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>209360</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -150,12 +150,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 15 Apr 2020 10:53:39 GMT",
-                                    "getetag": "&quot;5e96e7b3ad1d7&quot;",
+                                    "getlastmodified": "Wed, 15 Apr 2020 16:03:58 GMT",
+                                    "getetag": "&quot;5e97306ebcd6e&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 208915,
+                                    "fileid": 209360,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -231,7 +231,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/removeTagOfFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 10:53:40 GMT</d:getlastmodified><d:getetag>&quot;32e6dd4e53db58eb816cfcddc064aa82&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>208916</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/removeTagOfFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 16:03:59 GMT</d:getlastmodified><d:getetag>&quot;ccc87c02e7bb8bc4ba78450bf9d327d3&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>209361</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -240,11 +240,11 @@
                         "href": "/remote.php/webdav/test/fileTagging/removeTagOfFile.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Wed, 15 Apr 2020 10:53:40 GMT",
-                                "getetag": "&quot;32e6dd4e53db58eb816cfcddc064aa82&quot;",
+                                "getlastmodified": "Wed, 15 Apr 2020 16:03:59 GMT",
+                                "getetag": "&quot;ccc87c02e7bb8bc4ba78450bf9d327d3&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 208916,
+                                "fileid": 209361,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,
@@ -289,7 +289,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/removeTagOfFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 10:53:40 GMT</d:getlastmodified><d:getetag>&quot;32e6dd4e53db58eb816cfcddc064aa82&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>208916</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/removeTagOfFile.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 16:03:59 GMT</d:getlastmodified><d:getetag>&quot;ccc87c02e7bb8bc4ba78450bf9d327d3&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>209361</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -298,11 +298,11 @@
                         "href": "/remote.php/webdav/test/fileTagging/removeTagOfFile.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Wed, 15 Apr 2020 10:53:40 GMT",
-                                "getetag": "&quot;32e6dd4e53db58eb816cfcddc064aa82&quot;",
+                                "getlastmodified": "Wed, 15 Apr 2020 16:03:59 GMT",
+                                "getetag": "&quot;ccc87c02e7bb8bc4ba78450bf9d327d3&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 208916,
+                                "fileid": 209361,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,
@@ -339,7 +339,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -359,10 +359,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -387,15 +387,15 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/systemtags/81"
+            "contentLocation": "/remote.php/dav/systemtags/98"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916/81",
+            "url": "/remote.php/dav/systemtags-relations/files/209361/98",
             "method": "PUT",
             "description": "File add tag",
-            "body": "{\n    \"canAssign\": true,\n    \"id\": 81,\n    \"name\": \"tag-91\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
+            "body": "{\n    \"canAssign\": true,\n    \"id\": 98,\n    \"name\": \"tag-91\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
         },
         "response": {
             "status": 201,
@@ -424,7 +424,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/81</d:href><d:propstat><d:prop><oc:id>81</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/98</d:href><d:propstat><d:prop><oc:id>98</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -444,10 +444,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -457,10 +457,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/81",
+                            "href": "/remote.php/dav/systemtags/98",
                             "propstat": {
                                 "prop": {
-                                    "id": 81,
+                                    "id": 98,
                                     "display-name": "tag-91",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -485,15 +485,15 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/systemtags/82"
+            "contentLocation": "/remote.php/dav/systemtags/99"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916/82",
+            "url": "/remote.php/dav/systemtags-relations/files/209361/99",
             "method": "PUT",
             "description": "File add tag",
-            "body": "{\n    \"canAssign\": true,\n    \"id\": 82,\n    \"name\": \"tag-92\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
+            "body": "{\n    \"canAssign\": true,\n    \"id\": 99,\n    \"name\": \"tag-92\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
         },
         "response": {
             "status": 201,
@@ -522,7 +522,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/81</d:href><d:propstat><d:prop><oc:id>81</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/82</d:href><d:propstat><d:prop><oc:id>82</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/98</d:href><d:propstat><d:prop><oc:id>98</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/99</d:href><d:propstat><d:prop><oc:id>99</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -542,10 +542,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -555,10 +555,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/81",
+                            "href": "/remote.php/dav/systemtags/98",
                             "propstat": {
                                 "prop": {
-                                    "id": 81,
+                                    "id": 98,
                                     "display-name": "tag-91",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -568,10 +568,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/82",
+                            "href": "/remote.php/dav/systemtags/99",
                             "propstat": {
                                 "prop": {
-                                    "id": 82,
+                                    "id": 99,
                                     "display-name": "tag-92",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -596,15 +596,15 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/systemtags/83"
+            "contentLocation": "/remote.php/dav/systemtags/100"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916/83",
+            "url": "/remote.php/dav/systemtags-relations/files/209361/100",
             "method": "PUT",
             "description": "File add tag",
-            "body": "{\n    \"canAssign\": true,\n    \"id\": 83,\n    \"name\": \"tag-93\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
+            "body": "{\n    \"canAssign\": true,\n    \"id\": 100,\n    \"name\": \"tag-93\",\n    \"userAssignable\": true,\n    \"userVisible\": true\n}"
         },
         "response": {
             "status": 201,
@@ -615,7 +615,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916",
+            "url": "/remote.php/dav/systemtags-relations/files/209361",
             "method": "PROPFIND",
             "description": "File get tags",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n              <d:prop>\n                <oc:id />\n                <oc:display-name />\n                <oc:user-visible />\n                <oc:user-assignable />\n                <oc:can-assign />\n              </d:prop>\n            </d:propfind>",
@@ -633,14 +633,14 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/81</d:href><d:propstat><d:prop><oc:id>81</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/82</d:href><d:propstat><d:prop><oc:id>82</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/83</d:href><d:propstat><d:prop><oc:id>83</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/98</d:href><d:propstat><d:prop><oc:id>98</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/99</d:href><d:propstat><d:prop><oc:id>99</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/100</d:href><d:propstat><d:prop><oc:id>100</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": [
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/",
                             "propstat": {
                                 "prop": {
                                     "id": "",
@@ -653,10 +653,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/81",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/98",
                             "propstat": {
                                 "prop": {
-                                    "id": 81,
+                                    "id": 98,
                                     "display-name": "tag-91",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -666,10 +666,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/82",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/99",
                             "propstat": {
                                 "prop": {
-                                    "id": 82,
+                                    "id": 99,
                                     "display-name": "tag-92",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -679,10 +679,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/83",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/100",
                             "propstat": {
                                 "prop": {
-                                    "id": 83,
+                                    "id": 100,
                                     "display-name": "tag-93",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -698,7 +698,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916/81",
+            "url": "/remote.php/dav/systemtags-relations/files/209361/98",
             "method": "DELETE",
             "description": "File remove tag"
         },
@@ -711,7 +711,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags-relations/files/208916",
+            "url": "/remote.php/dav/systemtags-relations/files/209361",
             "method": "PROPFIND",
             "description": "File get tags",
             "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n              <d:prop>\n                <oc:id />\n                <oc:display-name />\n                <oc:user-visible />\n                <oc:user-assignable />\n                <oc:can-assign />\n              </d:prop>\n            </d:propfind>",
@@ -729,14 +729,14 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/82</d:href><d:propstat><d:prop><oc:id>82</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/208916/83</d:href><d:propstat><d:prop><oc:id>83</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/99</d:href><d:propstat><d:prop><oc:id>99</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags-relations/files/209361/100</d:href><d:propstat><d:prop><oc:id>100</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": [
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/",
                             "propstat": {
                                 "prop": {
                                     "id": "",
@@ -749,10 +749,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/82",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/99",
                             "propstat": {
                                 "prop": {
-                                    "id": 82,
+                                    "id": 99,
                                     "display-name": "tag-92",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -762,10 +762,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags-relations/files/208916/83",
+                            "href": "/remote.php/dav/systemtags-relations/files/209361/100",
                             "propstat": {
                                 "prop": {
-                                    "id": 83,
+                                    "id": 100,
                                     "display-name": "tag-93",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -812,7 +812,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/81</d:href><d:propstat><d:prop><oc:id>81</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/82</d:href><d:propstat><d:prop><oc:id>82</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/83</d:href><d:propstat><d:prop><oc:id>83</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/98</d:href><d:propstat><d:prop><oc:id>98</oc:id><oc:display-name>tag-91</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/99</d:href><d:propstat><d:prop><oc:id>99</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/100</d:href><d:propstat><d:prop><oc:id>100</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -832,10 +832,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -845,10 +845,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/81",
+                            "href": "/remote.php/dav/systemtags/98",
                             "propstat": {
                                 "prop": {
-                                    "id": 81,
+                                    "id": 98,
                                     "display-name": "tag-91",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -858,10 +858,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/82",
+                            "href": "/remote.php/dav/systemtags/99",
                             "propstat": {
                                 "prop": {
-                                    "id": 82,
+                                    "id": 99,
                                     "display-name": "tag-92",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -871,10 +871,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/83",
+                            "href": "/remote.php/dav/systemtags/100",
                             "propstat": {
                                 "prop": {
-                                    "id": 83,
+                                    "id": 100,
                                     "display-name": "tag-93",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -890,7 +890,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags/81",
+            "url": "/remote.php/dav/systemtags/98",
             "method": "DELETE",
             "description": "Tag delete"
         },
@@ -921,7 +921,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/82</d:href><d:propstat><d:prop><oc:id>82</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/83</d:href><d:propstat><d:prop><oc:id>83</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/99</d:href><d:propstat><d:prop><oc:id>99</oc:id><oc:display-name>tag-92</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/100</d:href><d:propstat><d:prop><oc:id>100</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -941,10 +941,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -954,10 +954,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/82",
+                            "href": "/remote.php/dav/systemtags/99",
                             "propstat": {
                                 "prop": {
-                                    "id": 82,
+                                    "id": 99,
                                     "display-name": "tag-92",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -967,10 +967,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/83",
+                            "href": "/remote.php/dav/systemtags/100",
                             "propstat": {
                                 "prop": {
-                                    "id": 83,
+                                    "id": 100,
                                     "display-name": "tag-93",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -986,7 +986,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags/82",
+            "url": "/remote.php/dav/systemtags/99",
             "method": "DELETE",
             "description": "Tag delete"
         },
@@ -1017,7 +1017,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/69</d:href><d:propstat><d:prop><oc:id>69</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/83</d:href><d:propstat><d:prop><oc:id>83</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/dav/systemtags/</d:href><d:propstat><d:prop><oc:id/><oc:display-name/><oc:user-visible/><oc:user-assignable/><oc:can-assign/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/86</d:href><d:propstat><d:prop><oc:id>86</oc:id><oc:display-name>Tag1</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/dav/systemtags/100</d:href><d:propstat><d:prop><oc:id>100</oc:id><oc:display-name>tag-93</oc:display-name><oc:user-visible>true</oc:user-visible><oc:user-assignable>true</oc:user-assignable><oc:can-assign>true</oc:can-assign></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1037,10 +1037,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/69",
+                            "href": "/remote.php/dav/systemtags/86",
                             "propstat": {
                                 "prop": {
-                                    "id": 69,
+                                    "id": 86,
                                     "display-name": "Tag1",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -1050,10 +1050,10 @@
                             }
                         },
                         {
-                            "href": "/remote.php/dav/systemtags/83",
+                            "href": "/remote.php/dav/systemtags/100",
                             "propstat": {
                                 "prop": {
-                                    "id": 83,
+                                    "id": 100,
                                     "display-name": "tag-93",
                                     "user-visible": true,
                                     "user-assignable": true,
@@ -1069,7 +1069,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/systemtags/83",
+            "url": "/remote.php/dav/systemtags/100",
             "method": "DELETE",
             "description": "Tag delete"
         },
@@ -1108,7 +1108,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 10:53:43 GMT</d:getlastmodified><d:getetag>&quot;5e96e7b7ab4a2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>208915</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/fileTagging/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Apr 2020 16:04:03 GMT</d:getlastmodified><d:getetag>&quot;5e97307326a0b&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>209360</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1118,12 +1118,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 15 Apr 2020 10:53:43 GMT",
-                                    "getetag": "&quot;5e96e7b7ab4a2&quot;",
+                                    "getlastmodified": "Wed, 15 Apr 2020 16:04:03 GMT",
+                                    "getetag": "&quot;5e97307326a0b&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 208915,
+                                    "fileid": 209360,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,

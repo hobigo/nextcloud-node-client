@@ -1,3 +1,6 @@
+// this must be the first
+import { config } from "dotenv";
+config();
 
 import { expect } from "chai";
 // if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
@@ -105,6 +108,21 @@ describe("15-NEXCLOUD-NODE-CLIENT-NOTIFICATION", function () {
         const lclient: Client = new Client(new FakeServer(entries));
         try {
             await lclient.getNotifications();
+        } catch (e) {
+            error = e;
+        }
+        // expect(error).to.be.a("object");
+        expect(error).to.have.property("message");
+        expect(error.message).to.be.equal("Fatal Error: nextcloud notifications data missing");
+
+    });
+
+    it.skip("04 send notification to user", async () => {
+
+        let error;
+
+        try {
+            await client.sendNotificationToUser("test", "Donnerwetter", "This is a real long Message");
         } catch (e) {
             error = e;
         }

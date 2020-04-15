@@ -1251,7 +1251,7 @@ export default class Client {
         return result;
     }
 
-    public async sendNotificationToUser(options: { userId: string, shortMessage: string, longMessage?: string }): Promise<void> {
+    public async sendNotificationToUser(userId: string, shortMessage: string, longMessage?: string): Promise<void> {
         const requestInit: RequestInit = {
             headers: new Headers({
                 "Accept": "application/json",
@@ -1261,18 +1261,18 @@ export default class Client {
             method: "POST",
         };
 
-        let longMessage = "";
-        if (options.longMessage) {
-            longMessage = `&longMessage=${options.longMessage}`;
+        if (!longMessage) {
+            longMessage = "";
         }
-
+        longMessage = `&longMessage=${encodeURIComponent(longMessage)}`;
+        const queryString = `${encodeURIComponent(userId)}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${options.userId}?shortMessage=${options.shortMessage}${longMessage}`,
+            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`,
             requestInit,
             [200],
             { description: "User create" });
         const rawResult: any = await response.json();
-        debug(rawResult);
+        console.log(rawResult);
     }
 
     // ***************************************************************************************

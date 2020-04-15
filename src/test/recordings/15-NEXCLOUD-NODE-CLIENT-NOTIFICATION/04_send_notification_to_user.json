@@ -1,0 +1,15 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v2.php/apps/admin_notifications/api/v1/notifications/test?shortMessage=Donnerwetter&longMessage=This%20is%20a%20real%20long%20Message",
+            "method": "POST",
+            "description": "User create"
+        },
+        "response": {
+            "status": 404,
+            "body": "",
+            "contentType": "text/html; charset=UTF-8",
+            "contentLocation": ""
+        }
+    }
+]
