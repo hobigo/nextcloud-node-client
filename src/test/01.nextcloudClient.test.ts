@@ -600,20 +600,21 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("31 folder contains file test", async () => {
 
         const dirName = "/test/containsFileFolder";
-        const fileName1 = "file1.txt";
+        const fileName1 = "file31.txt";
 
         const baseDir = await client.createFolder(dirName);
         const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
         expect(file, "expect file not to be null").to.be.not.equal(null);
         expect(await baseDir.containsFile(fileName1)).to.be.equal(true);
         expect(await baseDir.containsFile("nonExistingFile.txt")).to.be.equal(false);
+        await baseDir.delete();
 
     });
 
     it("32 file get urls", async () => {
 
-        const dirName = "/test/containsFileFolder";
-        const fileName1 = "file1.txt";
+        const dirName = "/test/fileGetUrl";
+        const fileName1 = "file32.txt";
 
         const baseDir = await client.createFolder(dirName);
         const file: File | null = await baseDir.createFile(fileName1, Buffer.from("File 1"));
@@ -632,14 +633,14 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
 
             try {
                 // tslint:disable-next-line:no-unused-expression
-                await file.id;
+                file.id;
             } catch (e) {
                 expect(e).to.have.property("message");
                 expect(e).to.have.property("code");
                 expect(e.code).to.be.equal("ERR_FILE_NOT_EXISTING");
             }
         }
-
+        await baseDir.delete();
     });
 
     it("33 create subfolder", async () => {

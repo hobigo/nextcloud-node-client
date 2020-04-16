@@ -1272,7 +1272,7 @@ export default class Client {
             [200],
             { description: "User create" });
         const rawResult: any = await response.json();
-        console.log(rawResult);
+//        console.log(rawResult);
     }
 
     // ***************************************************************************************
