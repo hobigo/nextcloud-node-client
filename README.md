@@ -297,9 +297,9 @@ User:
 * delete 
 * deactivate
 * add/remove group
+* send notification
 
 User group: 
-
 * get
 * create 
 * delete
@@ -318,6 +318,10 @@ Share with
 * user
 * usergroup
 * email-address
+
+### notifications
+basic methods are available since 1.2.0 without strong typing
+* notification object
 
 ### Access using tags
 Get files and folders by tag
