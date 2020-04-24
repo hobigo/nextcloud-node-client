@@ -1201,7 +1201,7 @@ export default class Client {
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notification",
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
             requestInit,
             [200, 404],
             { description: "Notifications get" });
