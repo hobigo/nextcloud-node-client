@@ -7,7 +7,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"htborstenson\",\"martin\",\"peter\",\"tttttt\",\"ttttttt\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"horst\"]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -22,11 +22,7 @@
                     "data": {
                         "users": [
                             "holger",
-                            "htborstenson",
-                            "martin",
-                            "peter",
-                            "tttttt",
-                            "ttttttt"
+                            "horst"
                         ]
                     }
                 }

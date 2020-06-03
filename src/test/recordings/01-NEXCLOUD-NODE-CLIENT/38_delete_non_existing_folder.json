@@ -27,9 +27,15 @@
         },
         "response": {
             "status": 404,
-            "body": "",
-            "contentType": "text/html; charset=UTF-8",
-            "contentLocation": ""
+            "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\NotFound</s:exception>\n  <s:message>File with name test/deletemeNonExistingFolder could not be located</s:message>\n</d:error>\n",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "error": {
+                    "exception": "Sabre\\DAV\\Exception\\NotFound",
+                    "message": "File with name test/deletemeNonExistingFolder could not be located"
+                }
+            }
         }
     }
 ]

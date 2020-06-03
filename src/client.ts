@@ -12,7 +12,7 @@ import {
 import path, { basename } from "path";
 import Environment from "./environment";
 import EnvironmentVcapServices from "./environmentVcapServices";
-import ClientError from "./error";
+import ClientError, { QueryLimitError, QueryOffsetError, UserGroupAlreadyExistsError, UserGroupDeletionFailedError, UserGroupDoesNotExistError } from "./error";
 import FakeServer from "./fakeServer";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
@@ -23,10 +23,14 @@ import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
+import UserGroup from "./userGroup";
+import User from "./user";
 
 export {
     Client,
     ClientError,
+    QueryLimitError,
+    QueryOffsetError,
     Environment,
     Folder,
     File,
@@ -38,6 +42,10 @@ export {
     SharePermission,
     RequestResponseLog,
     RequestResponseLogEntry,
+    UserGroup,
+    UserGroupAlreadyExistsError,
+    UserGroupDeletionFailedError,
+    UserGroupDoesNotExistError,
 };
 
 const debug = debugFactory("NCClient");
@@ -1272,7 +1280,7 @@ export default class Client {
             [200],
             { description: "User create" });
         const rawResult: any = await response.json();
-//        console.log(rawResult);
+        //        console.log(rawResult);
     }
 
     // ***************************************************************************************
@@ -1335,79 +1343,250 @@ export default class Client {
     }
 
     // ***************************************************************************************
-    // group management
-    // ***************************************************************************************
-    /**
-     * returns groups
-     */
-    public async getGroups(): Promise<string[]> {
-        const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups",
-            requestInit,
-            [200],
-            { description: "Groups get" });
-        const rawResult: any = await response.json();
-        let groups: string[] = [];
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data) {
-            groups = rawResult.ocs.data;
-        }
-        return groups;
-    }
-
-    public async getGroupsDetails(): Promise<object> {
-        const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/groups/details",
-            requestInit,
-            [200],
-            { description: "GroupsDetails get" });
-        const rawResult: any = await response.json();
-        let groupDetails: object = {};
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data) {
-            groupDetails = rawResult.ocs.data;
-        }
-        return groupDetails;
-    }
-
-    public async getGroupsDetailsByID(groupId: string): Promise<object> {
-        const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + `/ocs/v1.php/cloud/groups/${groupId}`,
-            requestInit,
-            [200],
-            { description: "UserDetailsByID get" });
-        const rawResult: any = await response.json();
-        let groupDetails: object = {};
-        if (rawResult.ocs &&
-            rawResult.ocs.data) {
-            groupDetails = rawResult.ocs.data;
-        }
-        return groupDetails;
-    }
-
-    // ***************************************************************************************
     // user management
     // ***************************************************************************************
+
+    // ***************************************************************************************
+    // user group
+    // spec: https://docs.nextcloud.com/server/latest/admin_manual/configuration_user/instruction_set_for_groups.html
+    // ***************************************************************************************
+
+    /**
+     * returns a list of user groups
+     * @param search string
+     * @param limit number
+     * @param offset number
+     * @returns list of user groups
+     * @throws QueryLimitError
+     * @throws QueryOffsetError
+     */
+    public async getUserGroups(search?: string, limit?: number, offset?: number): Promise<UserGroup[]> {
+        debug("getUserGroups");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        let url = this.nextcloudOrigin + "/ocs/v1.php/cloud/groups";
+        const queryParameter: string[] = [];
+        if (search) {
+            queryParameter.push(`search=${search}`);
+        }
+        if (limit) {
+            if (limit < 1) {
+                throw new QueryLimitError("The limit must be larger than 0");
+            }
+            queryParameter.push(`limit=${limit}`);
+        }
+        if (offset) {
+            if (offset < 1) {
+                throw new QueryOffsetError("The offset must be larger than 0");
+            }
+            queryParameter.push(`offset=${offset}`);
+        }
+        if (queryParameter.join("&").length > 1) {
+            url += "?" + queryParameter.join("&");
+        }
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: "User Groups get" });
+        const rawResult: any = await response.json();
+        /*
+        {
+          ocs: {
+            meta: {
+              status: 'ok',
+              statuscode: 100,
+              message: 'OK',
+              totalitems: '',
+              itemsperpage: ''
+            },
+            data: { groups: ["g1", "g2"] }
+          }
+        }
+        */
+        const userGroups: UserGroup[] = [];
+
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.groups) {
+            debug("groups", rawResult.ocs.data.groups);
+            rawResult.ocs.data.groups.forEach((value: string) => {
+                userGroups.push(new UserGroup(this, value));
+            });
+        }
+
+        return userGroups;
+    }
+
+    /**
+     * get user group
+     * @param id string
+     * @returns Promise<UserGroup|null>
+     */
+    public async getUserGroup(id: string): Promise<UserGroup | null> {
+        const userGroups: UserGroup[] = await this.getUserGroups(id);
+        if (userGroups[0]) {
+            return userGroups[0];
+        }
+        return null
+    }
+
+    /**
+     * returns a list of user ids that are members of the user group
+     * @param id string
+     * @returns list of member user ids
+     * @throws UserGroupDoesNotExistError
+     */
+    public async getUserGroupMembers(id: string): Promise<string[]> {
+        debug("getUserGroupMembers");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}`;
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: "User group get members" });
+        const rawResult: any = await response.json();
+        const userIds: string[] = [];
+
+        if (rawResult.ocs.meta.statuscode === 404) {
+            throw new UserGroupDoesNotExistError(`User Group ${id} does not exist`);
+        }
+
+        if (rawResult.ocs &&
+            rawResult.ocs.data &&
+            rawResult.ocs.data.users) {
+            debug("members", rawResult.ocs.data.users);
+            rawResult.ocs.data.users.forEach((value: string) => {
+                userIds.push(value);
+            });
+        }
+
+        return userIds;
+    }
+
+    /**
+     * returns a list of user ids that are subadmins of the user group
+     * @param id string
+     * @returns list of subadmin user ids
+     * @throws UserGroupDoesNotExistError
+     */
+    public async getUserGroupSubadmins(id: string): Promise<string[]> {
+        debug("getUserGroupsubadmins");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "GET",
+        };
+
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}/subadmins`;
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: "User group get subadmins" });
+        const rawResult: any = await response.json();
+        const userIds: string[] = [];
+
+        if (rawResult.ocs.meta.statuscode === 101) {
+            throw new UserGroupDoesNotExistError(`User Group ${id} does not exist`);
+        }
+
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            debug("subadmins", rawResult.ocs.data);
+            rawResult.ocs.data.forEach((value: string) => {
+                userIds.push(value);
+            });
+        }
+
+        return userIds;
+    }
+
+    /**
+     * create a new user group
+     * @param id string
+     * @returns Promise<UserGroup>
+     * @throws UserGroupAlreadyExistsError
+     */
+    public async createUserGroup(id: string): Promise<UserGroup> {
+        debug("createUserGroup id=", id);
+        const requestInit: RequestInit = {
+            body: JSON.stringify({ groupid: id }),
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                "OCS-APIRequest": "true",
+            }),
+            method: "POST",
+        };
+        debug("request body: ", requestInit.body);
+        const response: Response = await this.getHttpResponse(
+            `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups`,
+            requestInit,
+            [200],
+            { description: "UserGroup create" });
+        const rawResult: any = await response.json();
+
+        if (rawResult.ocs.meta.statuscode === 102) {
+            throw new UserGroupAlreadyExistsError(`User Group ${id} already exists`);
+        }
+
+        debug(rawResult);
+        return new UserGroup(this, id);
+    }
+
+    /**
+     * deletes an existing user group
+     * @param id string
+     * @returns Promise<void>
+     * @throws UserGroupDowsNotExistError
+     * @throws UserGroupDeletionFailedError
+     */
+    public async deleteUserGroup(id: string): Promise<void> {
+        debug("deleteUserGroup id=", id);
+        const requestInit: RequestInit = {
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json;charset=UTF-8",
+                "OCS-APIRequest": "true",
+            }),
+            method: "DELETE",
+        };
+        debug("request body: ", requestInit.body);
+        const response: Response = await this.getHttpResponse(
+            `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}`,
+            requestInit,
+            [200],
+            { description: "UserGroup delete" });
+        const rawResult: any = await response.json();
+
+        if (rawResult.ocs.meta.statuscode === 101) {
+            throw new UserGroupDoesNotExistError(`User Group ${id} does not exists`);
+        }
+
+        if (rawResult.ocs.meta.statuscode === 102) {
+            throw new UserGroupDeletionFailedError(`User Group ${id} could not be deleted`);
+        }
+
+    }
+
+    // ***************************************************************************************
+    // user
+    // ***************************************************************************************
+
     /**
      * returns users
      */
@@ -1476,7 +1655,7 @@ export default class Client {
         return userDetails;
     }
 
-    public async createUser(options: { userId: string, displayName: string, password: string }): Promise<void> {
+    public async createUser(options: { userId: string, email: string } | { userId: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
             body: JSON.stringify(options, null, 4),
             headers: new Headers({

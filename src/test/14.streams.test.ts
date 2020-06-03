@@ -29,7 +29,7 @@ describe("14-NEXCLOUD-NODE-CLIENT-STREAMS", function () {
 
     this.timeout(1 * 60 * 1000);
 
-    it("01 create file from stream", async () => {
+    it.skip("01 create file from stream", async () => {
 
         const rStream: NodeJS.ReadableStream = fs.createReadStream(__filename);
 

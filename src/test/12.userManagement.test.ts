@@ -4,7 +4,12 @@ import { expect } from "chai";
 import "mocha";
 import {
     Client,
-    ISystemInfo,
+    QueryLimitError,
+    QueryOffsetError,
+    UserGroup,
+    UserGroupAlreadyExistsError,
+    UserGroupDeletionFailedError,
+    UserGroupDoesNotExistError
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -70,9 +75,220 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
     it.skip("03 create user", async () => {
 
         try {
-            await client.createUser({ userId: "ncnc-test-user-id-1", password: "This is a Password #2#3", displayName: "Petra Huber" });
+            await client.createUser({ userId: "ncnc-test-user-id-1", password: "This is a Password #2#3" });
+            await client.createUser({ userId: "ncnc-test-user-id-1", email: "test@test.de" });
         } catch (e) {
             expect(e.message, "expect no exception").to.be.equal(null);
         }
     });
+
+    it("20 get user groups", async () => {
+
+        let exception;
+        try {
+            await client.getUserGroups("", -10);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(QueryLimitError);
+
+        try {
+            await client.getUserGroups("", 10, -1);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(QueryOffsetError);
+
+        exception = null;
+        let userGroups: UserGroup[];
+        try {
+            userGroups = await client.getUserGroups("no group should ever match this string", 0, 0);
+        } catch (e) {
+            exception = e;
+        }
+
+        expect(exception).to.be.equal(null);
+        expect(userGroups!).not.to.be.equal(undefined);
+        expect(userGroups!.length).to.be.equal(0);
+
+        try {
+            userGroups = await client.getUserGroups();
+        } catch (e) {
+            exception = e;
+        }
+
+        expect(exception).to.be.equal(null);
+        expect(userGroups!).not.to.be.equal(undefined);
+
+    });
+
+    it("21 get create delete user group", async () => {
+
+        const userGroupId = "test 11"
+        let userGroup: UserGroup | null = null;
+        let exception = null;
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+
+        if (userGroup) {
+            try {
+                await userGroup.delete();
+            } catch (e) {
+                exception = e;
+            }
+        }
+
+        expect(exception, "delete user should not raise an exception").to.be.equal(null);
+
+        // now the user group is deleted
+        try {
+            await client.createUserGroup(userGroupId);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+
+        try {
+            await client.createUserGroup(userGroupId);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(UserGroupAlreadyExistsError);
+
+        exception = null;
+        try {
+            userGroup = await client.getUserGroup(userGroupId + " this group should never exist")
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+        expect(userGroup).to.be.equal(null);
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroup).not.to.be.equal(null);
+
+        try {
+            await userGroup!.delete();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "delete user should not raise an exception").to.be.equal(null);
+
+    });
+
+    it("22 delete admin user group fails", async () => {
+
+        const userGroupId = "admin"
+        let userGroup: UserGroup | null = null;
+        let exception = null;
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+
+        if (userGroup) {
+            try {
+                await userGroup.delete();
+            } catch (e) {
+                exception = e;
+            }
+        }
+
+        expect(exception).to.be.instanceOf(UserGroupDeletionFailedError);
+
+    });
+
+    it("23 get members of user group", async () => {
+
+        const userGroupId = "admin"
+        let userGroupMembers: string[] = [];
+        let exception = null;
+
+        try {
+            userGroupMembers = await client.getUserGroupMembers(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroupMembers!.length).to.be.greaterThan(0);
+
+        try {
+            await client.getUserGroupMembers(userGroupId + " this group should never exist")
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(UserGroupDoesNotExistError);
+
+        let userGroup: UserGroup | null = null;
+        exception = null;
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroup, "get user group admin is always there").not.to.be.equal(null);
+
+        try {
+            await userGroup!.getMemberUserIds();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+    });
+
+    it.only("24 get subadmins of user group", async () => {
+
+        const userGroupId = "admin"
+        let userGroupSubadamins: string[] = [];
+        let exception = null;
+
+        try {
+            userGroupSubadamins = await client.getUserGroupSubadmins(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroupSubadamins!.length).to.be.greaterThan(-1);
+
+        try {
+            await client.getUserGroupSubadmins(userGroupId + " this group should never exist")
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(UserGroupDoesNotExistError);
+
+        let userGroup: UserGroup | null = null;
+        exception = null;
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroup, "get user group admin is always there").not.to.be.equal(null);
+
+        try {
+            await userGroup!.getSubadminUserIds();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+    });
+
 });

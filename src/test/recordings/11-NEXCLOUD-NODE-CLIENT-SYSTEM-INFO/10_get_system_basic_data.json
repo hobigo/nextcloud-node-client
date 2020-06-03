@@ -7,7 +7,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Thu Apr 16 17:31:44 CEST 2020\\n\",\"uptime\":\"up 10 weeks, 1 day, 4 hours, 28 minutes\\n\",\"timeservers\":\" \"}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Wed Jun  3 12:37:38 CEST 2020\\n\",\"uptime\":\"up 1 week, 2 days, 11 hours, 35 minutes\\n\",\"timeservers\":\" \"}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -18,8 +18,8 @@
                         "message": "OK"
                     },
                     "data": {
-                        "servertime": "Thu Apr 16 17:31:44 CEST 2020\n",
-                        "uptime": "up 10 weeks, 1 day, 4 hours, 28 minutes\n",
+                        "servertime": "Wed Jun  3 12:37:38 CEST 2020\n",
+                        "uptime": "up 1 week, 2 days, 11 hours, 35 minutes\n",
                         "timeservers": " "
                     }
                 }
