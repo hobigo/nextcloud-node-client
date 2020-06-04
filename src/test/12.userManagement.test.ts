@@ -30,11 +30,26 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     this.timeout(1 * 60 * 1000);
 
+    it.only("11 get user", async () => {
+
+        let userData: object;
+        let error: Error | null = null;
+        try {
+            userData = await client.getUserData("holger");
+            // console.log(JSON.stringify(users, null, 4));
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "expect no error").to.be.equal(null);
+        
+
+    });
+
     it("01 get users", async () => {
 
         let users;
         try {
-            users = await client.getUserIDs();
+            users = await client.getUsers();
             // console.log(JSON.stringify(users, null, 4));
         } catch (e) {
             expect(e.message, "expect no exception").to.be.equal(null);
@@ -61,7 +76,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
         let users;
         try {
-            users = await lclient.getUserIDs();
+            users = await lclient.getUsers();
         } catch (e) {
             expect(e.message, "expect no exception").to.be.equal(null);
         }
@@ -251,7 +266,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(exception).to.be.equal(null);
     });
 
-    it.only("24 get subadmins of user group", async () => {
+    it("24 get subadmins of user group", async () => {
 
         const userGroupId = "admin"
         let userGroupSubadamins: string[] = [];

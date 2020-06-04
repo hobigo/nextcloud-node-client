@@ -24,7 +24,7 @@ import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
-import User from "./user";
+import User, { IUserOptions, IUserOptionsQuota } from "./user";
 
 export {
     Client,
@@ -42,6 +42,7 @@ export {
     SharePermission,
     RequestResponseLog,
     RequestResponseLogEntry,
+    User,
     UserGroup,
     UserGroupAlreadyExistsError,
     UserGroupDeletionFailedError,
@@ -1585,54 +1586,153 @@ export default class Client {
 
     // ***************************************************************************************
     // user
+    // spec: https://docs.nextcloud.com/server/latest/admin_manual/configuration_user/instruction_set_for_users.html
     // ***************************************************************************************
 
     /**
-     * returns users
+     * returns a list of users
+     * https://docs.nextcloud.com/server/latest/admin_manual/configuration_user/instruction_set_for_users.html#search-get-users
+     * @param search string
+     * @param limit number
+     * @param offset number
      */
-    public async getUserIDs(): Promise<string[]> {
+    public async getUsers(search?: string, limit?: number, offset?: number): Promise<User[]> {
+        debug("getUsers");
         const requestInit: RequestInit = {
             headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
+        let url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users`;
+        const queryParameter: string[] = [];
+        if (search) {
+            queryParameter.push(`search=${search}`);
+        }
+        if (limit) {
+            if (limit < 1) {
+                throw new QueryLimitError("The limit must be larger than 0");
+            }
+            queryParameter.push(`limit=${limit}`);
+        }
+        if (offset) {
+            if (offset < 1) {
+                throw new QueryOffsetError("The offset must be larger than 0");
+            }
+            queryParameter.push(`offset=${offset}`);
+        }
+        if (queryParameter.join("&").length > 1) {
+            url += "?" + queryParameter.join("&");
+        }
+        debug("url ", url)
+
         const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
+            url,
             requestInit,
             [200],
-            { description: "UserIDs get" });
+            { description: "Users get" });
         const rawResult: any = await response.json();
-        let users: string[] = [];
+        /*
+        {
+          ocs: {
+            meta: {
+              status: 'ok',
+              statuscode: 100,
+              message: 'OK',
+              totalitems: '',
+              itemsperpage: ''
+            },
+            data: { users: ["u1", "u2"] }
+          }
+        }
+        */
+        const users: User[] = [];
+
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data.users) {
-            users = rawResult.ocs.data.users;
+            debug("user ids", rawResult.ocs.data.users);
+            rawResult.ocs.data.users.forEach((value: string) => {
+                users.push(new User(this, value));
+            });
         }
+
         return users;
     }
 
-    public async getUserDetails(): Promise<object> {
+    public async getUserData(id: string): Promise<IUserOptions> {
+        debug("getUserData");
         const requestInit: RequestInit = {
             headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
             method: "GET",
         };
 
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        debug("url ", url)
+
         const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/users/details",
+            url,
             requestInit,
             [200],
-            { description: "UserDetails get" });
+            { description: `User ${id} get` });
         const rawResult: any = await response.json();
-        let usersDetails: object = {};
-        if (rawResult.ocs &&
-            rawResult.ocs.data &&
-            rawResult.ocs.data.users) {
-            usersDetails = rawResult.ocs.data.users;
+        /*
+        {
+          ocs: {
+            meta: {
+              status: 'ok',
+              statuscode: 100,
+              message: 'OK',
+              totalitems: '',
+              itemsperpage: ''
+            },
+            data: { ... }
+          }
         }
-        return usersDetails;
+        */
+        let userData: IUserOptions;
+        if (rawResult.ocs &&
+            rawResult.ocs.data) {
+            debug("user data", rawResult.ocs.data);
+            userData = {
+                enabled: rawResult.ocs.data.enabled,
+                lastLogin: new Date(rawResult.ocs.data.lastLogin),
+                subadminGroups: rawResult.ocs.data.subadmin,
+                memberGroups: rawResult.ocs.data.groups,
+                quota: {
+                    free: rawResult.ocs.data.quota.free,
+                    used: rawResult.ocs.data.quota.used,
+                    total: rawResult.ocs.data.quota.total,
+                    relative: rawResult.ocs.data.quota.relative,
+                    quota: rawResult.ocs.data.quota.quota
+                },
+                email: rawResult.ocs.data.email,
+                displayName: rawResult.ocs.data.displayname,
+                phone: rawResult.ocs.data.phone,
+                address: rawResult.ocs.data.address,
+                website: rawResult.ocs.data.website,
+                twitter: rawResult.ocs.data.twitter,
+                language: rawResult.ocs.data.language,
+                locale: rawResult.ocs.data.loacel,
+            };
+        }
+        return userData;
     }
+
+    /**
+     * returns a user or null if not found
+     * @param id string
+     * @returns User | null
+     */
+    public async getUser(id: string): Promise<User | null> {
+        debug("getUser");
+        const users: User[] = await this.getUsers(id);
+        if (users[0]) {
+            return users[0];
+        }
+        return null;
+    }
+
+
 
     public async getUserDetailsByID(userId: string): Promise<object> {
         const requestInit: RequestInit = {

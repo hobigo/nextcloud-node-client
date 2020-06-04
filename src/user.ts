@@ -1,6 +1,28 @@
+import Client, { ClientError, IQuota, UserGroup } from "./client";
 
-import path from "path";
-import Client, { ClientError } from "./client";
+export interface IUserOptionsQuota {
+    "free": number,
+    "used": number,
+    "total": number,
+    "relative": number,
+    "quota": number
+}
+
+export interface IUserOptions {
+    "enabled": boolean;
+    "lastLogin": Date,
+    "subadminGroups": string[],
+    "memberGroups": string[],
+    "quota": IUserOptionsQuota,
+    "email": string,
+    "displayName": string,
+    "phone": string,
+    "address": string,
+    "website": string,
+    "twitter": string,
+    "language": string
+    "locale": string,
+}
 
 /**
  * The user class represents a user in nextcloud.
@@ -13,27 +35,25 @@ import Client, { ClientError } from "./client";
  */
 export default class User {
     // https://docs.nextcloud.com/server/latest/admin_manual/configuration_user/user_provisioning_api.html
-    /*
-    private memento: {
-        id: string,
-        enabled: boolean,
-        lastLogin: number,
-        email: string,
-        displayName: string,
-        phone: string,
-        address: string,
-        website: string,
-        twitter: string,
-        groups: string[],
-        language: string,
-        locale: string,
-    };
-    */
 
+    private memento?: IUserOptions;
     private client: Client;
-    constructor(client: Client, id: string) {
-        // this.memento.id = id;
+    readonly id: string;
+    constructor(client: Client, id: string, options?: IUserOptions) {
+        this.id = id;
         this.client = client;
+        this.memento = options;
+    }
+
+    async getDisplayName(): Promise<string> {
+        return (await this.getUserData()).displayName;
+    }
+
+    private async getUserData(): Promise<IUserOptions> {
+        if (!this.memento) {
+            this.memento = await this.client.getUserData(this.id);
+        }
+        return this.memento;
     }
 
 }
