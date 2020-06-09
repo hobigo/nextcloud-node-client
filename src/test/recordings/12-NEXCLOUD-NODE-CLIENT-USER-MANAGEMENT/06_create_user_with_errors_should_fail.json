@@ -7,15 +7,15 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "ocs": {
                     "meta": {
-                        "status": "failure",
-                        "statuscode": 101,
-                        "message": "",
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
                         "totalitems": "",
                         "itemsperpage": ""
                     },
@@ -205,31 +205,6 @@
                         "status": "failure",
                         "statuscode": 102,
                         "message": "User already exists",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": []
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser06",
-            "method": "DELETE",
-            "description": "User testUser06 delete"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
                         "totalitems": "",
                         "itemsperpage": ""
                     },

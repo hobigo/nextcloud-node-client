@@ -293,10 +293,11 @@ User:
 * <strike>get</strike>
 * <strike>getIds limit, offset, search</strike>
 * <strike>create</strike>
-* update
-* <strike>delete </strike>
+* <strike>update</strike>
+* <strike>delete</strike>
 * <strike>deactivate</strike>
-* add/remove group
+* add/remove group member
+* add/remove group subadmin
 * send notification
 * example in readme
 

@@ -21,7 +21,9 @@ import {
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
-import { getNextcloudClient } from "./testUtils";
+import { getNextcloudClient, recordingModeActive } from "./testUtils";
+import Server, { IServerOptions } from "../server";
+import Environment from "../environment";
 
 let client: Client;
 
@@ -78,7 +80,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         const userId: string = "testUser04";
         let error: Error | null = null;
         try {
-            await client.enableUser(userId);
+            await client.disableUser(userId);
         } catch (e) {
             error = e;
         }
@@ -153,7 +155,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(user!).to.be.equal(null);
 
         try {
-            await client.deleteUser(userId);
+            await user!.delete();
         } catch (e) {
             // nop
         }
@@ -335,6 +337,23 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(error).to.be.equal(null);
         expect(result.length).to.be.equal(1);
 
+        // get users with wrong limit
+        try {
+            await client.getUsers(userIdPrefix, -2)
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(QueryLimitError);
+
+        // get users with wrong offset
+        error = null;
+        try {
+            await client.getUsers(userIdPrefix, 1, -1)
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(QueryOffsetError);
+
         for (let i = 0; i < userCount; i++) {
             error = null;
             // delete user
@@ -347,7 +366,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     });
 
-    it.only("10 get user", async () => {
+    it("10 get and update user", async () => {
 
         const userId: string = "testUser10";
         let error: Error | null = null;
@@ -429,9 +448,22 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(quotaUF!.quota).to.be.equal("100 MB");
 
         // ***********************
+        // last login
+        // ***********************
+        let lastlogin: Date | null = null;
+        try {
+            lastlogin = await user!.getLastLogin();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getLastLogin expect no error").to.be.equal(null);
+        expect(lastlogin).to.be.equal(null);
+
+        // ***********************
         // display name
         // ***********************
-        setValue = "This is the updated display name";
+        setValue = "Horst-Thorsten Borstenson";
         let value: string = "";
         error = null;
         try {
@@ -448,6 +480,94 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         }
 
         expect(error, "User getDisplayName expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // ***********************
+        // phone
+        // ***********************
+        setValue = "+49 1234 567";
+        value = "";
+        error = null;
+        try {
+            await user!.setPhone(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getPhone();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getPhone expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // ***********************
+        // website
+        // ***********************
+        setValue = "http://borstenson.com";
+        value = "";
+        error = null;
+        try {
+            await user!.setWebsite(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getWebsite();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getWebsite expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // ***********************
+        // twitter
+        // ***********************
+        setValue = "@real.h.t.borstenson";
+        value = "";
+        error = null;
+        try {
+            await user!.setTwitter(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getTwitter();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getTwitter expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // ***********************
+        // address
+        // ***********************
+        setValue = "Fürst-Franz-Josef-Strasse 398\n9490 Vaduz\nLiechtenstein";
+        value = "";
+        error = null;
+        try {
+            await user!.setAddress(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getAddress();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getAddress expect no error").to.be.equal(null);
         expect(value).to.be.equal(setValue);
 
         // ***********************
@@ -476,6 +596,37 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         error = null;
         try {
             await user!.setLanguage("This Language is invalid");
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserUpdateError);
+
+        // ***********************
+        // locale
+        // ***********************
+        setValue = "de";
+        value = "";
+        error = null;
+        try {
+            await user!.setLocale(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getLocale();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getLocale expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // invalid locale
+        error = null;
+        try {
+            await user!.setLocale("This locale is invalid");
         } catch (e) {
             error = e;
         }
@@ -513,10 +664,9 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         }
         expect(error).to.be.instanceOf(UserUpdateError);
 
-
-        // ensure that the user is not available
+        // clean up user
         try {
-            // @todo await client.deleteUser(userId);
+            await user!.delete();
         } catch (e) {
             // nop
         }
@@ -564,6 +714,91 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
+    it("13 login with new user", async () => {
+
+        const userId: string = "testUser13";
+        const password: string = "testUser13-password";
+        let error: Error | null = null;
+        let user: User | null = null;
+
+        // ensure that the user is not available
+        try {
+            await client.deleteUser(userId);
+        } catch (e) {
+            // nop
+        }
+
+        // create user with password
+        try {
+            user = await client.createUser({ id: userId, password });
+        } catch (e) {
+            error = e;
+        }
+        // user should be created successfully
+        expect(error).to.be.equal(null);
+        expect(user!).not.to.be.equal(null);
+
+        let quota: IUserOptionsQuota = await user!.getQuota();
+        // console.log(quota);
+        expect(quota.quota).to.be.equal(0);
+        expect(quota.relative).to.be.equal(0);
+        expect(quota.used).to.be.equal(0);
+
+        try {
+            await user!.setQuota("100MB")
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        quota = await user!.getQuota();
+        // console.log(quota);
+        expect(quota.quota).to.be.equal(1024 * 1024 * 100);
+        expect(quota.relative).to.be.equal(0);
+        expect(quota.used).to.be.equal(0);
+
+        if (recordingModeActive()) {
+            const ncserver: Server = new Environment().getServer();
+            ncserver.basicAuth.username = userId;
+            ncserver.basicAuth.password = password;
+            // login with the new user
+            const newUserClient: Client = new Client(ncserver);
+            // this will issue the first login
+            try {
+                await newUserClient.getQuota()
+                // console.log(await newUserClient.getQuota());
+            } catch (e) {
+                error = e;
+            }
+            expect(error).to.be.equal(null);
+        }
+
+        // the quota values change after the first login
+        user = await client.getUser(userId);
+        quota = await user!.getQuota();
+        // console.log(quota);
+        expect(quota.quota).to.be.equal(1024 * 1024 * 100);
+        expect(quota.relative).to.be.greaterThan(0);
+        expect(quota.used).to.be.greaterThan(0);
+        expect(quota.free).to.be.greaterThan(0);
+        expect(quota.total).to.be.greaterThan(0);
+        // for code coverage
+        await user!.getQuotaUserFriendly();
+
+        const lastLogin: Date | null = await user!.getLastLogin();
+        // console.log(lastLogin);
+        expect(lastLogin).not.to.be.equal(null);
+
+
+        // clean up user
+        try {
+            await user!.delete();
+        } catch (e) {
+            // nop
+        }
+
+    });
+
     it("20 get user groups", async () => {
 
         let exception;
@@ -584,7 +819,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         exception = null;
         let userGroups: UserGroup[];
         try {
-            userGroups = await client.getUserGroups("no group should ever match this string", 0, 0);
+            userGroups = await client.getUserGroups("no group should ever match this string", 0, 1);
         } catch (e) {
             exception = e;
         }
@@ -771,6 +1006,71 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             exception = e;
         }
         expect(exception).to.be.equal(null);
+    });
+
+    it("25 delete non existing user group should fail", async () => {
+
+        const userGroupId = "UserGroup25"
+        let userGroup: UserGroup | null = null;
+        let userGroup1: UserGroup | null = null;
+        let exception = null;
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+
+        if (userGroup) {
+            try {
+                await userGroup.delete();
+            } catch (e) {
+                exception = e;
+            }
+        }
+
+        expect(exception, "delete user should not raise an exception").to.be.equal(null);
+
+        // now the user group is deleted
+        try {
+            await client.createUserGroup(userGroupId);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+
+        try {
+            userGroup = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroup).not.to.be.equal(null);
+
+        try {
+            userGroup1 = await client.getUserGroup(userGroupId)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "get user group should not raise an exception").to.be.equal(null);
+        expect(userGroup1).not.to.be.equal(null);
+
+        try {
+            await userGroup!.delete();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+
+        try {
+            await userGroup1!.delete();
+        } catch (e) {
+            exception = e;
+        }
+        // even if the user group has been deleted previously, the delete should not fail
+        expect(exception).to.be.equal(null);
+
     });
 
 });

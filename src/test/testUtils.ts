@@ -13,6 +13,13 @@ import Server from "../server";
 export const debug = debugFactory("Test");
 // console.log(process.env);
 
+export const recordingModeActive = (): boolean => {
+    if (process.argv.find((element) => element === "--record")) {
+        return true;
+    }
+    return false;
+}
+
 export const getNextcloudClient = async (context: string): Promise<Client> => {
 
     const rrLog: RequestResponseLog = RequestResponseLog.getInstance();
@@ -20,7 +27,7 @@ export const getNextcloudClient = async (context: string): Promise<Client> => {
     await rrLog.setContext(context);
 
     // use command line parameter to override recording settings
-    if (process.argv.find((element) => element === "--record")) {
+    if (recordingModeActive()) {
         const ncserver: Server = new Environment().getServer();
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console

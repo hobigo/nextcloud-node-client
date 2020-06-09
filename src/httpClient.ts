@@ -1,7 +1,6 @@
 // tslint:disable-next-line:no-var-requires
 const HttpProxyAgent = require('http-proxy-agent');
 
-
 import debugFactory from "debug";
 import  { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";

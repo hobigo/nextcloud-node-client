@@ -91,7 +91,8 @@ export default class User {
         const data: IUserOptions = await this.getUserData();
         if (data.lastLogin) {
             return data.lastLogin;
-        } return null;
+        }
+        return null;
     }
 
     // **********************************
@@ -111,6 +112,7 @@ export default class User {
     // **********************************
     async getQuotaUserFriendly(): Promise<IUserQuotaUserFriendly> {
         const q: IUserOptionsQuota = (await this.getUserData()).quota;
+
         const qUF: IUserQuotaUserFriendly = {
             used: new FileSizeFormatter(q.used).getUserFriendlyFileSize(),
             quota: new FileSizeFormatter(q.quota).getUserFriendlyFileSize(),
@@ -154,11 +156,21 @@ export default class User {
         return (await this.getUserData()).phone;
     }
 
+    async setPhone(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.phone, value);
+        delete this.memento;
+    }
+
     // **********************************
     // address
     // **********************************
     async getAddress(): Promise<string> {
         return (await this.getUserData()).address;
+    }
+
+    async setAddress(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.address, value);
+        delete this.memento;
     }
 
     // **********************************
@@ -168,11 +180,21 @@ export default class User {
         return (await this.getUserData()).website;
     }
 
+    async setWebsite(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.website, value);
+        delete this.memento;
+    }
+
     // **********************************
     // twitter
     // **********************************
     async getTwitter(): Promise<string> {
         return (await this.getUserData()).twitter;
+    }
+
+    async setTwitter(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.twitter, value);
+        delete this.memento;
     }
 
     // **********************************
@@ -192,6 +214,11 @@ export default class User {
     // **********************************
     async getLocale(): Promise<string> {
         return (await this.getUserData()).locale;
+    }
+
+    async setLocale(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.locale, value);
+        delete this.memento;
     }
 
     // **********************************

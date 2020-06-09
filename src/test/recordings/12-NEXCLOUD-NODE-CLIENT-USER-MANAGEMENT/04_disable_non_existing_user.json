@@ -1,9 +1,9 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser04/enable",
+            "url": "/ocs/v1.php/cloud/users/testUser04/disable",
             "method": "PUT",
-            "description": "User testUser04 enable"
+            "description": "User testUser04 disable"
         },
         "response": {
             "status": 200,

@@ -1,7 +1,7 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/groups?search=no group should ever match this string",
+            "url": "/ocs/v1.php/cloud/groups?search=no group should ever match this string&offset=1",
             "method": "GET",
             "description": "User Groups get"
         },

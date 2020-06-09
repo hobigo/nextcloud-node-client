@@ -1724,15 +1724,15 @@ export default class Client {
         debug("user data", rawResult.ocs.data);
         userData = {
             enabled: rawResult.ocs.data.enabled,
-            lastLogin: rawResult.ocs.data.lastLogin = 0 ? undefined : new Date(rawResult.ocs.data.lastLogin),
+            lastLogin: rawResult.ocs.data.lastLogin === 0 ? undefined : new Date(rawResult.ocs.data.lastLogin),
             subadminGroups: rawResult.ocs.data.subadmin,
             memberGroups: rawResult.ocs.data.groups,
             quota: {
-                free: rawResult.ocs.data.quota.free,
-                used: rawResult.ocs.data.quota.used,
-                total: rawResult.ocs.data.quota.total,
-                relative: rawResult.ocs.data.quota.relative,
-                quota: rawResult.ocs.data.quota.quota
+                free: 0,
+                used: 0,
+                total: 0,
+                relative: 0,
+                quota: 0
             },
             email: rawResult.ocs.data.email,
             displayName: rawResult.ocs.data.displayname,
@@ -1743,21 +1743,20 @@ export default class Client {
             language: rawResult.ocs.data.language,
             locale: rawResult.ocs.data.locale,
         };
-
         if (rawResult.ocs.data.quota.quota === 'none') {
             userData.quota = { quota: 0, relative: 0, used: 0 };
         } else {
-            let relative: number = 0;
             if (!rawResult.ocs.data.quota.relative) {
-                if (rawResult.ocs.data.quota.used && rawResult.ocs.data.quota.quota) {
-                    relative = Math.round(rawResult.ocs.data.quota.used / rawResult.ocs.data.quota.quota * 100);
-                }
-            } else {
-                relative = rawResult.ocs.data.quota.relative;
+                rawResult.ocs.data.quota.relative = 0;
             }
-            userData.quota = { quota: rawResult.ocs.data.quota.quota, relative, used: 0 };
+            userData.quota = { quota: rawResult.ocs.data.quota.quota, relative: rawResult.ocs.data.quota.relative, used: rawResult.ocs.data.quota.used };
+            if (rawResult.ocs.data.quota.free) {
+                userData.quota.free = rawResult.ocs.data.quota.free;
+            }
+            if (rawResult.ocs.data.quota.total) {
+                userData.quota.total = rawResult.ocs.data.quota.total;
+            }
         }
-
         return userData;
     }
 
