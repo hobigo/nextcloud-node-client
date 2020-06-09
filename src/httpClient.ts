@@ -1,5 +1,10 @@
+// tslint:disable-next-line:no-var-requires
+const HttpProxyAgent = require('http-proxy-agent');
+
+// import HttpProxyAgent, { HttpProxyAgentOptions } from "http-proxy-agent";
+
 import debugFactory from "debug";
-import HttpProxyAgent, { HttpProxyAgentOptions } from "http-proxy-agent";
+import  { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";
 import {
     Headers,
@@ -70,8 +75,11 @@ export class HttpClient {
                 port: this.proxy.port,
                 protocol: this.proxy.protocol,
             };
-            const proxyAgent = HttpProxyAgent(options);
-            requestInit.agent = proxyAgent;
+
+            requestInit.agent = new HttpProxyAgent(options);
+            // const proxyAgent = HttpProxyAgent(options);
+            // requestInit.agent = proxyAgent;
+
             if (this.proxy.proxyAuthorizationHeader) {
                 (requestInit.headers as Headers).append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
             }
