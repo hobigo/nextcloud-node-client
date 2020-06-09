@@ -1,0 +1,28 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser12",
+            "method": "PUT",
+            "description": "User testUser12 update displayname=Some Display Name",
+            "body": "{\n    \"key\": \"displayname\",\n    \"value\": \"Some Display Name\"\n}"
+        },
+        "response": {
+            "status": 401,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":997,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 997,
+                        "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    }
+]

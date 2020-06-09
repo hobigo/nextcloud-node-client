@@ -13,9 +13,11 @@ import {
     IUserOptionsQuota,
     IUserQuotaUserFriendly,
     User,
+    UserProperty,
     UserNotFoundError,
     UserCreateError,
     UserAlreadyExistsError,
+    UserUpdateError,
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -345,8 +347,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     });
 
-
-    it("10 get user", async () => {
+    it.only("10 get user", async () => {
 
         const userId: string = "testUser10";
         let error: Error | null = null;
@@ -369,7 +370,77 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(error).to.be.equal(null);
         expect(user!).not.to.be.equal(null);
 
+        // ***********************
+        // quota
+        // ***********************
+        let quota: IUserOptionsQuota;
+        try {
+            quota = await user!.getQuota();
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "User getQuota expect no error").to.be.equal(null);
+        expect(quota!.quota).to.be.equal(0);
+        expect(quota!.relative).to.be.equal(0);
+        expect(quota!.used).to.be.equal(0);
+
+        let setValue: string = "1GB";
+        error = null;
+        try {
+            await user!.setQuota(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            quota = await user!.getQuota();
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "User getQuota expect no error").to.be.equal(null);
+        expect(quota!.quota).to.be.equal(1024 * 1024 * 1024);
+
+        setValue = "100MB";
+        error = null;
+        try {
+            await user!.setQuota(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            quota = await user!.getQuota();
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "User getQuota expect no error").to.be.equal(null);
+        expect(quota!.quota).to.be.equal(1024 * 1024 * 100);
+
+        let quotaUF: IUserQuotaUserFriendly;
+        try {
+            quotaUF = await user!.getQuotaUserFriendly();
+            // console.log(JSON.stringify(quotaUF, null, 4));
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "get getQuotaUserFriendly expect no error").to.be.equal(null);
+        expect(quotaUF!.quota).to.be.equal("100 MB");
+
+        // ***********************
+        // display name
+        // ***********************
+        setValue = "This is the updated display name";
         let value: string = "";
+        error = null;
+        try {
+            await user!.setDisplayName(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
         try {
             value = await user!.getDisplayName();
         } catch (e) {
@@ -377,30 +448,75 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         }
 
         expect(error, "User getDisplayName expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
 
-        let quota: IUserOptionsQuota;
+        // ***********************
+        // language
+        // ***********************
+        setValue = "de";
+        value = "";
+        error = null;
         try {
-            quota = await user!.getQuota();
-
+            await user!.setLanguage(setValue);
         } catch (e) {
             error = e;
         }
-        expect(error, "User getQuota expect no error").to.be.equal(null);
-        // @todo
+        expect(error).to.be.equal(null);
 
-        let quotaUF: IUserQuotaUserFriendly;
         try {
-            quotaUF = await user!.getQuotaUserFriendly();
-            // console.log(JSON.stringify(userData, null, 4));
+            value = await user!.getLanguage();
         } catch (e) {
             error = e;
         }
-        expect(error, "get getQuotaUserFriendly expect no error").to.be.equal(null);
-        // @todo expect(quotaUF!).not.to.be.equal(quotaUF!);
+
+        expect(error, "User getLanguage expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // invalid language
+        error = null;
+        try {
+            await user!.setLanguage("This Language is invalid");
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserUpdateError);
+
+        // ***********************
+        // email
+        // ***********************
+        setValue = "h.t.borstenson@gmail.com";
+        value = "";
+        error = null;
+        try {
+            await user!.setEmail(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        try {
+            value = await user!.getEmail();
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error, "User getEmail expect no error").to.be.equal(null);
+        expect(value).to.be.equal(setValue);
+
+        // invalid email address
+        setValue = "invaid email address";
+        value = "";
+        try {
+            await user!.setEmail(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserUpdateError);
+
 
         // ensure that the user is not available
         try {
-            await client.deleteUser(userId);
+            // @todo await client.deleteUser(userId);
         } catch (e) {
             // nop
         }
@@ -435,6 +551,17 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             expect(users.length, "expect an empty user list").to.be.equal(0);
         }
 
+    });
+
+    it("12 update non existing user", async () => {
+        const userId: string = "testUser12";
+        let error: Error | null = null;
+        try {
+            await client.updateUserProperty(userId, UserProperty.displayName, "Some Display Name");
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserNotFoundError);
     });
 
     it("20 get user groups", async () => {

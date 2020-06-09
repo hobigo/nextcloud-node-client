@@ -21,6 +21,7 @@ import ClientError, {
     UserNotFoundError,
     UserAlreadyExistsError,
     UserCreateError,
+    UserUpdateError,
 } from "./error";
 import FakeServer from "./fakeServer";
 import File from "./file";
@@ -33,7 +34,7 @@ import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
-import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly } from "./user";
+import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
 
 export {
     Client,
@@ -55,7 +56,9 @@ export {
     UserNotFoundError,
     UserAlreadyExistsError,
     UserCreateError,
+    UserUpdateError,
     UserGroup,
+    UserProperty,
     IUserOptionsQuota,
     IUserQuotaUserFriendly,
     UserGroupAlreadyExistsError,
@@ -1716,11 +1719,12 @@ export default class Client {
           }
         }
         */
+
         let userData: IUserOptions;
         debug("user data", rawResult.ocs.data);
         userData = {
             enabled: rawResult.ocs.data.enabled,
-            lastLogin: new Date(rawResult.ocs.data.lastLogin),
+            lastLogin: rawResult.ocs.data.lastLogin = 0 ? undefined : new Date(rawResult.ocs.data.lastLogin),
             subadminGroups: rawResult.ocs.data.subadmin,
             memberGroups: rawResult.ocs.data.groups,
             quota: {
@@ -1739,6 +1743,21 @@ export default class Client {
             language: rawResult.ocs.data.language,
             locale: rawResult.ocs.data.locale,
         };
+
+        if (rawResult.ocs.data.quota.quota === 'none') {
+            userData.quota = { quota: 0, relative: 0, used: 0 };
+        } else {
+            let relative: number = 0;
+            if (!rawResult.ocs.data.quota.relative) {
+                if (rawResult.ocs.data.quota.used && rawResult.ocs.data.quota.quota) {
+                    relative = Math.round(rawResult.ocs.data.quota.used / rawResult.ocs.data.quota.quota * 100);
+                }
+            } else {
+                relative = rawResult.ocs.data.quota.relative;
+            }
+            userData.quota = { quota: rawResult.ocs.data.quota.quota, relative, used: 0 };
+        }
+
         return userData;
     }
 
@@ -1856,8 +1875,9 @@ export default class Client {
      * creates a new user with email or password
      * @param options
      * @returns User
-     * @throws  UserAlreadyExistsError
-     * @throws  UserCreateError
+     * @throws UserAlreadyExistsError
+     * @throws UserNotFoundError
+     * @throws UserUpdateError
      */
     public async createUser(options: { id: string, email?: string, password?: string }): Promise<User> {
         debug("createUser");
@@ -1903,6 +1923,60 @@ export default class Client {
         }
 
         throw new UserCreateError(`Error creating user '${options.id}' - ${rawResult.ocs.meta.message} (${rawResult.ocs.meta.statuscode})`);
+    }
+
+    /**
+     * updates a user property
+     * @param id user id
+     * @param property property name
+     * @param value property value
+     * @throws  UserCreateError
+     */
+    public async updateUserProperty(id: string, property: UserProperty, value: string): Promise<void> {
+        debug("updateUserProperty");
+        const body: { key: string, value: string } = { key: property, value };
+
+        const requestInit: RequestInit = {
+            body: JSON.stringify(body, null, 4),
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "OCS-APIRequest": "true",
+            }),
+            method: "PUT",
+        };
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        debug("request body: ", requestInit.body);
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200, 401],
+            { description: `User ${id} update ${property}=${value}` });
+        const rawResult: any = await response.json();
+
+        // This service operation returns a 401, if the user does not exist - very strange...
+        // spec says to return 200 and status code 101
+        /*
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 101 {
+            throw new UserNotFoundError(`User with id '${id}' not found`);
+        }
+        */
+        // maybe this is due to a nextcloud api error
+        // it is not possible to distiguish beteen authentication error and user not found :-(
+        if (response.status === 401) {
+            throw new UserNotFoundError(`User with id '${id}' not found`);
+        }
+
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 102) {
+            throw new UserUpdateError(`User with id '${id}' could not be updated - ${property}=${value}. ${rawResult.ocs.meta.message}`);
+        }
+
     }
 
     // ***************************************************************************************

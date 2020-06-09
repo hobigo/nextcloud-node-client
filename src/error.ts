@@ -63,3 +63,8 @@ export class UserAlreadyExistsError extends BaseError { };
  * error creating user
  */
 export class UserCreateError extends BaseError { };
+
+/**
+ * error updating user
+ */
+export class UserUpdateError extends BaseError { };

@@ -1,7 +1,6 @@
 // tslint:disable-next-line:no-var-requires
 const HttpProxyAgent = require('http-proxy-agent');
 
-// import HttpProxyAgent, { HttpProxyAgentOptions } from "http-proxy-agent";
 
 import debugFactory from "debug";
 import  { HttpProxyAgentOptions } from "http-proxy-agent";
@@ -77,8 +76,6 @@ export class HttpClient {
             };
 
             requestInit.agent = new HttpProxyAgent(options);
-            // const proxyAgent = HttpProxyAgent(options);
-            // requestInit.agent = proxyAgent;
 
             if (this.proxy.proxyAuthorizationHeader) {
                 (requestInit.headers as Headers).append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
