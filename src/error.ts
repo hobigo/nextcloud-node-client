@@ -48,3 +48,18 @@ export class UserGroupDoesNotExistError extends BaseError { };
  * user group cloud not be deleted
  */
 export class UserGroupDeletionFailedError extends BaseError { };
+
+/**
+ * user not found
+ */
+export class UserNotFoundError extends BaseError { };
+
+/**
+ * user already exists
+ */
+export class UserAlreadyExistsError extends BaseError { };
+
+/**
+ * error creating user
+ */
+export class UserCreateError extends BaseError { };

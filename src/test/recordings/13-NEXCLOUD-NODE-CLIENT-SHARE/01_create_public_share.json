@@ -27,7 +27,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share1/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 03 Jun 2020 09:57:27 GMT</d:getlastmodified><d:getetag>&quot;5ed774078b391&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>30462</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share1/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 03 Jun 2020 10:37:42 GMT</d:getlastmodified><d:getetag>&quot;5ed77d76b5e3a&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>30462</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -37,8 +37,8 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Wed, 03 Jun 2020 09:57:27 GMT",
-                                    "getetag": "&quot;5ed774078b391&quot;",
+                                    "getlastmodified": "Wed, 03 Jun 2020 10:37:42 GMT",
+                                    "getetag": "&quot;5ed77d76b5e3a&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
@@ -131,7 +131,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share1/file3.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 03 Jun 2020 10:37:40 GMT</d:getlastmodified><d:getetag>&quot;85d0f3fa5b7b1c61da3da2dc730ec022&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>30722</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>19</oc:size><d:getcontentlength>19</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share1/file3.txt</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 09 Jun 2020 00:42:01 GMT</d:getlastmodified><d:getetag>&quot;0d1e5c015e940f02f03d98af23e3ab02&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>31493</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>19</oc:size><d:getcontentlength>19</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -140,11 +140,11 @@
                         "href": "/remote.php/webdav/ncncTest/share1/file3.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Wed, 03 Jun 2020 10:37:40 GMT",
-                                "getetag": "&quot;85d0f3fa5b7b1c61da3da2dc730ec022&quot;",
+                                "getlastmodified": "Tue, 09 Jun 2020 00:42:01 GMT",
+                                "getetag": "&quot;0d1e5c015e940f02f03d98af23e3ab02&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 30722,
+                                "fileid": 31493,
                                 "permissions": "RGDNVW",
                                 "size": 19,
                                 "getcontentlength": 19,
@@ -170,7 +170,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"7\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180661,\"parent\":null,\"expiration\":null,\"token\":\"oi36p2ZJtRrYQQf\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oi36p2ZJtRrYQQf\",\"mail_send\":1,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"9\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663321,\"parent\":null,\"expiration\":null,\"token\":\"oym8Srj64RoPSKF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3\\/eXtUKOsbnUeo\\/P97y6aXIcWMumk\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3\\/eXtUKOsbnUeo\\/P97y6aXIcWMumk\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oym8Srj64RoPSKF\",\"mail_send\":1,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -181,17 +181,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "7",
+                        "id": "9",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1591180661,
+                        "stime": 1591663321,
                         "parent": null,
                         "expiration": null,
-                        "token": "oi36p2ZJtRrYQQf",
+                        "token": "oym8Srj64RoPSKF",
                         "uid_file_owner": "horst",
                         "note": "",
                         "label": "",
@@ -201,15 +201,15 @@
                         "mimetype": "text/plain",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 30722,
-                        "file_source": 30722,
+                        "item_source": 31493,
+                        "file_source": 31493,
                         "file_parent": 30462,
                         "file_target": "/file3.txt",
-                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4",
+                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3/eXtUKOsbnUeo/P97y6aXIcWMumk",
                         "share_with_displayname": "(Geteilter Link)",
-                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4",
+                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3/eXtUKOsbnUeo/P97y6aXIcWMumk",
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/oi36p2ZJtRrYQQf",
+                        "url": "https://cc.hobigo.de/s/oym8Srj64RoPSKF",
                         "mail_send": 1,
                         "hide_download": 0
                     }
@@ -219,13 +219,13 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/7",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/9",
             "method": "GET",
             "description": "Share get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"7\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180661,\"parent\":null,\"expiration\":null,\"token\":\"oi36p2ZJtRrYQQf\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oi36p2ZJtRrYQQf\",\"mail_send\":0,\"hide_download\":0}]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"9\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663321,\"parent\":null,\"expiration\":null,\"token\":\"oym8Srj64RoPSKF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3\\/eXtUKOsbnUeo\\/P97y6aXIcWMumk\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3\\/eXtUKOsbnUeo\\/P97y6aXIcWMumk\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oym8Srj64RoPSKF\",\"mail_send\":0,\"hide_download\":0}]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -237,17 +237,17 @@
                     },
                     "data": [
                         {
-                            "id": "7",
+                            "id": "9",
                             "share_type": 3,
                             "uid_owner": "horst",
                             "displayname_owner": "Horst-Thorsten Borstenson",
                             "permissions": 1,
                             "can_edit": true,
                             "can_delete": true,
-                            "stime": 1591180661,
+                            "stime": 1591663321,
                             "parent": null,
                             "expiration": null,
-                            "token": "oi36p2ZJtRrYQQf",
+                            "token": "oym8Srj64RoPSKF",
                             "uid_file_owner": "horst",
                             "note": "",
                             "label": "",
@@ -257,15 +257,15 @@
                             "mimetype": "text/plain",
                             "storage_id": "home::horst",
                             "storage": 4,
-                            "item_source": 30722,
-                            "file_source": 30722,
+                            "item_source": 31493,
+                            "file_source": 31493,
                             "file_parent": 30462,
                             "file_target": "/file3.txt",
-                            "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4",
+                            "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3/eXtUKOsbnUeo/P97y6aXIcWMumk",
                             "share_with_displayname": "(Geteilter Link)",
-                            "password": "2|$argon2i$v=19$m=65536,t=4,p=1$Y25TOWQ2OXBseDU2bGQzaw$w1ca8P+ZnY6pzgjk83nePxPBmm+h8AX+fYRYyZ0KUT4",
+                            "password": "2|$argon2i$v=19$m=65536,t=4,p=1$ZERiL1lLV1IzckpDT1dBZA$1iFxc1rXZhCFoI3/eXtUKOsbnUeo/P97y6aXIcWMumk",
                             "send_password_by_talk": false,
-                            "url": "https://cc.hobigo.de/s/oi36p2ZJtRrYQQf",
+                            "url": "https://cc.hobigo.de/s/oym8Srj64RoPSKF",
                             "mail_send": 0,
                             "hide_download": 0
                         }
@@ -276,14 +276,14 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/7",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/9",
             "method": "PUT",
             "description": "Share update",
             "body": "{\n    \"password\": \"some password\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"7\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180661,\"parent\":null,\"expiration\":null,\"token\":\"oi36p2ZJtRrYQQf\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oi36p2ZJtRrYQQf\",\"mail_send\":0,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"9\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663321,\"parent\":null,\"expiration\":null,\"token\":\"oym8Srj64RoPSKF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oym8Srj64RoPSKF\",\"mail_send\":0,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -294,17 +294,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "7",
+                        "id": "9",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1591180661,
+                        "stime": 1591663321,
                         "parent": null,
                         "expiration": null,
-                        "token": "oi36p2ZJtRrYQQf",
+                        "token": "oym8Srj64RoPSKF",
                         "uid_file_owner": "horst",
                         "note": "",
                         "label": "",
@@ -314,15 +314,15 @@
                         "mimetype": "text/plain",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 30722,
-                        "file_source": 30722,
+                        "item_source": 31493,
+                        "file_source": 31493,
                         "file_parent": 30462,
                         "file_target": "/file3.txt",
-                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "share_with_displayname": "(Geteilter Link)",
-                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/oi36p2ZJtRrYQQf",
+                        "url": "https://cc.hobigo.de/s/oym8Srj64RoPSKF",
                         "mail_send": 0,
                         "hide_download": 0
                     }
@@ -332,14 +332,14 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/7",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/9",
             "method": "PUT",
             "description": "Share update",
             "body": "{\n    \"note\": \"This is a Note\\nNew Line\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"7\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180661,\"parent\":null,\"expiration\":null,\"token\":\"oi36p2ZJtRrYQQf\",\"uid_file_owner\":\"horst\",\"note\":\"This is a Note\\nNew Line\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oi36p2ZJtRrYQQf\",\"mail_send\":0,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"9\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663321,\"parent\":null,\"expiration\":null,\"token\":\"oym8Srj64RoPSKF\",\"uid_file_owner\":\"horst\",\"note\":\"This is a Note\\nNew Line\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oym8Srj64RoPSKF\",\"mail_send\":0,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -350,17 +350,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "7",
+                        "id": "9",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1591180661,
+                        "stime": 1591663321,
                         "parent": null,
                         "expiration": null,
-                        "token": "oi36p2ZJtRrYQQf",
+                        "token": "oym8Srj64RoPSKF",
                         "uid_file_owner": "horst",
                         "note": "This is a Note\nNew Line",
                         "label": "",
@@ -370,15 +370,15 @@
                         "mimetype": "text/plain",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 30722,
-                        "file_source": 30722,
+                        "item_source": 31493,
+                        "file_source": 31493,
                         "file_parent": 30462,
                         "file_target": "/file3.txt",
-                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "share_with_displayname": "(Geteilter Link)",
-                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/oi36p2ZJtRrYQQf",
+                        "url": "https://cc.hobigo.de/s/oym8Srj64RoPSKF",
                         "mail_send": 0,
                         "hide_download": 0
                     }
@@ -388,14 +388,14 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/7",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/9",
             "method": "PUT",
             "description": "Share update",
             "body": "{\n    \"expireDate\": \"2020-12-04\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"7\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180661,\"parent\":null,\"expiration\":\"2020-12-04 00:00:00\",\"token\":\"oi36p2ZJtRrYQQf\",\"uid_file_owner\":\"horst\",\"note\":\"This is a Note\\nNew Line\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oi36p2ZJtRrYQQf\",\"mail_send\":0,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"9\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663321,\"parent\":null,\"expiration\":\"2020-12-04 00:00:00\",\"token\":\"oym8Srj64RoPSKF\",\"uid_file_owner\":\"horst\",\"note\":\"This is a Note\\nNew Line\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"share_with_displayname\":\"(Geteilter Link)\",\"password\":\"2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw\",\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/oym8Srj64RoPSKF\",\"mail_send\":0,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -406,17 +406,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "7",
+                        "id": "9",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1591180661,
+                        "stime": 1591663321,
                         "parent": null,
                         "expiration": "2020-12-04 00:00:00",
-                        "token": "oi36p2ZJtRrYQQf",
+                        "token": "oym8Srj64RoPSKF",
                         "uid_file_owner": "horst",
                         "note": "This is a Note\nNew Line",
                         "label": "",
@@ -426,15 +426,15 @@
                         "mimetype": "text/plain",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 30722,
-                        "file_source": 30722,
+                        "item_source": 31493,
+                        "file_source": 31493,
                         "file_parent": 30462,
                         "file_target": "/file3.txt",
-                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "share_with": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "share_with_displayname": "(Geteilter Link)",
-                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$TWl2eHNVRWNpNnFLSThRTg$mw5B0ADaCvD8ugoZK3uPmPmD+wRkHUkhCvLmCc+njYo",
+                        "password": "2|$argon2i$v=19$m=65536,t=4,p=1$ZGZ4eG9RSTJtY1k2akViTQ$eN7xlaSiNG3EsKqorFH7wEyZNXvDHHWW38UZkJl1Kuw",
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/oi36p2ZJtRrYQQf",
+                        "url": "https://cc.hobigo.de/s/oym8Srj64RoPSKF",
                         "mail_send": 0,
                         "hide_download": 0
                     }
@@ -444,7 +444,7 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/7",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/9",
             "method": "DELETE",
             "description": "Share delete"
         },
@@ -474,7 +474,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"8\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180662,\"parent\":null,\"expiration\":null,\"token\":\"DN5gFggLRckKqgY\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/DN5gFggLRckKqgY\",\"mail_send\":1,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"10\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663323,\"parent\":null,\"expiration\":null,\"token\":\"w4GYW4z3xjLbbnj\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/w4GYW4z3xjLbbnj\",\"mail_send\":1,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -485,17 +485,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "8",
+                        "id": "10",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1591180662,
+                        "stime": 1591663323,
                         "parent": null,
                         "expiration": null,
-                        "token": "DN5gFggLRckKqgY",
+                        "token": "w4GYW4z3xjLbbnj",
                         "uid_file_owner": "horst",
                         "note": "",
                         "label": "",
@@ -505,15 +505,15 @@
                         "mimetype": "text/plain",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 30722,
-                        "file_source": 30722,
+                        "item_source": 31493,
+                        "file_source": 31493,
                         "file_parent": 30462,
                         "file_target": "/file3.txt",
                         "share_with": null,
                         "share_with_displayname": "(Geteilter Link)",
                         "password": null,
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/DN5gFggLRckKqgY",
+                        "url": "https://cc.hobigo.de/s/w4GYW4z3xjLbbnj",
                         "mail_send": 1,
                         "hide_download": 0
                     }
@@ -523,13 +523,13 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/8",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/10",
             "method": "GET",
             "description": "Share get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"8\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591180662,\"parent\":null,\"expiration\":null,\"token\":\"DN5gFggLRckKqgY\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":30722,\"file_source\":30722,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/DN5gFggLRckKqgY\",\"mail_send\":0,\"hide_download\":0}]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"10\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1591663323,\"parent\":null,\"expiration\":null,\"token\":\"w4GYW4z3xjLbbnj\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share1\\/file3.txt\",\"item_type\":\"file\",\"mimetype\":\"text\\/plain\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":31493,\"file_source\":31493,\"file_parent\":30462,\"file_target\":\"\\/file3.txt\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/w4GYW4z3xjLbbnj\",\"mail_send\":0,\"hide_download\":0}]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -541,17 +541,17 @@
                     },
                     "data": [
                         {
-                            "id": "8",
+                            "id": "10",
                             "share_type": 3,
                             "uid_owner": "horst",
                             "displayname_owner": "Horst-Thorsten Borstenson",
                             "permissions": 1,
                             "can_edit": true,
                             "can_delete": true,
-                            "stime": 1591180662,
+                            "stime": 1591663323,
                             "parent": null,
                             "expiration": null,
-                            "token": "DN5gFggLRckKqgY",
+                            "token": "w4GYW4z3xjLbbnj",
                             "uid_file_owner": "horst",
                             "note": "",
                             "label": "",
@@ -561,15 +561,15 @@
                             "mimetype": "text/plain",
                             "storage_id": "home::horst",
                             "storage": 4,
-                            "item_source": 30722,
-                            "file_source": 30722,
+                            "item_source": 31493,
+                            "file_source": 31493,
                             "file_parent": 30462,
                             "file_target": "/file3.txt",
                             "share_with": null,
                             "share_with_displayname": "(Geteilter Link)",
                             "password": null,
                             "send_password_by_talk": false,
-                            "url": "https://cc.hobigo.de/s/DN5gFggLRckKqgY",
+                            "url": "https://cc.hobigo.de/s/w4GYW4z3xjLbbnj",
                             "mail_send": 0,
                             "hide_download": 0
                         }

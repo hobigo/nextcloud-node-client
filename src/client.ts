@@ -12,7 +12,16 @@ import {
 import path, { basename } from "path";
 import Environment from "./environment";
 import EnvironmentVcapServices from "./environmentVcapServices";
-import ClientError, { QueryLimitError, QueryOffsetError, UserGroupAlreadyExistsError, UserGroupDeletionFailedError, UserGroupDoesNotExistError } from "./error";
+import ClientError, {
+    QueryLimitError,
+    QueryOffsetError,
+    UserGroupAlreadyExistsError,
+    UserGroupDeletionFailedError,
+    UserGroupDoesNotExistError,
+    UserNotFoundError,
+    UserAlreadyExistsError,
+    UserCreateError,
+} from "./error";
 import FakeServer from "./fakeServer";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
@@ -24,7 +33,7 @@ import Server from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
-import User, { IUserOptions, IUserOptionsQuota } from "./user";
+import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly } from "./user";
 
 export {
     Client,
@@ -43,7 +52,12 @@ export {
     RequestResponseLog,
     RequestResponseLogEntry,
     User,
+    UserNotFoundError,
+    UserAlreadyExistsError,
+    UserCreateError,
     UserGroup,
+    IUserOptionsQuota,
+    IUserQuotaUserFriendly,
     UserGroupAlreadyExistsError,
     UserGroupDeletionFailedError,
     UserGroupDoesNotExistError,
@@ -1659,6 +1673,12 @@ export default class Client {
         return users;
     }
 
+    /**
+     * returns user data
+     * @param id string the user id
+     * @returns Promise<IUserOptions> user data
+     * @throws UserNotFoundError
+     */
     public async getUserData(id: string): Promise<IUserOptions> {
         debug("getUserData");
         const requestInit: RequestInit = {
@@ -1675,6 +1695,13 @@ export default class Client {
             [200],
             { description: `User ${id} get` });
         const rawResult: any = await response.json();
+
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 404) {
+            throw new UserNotFoundError(`User '${id}' not found`);
+        }
         /*
         {
           ocs: {
@@ -1690,32 +1717,125 @@ export default class Client {
         }
         */
         let userData: IUserOptions;
-        if (rawResult.ocs &&
-            rawResult.ocs.data) {
-            debug("user data", rawResult.ocs.data);
-            userData = {
-                enabled: rawResult.ocs.data.enabled,
-                lastLogin: new Date(rawResult.ocs.data.lastLogin),
-                subadminGroups: rawResult.ocs.data.subadmin,
-                memberGroups: rawResult.ocs.data.groups,
-                quota: {
-                    free: rawResult.ocs.data.quota.free,
-                    used: rawResult.ocs.data.quota.used,
-                    total: rawResult.ocs.data.quota.total,
-                    relative: rawResult.ocs.data.quota.relative,
-                    quota: rawResult.ocs.data.quota.quota
-                },
-                email: rawResult.ocs.data.email,
-                displayName: rawResult.ocs.data.displayname,
-                phone: rawResult.ocs.data.phone,
-                address: rawResult.ocs.data.address,
-                website: rawResult.ocs.data.website,
-                twitter: rawResult.ocs.data.twitter,
-                language: rawResult.ocs.data.language,
-                locale: rawResult.ocs.data.loacel,
-            };
-        }
+        debug("user data", rawResult.ocs.data);
+        userData = {
+            enabled: rawResult.ocs.data.enabled,
+            lastLogin: new Date(rawResult.ocs.data.lastLogin),
+            subadminGroups: rawResult.ocs.data.subadmin,
+            memberGroups: rawResult.ocs.data.groups,
+            quota: {
+                free: rawResult.ocs.data.quota.free,
+                used: rawResult.ocs.data.quota.used,
+                total: rawResult.ocs.data.quota.total,
+                relative: rawResult.ocs.data.quota.relative,
+                quota: rawResult.ocs.data.quota.quota
+            },
+            email: rawResult.ocs.data.email,
+            displayName: rawResult.ocs.data.displayname,
+            phone: rawResult.ocs.data.phone,
+            address: rawResult.ocs.data.address,
+            website: rawResult.ocs.data.website,
+            twitter: rawResult.ocs.data.twitter,
+            language: rawResult.ocs.data.language,
+            locale: rawResult.ocs.data.locale,
+        };
         return userData;
+    }
+
+    /**
+     * enables the user
+     * @param id string the user id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     */
+    public async enableUser(id: string): Promise<void> {
+        debug("enableUser");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "PUT",
+        };
+
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}/enable`;
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `User ${id} enable` });
+        const rawResult: any = await response.json();
+
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 100) {
+            return
+        }
+        throw new UserNotFoundError(`User '${id}' not found`);
+    }
+
+    /**
+     * disables the user
+     * @param id string the user id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     */
+    public async disableUser(id: string): Promise<void> {
+        debug("disableUser");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "PUT",
+        };
+
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}/disable`;
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `User ${id} disable` });
+        const rawResult: any = await response.json();
+
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 100) {
+            return
+        }
+        throw new UserNotFoundError(`User '${id}' not found`);
+    }
+
+    /**
+     * deletes the user
+     * @param id string the user id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     */
+    public async deleteUser(id: string): Promise<void> {
+        debug("deleteUser");
+        const requestInit: RequestInit = {
+            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            method: "DELETE",
+        };
+
+        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `User ${id} delete` });
+        const rawResult: any = await response.json();
+
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 100) {
+            return
+        }
+        throw new UserNotFoundError(`User '${id}' not found`);
     }
 
     /**
@@ -1732,34 +1852,30 @@ export default class Client {
         return null;
     }
 
-
-
-    public async getUserDetailsByID(userId: string): Promise<object> {
-        const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            // ?perPage=1 page=
-            this.nextcloudOrigin + `/ocs/v1.php/cloud/users/${userId}`,
-            requestInit,
-            [200],
-            { description: "UserDetailsByID get" });
-        const rawResult: any = await response.json();
-        let userDetails: object = {};
-        if (rawResult.ocs &&
-            rawResult.ocs.data) {
-            userDetails = rawResult.ocs.data;
+    /**
+     * creates a new user with email or password
+     * @param options
+     * @returns User
+     * @throws  UserAlreadyExistsError
+     * @throws  UserCreateError
+     */
+    public async createUser(options: { id: string, email?: string, password?: string }): Promise<User> {
+        debug("createUser");
+        const createUserBody: { userid: string, password?: string, email?: string } = { userid: options.id };
+        if (options.email) {
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(options.email)) {
+                createUserBody.email = options.email;
+            } else {
+                throw new UserCreateError(`Error creating user '${options.id}' - invalid email address '${options.email}'`);
+            }
         }
-        return userDetails;
-    }
+        if (options.password) {
+            createUserBody.password = options.password;
+        }
 
-    public async createUser(options: { userId: string, email: string } | { userId: string, password: string }): Promise<void> {
         const requestInit: RequestInit = {
-            body: JSON.stringify(options, null, 4),
+            body: JSON.stringify(createUserBody, null, 4),
             headers: new Headers({
-                // "Content-Type": "application/x-www-form-urlencoded",
                 "Accept": "application/json",
                 "Content-Type": "application/json",
                 "OCS-APIRequest": "true",
@@ -1771,15 +1887,22 @@ export default class Client {
             this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
             requestInit,
             [200],
-            { description: "User create" });
+            { description: `User ${options.id} create` });
         const rawResult: any = await response.json();
 
-        // ocs.meta.status=failure
-        // ocs.meta.statuscode: 102 already exists, 101 bad request
-        // ocs.meta.status=ok
-        // ocs.meta.statuscode: 100 ok
+        if (rawResult.ocs &&
+            rawResult.ocs.meta &&
+            rawResult.ocs.meta.statuscode &&
+            rawResult.ocs.meta.statuscode === 102) {
+            throw new UserAlreadyExistsError(`User with id '${options.id}' already exists`);
+        }
 
-        debug(rawResult);
+        const user: User | null = await this.getUser(options.id);
+        if (user) {
+            return user;
+        }
+
+        throw new UserCreateError(`Error creating user '${options.id}' - ${rawResult.ocs.meta.message} (${rawResult.ocs.meta.statuscode})`);
     }
 
     // ***************************************************************************************

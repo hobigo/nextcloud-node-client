@@ -290,19 +290,20 @@ A code coverage of 100% is aspired
 
 ### User management
 User: 
-* get
-* getIds limit, offset, search
-* create
+* <strike>get</strike>
+* <strike>getIds limit, offset, search</strike>
+* <strike>create</strike>
 * update
-* delete 
-* deactivate
+* <strike>delete </strike>
+* <strike>deactivate</strike>
 * add/remove group
 * send notification
+* example in readme
 
 User group: 
-* get
-* create 
-* delete
+* <strike>get</strike>
+* <strike>create</strike>
+* <strike>delete</strike>
 
 ### Streams
 Create file and get file using streams

@@ -1,13 +1,13 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users",
+            "url": "/ocs/v1.php/cloud/users?search=testUser02",
             "method": "GET",
-            "description": "UserIDs get"
+            "description": "Users get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"holger\",\"horst\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -20,10 +20,7 @@
                         "itemsperpage": ""
                     },
                     "data": {
-                        "users": [
-                            "holger",
-                            "horst"
-                        ]
+                        "users": []
                     }
                 }
             }
