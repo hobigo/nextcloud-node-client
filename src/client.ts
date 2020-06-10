@@ -15,6 +15,9 @@ import EnvironmentVcapServices from "./environmentVcapServices";
 import ClientError, {
     QueryLimitError,
     QueryOffsetError,
+    InsufficientPrivilegesError,
+    InvalidServiceResponseFormatError,
+    OperationFailedError,
     UserGroupAlreadyExistsError,
     UserGroupDeletionFailedError,
     UserGroupDoesNotExistError,
@@ -37,10 +40,23 @@ import UserGroup from "./userGroup";
 import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
 
 export {
-    Client,
-    ClientError,
+    InvalidServiceResponseFormatError,
+    InsufficientPrivilegesError,
+    OperationFailedError,
     QueryLimitError,
     QueryOffsetError,
+    UserNotFoundError,
+    UserAlreadyExistsError,
+    UserCreateError,
+    UserUpdateError,
+    UserGroupAlreadyExistsError,
+    UserGroupDeletionFailedError,
+    UserGroupDoesNotExistError,
+}
+
+export {
+    Client,
+    ClientError,
     Environment,
     Folder,
     File,
@@ -53,17 +69,10 @@ export {
     RequestResponseLog,
     RequestResponseLogEntry,
     User,
-    UserNotFoundError,
-    UserAlreadyExistsError,
-    UserCreateError,
-    UserUpdateError,
     UserGroup,
     UserProperty,
     IUserOptionsQuota,
     IUserQuotaUserFriendly,
-    UserGroupAlreadyExistsError,
-    UserGroupDeletionFailedError,
-    UserGroupDoesNotExistError,
 };
 
 const debug = debugFactory("NCClient");
@@ -1106,7 +1115,7 @@ export default class Client {
      */
     public async getSystemInfo(): Promise<ISystemInfo> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
@@ -1182,7 +1191,7 @@ export default class Client {
 
     public async getSystemBasicData(): Promise<ISysBasicData> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
@@ -1222,7 +1231,7 @@ export default class Client {
      */
     public async getNotifications(): Promise<object[]> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
@@ -1253,7 +1262,7 @@ export default class Client {
 
     public async getUpdateNotifications(version: string): Promise<object> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
@@ -1277,6 +1286,7 @@ export default class Client {
         return result;
     }
 
+    // @todo to be refactored to user
     public async sendNotificationToUser(userId: string, shortMessage: string, longMessage?: string): Promise<void> {
         const requestInit: RequestInit = {
             headers: new Headers({
@@ -1309,12 +1319,12 @@ export default class Client {
      */
     public async getApps(): Promise<string[]> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/apps",
+            this.getOcsUrl(`/apps`),
             requestInit,
             [200],
             { description: "Apps get" });
@@ -1335,12 +1345,12 @@ export default class Client {
     }
     public async getAppInfos(appName: string): Promise<object> {
         const requestInit: RequestInit = {
-            headers: new Headers({ "ocs-apirequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v1.php/cloud/apps/${appName}`,
+            this.getOcsUrl(`/apps/${appName}`),
             requestInit,
             [200],
             { description: "App Infos get" });
@@ -1381,11 +1391,11 @@ export default class Client {
     public async getUserGroups(search?: string, limit?: number, offset?: number): Promise<UserGroup[]> {
         debug("getUserGroups");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
-        let url = this.nextcloudOrigin + "/ocs/v1.php/cloud/groups";
+        let url = this.getOcsUrl(`/groups`);
         const queryParameter: string[] = [];
         if (search) {
             queryParameter.push(`search=${search}`);
@@ -1463,11 +1473,11 @@ export default class Client {
     public async getUserGroupMembers(id: string): Promise<string[]> {
         debug("getUserGroupMembers");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}`;
+        const url = this.getOcsUrl(`/groups/${id}`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1478,7 +1488,7 @@ export default class Client {
         const rawResult: any = await response.json();
         const userIds: string[] = [];
 
-        if (rawResult.ocs.meta.statuscode === 404) {
+        if (this.getOcsMetaStatus(rawResult).code === 404) {
             throw new UserGroupDoesNotExistError(`User Group ${id} does not exist`);
         }
 
@@ -1503,11 +1513,11 @@ export default class Client {
     public async getUserGroupSubadmins(id: string): Promise<string[]> {
         debug("getUserGroupsubadmins");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}/subadmins`;
+        const url = this.getOcsUrl(`/groups/${id}/subadmins`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1518,7 +1528,7 @@ export default class Client {
         const rawResult: any = await response.json();
         const userIds: string[] = [];
 
-        if (rawResult.ocs.meta.statuscode === 101) {
+        if (this.getOcsMetaStatus(rawResult).code === 101) {
             throw new UserGroupDoesNotExistError(`User Group ${id} does not exist`);
         }
 
@@ -1543,22 +1553,18 @@ export default class Client {
         debug("createUserGroup id=", id);
         const requestInit: RequestInit = {
             body: JSON.stringify({ groupid: id }),
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                "OCS-APIRequest": "true",
-            }),
+            headers: this.getOcsHeaders(),
             method: "POST",
         };
         debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
-            `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups`,
+            this.getOcsUrl(`/groups`),
             requestInit,
             [200],
             { description: "UserGroup create" });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs.meta.statuscode === 102) {
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
             throw new UserGroupAlreadyExistsError(`User Group ${id} already exists`);
         }
 
@@ -1576,29 +1582,24 @@ export default class Client {
     public async deleteUserGroup(id: string): Promise<void> {
         debug("deleteUserGroup id=", id);
         const requestInit: RequestInit = {
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json;charset=UTF-8",
-                "OCS-APIRequest": "true",
-            }),
+            headers: this.getOcsHeaders(),
             method: "DELETE",
         };
         debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
-            `${this.nextcloudOrigin}/ocs/v1.php/cloud/groups/${id}`,
+            this.getOcsUrl(`/groups/${id}`),
             requestInit,
             [200],
             { description: "UserGroup delete" });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs.meta.statuscode === 101) {
+        if (this.getOcsMetaStatus(rawResult).code === 101) {
             throw new UserGroupDoesNotExistError(`User Group ${id} does not exists`);
         }
 
-        if (rawResult.ocs.meta.statuscode === 102) {
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
             throw new UserGroupDeletionFailedError(`User Group ${id} could not be deleted`);
         }
-
     }
 
     // ***************************************************************************************
@@ -1616,11 +1617,11 @@ export default class Client {
     public async getUsers(search?: string, limit?: number, offset?: number): Promise<User[]> {
         debug("getUsers");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
-        let url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users`;
+        let url = this.getOcsUrl(`/users`);
         const queryParameter: string[] = [];
         if (search) {
             queryParameter.push(`search=${search}`);
@@ -1685,11 +1686,11 @@ export default class Client {
     public async getUserData(id: string): Promise<IUserOptions> {
         debug("getUserData");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        const url = this.getOcsUrl(`/users/${id}`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1699,10 +1700,7 @@ export default class Client {
             { description: `User ${id} get` });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 404) {
+        if (this.getOcsMetaStatus(rawResult).code === 404) {
             throw new UserNotFoundError(`User '${id}' not found`);
         }
         /*
@@ -1769,11 +1767,11 @@ export default class Client {
     public async enableUser(id: string): Promise<void> {
         debug("enableUser");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "PUT",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}/enable`;
+        const url = this.getOcsUrl(`/users/${id}/enable`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1783,10 +1781,7 @@ export default class Client {
             { description: `User ${id} enable` });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 100) {
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
             return
         }
         throw new UserNotFoundError(`User '${id}' not found`);
@@ -1801,11 +1796,11 @@ export default class Client {
     public async disableUser(id: string): Promise<void> {
         debug("disableUser");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "PUT",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}/disable`;
+        const url = this.getOcsUrl(`/users/${id}/disable`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1815,10 +1810,7 @@ export default class Client {
             { description: `User ${id} disable` });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 100) {
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
             return
         }
         throw new UserNotFoundError(`User '${id}' not found`);
@@ -1833,11 +1825,11 @@ export default class Client {
     public async deleteUser(id: string): Promise<void> {
         debug("deleteUser");
         const requestInit: RequestInit = {
-            headers: new Headers({ "OCS-APIRequest": "true", "Accept": "application/json" }),
+            headers: this.getOcsHeaders(),
             method: "DELETE",
         };
 
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        const url = this.getOcsUrl(`/users/${id}`);
         debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
@@ -1847,10 +1839,7 @@ export default class Client {
             { description: `User ${id} delete` });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 100) {
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
             return
         }
         throw new UserNotFoundError(`User '${id}' not found`);
@@ -1894,25 +1883,18 @@ export default class Client {
 
         const requestInit: RequestInit = {
             body: JSON.stringify(createUserBody, null, 4),
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "OCS-APIRequest": "true",
-            }),
+            headers: this.getOcsHeaders(),
             method: "POST",
         };
         debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v1.php/cloud/users",
+            this.getOcsUrl(`/users`),
             requestInit,
             [200],
             { description: `User ${options.id} create` });
         const rawResult: any = await response.json();
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 102) {
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
             throw new UserAlreadyExistsError(`User with id '${options.id}' already exists`);
         }
 
@@ -1921,7 +1903,7 @@ export default class Client {
             return user;
         }
 
-        throw new UserCreateError(`Error creating user '${options.id}' - ${rawResult.ocs.meta.message} (${rawResult.ocs.meta.statuscode})`);
+        throw new UserCreateError(`Error creating user '${options.id}' - ${this.getOcsMetaStatus(rawResult).message} (${this.getOcsMetaStatus(rawResult).code})`);
     }
 
     /**
@@ -1937,14 +1919,10 @@ export default class Client {
 
         const requestInit: RequestInit = {
             body: JSON.stringify(body, null, 4),
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "OCS-APIRequest": "true",
-            }),
+            headers: this.getOcsHeaders(),
             method: "PUT",
         };
-        const url = `${this.nextcloudOrigin}/ocs/v1.php/cloud/users/${id}`;
+        const url = this.getOcsUrl(`/users/${id}`);
         debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             url,
@@ -1956,10 +1934,7 @@ export default class Client {
         // This service operation returns a 401, if the user does not exist - very strange...
         // spec says to return 200 and status code 101
         /*
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 101 {
+        if (this.getOcsMetaStatus(rawResult).code === 101) {
             throw new UserNotFoundError(`User with id '${id}' not found`);
         }
         */
@@ -1969,13 +1944,108 @@ export default class Client {
             throw new UserNotFoundError(`User with id '${id}' not found`);
         }
 
-        if (rawResult.ocs &&
-            rawResult.ocs.meta &&
-            rawResult.ocs.meta.statuscode &&
-            rawResult.ocs.meta.statuscode === 102) {
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
             throw new UserUpdateError(`User with id '${id}' could not be updated - ${property}=${value}. ${rawResult.ocs.meta.message}`);
         }
 
+    }
+
+    /**
+     * adds a user to a group as member
+     * @param id string the user id
+     * @param userGroupId string the user group id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     * @throws UserGroupDoesNotExistError
+     * @throws InsufficientPrivilegesError
+     * @throws OperationFailedError
+     */
+    public async addUserToMemberUserGroup(id: string, userGroupId: string): Promise<void> {
+        debug("addUserToUserGroup");
+
+        const body: { groupid: string } = { groupid: userGroupId };
+        const requestInit: RequestInit = {
+            body: JSON.stringify(body, null, 4),
+            headers: this.getOcsHeaders(),
+            method: "POST",
+        };
+
+        const url = this.getOcsUrl(`/users/${id}/groups`);
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `Add User ${id} to user group ${userGroupId}` });
+        const rawResult: any = await response.json();
+
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
+            throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 103) {
+            throw new UserNotFoundError(`User ${id} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 104) {
+            throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+        }
+
+        throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    }
+
+    /**
+     * promotes a user to a user group subadmin
+     * @param id string the user id
+     * @param userGroupId string the user group id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     * @throws UserGroupDoesNotExistError
+     * @throws InsufficientPrivilegesError
+     * @throws OperationFailedError
+     */
+    public async promoteUserToUserGroupSubadmin(id: string, userGroupId: string): Promise<void> {
+        debug("promoteUserToUserGroupSubadmin");
+
+        const body: { groupid: string } = { groupid: userGroupId };
+        const requestInit: RequestInit = {
+            body: JSON.stringify(body, null, 4),
+            headers: this.getOcsHeaders(),
+            method: "POST",
+        };
+
+        const url = this.getOcsUrl(`/users/${id}/subadmins`);
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `Promote User ${id} to user group subadmin ${userGroupId}` });
+        const rawResult: any = await response.json();
+
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
+            throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 101) {
+            throw new UserNotFoundError(`User ${id} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 104) {
+            throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+        }
+
+        throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
     }
 
     // ***************************************************************************************
@@ -1991,15 +2061,9 @@ export default class Client {
         const shareRequest = Share.createShareRequestBody(options);
         debug(shareRequest);
 
-        const headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-            "OCS-APIRequest": "true",
-        };
-
         const requestInit: RequestInit = {
             body: shareRequest,
-            headers: new Headers(headers),
+            headers: this.getOcsHeaders(),
             method: "POST",
         };
         const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares";
@@ -2030,15 +2094,9 @@ export default class Client {
 
         debug("updateShare body ", body);
 
-        const headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json;charset=UTF-8",
-            "OCS-APIRequest": "true",
-        };
-
         const requestInit: RequestInit = {
             body: JSON.stringify(body, null, 4),
-            headers: new Headers(headers),
+            headers: this.getOcsHeaders(),
             method: "PUT",
         };
         const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
@@ -2057,13 +2115,8 @@ export default class Client {
      */
     public async getShare(shareId: string): Promise<any> {
 
-        const headers = {
-            "Accept": "application/json",
-            "OCS-APIRequest": "true",
-        };
-
         const requestInit: RequestInit = {
-            headers: new Headers(headers),
+            headers: this.getOcsHeaders(),
             method: "GET",
         };
         const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
@@ -2093,13 +2146,8 @@ export default class Client {
      */
     public async deleteShare(shareId: string): Promise<any> {
 
-        const headers = {
-            "Accept": "application/json",
-            "OCS-APIRequest": "true",
-        };
-
         const requestInit: RequestInit = {
-            headers: new Headers(headers),
+            headers: this.getOcsHeaders(),
             method: "DELETE",
         };
         const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
@@ -2389,6 +2437,41 @@ export default class Client {
                 "ERR_STAT");
         }
         return resultStat;
+    }
+
+    private getOcsMetaStatus(input: any): { code: number, message: string } {
+        let code: number;
+        let message: string = "";
+        if (input.ocs &&
+            input.ocs.meta &&
+            input.ocs.meta.statuscode) {
+            code = input.ocs.meta.statuscode;
+            if (input.ocs.meta.message) {
+                message = input.ocs.meta.message;
+            }
+            return { code, message }
+        }
+        throw new InvalidServiceResponseFormatError("Fatal Error: The OCS meta status could not be retrieved from OCS response");
+    }
+
+    private getOcsHeaders(): Headers {
+        return new Headers({
+            "OCS-APIRequest": "true",
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        });
+    }
+
+    private getOcsUrl(suffix: string): string {
+        /*
+        if (!suffix) {
+            suffix = "";
+        }
+        if (!suffix.startsWith("/")) {
+            suffix = `/${suffix}`
+        }
+        */
+        return `${this.nextcloudOrigin}/ocs/v1.php/cloud${suffix}`;
     }
 
     private async putFileContents(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<Response> {

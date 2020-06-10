@@ -68,3 +68,19 @@ export class UserCreateError extends BaseError { };
  * error updating user
  */
 export class UserUpdateError extends BaseError { };
+
+/**
+ * the service response is invalid
+ */
+export class InvalidServiceResponseFormatError extends BaseError { };
+
+/**
+ * the service response is invalid
+ */
+export class InsufficientPrivilegesError extends BaseError { };
+
+/**
+ * operation failed
+ */
+export class OperationFailedError extends BaseError { };
+

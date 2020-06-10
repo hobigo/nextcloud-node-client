@@ -296,8 +296,8 @@ User:
 * <strike>update</strike>
 * <strike>delete</strike>
 * <strike>deactivate</strike>
-* add/remove group member
-* add/remove group subadmin
+* <strike>add/remove group member</strike>
+* <strike>add/remove group subadmin</strike>
 * send notification
 * example in readme
 

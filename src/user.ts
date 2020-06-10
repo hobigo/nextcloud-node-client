@@ -1,4 +1,4 @@
-import Client, { ClientError, IQuota, UserGroup } from "./client";
+import Client, { ClientError, IQuota, UserGroup, UserGroupDoesNotExistError } from "./client";
 import FileSizeFormatter from "./fileSizeFormatter";
 
 export enum UserProperty {
@@ -224,30 +224,52 @@ export default class User {
     // **********************************
     // user group member
     // **********************************
-    async getMemberUserGroups() {
-        // @todo
+
+    /**
+     * @returns a list of user groups where the user is member
+     */
+    async getMemberUserGroups(): Promise<UserGroup[]> {
+        const groupIds: string[] = (await this.getUserData()).memberGroups;
+        const result: UserGroup[] = [];
+        for (const groupId of groupIds) {
+            result.push(new UserGroup(this.client, groupId));
+        }
+        return result;
     }
 
-    // **********************************
-    // user group subadmin
-    // **********************************
-    async getSubadminUserGroups() {
-        // @todo
-    }
-
-    async addToMemberUserGroups() {
-        // @todo
+    /**
+     * adds the user to a user group as member
+     * @param userGroup the user group
+     */
+    async addToMemberUserGroup(userGroup: UserGroup): Promise<void> {
+        return this.client.addUserToMemberUserGroup(this.id, userGroup.id);
     }
 
     async removeFromMemberUserGroups() {
         // @todo
     }
 
-    async addToSubadminUserGroups() {
-        // @todo
+    // **********************************
+    // user group subadmin
+    // **********************************
+
+    /**
+     * @returns a list of user groups where the user is subadmin
+     */
+    async getSubadminUserGroups(): Promise<UserGroup[]> {
+        const groupIds: string[] = (await this.getUserData()).subadminGroups;
+        const result: UserGroup[] = [];
+        for (const groupId of groupIds) {
+            result.push(new UserGroup(this.client, groupId));
+        }
+        return result;
     }
 
-    async removeFromSubadminUserGroups() {
+    async promoteToUserGroupSubadmin(userGroup: UserGroup): Promise<void> {
+        return this.client.promoteUserToUserGroupSubadmin(this.id, userGroup.id);
+    }
+
+    async demoteFromSubadminForUserGroups(groupId: string): Promise<void> {
         // @todo
     }
 

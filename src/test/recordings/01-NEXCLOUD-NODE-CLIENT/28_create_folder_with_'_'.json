@@ -51,7 +51,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Tue, 09 Jun 2020 14:55:01 GMT</d:getlastmodified><d:getetag>&quot;46a7be5c190ee845d531cbee0686b118&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>32524</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/file1.txt</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 10 Jun 2020 15:27:24 GMT</d:getlastmodified><d:getetag>&quot;1b063babbdeeb86b18675819e4e51e4a&quot;</d:getetag><d:getcontenttype>text/plain</d:getcontenttype><d:resourcetype/><oc:fileid>33121</oc:fileid><oc:permissions>RGDNVW</oc:permissions><oc:size>6</oc:size><d:getcontentlength>6</d:getcontentlength><nc:has-preview>true</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -60,11 +60,11 @@
                         "href": "/remote.php/webdav/file1.txt",
                         "propstat": {
                             "prop": {
-                                "getlastmodified": "Tue, 09 Jun 2020 14:55:01 GMT",
-                                "getetag": "&quot;46a7be5c190ee845d531cbee0686b118&quot;",
+                                "getlastmodified": "Wed, 10 Jun 2020 15:27:24 GMT",
+                                "getetag": "&quot;1b063babbdeeb86b18675819e4e51e4a&quot;",
                                 "getcontenttype": "text/plain",
                                 "resourcetype": "",
-                                "fileid": 32524,
+                                "fileid": 33121,
                                 "permissions": "RGDNVW",
                                 "size": 6,
                                 "getcontentlength": 6,

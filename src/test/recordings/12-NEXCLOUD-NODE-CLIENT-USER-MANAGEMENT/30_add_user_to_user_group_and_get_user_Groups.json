@@ -1,9 +1,86 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
+            "url": "/ocs/v1.php/cloud/groups/UserGroup30a",
             "method": "DELETE",
-            "description": "User testUser13 delete"
+            "description": "UserGroup delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups",
+            "method": "POST",
+            "description": "UserGroup create",
+            "body": "{\"groupid\":\"UserGroup30a\"}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups",
+            "method": "POST",
+            "description": "UserGroup create",
+            "body": "{\"groupid\":\"UserGroup30b\"}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser30",
+            "method": "DELETE",
+            "description": "User TestUser30 delete"
         },
         "response": {
             "status": 200,
@@ -28,12 +105,12 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users",
             "method": "POST",
-            "description": "User testUser13 create",
-            "body": "{\n    \"userid\": \"testUser13\",\n    \"password\": \"testUser13-password\"\n}"
+            "description": "User TestUser30 create",
+            "body": "{\n    \"userid\": \"TestUser30\",\n    \"password\": \"this is a secure password\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"id\":\"testUser13\"}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"id\":\"TestUser30\"}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -46,7 +123,7 @@
                         "itemsperpage": ""
                     },
                     "data": {
-                        "id": "testUser13"
+                        "id": "TestUser30"
                     }
                 }
             }
@@ -54,13 +131,13 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users?search=testUser13",
+            "url": "/ocs/v1.php/cloud/users?search=TestUser30",
             "method": "GET",
             "description": "Users get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser13\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"TestUser30\"]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -74,7 +151,7 @@
                     },
                     "data": {
                         "users": [
-                            "testUser13"
+                            "TestUser30"
                         ]
                     }
                 }
@@ -83,59 +160,10 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
-            "method": "GET",
-            "description": "User testUser13 get"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser13\",\"id\":\"testUser13\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"testUser13\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": {
-                        "enabled": true,
-                        "storageLocation": "/var/nextcloud_data/testUser13",
-                        "id": "testUser13",
-                        "lastLogin": 0,
-                        "backend": "Database",
-                        "subadmin": [],
-                        "quota": {
-                            "quota": "none",
-                            "used": 0
-                        },
-                        "email": null,
-                        "displayname": "testUser13",
-                        "phone": "",
-                        "address": "",
-                        "website": "",
-                        "twitter": "",
-                        "groups": [],
-                        "language": "",
-                        "locale": "",
-                        "backendCapabilities": {
-                            "setDisplayName": true,
-                            "setPassword": true
-                        }
-                    }
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
-            "method": "PUT",
-            "description": "User testUser13 update quota=100MB",
-            "body": "{\n    \"key\": \"quota\",\n    \"value\": \"100MB\"\n}"
+            "url": "/ocs/v1.php/cloud/users/TestUser30/groups",
+            "method": "POST",
+            "description": "Add User TestUser30 to user group UserGroup30a",
+            "body": "{\n    \"groupid\": \"UserGroup30a\"\n}"
         },
         "response": {
             "status": 200,
@@ -158,13 +186,39 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
-            "method": "GET",
-            "description": "User testUser13 get"
+            "url": "/ocs/v1.php/cloud/users/TestUser30/groups",
+            "method": "POST",
+            "description": "Add User TestUser30 to user group UserGroup30b",
+            "body": "{\n    \"groupid\": \"UserGroup30b\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser13\",\"id\":\"testUser13\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":104857600,\"used\":0},\"email\":null,\"displayname\":\"testUser13\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser30",
+            "method": "GET",
+            "description": "User TestUser30 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser30\",\"id\":\"TestUser30\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser30\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"UserGroup30a\",\"UserGroup30b\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -178,22 +232,25 @@
                     },
                     "data": {
                         "enabled": true,
-                        "storageLocation": "/var/nextcloud_data/testUser13",
-                        "id": "testUser13",
+                        "storageLocation": "/var/nextcloud_data/TestUser30",
+                        "id": "TestUser30",
                         "lastLogin": 0,
                         "backend": "Database",
                         "subadmin": [],
                         "quota": {
-                            "quota": 104857600,
+                            "quota": "none",
                             "used": 0
                         },
                         "email": null,
-                        "displayname": "testUser13",
+                        "displayname": "TestUser30",
                         "phone": "",
                         "address": "",
                         "website": "",
                         "twitter": "",
-                        "groups": [],
+                        "groups": [
+                            "UserGroup30a",
+                            "UserGroup30b"
+                        ],
                         "language": "",
                         "locale": "",
                         "backendCapabilities": {
@@ -207,90 +264,59 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users?search=testUser13",
-            "method": "GET",
-            "description": "Users get"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser13\"]}}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": {
-                        "users": [
-                            "testUser13"
-                        ]
-                    }
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
-            "method": "GET",
-            "description": "User testUser13 get"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser13\",\"id\":\"testUser13\",\"lastLogin\":1591806832000,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"free\":87793859,\"used\":17063741,\"total\":104857600,\"relative\":16.27,\"quota\":104857600},\"email\":null,\"displayname\":\"testUser13\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": {
-                        "enabled": true,
-                        "storageLocation": "/var/nextcloud_data/testUser13",
-                        "id": "testUser13",
-                        "lastLogin": 1591806832000,
-                        "backend": "Database",
-                        "subadmin": [],
-                        "quota": {
-                            "free": 87793859,
-                            "used": 17063741,
-                            "total": 104857600,
-                            "relative": 16.27,
-                            "quota": 104857600
-                        },
-                        "email": null,
-                        "displayname": "testUser13",
-                        "phone": "",
-                        "address": "",
-                        "website": "",
-                        "twitter": "",
-                        "groups": [],
-                        "language": "",
-                        "locale": "",
-                        "backendCapabilities": {
-                            "setDisplayName": true,
-                            "setPassword": true
-                        }
-                    }
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/users/testUser13",
+            "url": "/ocs/v1.php/cloud/users/TestUser30",
             "method": "DELETE",
-            "description": "User testUser13 delete"
+            "description": "User TestUser30 delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups/UserGroup30a",
+            "method": "DELETE",
+            "description": "UserGroup delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups/UserGroup30b",
+            "method": "DELETE",
+            "description": "UserGroup delete"
         },
         "response": {
             "status": 200,
