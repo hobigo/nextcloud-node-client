@@ -20,6 +20,7 @@ import ClientError, {
     OperationFailedError,
     UserGroupAlreadyExistsError,
     UserGroupDeletionFailedError,
+    UserResendWelcomeEmailError,
     UserGroupDoesNotExistError,
     UserNotFoundError,
     UserAlreadyExistsError,
@@ -48,6 +49,7 @@ export {
     UserNotFoundError,
     UserAlreadyExistsError,
     UserCreateError,
+    UserResendWelcomeEmailError,
     UserUpdateError,
     UserGroupAlreadyExistsError,
     UserGroupDeletionFailedError,
@@ -1944,10 +1946,46 @@ export default class Client {
             throw new UserNotFoundError(`User with id '${id}' not found`);
         }
 
-        if (this.getOcsMetaStatus(rawResult).code === 102) {
-            throw new UserUpdateError(`User with id '${id}' could not be updated - ${property}=${value}. ${rawResult.ocs.meta.message}`);
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return;
         }
 
+        if (property === UserProperty.password) {
+            value = "********";
+        }
+        // code 102 or 103
+        throw new UserUpdateError(`User with id '${id}' could not be updated - ${property}=${value}. ${rawResult.ocs.meta.message}`);
+    }
+
+    /**
+     * resend the welcome email
+     * @param id user id
+     * @throws  UserResendWelcomeEmailError
+     */
+    public async resendWelcomeEmail(id: string, ): Promise<void> {
+        debug("resendWelcomeEmail");
+
+        const requestInit: RequestInit = {
+            headers: this.getOcsHeaders(),
+            method: "POST",
+        };
+        const url = this.getOcsUrl(`/users/${id}/welcome`);
+        debug("request body: ", requestInit.body);
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `Resend welcome email for user ${id}` });
+        const rawResult: any = await response.json();
+
+        if (this.getOcsMetaStatus(rawResult).code === 101) {
+            throw new UserResendWelcomeEmailError(`Error sending welcome email for '${id}': Email address not available`);
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return;
+        }
+        throw new UserResendWelcomeEmailError(`Error sending welcome email for '${id}' failed`);
     }
 
     /**

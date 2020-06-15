@@ -17,6 +17,7 @@ import {
     UserNotFoundError,
     UserCreateError,
     UserAlreadyExistsError,
+    UserResendWelcomeEmailError,
     UserUpdateError,
     InsufficientPrivilegesError,
     InvalidServiceResponseFormatError,
@@ -636,6 +637,40 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(error).to.be.instanceOf(UserUpdateError);
 
         // ***********************
+        // password
+        // ***********************
+        setValue = "This is a secure password 1#99#!man1";
+        value = "";
+        error = null;
+        try {
+            await user!.setPassword(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
+
+        setValue = "xx";
+        value = "";
+        error = null;
+        try {
+            await user!.setPassword(setValue);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserUpdateError);
+
+        // ***********************
+        // resend welcome email should fail
+        // ***********************
+        error = null;
+        try {
+            await user!.resendWelcomeEmail()
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserResendWelcomeEmailError);
+
+        // ***********************
         // email
         // ***********************
         setValue = "h.t.borstenson@gmail.com";
@@ -666,6 +701,17 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             error = e;
         }
         expect(error).to.be.instanceOf(UserUpdateError);
+
+        // ***********************
+        // resend welcome email
+        // ***********************
+        error = null;
+        try {
+            await user!.resendWelcomeEmail()
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.equal(null);
 
         // clean up user
         try {
@@ -801,6 +847,18 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         }
 
     });
+
+    it("14 resend welcome emial to non existing user", async () => {
+        const userId: string = "testUser04";
+        let error: Error | null = null;
+        try {
+            await client.resendWelcomeEmail(userId);
+        } catch (e) {
+            error = e;
+        }
+        expect(error).to.be.instanceOf(UserResendWelcomeEmailError);
+    });
+
 
     it("20 get user groups", async () => {
 

@@ -7,15 +7,15 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "ocs": {
                     "meta": {
-                        "status": "failure",
-                        "statuscode": 101,
-                        "message": "",
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
                         "totalitems": "",
                         "itemsperpage": ""
                     },
@@ -861,6 +861,83 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser10",
             "method": "PUT",
+            "description": "User testUser10 update password=This is a secure password 1#99#!man1",
+            "body": "{\n    \"key\": \"password\",\n    \"value\": \"This is a secure password 1#99#!man1\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser10",
+            "method": "PUT",
+            "description": "User testUser10 update password=xx",
+            "body": "{\n    \"key\": \"password\",\n    \"value\": \"xx\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"Password needs to be at least 8 characters long\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "Password needs to be at least 8 characters long",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser10/welcome",
+            "method": "POST",
+            "description": "Resend welcome email for user testUser10"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"Email address not available\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "Email address not available",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser10",
+            "method": "PUT",
             "description": "User testUser10 update email=h.t.borstenson@gmail.com",
             "body": "{\n    \"key\": \"email\",\n    \"value\": \"h.t.borstenson@gmail.com\"\n}"
         },
@@ -950,6 +1027,31 @@
                         "status": "failure",
                         "statuscode": 102,
                         "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser10/welcome",
+            "method": "POST",
+            "description": "Resend welcome email for user testUser10"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
                         "totalitems": "",
                         "itemsperpage": ""
                     },

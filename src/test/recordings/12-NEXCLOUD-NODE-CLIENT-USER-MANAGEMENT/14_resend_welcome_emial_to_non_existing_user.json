@@ -1,0 +1,27 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser04/welcome",
+            "method": "POST",
+            "description": "Resend welcome email for user testUser04"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":998,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 998,
+                        "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    }
+]

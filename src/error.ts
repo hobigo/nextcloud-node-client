@@ -70,6 +70,11 @@ export class UserCreateError extends BaseError { };
 export class UserUpdateError extends BaseError { };
 
 /**
+ * Error sending user welcome email
+ */
+export class UserResendWelcomeEmailError extends BaseError { };
+
+/**
  * the service response is invalid
  */
 export class InvalidServiceResponseFormatError extends BaseError { };

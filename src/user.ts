@@ -222,6 +222,20 @@ export default class User {
     }
 
     // **********************************
+    // password
+    // **********************************
+    async setPassword(value: string): Promise<void> {
+        await this.client.updateUserProperty(this.id, UserProperty.password, value);
+    }
+
+    // **********************************
+    // Resend the welcome email
+    // **********************************
+    async resendWelcomeEmail(): Promise<void> {
+        await this.client.resendWelcomeEmail(this.id);
+    }
+
+    // **********************************
     // user group member
     // **********************************
 
