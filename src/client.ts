@@ -2132,7 +2132,59 @@ export default class Client {
             throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
         }
 
-        throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+        throw new OperationFailedError(`User ${id} could not be removed from user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    }
+
+    /**
+     * Removes the subadmin rights for the user specified from the group specified
+     * @param id string the user id
+     * @param userGroupId string the user group id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     * @throws UserGroupDoesNotExistError
+     * @throws InsufficientPrivilegesError
+     * @throws OperationFailedError
+     */
+    public async demoteUserFromSubadminUserGroup(id: string, userGroupId: string): Promise<void> {
+        debug("demoteUserFromSubadminUserGroup");
+
+        const body: { groupid: string } = { groupid: userGroupId };
+        const requestInit: RequestInit = {
+            body: JSON.stringify(body, null, 4),
+            headers: this.getOcsHeaders(),
+            method: "DELETE",
+        };
+
+        const url = this.getOcsUrl(`/users/${id}/subadmins`);
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `Demotes user ${id} from subadmin user group ${userGroupId}` });
+        const rawResult: any = await response.json();
+
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return
+        }
+
+        // this API does not work like remove from group :-(
+            // 101 is for user group not found and user not found
+        /*
+            if (this.getOcsMetaStatus(rawResult).code === 101) {
+                throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`)
+            }
+
+            if (this.getOcsMetaStatus(rawResult).code === 101) {
+                throw new UserNotFoundError(`User ${id} does not exist`)
+            }
+        */
+        if (this.getOcsMetaStatus(rawResult).code === 104) {
+            throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+        }
+
+        throw new OperationFailedError(`User ${id} could not be demoted from subadmin user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
     }
 
     // ***************************************************************************************

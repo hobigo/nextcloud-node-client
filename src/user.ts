@@ -289,8 +289,10 @@ export default class User {
         return
     }
 
-    async demoteFromSubadminForUserGroups(groupId: string): Promise<void> {
-        // @todo
+    async demoteFromSubadminUserGroup(userGroup: UserGroup): Promise<void> {
+        await this.client.demoteUserFromSubadminUserGroup(this.id, userGroup.id);
+        delete this.memento;
+        return
     }
 
     async delete(): Promise<void> {

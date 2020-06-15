@@ -136,7 +136,7 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser31/groups",
             "method": "POST",
-            "description": "Add User TestUser31 to user group ThisGroupDoesNotExist",
+            "description": "Add user TestUser31 to user group ThisGroupDoesNotExist",
             "body": "{\n    \"groupid\": \"ThisGroupDoesNotExist\"\n}"
         },
         "response": {
@@ -162,7 +162,7 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/ThisUserNotExist/groups",
             "method": "POST",
-            "description": "Add User ThisUserNotExist to user group UserGroup31",
+            "description": "Add user ThisUserNotExist to user group UserGroup31",
             "body": "{\n    \"groupid\": \"UserGroup31\"\n}"
         },
         "response": {

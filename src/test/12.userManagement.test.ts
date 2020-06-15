@@ -1697,6 +1697,168 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(exception).to.be.instanceOf(InsufficientPrivilegesError);
     });
 
+    it("44 demote user from subadmin user group", async () => {
+        const userGroupId = "UserGroup44"
+        const userId = "TestUser44"
+        let userGroup: UserGroup;
+        let user: User;
+        let exception = null;
+
+        // cleanup and setup
+        try {
+            await client.deleteUserGroup(userGroupId);
+        } catch (e) {
+            // ignore
+        }
+
+        try {
+            userGroup = await client.createUserGroup(userGroupId);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "create user group should not raise an exception").to.be.equal(null);
+        expect(userGroup!).not.to.be.equal(undefined);
+
+        try {
+            await client.deleteUser(userId);
+        } catch (e) {
+            // ignore
+        }
+
+        try {
+            user = await client.createUser({ id: userId, password: "this is a secure password" });
+        } catch (e) {
+            exception = e;
+        }
+        // user should be created successfully
+        expect(exception).to.be.equal(null);
+        expect(user!).not.to.be.equal(undefined);
+
+        // the test:
+        try {
+            await user!.promoteToUserGroupSubadmin(userGroup!);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "promoting a user to as a subadmin user group should not raise an exception").to.be.equal(null);
+
+        let userGroups: UserGroup[] = [];
+        try {
+            userGroups = await user!.getSubadminUserGroups();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+
+        try {
+            await user!.demoteFromSubadminUserGroup(userGroup!)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+
+        userGroups = [];
+        try {
+            userGroups = await user!.getSubadminUserGroups();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+        expect(userGroups.length).to.be.equal(0);
+
+        // demote from non existing user from user group
+        try {
+            await client.demoteUserFromSubadminUserGroup("nonExistingUser", userGroup!.id);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(OperationFailedError);
+
+        // demote from non existing user group from user
+        exception = null;
+        try {
+            await client.demoteUserFromSubadminUserGroup(user!.id, "nonExistingUserGroup");
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(OperationFailedError);
+
+        exception = null;
+        try {
+            await user!.demoteFromSubadminUserGroup(userGroup!)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(OperationFailedError);
+        exception = null;
+
+        // cleanup
+        try {
+            await user!.delete();
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "delete user should not raise an exception").to.be.equal(null);
+
+        try {
+            await client.deleteUserGroup(userGroupId);
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception, "delete user group should not raise an exception").to.be.equal(null);
+    });
+
+    it("45 demotes user from subadmin user group with insufficient privileges", async () => {
+        let exception = null;
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/someUserId/groups",
+                method: "DELETE",
+                description: "Demotes  user someUserId from user group someGroupId",
+                body: "{\n    \"groupid\": \"someGroupId\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":104,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        try {
+            await lclient.demoteUserFromSubadminUserGroup("someUserId", "someGroupId")
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(InsufficientPrivilegesError);
+    });
+
+    it("46 demote user from subadmin user group with unkonwn error", async () => {
+        let exception = null;
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/someUserId/groups",
+                method: "DELETE",
+                description: "Remote user someUserId from subadmin user group someGroupId",
+                body: "{\n    \"groupid\": \"someGroupId\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":999,\"message\":\"Some unknown error\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        try {
+            await lclient.demoteUserFromSubadminUserGroup("someUserId", "someGroupId")
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.instanceOf(OperationFailedError);
+    });
 
     it("50 invalid service response", async () => {
         let exception = null;

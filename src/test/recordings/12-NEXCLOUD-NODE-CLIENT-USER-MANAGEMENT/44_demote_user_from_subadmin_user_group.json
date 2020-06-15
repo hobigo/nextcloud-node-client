@@ -1,38 +1,12 @@
 [
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/groups/UserGroup30a",
+            "url": "/ocs/v1.php/cloud/groups/UserGroup44",
             "method": "DELETE",
             "description": "UserGroup delete"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "failure",
-                        "statuscode": 101,
-                        "message": "",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": []
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/groups",
-            "method": "POST",
-            "description": "UserGroup create",
-            "body": "{\"groupid\":\"UserGroup30a\"}"
-        },
-        "response": {
-            "status": 200,
             "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
@@ -55,7 +29,7 @@
             "url": "/ocs/v1.php/cloud/groups",
             "method": "POST",
             "description": "UserGroup create",
-            "body": "{\"groupid\":\"UserGroup30b\"}"
+            "body": "{\"groupid\":\"UserGroup44\"}"
         },
         "response": {
             "status": 200,
@@ -78,21 +52,21 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/TestUser30",
+            "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "DELETE",
-            "description": "User TestUser30 delete"
+            "description": "User TestUser44 delete"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "ocs": {
                     "meta": {
-                        "status": "failure",
-                        "statuscode": 101,
-                        "message": "",
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
                         "totalitems": "",
                         "itemsperpage": ""
                     },
@@ -105,12 +79,12 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users",
             "method": "POST",
-            "description": "User TestUser30 create",
-            "body": "{\n    \"userid\": \"TestUser30\",\n    \"password\": \"this is a secure password\"\n}"
+            "description": "User TestUser44 create",
+            "body": "{\n    \"userid\": \"TestUser44\",\n    \"password\": \"this is a secure password\"\n}"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"id\":\"TestUser30\"}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"id\":\"TestUser44\"}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -123,7 +97,7 @@
                         "itemsperpage": ""
                     },
                     "data": {
-                        "id": "TestUser30"
+                        "id": "TestUser44"
                     }
                 }
             }
@@ -131,13 +105,13 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users?search=TestUser30",
+            "url": "/ocs/v1.php/cloud/users?search=TestUser44",
             "method": "GET",
             "description": "Users get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"TestUser30\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"TestUser44\"]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -151,7 +125,7 @@
                     },
                     "data": {
                         "users": [
-                            "TestUser30"
+                            "TestUser44"
                         ]
                     }
                 }
@@ -160,10 +134,10 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/TestUser30/groups",
+            "url": "/ocs/v1.php/cloud/users/TestUser44/subadmins",
             "method": "POST",
-            "description": "Add user TestUser30 to user group UserGroup30a",
-            "body": "{\n    \"groupid\": \"UserGroup30a\"\n}"
+            "description": "Promote User TestUser44 to user group subadmin UserGroup44",
+            "body": "{\n    \"groupid\": \"UserGroup44\"\n}"
         },
         "response": {
             "status": 200,
@@ -186,39 +160,13 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/TestUser30/groups",
-            "method": "POST",
-            "description": "Add user TestUser30 to user group UserGroup30b",
-            "body": "{\n    \"groupid\": \"UserGroup30b\"\n}"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
-                        "totalitems": "",
-                        "itemsperpage": ""
-                    },
-                    "data": []
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v1.php/cloud/users/TestUser30",
+            "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "GET",
-            "description": "User TestUser30 get"
+            "description": "User TestUser44 get"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser30\",\"id\":\"TestUser30\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser30\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"UserGroup30a\",\"UserGroup30b\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser44\",\"id\":\"TestUser44\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"UserGroup44\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser44\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -232,25 +180,24 @@
                     },
                     "data": {
                         "enabled": true,
-                        "storageLocation": "/var/nextcloud_data/TestUser30",
-                        "id": "TestUser30",
+                        "storageLocation": "/var/nextcloud_data/TestUser44",
+                        "id": "TestUser44",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "UserGroup44"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
                         },
                         "email": null,
-                        "displayname": "TestUser30",
+                        "displayname": "TestUser44",
                         "phone": "",
                         "address": "",
                         "website": "",
                         "twitter": "",
-                        "groups": [
-                            "UserGroup30a",
-                            "UserGroup30b"
-                        ],
+                        "groups": [],
                         "language": "",
                         "locale": "",
                         "backendCapabilities": {
@@ -264,9 +211,10 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/users/TestUser30",
+            "url": "/ocs/v1.php/cloud/users/TestUser44/subadmins",
             "method": "DELETE",
-            "description": "User TestUser30 delete"
+            "description": "Demotes user TestUser44 from subadmin user group UserGroup44",
+            "body": "{\n    \"groupid\": \"UserGroup44\"\n}"
         },
         "response": {
             "status": 200,
@@ -289,9 +237,136 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/groups/UserGroup30a",
+            "url": "/ocs/v1.php/cloud/users/TestUser44",
+            "method": "GET",
+            "description": "User TestUser44 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser44\",\"id\":\"TestUser44\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser44\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/TestUser44",
+                        "id": "TestUser44",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": "none",
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "TestUser44",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "",
+                        "locale": "",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/nonExistingUser/subadmins",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "Demotes user nonExistingUser from subadmin user group UserGroup44",
+            "body": "{\n    \"groupid\": \"UserGroup44\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"User does not exist\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "User does not exist",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser44/subadmins",
+            "method": "DELETE",
+            "description": "Demotes user TestUser44 from subadmin user group nonExistingUserGroup",
+            "body": "{\n    \"groupid\": \"nonExistingUserGroup\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"Group does not exist\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "Group does not exist",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser44/subadmins",
+            "method": "DELETE",
+            "description": "Demotes user TestUser44 from subadmin user group UserGroup44",
+            "body": "{\n    \"groupid\": \"UserGroup44\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"User is not a subadmin of this group\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "User is not a subadmin of this group",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser44",
+            "method": "DELETE",
+            "description": "User TestUser44 delete"
         },
         "response": {
             "status": 200,
@@ -314,7 +389,7 @@
     },
     {
         "request": {
-            "url": "/ocs/v1.php/cloud/groups/UserGroup30b",
+            "url": "/ocs/v1.php/cloud/groups/UserGroup44",
             "method": "DELETE",
             "description": "UserGroup delete"
         },

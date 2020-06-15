@@ -7,15 +7,15 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "ocs": {
                     "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "",
                         "totalitems": "",
                         "itemsperpage": ""
                     },
@@ -58,15 +58,15 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":101,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "ocs": {
                     "meta": {
-                        "status": "ok",
-                        "statuscode": 100,
-                        "message": "OK",
+                        "status": "failure",
+                        "statuscode": 101,
+                        "message": "",
                         "totalitems": "",
                         "itemsperpage": ""
                     },
