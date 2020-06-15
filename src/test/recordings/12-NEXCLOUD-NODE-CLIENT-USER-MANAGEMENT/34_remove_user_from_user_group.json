@@ -1,0 +1,415 @@
+[
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups/UserGroup34",
+            "method": "DELETE",
+            "description": "UserGroup delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups",
+            "method": "POST",
+            "description": "UserGroup create",
+            "body": "{\"groupid\":\"UserGroup34\"}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34",
+            "method": "DELETE",
+            "description": "User TestUser34 delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users",
+            "method": "POST",
+            "description": "User TestUser34 create",
+            "body": "{\n    \"userid\": \"TestUser34\",\n    \"password\": \"this is a secure password\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"id\":\"TestUser34\"}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "id": "TestUser34"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=TestUser34",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"TestUser34\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "TestUser34"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34/groups",
+            "method": "POST",
+            "description": "Add user TestUser34 to user group UserGroup34",
+            "body": "{\n    \"groupid\": \"UserGroup34\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34",
+            "method": "GET",
+            "description": "User TestUser34 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser34\",\"id\":\"TestUser34\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser34\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"UserGroup34\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/TestUser34",
+                        "id": "TestUser34",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": "none",
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "TestUser34",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "UserGroup34"
+                        ],
+                        "language": "",
+                        "locale": "",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34/groups",
+            "method": "DELETE",
+            "description": "Remove user TestUser34 from user group UserGroup34",
+            "body": "{\n    \"groupid\": \"UserGroup34\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34",
+            "method": "GET",
+            "description": "User TestUser34 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser34\",\"id\":\"TestUser34\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser34\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/TestUser34",
+                        "id": "TestUser34",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": "none",
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "TestUser34",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "",
+                        "locale": "",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/nonExistingUser/groups",
+            "method": "DELETE",
+            "description": "Remove user nonExistingUser from user group UserGroup34",
+            "body": "{\n    \"groupid\": \"UserGroup34\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34/groups",
+            "method": "DELETE",
+            "description": "Remove user TestUser34 from user group nonExistingUserGroup",
+            "body": "{\n    \"groupid\": \"nonExistingUserGroup\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34/groups",
+            "method": "DELETE",
+            "description": "Remove user TestUser34 from user group UserGroup34",
+            "body": "{\n    \"groupid\": \"UserGroup34\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/TestUser34",
+            "method": "DELETE",
+            "description": "User TestUser34 delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups/UserGroup34",
+            "method": "DELETE",
+            "description": "UserGroup delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    }
+]

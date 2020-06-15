@@ -2015,7 +2015,56 @@ export default class Client {
             url,
             requestInit,
             [200],
-            { description: `Add User ${id} to user group ${userGroupId}` });
+            { description: `Add user ${id} to user group ${userGroupId}` });
+        const rawResult: any = await response.json();
+
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 102) {
+            throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 103) {
+            throw new UserNotFoundError(`User ${id} does not exist`)
+        }
+
+        if (this.getOcsMetaStatus(rawResult).code === 104) {
+            throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+        }
+
+        throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    }
+
+    /**
+     * removes a user from a group as member
+     * @param id string the user id
+     * @param userGroupId string the user group id
+     * @returns Promise<void>
+     * @throws UserNotFoundError
+     * @throws UserGroupDoesNotExistError
+     * @throws InsufficientPrivilegesError
+     * @throws OperationFailedError
+     */
+    public async removeUserFromMemberUserGroup(id: string, userGroupId: string): Promise<void> {
+        debug("removeUserFromMemberUserGroup");
+
+        const body: { groupid: string } = { groupid: userGroupId };
+        const requestInit: RequestInit = {
+            body: JSON.stringify(body, null, 4),
+            headers: this.getOcsHeaders(),
+            method: "DELETE",
+        };
+
+        const url = this.getOcsUrl(`/users/${id}/groups`);
+        debug("url ", url)
+
+        const response: Response = await this.getHttpResponse(
+            url,
+            requestInit,
+            [200],
+            { description: `Remove user ${id} from user group ${userGroupId}` });
         const rawResult: any = await response.json();
 
         if (this.getOcsMetaStatus(rawResult).code === 100) {

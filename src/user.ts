@@ -256,11 +256,15 @@ export default class User {
      * @param userGroup the user group
      */
     async addToMemberUserGroup(userGroup: UserGroup): Promise<void> {
-        return this.client.addUserToMemberUserGroup(this.id, userGroup.id);
+        await this.client.addUserToMemberUserGroup(this.id, userGroup.id);
+        delete this.memento;
+        return;
     }
 
-    async removeFromMemberUserGroups() {
-        // @todo
+    async removeFromMemberUserGroup(userGroup: UserGroup) {
+        await this.client.removeUserFromMemberUserGroup(this.id, userGroup.id);
+        delete this.memento;
+        return
     }
 
     // **********************************
@@ -280,7 +284,9 @@ export default class User {
     }
 
     async promoteToUserGroupSubadmin(userGroup: UserGroup): Promise<void> {
-        return this.client.promoteUserToUserGroupSubadmin(this.id, userGroup.id);
+        await this.client.promoteUserToUserGroupSubadmin(this.id, userGroup.id);
+        delete this.memento;
+        return
     }
 
     async demoteFromSubadminForUserGroups(groupId: string): Promise<void> {
