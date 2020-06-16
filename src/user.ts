@@ -252,6 +252,13 @@ export default class User {
     }
 
     /**
+     * @returns a list of user groups ids where the user is member
+     */
+    async getMemberUserGroupIds(): Promise<string[]> {
+        return (await this.getUserData()).memberGroups;
+    }
+
+    /**
      * adds the user to a user group as member
      * @param userGroup the user group
      */

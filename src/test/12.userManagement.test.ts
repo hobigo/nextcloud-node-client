@@ -19,9 +19,11 @@ import {
     UserAlreadyExistsError,
     UserResendWelcomeEmailError,
     UserUpdateError,
+    IUpsertUserOptions,
     InsufficientPrivilegesError,
     InvalidServiceResponseFormatError,
-    OperationFailedError
+    OperationFailedError,
+    IUpsertUserReport
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -1884,6 +1886,82 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             exception = e;
         }
         expect(exception).to.be.instanceOf(InvalidServiceResponseFormatError);
+    });
+
+    it("60 User upsert", async () => {
+
+        const userId: string = "testUser60"
+        const userGroupId1: string = "testUserGroup1";
+        const userGroupId2: string = "testUserGroup2";
+        const userGroupId3: string = "testUserGroup3";
+        // cleanup
+        try {
+            await client.deleteUser(userId);
+        } catch (e) {
+            // nop
+        }
+
+        try {
+            await client.deleteUserGroup(userGroupId1);
+            await client.deleteUserGroup(userGroupId2);
+            await client.deleteUserGroup(userGroupId3);
+        } catch (e) {
+            // nop
+        }
+
+        const userUpsertOptions: IUpsertUserOptions[] = [
+            {
+                id: userId,
+                password: "ThisIsASecurePassword",
+                displayName: "Horst-Thorsten Borstenson",
+                email: "h.t.borstenson@gmail.com",
+                enabled: false,
+                resendWelcomeEmail: false,
+                address: "at home",
+                language: "en",
+                locale: "de",
+                phone: "+49 1234 567",
+                twitter: "@borsti",
+                website: "http://borstenson.com",
+                quota: "3 GB",
+                memberGroups: [userGroupId1, userGroupId2],
+            },
+            {
+                id: userId,
+                password: "ThisIsASecurePassword",
+                displayName: "Horst-Thorsten Borstenson",
+                email: "h.t.borstenson@gmail.com",
+                enabled: false,
+                resendWelcomeEmail: false,
+                address: "at home",
+                language: "en",
+                locale: "de",
+                phone: "+49 1234 5678",
+                twitter: "@borsti",
+                website: "http://borstenson.com",
+                quota: "3 GB",
+                memberGroups: [userGroupId2, userGroupId3],
+            }
+        ];
+        const report: IUpsertUserReport[] = await client.upsertUsers(userUpsertOptions);
+        // @todo check some values
+        // console.log(JSON.stringify(report, null, 4));
+
+        // cleanup
+        try {
+            await client.deleteUser(userId);
+        } catch (e) {
+            // nop
+        }
+
+        try {
+            await client.deleteUserGroup(userGroupId1);
+            await client.deleteUserGroup(userGroupId2);
+            await client.deleteUserGroup(userGroupId3);
+        } catch (e) {
+            // nop
+        }
+
     });
 
 });

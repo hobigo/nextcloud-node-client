@@ -90,6 +90,37 @@ interface IStat {
     "fileid"?: number;
 }
 
+export interface IUpsertUserOptions {
+    "id": string;
+    "enabled"?: boolean;
+    "subadminGroups"?: string[],
+    "memberGroups"?: string[],
+    "quota"?: string,
+    "email"?: string,
+    "displayName"?: string,
+    "password"?: string,
+    "phone"?: string,
+    "address"?: string,
+    "website"?: string,
+    "twitter"?: string,
+    "language"?: string
+    "locale"?: string,
+    "resendWelcomeEmail"?: boolean,
+}
+
+export interface IUserPropertyChange {
+    "property": string;
+    "previousValue": string;
+    "newValue": string;
+    "error"?: string;
+}
+
+export interface IUpsertUserReport {
+    "id": string;
+    "message": string;
+    "changes": IUserPropertyChange[];
+}
+
 export interface ISysInfoNextcloudClient {
     "version": string;
 }
@@ -99,7 +130,6 @@ export interface ISysInfoNextcloud {
     "storage": object;
     "shares": object;
 }
-
 
 export interface ISysBasicData {
     "serverTimeString": string;
@@ -1007,7 +1037,7 @@ export default class Client {
     // activity
     // ***************************************************************************************
     /*
-    to be refactored to eventing
+    @todo to be refactored to eventing
 
     public async getActivities(): Promise<string[]> {
         const result: string[] = [];
@@ -1263,6 +1293,9 @@ export default class Client {
     }
 
     public async getUpdateNotifications(version: string): Promise<object> {
+
+        // @todo refactoring... /ocs/v2.php/apps/notifications/api/v2/notifications/<id>   (GET/DELETE)
+
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
@@ -1392,6 +1425,26 @@ export default class Client {
      */
     public async getUserGroups(search?: string, limit?: number, offset?: number): Promise<UserGroup[]> {
         debug("getUserGroups");
+
+        const userGroupIds: string[] = await this.getUserGroupIds(search, limit, offset);
+        const userGroups: UserGroup[] = [];
+        for (const userGroupId of userGroupIds) {
+            userGroups.push(new UserGroup(this, userGroupId));
+        }
+        return userGroups;
+    }
+
+    /**
+     * returns a list of user groups
+     * @param search string
+     * @param limit number
+     * @param offset number
+     * @returns list of user groups
+     * @throws QueryLimitError
+     * @throws QueryOffsetError
+     */
+    public async getUserGroupIds(search?: string, limit?: number, offset?: number): Promise<string[]> {
+        debug("getUserGroupIds");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
@@ -1439,17 +1492,17 @@ export default class Client {
           }
         }
         */
-        const userGroups: UserGroup[] = [];
+        const userGroups: string[] = [];
 
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data.groups) {
             debug("groups", rawResult.ocs.data.groups);
             rawResult.ocs.data.groups.forEach((value: string) => {
-                userGroups.push(new UserGroup(this, value));
+                // userGroups.push(new UserGroup(this, value));
+                userGroups.push(value);
             });
         }
-
         return userGroups;
     }
 
@@ -2140,8 +2193,6 @@ export default class Client {
      * @param id string the user id
      * @param userGroupId string the user group id
      * @returns Promise<void>
-     * @throws UserNotFoundError
-     * @throws UserGroupDoesNotExistError
      * @throws InsufficientPrivilegesError
      * @throws OperationFailedError
      */
@@ -2170,7 +2221,7 @@ export default class Client {
         }
 
         // this API does not work like remove from group :-(
-            // 101 is for user group not found and user not found
+        // 101 is for user group not found and user not found
         /*
             if (this.getOcsMetaStatus(rawResult).code === 101) {
                 throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`)
@@ -2185,6 +2236,300 @@ export default class Client {
         }
 
         throw new OperationFailedError(`User ${id} could not be demoted from subadmin user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    }
+
+
+    /**
+     * insert or update complete user data
+     * @param options IUpsertUserOptions[]
+     * @returns Promise<IUpsertUserReport[]
+     */
+    public async upsertUsers(options: IUpsertUserOptions[]): Promise<IUpsertUserReport[]> {
+        const report: IUpsertUserReport[] = [];
+        for (const option of options) {
+            const userReport: IUpsertUserReport = { id: option.id, message: "", changes: [] };
+            let user: User | null = await this.getUser(option.id);
+            // create or update user?
+
+            if (!user) {
+                try {
+                    user = await this.createUser({ id: option.id, email: option.email, password: option.password })
+                    userReport.message = `User ${option.id} created`;
+                } catch (e) {
+                    userReport.message = `Create user ${option.id} failed ${e.message}`;
+                    report.push(userReport);
+                    continue;
+                }
+            } else {
+                userReport.message = `User ${option.id} changed`;
+            }
+
+            let previousValue: string = "";
+            let newValue: string = "";
+            let property: string = "";
+
+            // ************************
+            // enabled
+            // ************************
+            if (option.enabled !== undefined) {
+                if (await user.isEnabled() && option.enabled === false) {
+                    try {
+                        await user.disable();
+                        userReport.changes.push({ property: "enabled", previousValue: "true", newValue: "false" });
+                    } catch (e) {
+                        userReport.changes.push({ property: "enabled", previousValue: "true", newValue: "true", error: e.message });
+                    }
+                }
+
+                if (await user.isEnabled() === false && option.enabled === true) {
+                    try {
+                        await user.enable();
+                        userReport.changes.push({ property: "enabled", previousValue: "false", newValue: "true" });
+                    } catch (e) {
+                        userReport.changes.push({ property: "enabled", previousValue: "false", newValue: "false", error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // member groups
+            // ************************
+            if (option.memberGroups !== undefined) {
+                const previousGroups: string[] = await user.getMemberUserGroupIds()
+                const newGroups: string[] = option.memberGroups;
+                const groupsToAdd: string[] = newGroups.filter(x => !previousGroups.includes(x));
+                const groupsToRemove: string[] = previousGroups.filter(x => !newGroups.includes(x));
+                let userGroup: UserGroup | null;
+                property = "memberGroups";
+                let error: Error | null = null;
+                for (const groupId of groupsToAdd) {
+                    userGroup = await this.getUserGroup(groupId)
+                    if (!userGroup) {
+                        try {
+                            userGroup = await this.createUserGroup(groupId)
+                        } catch (e) {
+                            error = e;
+                            break;
+                        }
+                    }
+                    try {
+                        await user.addToMemberUserGroup(userGroup);
+                    } catch (e) {
+                        error = e;
+                        break;
+                    }
+                }
+
+                for (const groupId of groupsToRemove) {
+                    try {
+                        await user.removeFromMemberUserGroup(new UserGroup(this, groupId));
+                    } catch (e) {
+                        error = e;
+                        break;
+                    }
+                }
+                if (error) {
+                    userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: previousGroups.join(", "), error: error.message });
+                } else {
+                    userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+                }
+
+            }
+
+
+            // ************************
+            // display name
+            // ************************
+            if (option.displayName !== undefined) {
+                previousValue = await user.getDisplayName();
+                newValue = option.displayName
+                property = "displayName";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setDisplayName(option.displayName);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // email
+            // ************************
+            if (option.email !== undefined) {
+                previousValue = await user.getEmail();
+                newValue = option.email;
+                property = "email";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setEmail(option.email);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // language
+            // ************************
+            if (option.language !== undefined) {
+                previousValue = await user.getLanguage();
+                newValue = option.language;
+                property = "language";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setLanguage(option.language);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // locale
+            // ************************
+            if (option.locale !== undefined) {
+                previousValue = await user.getLocale();
+                newValue = option.locale;
+                property = "locale";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setLocale(option.locale);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // twitter
+            // ************************
+            if (option.twitter !== undefined) {
+                previousValue = await user.getTwitter();
+                newValue = option.twitter;
+                property = "twitter";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setTwitter(option.twitter);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // phone
+            // ************************
+            if (option.phone !== undefined) {
+                previousValue = await user.getPhone();
+                newValue = option.phone;
+                property = "phone";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setPhone(option.phone);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // password
+            // ************************
+            if (option.password !== undefined) {
+                previousValue = "********";
+                newValue = option.password;
+                property = "password";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setPassword(option.password);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // address
+            // ************************
+            if (option.address !== undefined) {
+                previousValue = await user.getAddress();
+                newValue = option.address;
+                property = "address";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setAddress(option.address);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // website
+            // ************************
+            if (option.website !== undefined) {
+                previousValue = await user.getWebsite();
+                newValue = option.website;
+                property = "website";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setWebsite(option.website);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // quota
+            // ************************
+            if (option.quota !== undefined) {
+                previousValue = await (await user.getQuotaUserFriendly()).quota;
+                newValue = option.quota;
+                property = "quota";
+                if (previousValue !== newValue) {
+                    try {
+                        await user.setQuota(option.quota);
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            // ************************
+            // resend welcome email
+            // ************************
+            if (option.resendWelcomeEmail !== undefined) {
+                previousValue = "not sent";
+                newValue = "sent";
+                property = "resendWelcomeEmail";
+                if (option.resendWelcomeEmail) {
+                    try {
+                        await user.resendWelcomeEmail();
+                        userReport.changes.push({ property, previousValue, newValue });
+                    } catch (e) {
+                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
+                    }
+                }
+            }
+
+            if (userReport.changes.length === 0) {
+                userReport.message = `User ${option.id} not changed`;
+            }
+            report.push(userReport);
+        }
+        return report;
     }
 
     // ***************************************************************************************
