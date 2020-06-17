@@ -61,6 +61,15 @@ export default class User {
     private memento?: IUserOptions;
     private client: Client;
     readonly id: string;
+
+    /**
+     * the conscructor of the user
+     * should only me invoked by the Client
+     * @constructor
+     * @param {Client} client
+     * @param {string} id the user id
+     * @param {IUserOptions} options optional options
+     */
     constructor(client: Client, id: string, options?: IUserOptions) {
         this.id = id;
         this.client = client;
@@ -70,23 +79,45 @@ export default class User {
     // **********************************
     // enable disable
     // **********************************
+
+    /**
+     * returns true if the user is enabled
+     * @async
+     * @returns {Promise<boolean>} true if the user is enabled
+     * @throws {UserNotFoundError}
+     */
     async isEnabled(): Promise<boolean> {
         return (await this.getUserData()).enabled;
     }
 
+    /**
+     * disables the user
+     * @async
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     */
     async disable(): Promise<void> {
         delete this.memento;
         return await this.client.disableUser(this.id);
     }
 
+    /**
+     * enables the user
+     * @async
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     */
     async enable(): Promise<void> {
         delete this.memento;
         return await this.client.enableUser(this.id);
     }
 
-    // **********************************
-    // last login
-    // **********************************
+    /**
+     * get the last login date or null if the user has not been logged in yet
+     * @async
+     * @returns {Promise<Date | null>} last login date or null if the user has not been logged in yet
+     * @throws {UserNotFoundError}
+     */
     async getLastLogin(): Promise<Date | null> {
         const data: IUserOptions = await this.getUserData();
         if (data.lastLogin) {
@@ -95,21 +126,45 @@ export default class User {
         return null;
     }
 
-    // **********************************
-    // display name
-    // **********************************
+    /**
+     * returns the display name
+     * @async
+     * @returns {Promise<string>} display name
+     * @throws {UserNotFoundError}
+     */
     async getDisplayName(): Promise<string> {
         return (await this.getUserData()).displayName;
     }
 
+    /**
+     * set the display name
+     * @async
+     * @param {string} value the display name
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setDisplayName(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.displayName, value);
         delete this.memento;
     }
 
-    // **********************************
-    // quota
-    // **********************************
+    /**
+     * returns information on quota, usage and available space
+     * @async
+     * @returns {Promise<IUserOptionsQuota>}
+     * @throws {UserNotFoundError}
+     */
+    async getQuota(): Promise<IUserOptionsQuota> {
+        return (await this.getUserData()).quota;
+    }
+
+    /**
+     * returns information on quota, usage and available space in a user friendly format
+     * @async
+     * @returns {Promise<IUserQuotaUserFriendly>}
+     * @throws {UserNotFoundError}
+     */
     async getQuotaUserFriendly(): Promise<IUserQuotaUserFriendly> {
         const q: IUserOptionsQuota = (await this.getUserData()).quota;
 
@@ -128,22 +183,37 @@ export default class User {
         return qUF;
     }
 
+    /**
+     * sets the quota limit of the user
+     * @async
+     * @param {string} value the quota string like "1 GB", "100 MB"
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setQuota(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.quota, value);
         delete this.memento;
     }
 
-    async getQuota(): Promise<IUserOptionsQuota> {
-        return (await this.getUserData()).quota;
-    }
-
-    // **********************************
-    // email
-    // **********************************
+    /**
+     * returns the email address
+     * @async
+     * @returns {Promise<string>} email adress
+     * @throws {UserNotFoundError}
+     */
     async getEmail(): Promise<string> {
         return (await this.getUserData()).email;
     }
 
+    /**
+     * set the email address
+     * @async
+     * @param {string} value the email address
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setEmail(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.email, value);
         delete this.memento;
@@ -152,10 +222,24 @@ export default class User {
     // **********************************
     // phone
     // **********************************
+    /**
+     * returns the phone number
+     * @async
+     * @returns {Promise<string>} phone number
+     * @throws {UserNotFoundError}
+     */
     async getPhone(): Promise<string> {
         return (await this.getUserData()).phone;
     }
 
+    /**
+     * set phone number
+     * @async
+     * @param {string} value the phone number
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setPhone(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.phone, value);
         delete this.memento;
@@ -164,10 +248,24 @@ export default class User {
     // **********************************
     // address
     // **********************************
+    /**
+     * returns the phone number
+     * @async
+     * @returns {Promise<string>} address
+     * @throws {UserNotFoundError}
+     */
     async getAddress(): Promise<string> {
         return (await this.getUserData()).address;
     }
 
+    /**
+     * set the address
+     * @async
+     * @param {string} value the address
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setAddress(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.address, value);
         delete this.memento;
@@ -176,10 +274,25 @@ export default class User {
     // **********************************
     // website
     // **********************************
+
+    /**
+     * returns the website
+     * @async
+     * @returns {Promise<string>} website
+     * @throws {UserNotFoundError}
+     */
     async getWebsite(): Promise<string> {
         return (await this.getUserData()).website;
     }
 
+    /**
+     * set the website
+     * @async
+     * @param {string} value the website
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setWebsite(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.website, value);
         delete this.memento;
@@ -188,10 +301,25 @@ export default class User {
     // **********************************
     // twitter
     // **********************************
+
+    /**
+     * returns the twitter handle
+     * @async
+     * @returns {Promise<string>} twitter handle
+     * @throws {UserNotFoundError}
+     */
     async getTwitter(): Promise<string> {
         return (await this.getUserData()).twitter;
     }
 
+    /**
+     * set the twitter handle
+     * @async
+     * @param {string} value the twitter handle
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setTwitter(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.twitter, value);
         delete this.memento;
@@ -200,10 +328,25 @@ export default class User {
     // **********************************
     // language
     // **********************************
+
+    /**
+     * returns the langauge code
+     * @async
+     * @returns {Promise<string>} language code
+     * @throws {UserNotFoundError}
+     */
     async getLanguage(): Promise<string> {
         return (await this.getUserData()).language;
     }
 
+    /**
+     * set the language code like EN, DE, FR...
+     * @async
+     * @param {string} value the language code
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setLanguage(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.language, value);
         delete this.memento;
@@ -212,18 +355,38 @@ export default class User {
     // **********************************
     // locale
     // **********************************
+
+    /**
+     * returns the locale
+     * @async
+     * @returns {Promise<string>} locale
+     * @throws {UserNotFoundError}
+     */
     async getLocale(): Promise<string> {
         return (await this.getUserData()).locale;
     }
 
+    /**
+     * set the locale like EN, DE, FR...
+     * @async
+     * @param {string} value the locale
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setLocale(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.locale, value);
         delete this.memento;
     }
 
-    // **********************************
-    // password
-    // **********************************
+    /**
+     * set the password
+     * @async
+     * @param {string} value the password
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserUpdateError}
+     */
     async setPassword(value: string): Promise<void> {
         await this.client.updateUserProperty(this.id, UserProperty.password, value);
     }
@@ -231,6 +394,13 @@ export default class User {
     // **********************************
     // Resend the welcome email
     // **********************************
+
+    /**
+     * resends the welcome email
+     * @async
+     * @returns {Promise<void>}
+     * @throws  {UserResendWelcomeEmailError}
+     */
     async resendWelcomeEmail(): Promise<void> {
         await this.client.resendWelcomeEmail(this.id);
     }
@@ -240,7 +410,10 @@ export default class User {
     // **********************************
 
     /**
-     * @returns a list of user groups where the user is member
+     * returns a list of user groups where the user is member
+     * @async
+     * @returns {Promise<UserGroup[]} a list of user groups where the user is member
+     * @throws {UserNotFoundError}
      */
     async getMemberUserGroups(): Promise<UserGroup[]> {
         const groupIds: string[] = (await this.getUserData()).memberGroups;
@@ -252,7 +425,10 @@ export default class User {
     }
 
     /**
-     * @returns a list of user groups ids where the user is member
+     * returns a list of user group ids where the user is member
+     * @async
+     * @returns {Promise<string[]} a list of user group ids where the user is member
+     * @throws {UserNotFoundError}
      */
     async getMemberUserGroupIds(): Promise<string[]> {
         return (await this.getUserData()).memberGroups;
@@ -260,7 +436,13 @@ export default class User {
 
     /**
      * adds the user to a user group as member
-     * @param userGroup the user group
+     * @async
+     * @param {UserGroup} userGroup the user group
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     async addToMemberUserGroup(userGroup: UserGroup): Promise<void> {
         await this.client.addUserToMemberUserGroup(this.id, userGroup.id);
@@ -268,7 +450,17 @@ export default class User {
         return;
     }
 
-    async removeFromMemberUserGroup(userGroup: UserGroup) {
+    /**
+     * remove the user from a user group as member
+     * @async
+     * @param {UserGroup} userGroup the user group
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
+     */
+    async removeFromMemberUserGroup(userGroup: UserGroup): Promise<void> {
         await this.client.removeUserFromMemberUserGroup(this.id, userGroup.id);
         delete this.memento;
         return
@@ -279,14 +471,23 @@ export default class User {
     // **********************************
 
     /**
-     * @returns true if the user is a superadmin
+     * true if the user is a superadmin
+     * @async
+     * @returns {Promise<boolean>} true if the user is a superadmin
+     * @throws {UserNotFoundError}
      */
     async isSuperAdmin(): Promise<boolean> {
         return (await this.getUserData()).memberGroups.indexOf("admin") === -1 ? false : true;
     }
 
     /**
-     * promote to super admin
+     * promote user to super admin
+     * @async
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     async promoteToSuperAdmin(): Promise<void> {
         await this.addToMemberUserGroup(new UserGroup(this.client, "admin"));
@@ -295,7 +496,13 @@ export default class User {
     }
 
     /**
-     * demote from super admin
+     * demote user from being a super admin
+     * @async
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     async demoteFromSuperAdmin(): Promise<void> {
         if (await this.isSuperAdmin()) {
@@ -310,7 +517,10 @@ export default class User {
     // **********************************
 
     /**
-     * @returns a list of user groups where the user is subadmin
+     * returns a list of user groups where the user is subadmin
+     * @async
+     * @returns {Promise<UserGroup[]} a list of user groups where the user is subadmin
+     * @throws {UserNotFoundError}
      */
     async getSubadminUserGroups(): Promise<UserGroup[]> {
         const groupIds: string[] = (await this.getUserData()).subadminGroups;
@@ -322,28 +532,63 @@ export default class User {
     }
 
     /**
-     * @returns a list of user groups ids where the user is subadmin
+     * returns a list of user group ids where the user is subadmin
+     * @async
+     * @returns {Promise<string[]} a list of user group ids where the user is subadmin
+     * @throws {UserNotFoundError}
      */
     async getSubadminUserGroupIds(): Promise<string[]> {
         return (await this.getUserData()).subadminGroups;
     }
 
+    /**
+     * promote the user to be a subadmin of the user group
+     * @async
+     * @param {UserGroup} userGroup the user group
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
+     */
     async promoteToUserGroupSubadmin(userGroup: UserGroup): Promise<void> {
         await this.client.promoteUserToUserGroupSubadmin(this.id, userGroup.id);
         delete this.memento;
         return
     }
 
+    /**
+     * demote the user from beeing a subadmin of the user group
+     * @async
+     * @param {UserGroup} userGroup the user group
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
+     */
     async demoteFromSubadminUserGroup(userGroup: UserGroup): Promise<void> {
         await this.client.demoteUserFromSubadminUserGroup(this.id, userGroup.id);
         delete this.memento;
         return
     }
 
+    /**
+     * deletes a user
+     * @async
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     */
     async delete(): Promise<void> {
         return await this.client.deleteUser(this.id);
     }
 
+    /**
+     * returns the user data
+     * @async
+     * @returns {Promise<IUserOptions>}
+     * @throws {UserNotFoundError}
+     */
     private async getUserData(): Promise<IUserOptions> {
         if (!this.memento) {
             this.memento = await this.client.getUserData(this.id);

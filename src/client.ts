@@ -67,6 +67,7 @@ export {
     Tag,
     FakeServer,
     Server,
+    Share,
     SharePermission,
     RequestResponseLog,
     RequestResponseLogEntry,
@@ -1374,7 +1375,7 @@ export default class Client {
      * returns a list of user ids that are members of the user group
      * @param id string
      * @returns list of member user ids
-     * @throws UserGroupDoesNotExistError
+     * @throws [UserGroupDoesNotExistError}
      */
     public async getUserGroupMembers(id: string): Promise<string[]> {
         debug("getUserGroupMembers");
@@ -1414,7 +1415,7 @@ export default class Client {
      * returns a list of user ids that are subadmins of the user group
      * @param id string
      * @returns list of subadmin user ids
-     * @throws UserGroupDoesNotExistError
+     * @throws [UserGroupDoesNotExistError}
      */
     public async getUserGroupSubadmins(id: string): Promise<string[]> {
         debug("getUserGroupsubadmins");
@@ -1451,9 +1452,10 @@ export default class Client {
 
     /**
      * create a new user group
-     * @param id string
-     * @returns Promise<UserGroup>
-     * @throws UserGroupAlreadyExistsError
+     * @async
+     * @param {string} id user group id
+     * @returns {Promise<UserGroup>}
+     * @throws {UserGroupAlreadyExistsError}
      */
     public async createUserGroup(id: string): Promise<UserGroup> {
         debug("createUserGroup id=", id);
@@ -1483,9 +1485,9 @@ export default class Client {
     /**
      * deletes an existing user group
      * @param id string
-     * @returns Promise<void>
-     * @throws UserGroupDowsNotExistError
-     * @throws UserGroupDeletionFailedError
+     * @returns {Promise<void>}
+     * @throws {UserGroupDowsNotExistError}
+     * @throws {UserGroupDeletionFailedError}
      */
     public async deleteUserGroup(id: string): Promise<void> {
         debug("deleteUserGroup id=", id);
@@ -1589,7 +1591,7 @@ export default class Client {
      * returns user data
      * @param id string the user id
      * @returns Promise<IUserOptions> user data
-     * @throws UserNotFoundError
+     * @throws {UserNotFoundError}
      */
     public async getUserData(id: string): Promise<IUserOptions> {
         debug("getUserData");
@@ -1669,8 +1671,8 @@ export default class Client {
     /**
      * enables the user
      * @param id string the user id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
      */
     public async enableUser(id: string): Promise<void> {
         debug("enableUser");
@@ -1698,8 +1700,8 @@ export default class Client {
     /**
      * disables the user
      * @param id string the user id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
      */
     public async disableUser(id: string): Promise<void> {
         debug("disableUser");
@@ -1727,8 +1729,8 @@ export default class Client {
     /**
      * deletes the user
      * @param id string the user id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
      */
     public async deleteUser(id: string): Promise<void> {
         debug("deleteUser");
@@ -1772,7 +1774,7 @@ export default class Client {
      * @param options
      * @returns User
      * @throws UserAlreadyExistsError
-     * @throws UserNotFoundError
+     * @throws {UserNotFoundError}
      * @throws UserUpdateError
      */
     public async createUser(options: { id: string, email?: string, password?: string }): Promise<User> {
@@ -1816,10 +1818,13 @@ export default class Client {
 
     /**
      * updates a user property
-     * @param id user id
-     * @param property property name
-     * @param value property value
-     * @throws  UserCreateError
+     * @async
+     * @param {string} id user id
+     * @param {UserProperty} property property name
+     * @param {string} value property value
+     * @returns {Promise<void>}
+     * @throws  {UserNotFoundError}
+     * @throws  {UserUpdateError}
      */
     public async updateUserProperty(id: string, property: UserProperty, value: string): Promise<void> {
         debug("updateUserProperty");
@@ -1866,7 +1871,7 @@ export default class Client {
     /**
      * resend the welcome email
      * @param id user id
-     * @throws  UserResendWelcomeEmailError
+     * @throws  {UserResendWelcomeEmailError}
      */
     public async resendWelcomeEmail(id: string, ): Promise<void> {
         debug("resendWelcomeEmail");
@@ -1898,11 +1903,11 @@ export default class Client {
      * adds a user to a group as member
      * @param id string the user id
      * @param userGroupId string the user group id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
-     * @throws UserGroupDoesNotExistError
-     * @throws InsufficientPrivilegesError
-     * @throws OperationFailedError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     public async addUserToMemberUserGroup(id: string, userGroupId: string): Promise<void> {
         debug("addUserToUserGroup");
@@ -1947,11 +1952,11 @@ export default class Client {
      * removes a user from a group as member
      * @param id string the user id
      * @param userGroupId string the user group id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
-     * @throws UserGroupDoesNotExistError
-     * @throws InsufficientPrivilegesError
-     * @throws OperationFailedError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     public async removeUserFromMemberUserGroup(id: string, userGroupId: string): Promise<void> {
         debug("removeUserFromMemberUserGroup");
@@ -1996,11 +2001,11 @@ export default class Client {
      * promotes a user to a user group subadmin
      * @param id string the user id
      * @param userGroupId string the user group id
-     * @returns Promise<void>
-     * @throws UserNotFoundError
-     * @throws UserGroupDoesNotExistError
-     * @throws InsufficientPrivilegesError
-     * @throws OperationFailedError
+     * @returns {Promise<void>}
+     * @throws {UserNotFoundError}
+     * @throws {UserGroupDoesNotExistError}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     public async promoteUserToUserGroupSubadmin(id: string, userGroupId: string): Promise<void> {
         debug("promoteUserToUserGroupSubadmin");
@@ -2045,9 +2050,9 @@ export default class Client {
      * Removes the subadmin rights for the user specified from the group specified
      * @param id string the user id
      * @param userGroupId string the user group id
-     * @returns Promise<void>
-     * @throws InsufficientPrivilegesError
-     * @throws OperationFailedError
+     * @returns {Promise<void>}
+     * @throws {InsufficientPrivilegesError}
+     * @throws {OperationFailedError}
      */
     public async demoteUserFromSubadminUserGroup(id: string, userGroupId: string): Promise<void> {
         debug("demoteUserFromSubadminUserGroup");

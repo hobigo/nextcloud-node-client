@@ -82,7 +82,7 @@
 					<h1>Example</h1>
 				</a>
 				<pre><code class="language-typescript"><span class="hljs-comment">// typescript</span>
-<span class="hljs-keyword">import</span> Client, { File, Folder, Tag, } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+<span class="hljs-keyword">import</span> Client, { File, Folder, Tag, Share } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
 
 <span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
     <span class="hljs-keyword">try</span> {
@@ -120,6 +120,7 @@
 					<li><a href="#concepts-and-philosophy">Concepts and Philosophy</a></li>
 					<li><a href="#api">API</a></li>
 					<li><a href="#architecture">Architecture</a></li>
+					<li><a href="#examples">Examples</a></li>
 				</ul>
 				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
 					<h2>Installation</h2>
@@ -211,7 +212,12 @@
 					<li>get file</li>
 					<li>create tag*</li>
 					<li>get tags, by name, by id</li>
-					<li>get quota
+					<li>get quota</li>
+					<li>find users, get user by id</li>
+					<li>create user</li>
+					<li>mass creations and changes of users</li>
+					<li>get user groups, by id</li>
+					<li>create user group
 						<a href="#folder-1" id="folder-1" style="color: inherit; text-decoration: none;">
 							<h3>Folder</h3>
 						</a>
@@ -248,7 +254,26 @@
 							<h3>Share</h3>
 						</a>
 					</li>
-					<li>create, update, delete</li>
+					<li>create, update, delete
+						<a href="#user-group" id="user-group" style="color: inherit; text-decoration: none;">
+							<h3>User Group</h3>
+						</a>
+					</li>
+					<li>delete</li>
+					<li>get members, get subadmins
+						<a href="#user" id="user" style="color: inherit; text-decoration: none;">
+							<h3>User</h3>
+						</a>
+					</li>
+					<li>delete</li>
+					<li>get properties (display name, email, quota and usage, language, last login, ...)</li>
+					<li>change properties (display name, email, quota, language, password, ...)</li>
+					<li>send welcome email</li>
+					<li>enable / disable</li>
+					<li>promote to super admin / demote from super admin</li>
+					<li>get member groups, get subadmin groups</li>
+					<li>add to user group as member / remove from member user group</li>
+					<li>promote as subadmin for user group / demote from subadmin user group</li>
 				</ul>
 				<p>* admin permissions required</p>
 				<a href="#api-examples" id="api-examples" style="color: inherit; text-decoration: none;">
@@ -348,6 +373,74 @@
 				</a>
 				<p>The nextcloud node client can be used by node applications to extend the nextcloud functionality remotely. The client uses only HTTP apis of nextcloud for access.</p>
 				<p><img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-architecture.png" alt="nextcloud node client component architecture"></p>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#user-management" id="user-management" style="color: inherit; text-decoration: none;">
+					<h3>User management</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-comment">// typescript</span>
+<span class="hljs-keyword">import</span> Client, { User, UserGroup } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+
+<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// create a new client using connectivity </span>
+        <span class="hljs-comment">// information from environment</span>
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// create a new user group</span>
+        <span class="hljs-keyword">const</span> group: UserGroup = <span class="hljs-keyword">await</span> client.createUserGroup(<span class="hljs-params">"MyGroup"</span>);
+        <span class="hljs-comment">// create a new user with a email or password</span>
+        <span class="hljs-keyword">const</span> user: User = <span class="hljs-keyword">await</span> client.createUser(<span class="hljs-params">{ id: "MyUserId", email: "mail@example.com" }</span>);
+        <span class="hljs-comment">// set some properties </span>
+        <span class="hljs-comment">// ... password, phone, website, twitter, address, email, locale</span>
+        <span class="hljs-keyword">await</span> user.setDisplayName(<span class="hljs-params">"My Display Name"</span>);
+        <span class="hljs-keyword">await</span> user.setQuota(<span class="hljs-params">"5 GB"</span>);
+        <span class="hljs-keyword">await</span> user.setLanguage(<span class="hljs-params">"en"</span>);
+        <span class="hljs-comment">// get properties </span>
+        <span class="hljs-comment">// ... quota, user friendly quota, phone, website, twitter, address, locale</span>
+        <span class="hljs-keyword">const</span> email = <span class="hljs-keyword">await</span> user.getEmail(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// disable user</span>
+        <span class="hljs-keyword">await</span> user.disable(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// enable user</span>
+        <span class="hljs-keyword">await</span> user.enable(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// promote to super administrator</span>
+        <span class="hljs-keyword">await</span> user.promoteToSuperAdmin(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// demote from super administrator</span>
+        <span class="hljs-keyword">await</span> user.demoteFromSuperAdmin(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// resend welcome email to user</span>
+        <span class="hljs-keyword">await</span> user.resendWelcomeEmail(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// add to user group as member</span>
+        <span class="hljs-keyword">await</span> user.addToMemberUserGroup(<span class="hljs-params">group</span>);
+        <span class="hljs-comment">// get member user groups</span>
+        <span class="hljs-keyword">const</span> memberGroups: UserGroup[] = <span class="hljs-keyword">await</span> user.getMemberUserGroups(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// get user ids of memembers</span>
+        <span class="hljs-keyword">await</span> group.getMemberUserIds(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// remove user from member group</span>
+        <span class="hljs-keyword">await</span> user.removeFromMemberUserGroup(<span class="hljs-params">group</span>);
+        <span class="hljs-comment">// promote user as subadmin for user group</span>
+        <span class="hljs-keyword">await</span> user.promoteToUserGroupSubadmin(<span class="hljs-params">group</span>);
+        <span class="hljs-comment">// get user groups where the user is subadmin</span>
+        <span class="hljs-keyword">const</span> subadminGroups: UserGroup[] = <span class="hljs-keyword">await</span> user.getSubadminUserGroups(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// get user ids of subadmins</span>
+        <span class="hljs-keyword">await</span> group.getSubadminUserIds(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// demote user from being subadmin for user group</span>
+        <span class="hljs-keyword">await</span> user.demoteFromSubadminUserGroup(<span class="hljs-params">group</span>);
+        <span class="hljs-comment">// delete the user</span>
+        <span class="hljs-keyword">await</span> user.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// delete the user group</span>
+        <span class="hljs-keyword">await</span> group.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// mass creations / updates of users</span>
+        <span class="hljs-comment">// groups are created on the fly</span>
+        <span class="hljs-keyword">await</span> client.upsertUsers(<span class="hljs-params">[
+            { id: "myUser1", email: "myUser1@example.com", enabled: <span class="hljs-literal">false</span>, memberGroups: ["group1", "group2"] },
+            { id: "myUser2", password: "mySecurePassword", displayName: "My Name", superAdmin: <span class="hljs-literal">true</span>, quota: "2 GB" },
+            <span class="hljs-comment">// ...</span>
+        ]</span>);
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
+        <span class="hljs-comment">// use specific exception *error classes </span>
+        <span class="hljs-comment">// for error handling documented in @throws</span>
+    }
+}</span>)<span class="hljs-params">()</span>;</span></code></pre>
 				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
 					<h2>Quality</h2>
 				</a>
@@ -356,7 +449,7 @@
 				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
 					<h2>Todo list</h2>
 				</a>
-				<a href="#user-management" id="user-management" style="color: inherit; text-decoration: none;">
+				<a href="#user-management-1" id="user-management-1" style="color: inherit; text-decoration: none;">
 					<h3>User management</h3>
 				</a>
 				<p>User: </p>
@@ -367,8 +460,8 @@
 					<li><strike>update</strike></li>
 					<li><strike>delete</strike></li>
 					<li><strike>deactivate</strike></li>
-					<li>add/remove group member</li>
-					<li>add/remove group subadmin</li>
+					<li><strike>add/remove group member</strike></li>
+					<li><strike>add/remove group subadmin</strike></li>
 					<li>send notification</li>
 					<li>example in readme</li>
 				</ul>

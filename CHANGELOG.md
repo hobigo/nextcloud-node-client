@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Client.getUserDetailsByID use Client.getUser
 - Client.getUserIDs use Client.getUsers
 
+### Fixed
+- added Share as missing exports
+
 ## 1.2.1 - 2020-04-24
 - fixed getNotifications
 
