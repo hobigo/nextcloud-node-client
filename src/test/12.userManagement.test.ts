@@ -150,15 +150,15 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(error).to.be.equal(null);
         expect(user!).not.to.be.equal(null);
 
-        user = null;
+        let user2: User | null = null;
         try {
-            user = await client.createUser({ id: userId, password: "This is a test password 1" });
+            user2 = await client.createUser({ id: userId, password: "This is a test password 1" });
         } catch (e) {
             error = e;
         }
         // user already exists
         expect(error).to.be.instanceOf(UserAlreadyExistsError);
-        expect(user!).to.be.equal(null);
+        expect(user2!).to.be.equal(null);
 
         try {
             await user!.delete();
@@ -850,7 +850,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
 
     });
 
-    it("14 resend welcome emial to non existing user", async () => {
+    it("14 resend welcome email to non existing user", async () => {
         const userId: string = "testUser04";
         let error: Error | null = null;
         try {
@@ -1498,6 +1498,62 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(exception).to.be.instanceOf(OperationFailedError);
     });
 
+    it("37 get user group ids fails", async () => {
+        let exception = null;
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups",
+                method: "GET",
+                description: "User Groups get",
+            },
+            response: {
+                "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"INVALIDgroups\":[]}}}",
+                "contentType": "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let userGroups: UserGroup[] = [new UserGroup(client, "g1")];
+        try {
+            userGroups = await lclient.getUserGroups()
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+        expect(userGroups.length).to.be.equal(0);
+    });
+
+    it("38 get user group members fails", async () => {
+        let exception = null;
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups/admin",
+                method: "GET",
+                description: "User group get members"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"INVALIDusers\":[\"holger\",\"horst\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let member: string[] = ["u1"];
+        try {
+            member = await lclient.getUserGroupMembers("admin");
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+        expect(member.length).to.be.equal(0);
+    });
+
     it("40 promote user to user group admin and get subadmin user groups", async () => {
         const userGroupId1 = "UserGroup40a"
         const userGroupId2 = "UserGroup40b"
@@ -1557,6 +1613,13 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         }
         expect(exception).to.be.equal(null);
         expect(userGroups.length).to.be.equal(2);
+
+        try {
+            await client.getUserGroupSubadmins(userGroupId1)
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
 
         // cleanup
         try {
@@ -1862,6 +1925,34 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(exception).to.be.instanceOf(OperationFailedError);
     });
 
+    it("48 get user group subadmins fails", async () => {
+        let exception = null;
+
+        const entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups/admin/subadmins",
+                method: "GET",
+                description: "User group get subadmins"
+            },
+            response: {
+                "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"dataINVALID\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        const lclient: Client = new Client(new FakeServer(entries));
+        let member: string[] = ["u1"];
+        try {
+            member = await lclient.getUserGroupSubadmins("admin");
+        } catch (e) {
+            exception = e;
+        }
+        expect(exception).to.be.equal(null);
+        expect(member.length).to.be.equal(0);
+    });
+
     it("50 invalid service response", async () => {
         let exception = null;
         const entries: RequestResponseLogEntry[] = [];
@@ -1894,6 +1985,7 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         const userGroupId1: string = "testUserGroup1";
         const userGroupId2: string = "testUserGroup2";
         const userGroupId3: string = "testUserGroup3";
+        const userGroupId4: string = "testUserGroup4";
         // cleanup
         try {
             await client.deleteUser(userId);
@@ -1905,11 +1997,15 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             await client.deleteUserGroup(userGroupId1);
             await client.deleteUserGroup(userGroupId2);
             await client.deleteUserGroup(userGroupId3);
+            await client.deleteUserGroup(userGroupId4);
         } catch (e) {
             // nop
         }
 
         const userUpsertOptions: IUpsertUserOptions[] = [
+            {
+                id: userId,
+            },
             {
                 id: userId,
                 password: "ThisIsASecurePassword",
@@ -1924,15 +2020,36 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
                 twitter: "@borsti",
                 website: "http://borstenson.com",
                 quota: "3 GB",
+                superAdmin: true,
                 memberGroups: [userGroupId1, userGroupId2],
+                subadminGroups: [userGroupId1, userGroupId2],
             },
             {
                 id: userId,
                 password: "ThisIsASecurePassword",
                 displayName: "Horst-Thorsten Borstenson",
                 email: "h.t.borstenson@gmail.com",
-                enabled: false,
+                enabled: true,
                 resendWelcomeEmail: false,
+                address: "at home",
+                language: "en",
+                locale: "de",
+                phone: "+49 1234 567",
+                twitter: "@borsti",
+                website: "http://borstenson.com",
+                quota: "3 GB",
+                superAdmin: false,
+                memberGroups: [userGroupId1, userGroupId2, "admin"],
+                subadminGroups: [userGroupId1, userGroupId2],
+            },
+
+            {
+                id: userId,
+                password: "ThisIsASecurePassword",
+                displayName: "Horst-Thorsten Borstenson",
+                email: "h.t.borstenson@gmail.com",
+                enabled: false,
+                resendWelcomeEmail: true,
                 address: "at home",
                 language: "en",
                 locale: "de",
@@ -1940,7 +2057,47 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
                 twitter: "@borsti",
                 website: "http://borstenson.com",
                 quota: "3 GB",
-                memberGroups: [userGroupId2, userGroupId3],
+                superAdmin: true,
+                memberGroups: [userGroupId2, userGroupId3, "admin"],
+                subadminGroups: [userGroupId2, userGroupId3],
+            },
+            {
+                id: userId,
+            },
+            {
+                id: userId,
+                password: "",
+                displayName: "",
+                email: "",
+                enabled: false,
+                resendWelcomeEmail: false,
+                address: "",
+                language: "",
+                locale: "",
+                phone: "",
+                twitter: "",
+                website: "",
+                quota: "",
+                superAdmin: false,
+                memberGroups: [],
+                subadminGroups: [],
+            },
+            {
+                id: userId,
+                password: "",
+                displayName: "",
+                email: "",
+                enabled: false,
+                resendWelcomeEmail: false,
+                address: "",
+                language: "",
+                locale: "",
+                phone: "",
+                twitter: "",
+                website: "",
+                quota: "",
+                memberGroups: [userGroupId2],
+                subadminGroups: [userGroupId2, userGroupId4],
             }
         ];
         const report: IUpsertUserReport[] = await client.upsertUsers(userUpsertOptions);
@@ -1958,9 +2115,791 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
             await client.deleteUserGroup(userGroupId1);
             await client.deleteUserGroup(userGroupId2);
             await client.deleteUserGroup(userGroupId3);
+            await client.deleteUserGroup(userGroupId4);
         } catch (e) {
             // nop
         }
+
+    });
+
+    it("61 User upsert fails", async () => {
+        // only for code coverage
+        const userId: string = "TestUser61";
+
+        // disable fails ------------------------------
+        let entries: RequestResponseLogEntry[] = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/disable",
+                method: "PUT",
+                description: "User ... disable"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        let lclient: Client = new Client(new FakeServer(entries));
+
+        let userUpsertOptions: IUpsertUserOptions[] = [
+            {
+                id: userId,
+                enabled: false,
+            },
+        ];
+        let report: IUpsertUserReport[] = await lclient.upsertUsers(userUpsertOptions);
+
+        // enable fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/enable",
+                method: "PUT",
+                description: "User ... disable"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                enabled: true,
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // demote from superadmin ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/groups",
+                method: "DELETE",
+                description: "Demote user from superadmin"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                superAdmin: false,
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // promote to superadmin ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"NOadmin\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/groups",
+                method: "POST",
+                description: "Promote user to superadmin"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                superAdmin: true,
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // remove group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"NOadmin\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups",
+                method: "POST",
+                description: "UserGroup create",
+                body: "{\"groupid\":\"newGroup\"}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"XXdata\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                memberGroups: ["newGroup"],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // create user group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups",
+                method: "POST",
+                description: "UserGroup create",
+                body: "{\"groupid\":\"newGroup\"}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"some error\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"XXdata\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                memberGroups: ["newGroup"],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // add group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"g1\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"newGroup\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/groups",
+                method: "POST",
+                description: "add user tp group",
+                body: "{\"groupid\":\"newGroup\"}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"XXdata\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                memberGroups: ["newGroup"],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+
+        // demote from subadmin group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"subadminGroup\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"NOadmin\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                subadminGroups: [],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // create subadmin user group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups",
+                method: "POST",
+                description: "UserGroup create",
+                body: "{\"groupid\":\"newGroup\"}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"some error\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"XXdata\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                subadminGroups: ["newGroup"],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // add subadmin group fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"g1\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/groups?search=newGroup",
+                method: "GET",
+                description: "User Groups get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"newGroup\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId + "/groups",
+                method: "POST",
+                description: "add user tp group",
+                body: "{\"groupid\":\"newGroup\"}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"XXdata\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                subadminGroups: ["newGroup"],
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
+
+        // display name fails ------------------------------
+        entries = [];
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users?search=" + userId,
+                method: "GET",
+                description: "Users get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"" + userId + "\"]}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "GET",
+                description: "User ... get"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/TestUser61\",\"id\":\"TestUser61\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":null,\"displayname\":\"TestUser61\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"g1\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        entries.push({
+            request: {
+                url: "/ocs/v1.php/cloud/users/" + userId,
+                method: "PUT",
+                description: "update user",
+                body: "{\n    \"key\": \"xxkey\",\n    \"value\": \"xxvalue\"\n}"
+            },
+            response: {
+                body: "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":999,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+                contentType: "application/json; charset=utf-8",
+                status: 200,
+            },
+        });
+
+        lclient = new Client(new FakeServer(entries));
+
+        userUpsertOptions = [
+            {
+                id: userId,
+                displayName: "someValue",
+                email: "someValue",
+                twitter: "someValue",
+                phone: "someValue",
+                address: "someValue",
+                website: "someValue",
+                resendWelcomeEmail: true,
+            },
+        ];
+        report = await lclient.upsertUsers(userUpsertOptions);
 
     });
 

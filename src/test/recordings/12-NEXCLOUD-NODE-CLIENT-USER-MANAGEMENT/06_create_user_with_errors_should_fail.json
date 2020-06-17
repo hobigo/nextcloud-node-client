@@ -212,5 +212,30 @@
                 }
             }
         }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser06",
+            "method": "DELETE",
+            "description": "User testUser06 delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
     }
 ]

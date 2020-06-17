@@ -264,6 +264,33 @@
     },
     {
         "request": {
+            "url": "/ocs/v1.php/cloud/groups/UserGroup40a/subadmins",
+            "method": "GET",
+            "description": "User group get subadmins"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[\"TestUser40\"]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": [
+                        "TestUser40"
+                    ]
+                }
+            }
+        }
+    },
+    {
+        "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser40",
             "method": "DELETE",
             "description": "User TestUser40 delete"

@@ -6,14 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- new user group handing on Client and User Group object
+- new user group handing on Client and UserGroup object
 - new user handing on Client and User object
+- mass creation and mass changes of user and user groups
 
 ### Removed
 - user group handling on client (getGroupsDetails, getGroups, getGroupsDetailsByID)
-- Client.getUserDetails
-- Client.getUserDetailsByID
-- Client.getUserIDs
+- Client.getUserDetails use Client.getUsers and Client.getUser
+- Client.getUserDetailsByID use Client.getUser
+- Client.getUserIDs use Client.getUsers
 
 ## 1.2.1 - 2020-04-24
 - fixed getNotifications

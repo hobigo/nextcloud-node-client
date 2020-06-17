@@ -105,6 +105,7 @@ export interface IUpsertUserOptions {
     "twitter"?: string,
     "language"?: string
     "locale"?: string,
+    "superAdmin"?: boolean,
     "resendWelcomeEmail"?: boolean,
 }
 
@@ -1256,156 +1257,6 @@ export default class Client {
     }
 
     // ***************************************************************************************
-    // notfication management
-    // ***************************************************************************************
-    /**
-     * @returns array of notification objects
-     */
-    public async getNotifications(): Promise<object[]> {
-        const requestInit: RequestInit = {
-            headers: this.getOcsHeaders(),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
-            requestInit,
-            [200, 404],
-            { description: "Notifications get" });
-
-        // no notification found
-        if (response.status === 404) {
-            return [];
-        }
-
-        const rawResult: any = await response.json();
-
-        let notifications = [];
-
-        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
-            notifications = rawResult.ocs.data;
-        } else {
-            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA"); // @todo wrong error message
-        }
-
-        const result: object[] = notifications;
-        return result;
-    }
-
-    public async getUpdateNotifications(version: string): Promise<object> {
-
-        // @todo refactoring... /ocs/v2.php/apps/notifications/api/v2/notifications/<id>   (GET/DELETE)
-
-        const requestInit: RequestInit = {
-            headers: this.getOcsHeaders(),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`,
-            requestInit,
-            [200],
-            { description: "UpdateNotifications get" });
-
-        const rawResult: any = await response.json();
-
-        let updateNotification = {};
-
-        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
-            updateNotification = rawResult.ocs.data;
-        } else {
-            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
-        }
-
-        const result: object = updateNotification;
-        return result;
-    }
-
-    // @todo to be refactored to user
-    public async sendNotificationToUser(userId: string, shortMessage: string, longMessage?: string): Promise<void> {
-        const requestInit: RequestInit = {
-            headers: new Headers({
-                "Accept": "application/json",
-                "Content-Type": "application/x-www-form-urlencoded",
-                "OCS-APIRequest": "true",
-            }),
-            method: "POST",
-        };
-
-        if (!longMessage) {
-            longMessage = "";
-        }
-        longMessage = `&longMessage=${encodeURIComponent(longMessage)}`;
-        const queryString = `${encodeURIComponent(userId)}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
-        const response: Response = await this.getHttpResponse(
-            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`,
-            requestInit,
-            [200],
-            { description: "User create" });
-        const rawResult: any = await response.json();
-        //        console.log(rawResult);
-    }
-
-    // ***************************************************************************************
-    // apps management
-    // ***************************************************************************************
-    /**
-     * returns apps
-     */
-    public async getApps(): Promise<string[]> {
-        const requestInit: RequestInit = {
-            headers: this.getOcsHeaders(),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            this.getOcsUrl(`/apps`),
-            requestInit,
-            [200],
-            { description: "Apps get" });
-
-        const rawResult: any = await response.json();
-
-        let apps = [];
-
-        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
-            apps = rawResult.ocs.data;
-        } else {
-            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
-        }
-
-        const result: string[] = apps;
-
-        return result;
-    }
-    public async getAppInfos(appName: string): Promise<object> {
-        const requestInit: RequestInit = {
-            headers: this.getOcsHeaders(),
-            method: "GET",
-        };
-
-        const response: Response = await this.getHttpResponse(
-            this.getOcsUrl(`/apps/${appName}`),
-            requestInit,
-            [200],
-            { description: "App Infos get" });
-
-        const rawResult: any = await response.json();
-
-        let appInfo = {};
-
-        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
-            appInfo = rawResult.ocs.data;
-        } else {
-            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
-        }
-
-        const result: object = appInfo;
-
-        return result;
-    }
-
-    // ***************************************************************************************
     // user management
     // ***************************************************************************************
 
@@ -1623,8 +1474,10 @@ export default class Client {
             throw new UserGroupAlreadyExistsError(`User Group ${id} already exists`);
         }
 
-        debug(rawResult);
-        return new UserGroup(this, id);
+        if (this.getOcsMetaStatus(rawResult).code === 100) {
+            return new UserGroup(this, id);
+        }
+        throw new OperationFailedError(`User group ${id} could not be created: ${this.getOcsMetaStatus(rawResult).message}`);
     }
 
     /**
@@ -2292,11 +2145,41 @@ export default class Client {
             }
 
             // ************************
+            // super admin
+            // ************************
+            if (option.superAdmin !== undefined) {
+                if (await user.isSuperAdmin() && option.superAdmin === false) {
+                    try {
+                        await user.demoteFromSuperAdmin();
+                        userReport.changes.push({ property: "superAdmin", previousValue: "true", newValue: "false" });
+                    } catch (e) {
+                        userReport.changes.push({ property: "superAdmin", previousValue: "true", newValue: "true", error: e.message });
+                    }
+                }
+
+                if (await user.isSuperAdmin() === false && option.superAdmin === true) {
+                    try {
+                        await user.promoteToSuperAdmin();
+                        userReport.changes.push({ property: "superAdmin", previousValue: "false", newValue: "true" });
+                    } catch (e) {
+                        userReport.changes.push({ property: "superAdmin", previousValue: "false", newValue: "false", error: e.message });
+                    }
+                }
+            }
+
+            // ************************
             // member groups
             // ************************
             if (option.memberGroups !== undefined) {
                 const previousGroups: string[] = await user.getMemberUserGroupIds()
                 const newGroups: string[] = option.memberGroups;
+                if (option.superAdmin !== undefined) {
+                    if (option.superAdmin === true) {
+                        if (newGroups.indexOf("admin") === -1) {
+                            newGroups.push("admin");
+                        }
+                    }
+                }
                 const groupsToAdd: string[] = newGroups.filter(x => !previousGroups.includes(x));
                 const groupsToRemove: string[] = previousGroups.filter(x => !newGroups.includes(x));
                 let userGroup: UserGroup | null;
@@ -2336,6 +2219,50 @@ export default class Client {
 
             }
 
+            // ************************
+            // subadmin groups
+            // ************************
+            if (option.subadminGroups !== undefined) {
+                const previousGroups: string[] = await user.getSubadminUserGroupIds()
+                const newGroups: string[] = option.subadminGroups;
+                const groupsToAdd: string[] = newGroups.filter(x => !previousGroups.includes(x));
+                const groupsToRemove: string[] = previousGroups.filter(x => !newGroups.includes(x));
+                let userGroup: UserGroup | null;
+                property = "subadminGroups";
+                let error: Error | null = null;
+                for (const groupId of groupsToAdd) {
+                    userGroup = await this.getUserGroup(groupId)
+                    if (!userGroup) {
+                        try {
+                            userGroup = await this.createUserGroup(groupId)
+                        } catch (e) {
+                            error = e;
+                            break;
+                        }
+                    }
+                    try {
+                        await user.promoteToUserGroupSubadmin(userGroup);
+                    } catch (e) {
+                        error = e;
+                        break;
+                    }
+                }
+
+                for (const groupId of groupsToRemove) {
+                    try {
+                        await user.demoteFromSubadminUserGroup(new UserGroup(this, groupId));
+                    } catch (e) {
+                        error = e;
+                        break;
+                    }
+                }
+                if (error) {
+                    userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: previousGroups.join(", "), error: error.message });
+                } else {
+                    userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+                }
+
+            }
 
             // ************************
             // display name
@@ -2446,13 +2373,11 @@ export default class Client {
                 previousValue = "********";
                 newValue = option.password;
                 property = "password";
-                if (previousValue !== newValue) {
-                    try {
-                        await user.setPassword(option.password);
-                        userReport.changes.push({ property, previousValue, newValue });
-                    } catch (e) {
-                        userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
-                    }
+                try {
+                    await user.setPassword(option.password);
+                    userReport.changes.push({ property, previousValue, newValue });
+                } catch (e) {
+                    userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
                 }
             }
 
@@ -2643,6 +2568,157 @@ export default class Client {
             { description: "Share delete" });
 
     }
+
+    // ***************************************************************************************
+    // notfication management
+    // ***************************************************************************************
+    /**
+     * @returns array of notification objects
+     */
+    public async getNotifications(): Promise<object[]> {
+        const requestInit: RequestInit = {
+            headers: this.getOcsHeaders(),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications",
+            requestInit,
+            [200, 404],
+            { description: "Notifications get" });
+
+        // no notification found
+        if (response.status === 404) {
+            return [];
+        }
+
+        const rawResult: any = await response.json();
+
+        let notifications = [];
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            notifications = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA"); // @todo wrong error message
+        }
+
+        const result: object[] = notifications;
+        return result;
+    }
+
+    public async getUpdateNotifications(version: string): Promise<object> {
+
+        // @todo refactoring... /ocs/v2.php/apps/notifications/api/v2/notifications/<id>   (GET/DELETE)
+
+        const requestInit: RequestInit = {
+            headers: this.getOcsHeaders(),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`,
+            requestInit,
+            [200],
+            { description: "UpdateNotifications get" });
+
+        const rawResult: any = await response.json();
+
+        let updateNotification = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            updateNotification = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = updateNotification;
+        return result;
+    }
+
+    // @todo to be refactored to user
+    public async sendNotificationToUser(userId: string, shortMessage: string, longMessage?: string): Promise<void> {
+        const requestInit: RequestInit = {
+            headers: new Headers({
+                "Accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded",
+                "OCS-APIRequest": "true",
+            }),
+            method: "POST",
+        };
+
+        if (!longMessage) {
+            longMessage = "";
+        }
+        longMessage = `&longMessage=${encodeURIComponent(longMessage)}`;
+        const queryString = `${encodeURIComponent(userId)}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
+        const response: Response = await this.getHttpResponse(
+            this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`,
+            requestInit,
+            [200],
+            { description: "User create" });
+        const rawResult: any = await response.json();
+        //        console.log(rawResult);
+    }
+
+    // ***************************************************************************************
+    // apps management
+    // ***************************************************************************************
+    /**
+     * returns apps
+     */
+    public async getApps(): Promise<string[]> {
+        const requestInit: RequestInit = {
+            headers: this.getOcsHeaders(),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.getOcsUrl(`/apps`),
+            requestInit,
+            [200],
+            { description: "Apps get" });
+
+        const rawResult: any = await response.json();
+
+        let apps = [];
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            apps = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: string[] = apps;
+
+        return result;
+    }
+    public async getAppInfos(appName: string): Promise<object> {
+        const requestInit: RequestInit = {
+            headers: this.getOcsHeaders(),
+            method: "GET",
+        };
+
+        const response: Response = await this.getHttpResponse(
+            this.getOcsUrl(`/apps/${appName}`),
+            requestInit,
+            [200],
+            { description: "App Infos get" });
+
+        const rawResult: any = await response.json();
+
+        let appInfo = {};
+
+        if (rawResult && rawResult.ocs && rawResult.ocs.data) {
+            appInfo = rawResult.ocs.data;
+        } else {
+            throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        }
+
+        const result: object = appInfo;
+
+        return result;
+    }
+
     // ***************************************************************************************
     // private methods
     // ***************************************************************************************

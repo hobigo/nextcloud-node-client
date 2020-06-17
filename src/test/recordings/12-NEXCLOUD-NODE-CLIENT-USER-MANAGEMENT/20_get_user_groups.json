@@ -34,7 +34,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"admin\"]}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"admin\",\"newGroup\"]}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -48,7 +48,8 @@
                     },
                     "data": {
                         "groups": [
-                            "admin"
+                            "admin",
+                            "newGroup"
                         ]
                     }
                 }

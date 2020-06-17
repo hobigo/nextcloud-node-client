@@ -81,6 +81,86 @@
             "url": "/ocs/v1.php/cloud/users",
             "method": "POST",
             "description": "User testUser60 create",
+            "body": "{\n    \"userid\": \"testUser60\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":108,\"message\":\"To send a password link to the user an email address is required.\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 108,
+                        "message": "To send a password link to the user an email address is required.",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": []
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": []
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users",
+            "method": "POST",
+            "description": "User testUser60 create",
             "body": "{\n    \"userid\": \"testUser60\",\n    \"email\": \"h.t.borstenson@gmail.com\",\n    \"password\": \"ThisIsASecurePassword\"\n}"
         },
         "response": {
@@ -258,6 +338,83 @@
     },
     {
         "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "POST",
+            "description": "Add user testUser60 to user group admin",
+            "body": "{\n    \"groupid\": \"admin\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"testUser60\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": "none",
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "testUser60",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "admin"
+                        ],
+                        "language": "",
+                        "locale": "",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup1",
             "method": "GET",
             "description": "User Groups get"
@@ -422,7 +579,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"testUser60\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"testUser60\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -452,6 +609,173 @@
                         "website": "",
                         "twitter": "",
                         "groups": [
+                            "admin",
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "",
+                        "locale": "",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup1",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"testUserGroup1\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": [
+                            "testUserGroup1"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "POST",
+            "description": "Promote User testUser60 to user group subadmin testUserGroup1",
+            "body": "{\n    \"groupid\": \"testUserGroup1\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"testUserGroup2\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": [
+                            "testUserGroup2"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "POST",
+            "description": "Promote User testUser60 to user group subadmin testUserGroup2",
+            "body": "{\n    \"groupid\": \"testUserGroup2\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"testUser60\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": "none",
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "testUser60",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -500,7 +824,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -518,7 +842,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -530,6 +857,7 @@
                         "website": "",
                         "twitter": "",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -578,7 +906,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -596,7 +924,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -608,6 +939,7 @@
                         "website": "",
                         "twitter": "",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -656,7 +988,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -674,7 +1006,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -686,6 +1021,7 @@
                         "website": "",
                         "twitter": "",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -734,7 +1070,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -752,7 +1088,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -764,6 +1103,7 @@
                         "website": "",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -838,7 +1178,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -856,7 +1196,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -868,6 +1211,7 @@
                         "website": "",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -916,7 +1260,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -934,7 +1278,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -946,6 +1293,7 @@
                         "website": "",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -994,7 +1342,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":\"none\",\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1012,7 +1360,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": "none",
                             "used": 0
@@ -1024,6 +1375,7 @@
                         "website": "http://borstenson.com",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -1101,7 +1453,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1119,7 +1471,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": 3221225472,
                             "used": 0
@@ -1131,6 +1486,472 @@
                         "website": "http://borstenson.com",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/enable",
+            "method": "PUT",
+            "description": "User testUser60 enable"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "DELETE",
+            "description": "Remove user testUser60 from user group admin",
+            "body": "{\n    \"groupid\": \"admin\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=admin",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"admin\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": [
+                            "admin"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "POST",
+            "description": "Add user testUser60 to user group admin",
+            "body": "{\n    \"groupid\": \"admin\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update password=ThisIsASecurePassword",
+            "body": "{\n    \"key\": \"password\",\n    \"value\": \"ThisIsASecurePassword\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser60\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "testUser60"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": true,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/disable",
+            "method": "PUT",
+            "description": "User testUser60 disable"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup1\",\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
                             "testUserGroup1",
                             "testUserGroup2"
                         ],
@@ -1258,7 +2079,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup1\",\"testUserGroup2\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1276,7 +2097,10 @@
                         "id": "testUser60",
                         "lastLogin": 0,
                         "backend": "Database",
-                        "subadmin": [],
+                        "subadmin": [
+                            "testUserGroup1",
+                            "testUserGroup2"
+                        ],
                         "quota": {
                             "quota": 3221225472,
                             "used": 0
@@ -1288,6 +2112,144 @@
                         "website": "http://borstenson.com",
                         "twitter": "@borsti",
                         "groups": [
+                            "admin",
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup3",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"testUserGroup3\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": [
+                            "testUserGroup3"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "POST",
+            "description": "Promote User testUser60 to user group subadmin testUserGroup3",
+            "body": "{\n    \"groupid\": \"testUserGroup3\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "DELETE",
+            "description": "Demotes user testUser60 from subadmin user group testUserGroup1",
+            "body": "{\n    \"groupid\": \"testUserGroup1\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup3\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 567\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 567",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
                             "testUserGroup2",
                             "testUserGroup3"
                         ],
@@ -1362,7 +2324,439 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup3\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/welcome",
+            "method": "POST",
+            "description": "Resend welcome email for user testUser60"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser60\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "testUser60"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser60\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "testUser60"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup3\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"admin\",\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "admin",
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "DELETE",
+            "description": "Remove user testUser60 from user group admin",
+            "body": "{\n    \"groupid\": \"admin\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup3\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[\"testUserGroup2\",\"testUserGroup3\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "DELETE",
+            "description": "Remove user testUser60 from user group testUserGroup2",
+            "body": "{\n    \"groupid\": \"testUserGroup2\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "DELETE",
+            "description": "Remove user testUser60 from user group testUserGroup3",
+            "body": "{\n    \"groupid\": \"testUserGroup3\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup3\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup3"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "DELETE",
+            "description": "Demotes user testUser60 from subadmin user group testUserGroup2",
+            "body": "{\n    \"groupid\": \"testUserGroup2\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "DELETE",
+            "description": "Demotes user testUser60 from subadmin user group testUserGroup3",
+            "body": "{\n    \"groupid\": \"testUserGroup3\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -1391,9 +2785,744 @@
                         "address": "at home",
                         "website": "http://borstenson.com",
                         "twitter": "@borsti",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update displayname=",
+            "body": "{\n    \"key\": \"displayname\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":\"h.t.borstenson@gmail.com\",\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": "h.t.borstenson@gmail.com",
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update email=",
+            "body": "{\n    \"key\": \"email\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"@borsti\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "@borsti",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update language=",
+            "body": "{\n    \"key\": \"language\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"Invalid language\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "Invalid language",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update locale=",
+            "body": "{\n    \"key\": \"locale\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"Invalid locale\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "Invalid locale",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update twitter=",
+            "body": "{\n    \"key\": \"twitter\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"+49 1234 5678\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "+49 1234 5678",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update phone=",
+            "body": "{\n    \"key\": \"phone\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update password=",
+            "body": "{\n    \"key\": \"password\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"Password needs to be at least 8 characters long\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "Password needs to be at least 8 characters long",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"at home\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "at home",
+                        "website": "http://borstenson.com",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update address=",
+            "body": "{\n    \"key\": \"address\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"http:\\/\\/borstenson.com\",\"twitter\":\"\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "http://borstenson.com",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update website=",
+            "body": "{\n    \"key\": \"website\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update quota=",
+            "body": "{\n    \"key\": \"quota\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"Invalid quota value \",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "Invalid quota value ",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users?search=testUser60",
+            "method": "GET",
+            "description": "Users get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"users\":[\"testUser60\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "users": [
+                            "testUser60"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"testUserGroup2\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
                         "groups": [
-                            "testUserGroup2",
-                            "testUserGroup3"
+                            "testUserGroup2"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/groups",
+            "method": "POST",
+            "description": "Add user testUser60 to user group testUserGroup2",
+            "body": "{\n    \"groupid\": \"testUserGroup2\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "testUserGroup2"
                         ],
                         "language": "en",
                         "locale": "de",
@@ -1402,6 +3531,458 @@
                             "setPassword": true
                         }
                     }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[\"testUserGroup2\"]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": [
+                            "testUserGroup2"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "POST",
+            "description": "Promote User testUser60 to user group subadmin testUserGroup2",
+            "body": "{\n    \"groupid\": \"testUserGroup2\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups?search=testUserGroup4",
+            "method": "GET",
+            "description": "User Groups get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"groups\":[]}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "groups": []
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups",
+            "method": "POST",
+            "description": "UserGroup create",
+            "body": "{\"groupid\":\"testUserGroup4\"}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60/subadmins",
+            "method": "POST",
+            "description": "Promote User testUser60 to user group subadmin testUserGroup4",
+            "body": "{\n    \"groupid\": \"testUserGroup4\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup4\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup4"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update displayname=",
+            "body": "{\n    \"key\": \"displayname\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup4\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup4"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update email=",
+            "body": "{\n    \"key\": \"email\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "GET",
+            "description": "User testUser60 get"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":false,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser60\",\"id\":\"testUser60\",\"lastLogin\":0,\"backend\":\"Database\",\"subadmin\":[\"testUserGroup2\",\"testUserGroup4\"],\"quota\":{\"quota\":3221225472,\"used\":0},\"email\":null,\"displayname\":\"Horst-Thorsten Borstenson\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[\"testUserGroup2\"],\"language\":\"en\",\"locale\":\"de\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": {
+                        "enabled": false,
+                        "storageLocation": "/var/nextcloud_data/testUser60",
+                        "id": "testUser60",
+                        "lastLogin": 0,
+                        "backend": "Database",
+                        "subadmin": [
+                            "testUserGroup2",
+                            "testUserGroup4"
+                        ],
+                        "quota": {
+                            "quota": 3221225472,
+                            "used": 0
+                        },
+                        "email": null,
+                        "displayname": "Horst-Thorsten Borstenson",
+                        "phone": "",
+                        "address": "",
+                        "website": "",
+                        "twitter": "",
+                        "groups": [
+                            "testUserGroup2"
+                        ],
+                        "language": "en",
+                        "locale": "de",
+                        "backendCapabilities": {
+                            "setDisplayName": true,
+                            "setPassword": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update language=",
+            "body": "{\n    \"key\": \"language\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"Invalid language\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "Invalid language",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update locale=",
+            "body": "{\n    \"key\": \"locale\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":102,\"message\":\"Invalid locale\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 102,
+                        "message": "Invalid locale",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update password=",
+            "body": "{\n    \"key\": \"password\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"Password needs to be at least 8 characters long\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "Password needs to be at least 8 characters long",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/users/testUser60",
+            "method": "PUT",
+            "description": "User testUser60 update quota=",
+            "body": "{\n    \"key\": \"quota\",\n    \"value\": \"\"\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"failure\",\"statuscode\":103,\"message\":\"Invalid quota value \",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "failure",
+                        "statuscode": 103,
+                        "message": "Invalid quota value ",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
                 }
             }
         }
@@ -1484,6 +4065,31 @@
     {
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup3",
+            "method": "DELETE",
+            "description": "UserGroup delete"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":[]}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 100,
+                        "message": "OK",
+                        "totalitems": "",
+                        "itemsperpage": ""
+                    },
+                    "data": []
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v1.php/cloud/groups/testUserGroup4",
             "method": "DELETE",
             "description": "UserGroup delete"
         },

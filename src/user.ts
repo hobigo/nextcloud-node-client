@@ -275,6 +275,37 @@ export default class User {
     }
 
     // **********************************
+    // user superadmin
+    // **********************************
+
+    /**
+     * @returns true if the user is a superadmin
+     */
+    async isSuperAdmin(): Promise<boolean> {
+        return (await this.getUserData()).memberGroups.indexOf("admin") === -1 ? false : true;
+    }
+
+    /**
+     * promote to super admin
+     */
+    async promoteToSuperAdmin(): Promise<void> {
+        await this.addToMemberUserGroup(new UserGroup(this.client, "admin"));
+        delete this.memento;
+        return;
+    }
+
+    /**
+     * demote from super admin
+     */
+    async demoteFromSuperAdmin(): Promise<void> {
+        if (await this.isSuperAdmin()) {
+            await this.removeFromMemberUserGroup(new UserGroup(this.client, "admin"));
+            delete this.memento;
+        }
+        return;
+    }
+
+    // **********************************
     // user group subadmin
     // **********************************
 
@@ -288,6 +319,13 @@ export default class User {
             result.push(new UserGroup(this.client, groupId));
         }
         return result;
+    }
+
+    /**
+     * @returns a list of user groups ids where the user is subadmin
+     */
+    async getSubadminUserGroupIds(): Promise<string[]> {
+        return (await this.getUserData()).subadminGroups;
     }
 
     async promoteToUserGroupSubadmin(userGroup: UserGroup): Promise<void> {

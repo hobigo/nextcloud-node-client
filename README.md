@@ -150,6 +150,11 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 - create tag*
 - get tags, by name, by id
 - get quota
+- find users, get user by id
+- create user
+- mass creations and changes of users
+- get user groups, by id
+- create user group
 ### Folder
 - get name, id, base name, urls
 - delete
@@ -175,6 +180,19 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 - delete*
 ### Share
 - create, update, delete
+### User Group
+- delete
+- get members, get subadmins
+### User
+- delete
+- get properties (display name, email, quota and usage, language, last login, ...)
+- change properties (display name, email, quota, language, password, ...)
+- send welcome email
+- enable / disable
+- promote to super admin / demote from super admin
+- get member groups, get subadmin groups
+- add to user group as member / remove from member user group
+- promote as subadmin for user group / demote from subadmin user group
 
 \* admin permissions required
 
