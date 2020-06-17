@@ -242,7 +242,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser13\",\"id\":\"testUser13\",\"lastLogin\":1592374015000,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"free\":87793859,\"used\":17063741,\"total\":104857600,\"relative\":16.27,\"quota\":104857600},\"email\":null,\"displayname\":\"testUser13\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":100,\"message\":\"OK\",\"totalitems\":\"\",\"itemsperpage\":\"\"},\"data\":{\"enabled\":true,\"storageLocation\":\"\\/var\\/nextcloud_data\\/testUser13\",\"id\":\"testUser13\",\"lastLogin\":1592417045000,\"backend\":\"Database\",\"subadmin\":[],\"quota\":{\"free\":87793859,\"used\":17063741,\"total\":104857600,\"relative\":16.27,\"quota\":104857600},\"email\":null,\"displayname\":\"testUser13\",\"phone\":\"\",\"address\":\"\",\"website\":\"\",\"twitter\":\"\",\"groups\":[],\"language\":\"\",\"locale\":\"\",\"backendCapabilities\":{\"setDisplayName\":true,\"setPassword\":true}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -258,7 +258,7 @@
                         "enabled": true,
                         "storageLocation": "/var/nextcloud_data/testUser13",
                         "id": "testUser13",
-                        "lastLogin": 1592374015000,
+                        "lastLogin": 1592417045000,
                         "backend": "Database",
                         "subadmin": [],
                         "quota": {

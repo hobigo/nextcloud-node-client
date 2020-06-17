@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - added Share as missing exports
+- fixed client.getFolders delivers also files
 
 ## 1.2.1 - 2020-04-24
 - fixed getNotifications

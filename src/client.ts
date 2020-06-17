@@ -34,7 +34,7 @@ import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
 import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
-import Server from "./server";
+import Server, { IServerOptions } from "./server";
 import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
@@ -64,6 +64,7 @@ export {
     File,
     FileSystemElement,
     ICreateShare,
+    IServerOptions,
     Tag,
     FakeServer,
     Server,
@@ -600,7 +601,10 @@ export default class Client {
             } else {
                 folderContentsEntry.type = "directory";
             }
-            folderContents.push(folderContentsEntry);
+            if (folderContentsEntry.basename !== "") {
+                folderContents.push(folderContentsEntry);
+            }
+
         }
 
         // debug("folderContentsEntry $s", JSON.stringify(folderContents, null, 4));
@@ -713,9 +717,17 @@ export default class Client {
     }
 
     /**
+     * get the root folder object
+     * @returns {Promise<Folder>} the root folder
+     */
+    public getRootFolder(): Folder {
+        return new Folder(this, "/", "", "");
+    }
+
+    /**
      * get a folder object from a path string
-     * @param folderName Name of the folder like "/company/branches/germany"
-     * @returns null if the folder does not exist or an folder object
+     * @param {string} folderName Name of the folder like "/company/branches/germany"
+     * @returns {Promise<Folder | null>} null if the folder does not exist or an folder object
      */
     public async getFolder(folderName: string): Promise<Folder | null> {
         folderName = this.sanitizeFolderName(folderName);
@@ -723,7 +735,7 @@ export default class Client {
 
         // return root folder
         if (folderName === "/" || folderName === "") {
-            return new Folder(this, "/", "", "");
+            return this.getRootFolder();
         }
 
         try {
@@ -2219,7 +2231,9 @@ export default class Client {
                 if (error) {
                     userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: previousGroups.join(", "), error: error.message });
                 } else {
-                    userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+                    if (groupsToAdd.length > 0 || groupsToRemove.length > 0) {
+                        userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+                    }
                 }
 
             }
@@ -2380,7 +2394,7 @@ export default class Client {
                 property = "password";
                 try {
                     await user.setPassword(option.password);
-                    userReport.changes.push({ property, previousValue, newValue });
+                    userReport.changes.push({ property, previousValue, newValue: previousValue });
                 } catch (e) {
                     userReport.changes.push({ property, previousValue, newValue: previousValue, error: e.message });
                 }
@@ -2872,18 +2886,17 @@ export default class Client {
             // debug("###########################");
             // debug("$s", JSON.stringify(folderContentsArray, null, 4));
             // debug("###########################");
-            await this.getFolderContents(folderName);
 
             for (const folderElement of folderContentsArray) {
                 if (folderElement.type === "directory") {
-                    // if (folderIndicator === true) {
-                    resultArray.push(folderElement);
-                    // }
+                    if (folderIndicator === true) {
+                        resultArray.push(folderElement);
+                    }
                 } else {
-                    // if (folderIndicator === false) {
-                    debug("Contents folder element file %O ", folderElement);
-                    resultArray.push(folderElement);
-                    // }
+                    if (folderIndicator === false) {
+                        debug("Contents folder element file %O ", folderElement);
+                        resultArray.push(folderElement);
+                    }
                 }
             }
         } catch (e) {

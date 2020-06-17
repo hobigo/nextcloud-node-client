@@ -1,5 +1,5 @@
 // typescript
-import Client, { User, UserGroup } from "./../client";
+import Client, { User, UserGroup, IUpsertUserReport } from "./../client";
 
 (async () => {
     try {
@@ -46,7 +46,7 @@ import Client, { User, UserGroup } from "./../client";
         // delete the user group
         await group.delete();
         // mass creations / updates of users - groups are created on the fly
-        await client.upsertUsers([
+        const report: IUpsertUserReport[] = await client.upsertUsers([
             { id: "myUser1", email: "myUser1@example.com", enabled: false, memberGroups: ["group1", "group2"] },
             { id: "myUser2", password: "mySecurePassword", displayName: "My Name", superAdmin: true, quota: "2 GB" },
             // ...

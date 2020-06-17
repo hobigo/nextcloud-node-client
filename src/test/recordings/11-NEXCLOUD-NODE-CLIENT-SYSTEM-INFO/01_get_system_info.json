@@ -7,7 +7,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"nextcloud\":{\"system\":{\"version\":\"18.0.4.2\",\"theme\":\"none\",\"enable_avatars\":\"yes\",\"enable_previews\":\"yes\",\"memcache.local\":\"\\\\OC\\\\Memcache\\\\APCu\",\"memcache.distributed\":\"none\",\"filelocking.enabled\":\"yes\",\"memcache.locking\":\"\\\\OC\\\\Memcache\\\\Redis\",\"debug\":\"no\",\"freespace\":179137105920,\"cpuload\":[0.7,0.22,0.07],\"mem_total\":8152784,\"mem_free\":7456964,\"swap_total\":2097148,\"swap_free\":2097148,\"apps\":{\"num_installed\":40,\"num_updates_available\":0,\"app_updates\":[]}},\"storage\":{\"num_users\":2,\"num_files\":29735,\"num_storages\":4,\"num_storages_local\":1,\"num_storages_home\":3,\"num_storages_other\":0},\"shares\":{\"num_shares\":15,\"num_shares_user\":0,\"num_shares_groups\":0,\"num_shares_link\":15,\"num_shares_mail\":0,\"num_shares_room\":0,\"num_shares_link_no_password\":15,\"num_fed_shares_sent\":0,\"num_fed_shares_received\":0,\"permissions_3_1\":\"15\"}},\"server\":{\"webserver\":\"nginx\\/1.17.10\",\"php\":{\"version\":\"7.4.3\",\"memory_limit\":1073741824,\"max_execution_time\":3600,\"upload_max_filesize\":10737418240},\"database\":{\"type\":\"mysql\",\"version\":\"10.3.22\",\"size\":40050688}},\"activeUsers\":{\"last5minutes\":2,\"last1hour\":2,\"last24hours\":2}}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"nextcloud\":{\"system\":{\"version\":\"18.0.4.2\",\"theme\":\"none\",\"enable_avatars\":\"yes\",\"enable_previews\":\"yes\",\"memcache.local\":\"\\\\OC\\\\Memcache\\\\APCu\",\"memcache.distributed\":\"none\",\"filelocking.enabled\":\"yes\",\"memcache.locking\":\"\\\\OC\\\\Memcache\\\\Redis\",\"debug\":\"no\",\"freespace\":179077677056,\"cpuload\":[0.52,0.18,0.07],\"mem_total\":8152784,\"mem_free\":7443032,\"swap_total\":2097148,\"swap_free\":2097148,\"apps\":{\"num_installed\":40,\"num_updates_available\":0,\"app_updates\":[]}},\"storage\":{\"num_users\":3,\"num_files\":28913,\"num_storages\":4,\"num_storages_local\":1,\"num_storages_home\":3,\"num_storages_other\":0},\"shares\":{\"num_shares\":17,\"num_shares_user\":0,\"num_shares_groups\":0,\"num_shares_link\":17,\"num_shares_mail\":0,\"num_shares_room\":0,\"num_shares_link_no_password\":17,\"num_fed_shares_sent\":0,\"num_fed_shares_received\":0,\"permissions_3_1\":\"17\"}},\"server\":{\"webserver\":\"nginx\\/1.17.10\",\"php\":{\"version\":\"7.4.3\",\"memory_limit\":1073741824,\"max_execution_time\":3600,\"upload_max_filesize\":10737418240},\"database\":{\"type\":\"mysql\",\"version\":\"10.3.22\",\"size\":40067072}},\"activeUsers\":{\"last5minutes\":1,\"last1hour\":1,\"last24hours\":2}}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -29,14 +29,14 @@
                                 "filelocking.enabled": "yes",
                                 "memcache.locking": "\\OC\\Memcache\\Redis",
                                 "debug": "no",
-                                "freespace": 179137105920,
+                                "freespace": 179077677056,
                                 "cpuload": [
-                                    0.7,
-                                    0.22,
+                                    0.52,
+                                    0.18,
                                     0.07
                                 ],
                                 "mem_total": 8152784,
-                                "mem_free": 7456964,
+                                "mem_free": 7443032,
                                 "swap_total": 2097148,
                                 "swap_free": 2097148,
                                 "apps": {
@@ -46,24 +46,24 @@
                                 }
                             },
                             "storage": {
-                                "num_users": 2,
-                                "num_files": 29735,
+                                "num_users": 3,
+                                "num_files": 28913,
                                 "num_storages": 4,
                                 "num_storages_local": 1,
                                 "num_storages_home": 3,
                                 "num_storages_other": 0
                             },
                             "shares": {
-                                "num_shares": 15,
+                                "num_shares": 17,
                                 "num_shares_user": 0,
                                 "num_shares_groups": 0,
-                                "num_shares_link": 15,
+                                "num_shares_link": 17,
                                 "num_shares_mail": 0,
                                 "num_shares_room": 0,
-                                "num_shares_link_no_password": 15,
+                                "num_shares_link_no_password": 17,
                                 "num_fed_shares_sent": 0,
                                 "num_fed_shares_received": 0,
-                                "permissions_3_1": "15"
+                                "permissions_3_1": "17"
                             }
                         },
                         "server": {
@@ -77,12 +77,12 @@
                             "database": {
                                 "type": "mysql",
                                 "version": "10.3.22",
-                                "size": 40050688
+                                "size": 40067072
                             }
                         },
                         "activeUsers": {
-                            "last5minutes": 2,
-                            "last1hour": 2,
+                            "last5minutes": 1,
+                            "last1hour": 1,
                             "last24hours": 2
                         }
                     }

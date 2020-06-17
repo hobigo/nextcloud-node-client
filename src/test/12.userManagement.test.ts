@@ -23,12 +23,13 @@ import {
     InsufficientPrivilegesError,
     InvalidServiceResponseFormatError,
     OperationFailedError,
-    IUpsertUserReport
+    IUpsertUserReport,
+    Server,
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 import { getNextcloudClient, recordingModeActive } from "./testUtils";
-import Server, { IServerOptions } from "../server";
+
 import Environment from "../environment";
 
 let client: Client;

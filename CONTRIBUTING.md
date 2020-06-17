@@ -6,7 +6,7 @@ via issue with the owners of this repository before making a change.
 Use always strong TypeScript typing. Document all changes in the CHANGELOG.md. 
 Do not introduce beaking changes. Use JSDOC to document public apis `npm run documentation`.
 
-## testing and code coverage
+## Testing and Code Coverage
 All tests should run successfully `npm run test`. Do not skip or deactivate existing tests.
 Provide a 100% code coverage of the functionality.
 Write tests and record the http communication using `npm run record`.

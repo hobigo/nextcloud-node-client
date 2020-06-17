@@ -145,7 +145,7 @@ Details can be found in the [API docs](https://hobigo.github.io/nextcloud-node-c
 ### Client
 - factory method for client 
 - create folder
-- get folder
+- get folder, get root folder
 - create file
 - get file
 - create tag*
