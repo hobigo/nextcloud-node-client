@@ -1,5 +1,5 @@
 // typescript
-import Client, { File, Folder, Tag, Share } from "./../client";
+import Client, { File, Folder, Share } from "./../client";
 
 (async () => {
     try {

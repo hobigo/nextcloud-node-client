@@ -5,6 +5,7 @@ node_modules
 tsconfig.json
 tslint.json
 dist/test
+dist/examples
 coverage
 .nyc_output
 .vscode
@@ -13,5 +14,11 @@ coverage.lcov
 .github
 docs
 demo
+tmp
+.nojekyll
+CONTRIBUTING.md
+ncnc-architecture.png
+ncnc-logo.png
+ncnc-object-model.png
 # exclude local environment definition .en
 .env

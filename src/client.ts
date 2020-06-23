@@ -169,6 +169,7 @@ export default class Client {
     private fakeServer?: FakeServer;
     private logRequestResponse: boolean = false;
     private httpClient?: HttpClient;
+    private userId: string;
 
     /**
      * Creates a new instance of a nextcloud client.<br/>
@@ -194,6 +195,7 @@ export default class Client {
         this.nextcloudAuthHeader = "";
         this.nextcloudRequestToken = "";
         this.webDAVUrl = "";
+        this.userId = "";
 
         // if no server is provided, try to get a server from VCAP_S environment "nextcloud" instance
         // If no VCAP_S environment exists try from environment
@@ -221,7 +223,7 @@ export default class Client {
             this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(Client.webDavUrlPath));
 
             debug("constructor: nextcloud url %s", this.nextcloudOrigin);
-
+            this.userId = server.basicAuth.username;
             this.nextcloudAuthHeader = "Basic " + Buffer.from(server.basicAuth.username + ":" + server.basicAuth.password).toString("base64");
             this.nextcloudRequestToken = "";
             if (server.url.slice(-1) === "/") {
@@ -576,10 +578,15 @@ export default class Client {
             requestInit,
             [207],
             { description: "Folder get contents" });
-
-        const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
-
         const folderContents: any[] = [];
+
+        let properties: any[];
+        try {
+            properties = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+        } catch (e) {
+            return folderContents;
+        }
+
         // tslint:disable-next-line:no-empty
         for (const prop of properties) {
             let fileName = decodeURI(prop._href.substr(prop._href.indexOf(Client.webDavUrlPath) + 18));
@@ -722,6 +729,80 @@ export default class Client {
      */
     public getRootFolder(): Folder {
         return new Folder(this, "/", "", "");
+    }
+
+    /**
+     * returns an array of file system objects that have all given tags assigned (AND)
+     * @param {Tag[]} tags array of tags
+     * @async
+     * @returns {Promise<FileSystemElement[]>} returns an array of file system objects
+     */
+    public async getFileSystemElementByTags(tags: Tag[]): Promise<FileSystemElement[]> {
+        debug("getFileSystemElementByTags %s", tags.join(", "));
+        let filterRule: string = "";
+
+        for (const tag of tags) {
+            filterRule += `<oc:systemtag>${tag.id}</oc:systemtag>`;
+        }
+        const urlSuffix = `/remote.php/dav/files/`;
+        const url = `${this.nextcloudOrigin}${urlSuffix}${this.userId}`;
+        const body = `<?xml version="1.0"?>
+        <oc:filter-files  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\" xmlns:ocs=\"http://open-collaboration-services.org/ns\">
+           <d:prop>
+              <d:getcontenttype />
+              <oc:fileid />
+           </d:prop>
+           <oc:filter-rules>
+                ${filterRule}
+           </oc:filter-rules>
+        </oc:filter-files>`;
+        const requestInit: RequestInit = {
+            body,
+            // headers: new Headers({ Depth: "0" }),
+            method: "REPORT",
+        };
+        let response: Response;
+        try {
+            response = await this.getHttpResponse(
+                url,
+                requestInit,
+                [207],
+                { description: "Get FileSystemElements by tags" },
+            );
+
+        } catch (err) {
+            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
+            throw err;
+        }
+        const result: FileSystemElement[] = [];
+
+        let properties: any[] = [];
+        try {
+            properties = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+        } catch (e) {
+            return result
+        }
+
+        for (const prop of properties) {
+            let fse: FileSystemElement | null = null;
+            let name: string = prop._href;
+
+            // remove the first two elements from the path
+            name = name.replace(urlSuffix, "");
+            const a: string[] = name.split("/")
+            a.shift();
+            name = "/" + a.join("/");
+            // console.log(name);
+            if (prop.getcontenttype) {
+                fse = await this.getFile(name);
+            } else {
+                fse = await this.getFolder(name);
+            }
+
+            result.push(fse!);
+
+        }
+        return result;
     }
 
     /**
@@ -1885,7 +1966,7 @@ export default class Client {
      * @param id user id
      * @throws  {UserResendWelcomeEmailError}
      */
-    public async resendWelcomeEmail(id: string, ): Promise<void> {
+    public async resendWelcomeEmail(id: string,): Promise<void> {
         debug("resendWelcomeEmail");
 
         const requestInit: RequestInit = {

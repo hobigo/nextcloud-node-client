@@ -365,6 +365,50 @@ import Client, { User, UserGroup } from "nextcloud-node-client";
     }
 })();
 ```
+### Tagging
+```typescript
+// typescript
+import Client, { File, Folder, Share, Tag, FileSystemElement } from "nextcloud-node-client";
+
+(async () => {
+    try {
+        // create a new client using connectivity information from environment
+        const client = new Client();
+        // create a folder structure if not available
+        const folder: Folder = await client.createFolder("folder/subfolder");
+        // create file within the folder
+        const file: File = await folder.createFile("myFile.txt", Buffer.from("My file content"));
+        // create two tags
+        const tag1: Tag = await client.createTag("tag 1");
+        const tag2: Tag = await client.createTag("tag 2");
+        // assign tag to folder
+        folder.addTag(tag1.name);
+        // assign tag to files
+        file.addTag(tag1.name);
+        file.addTag(tag2.name);
+
+        // get list of file system elements with the tag1 assigned
+        let fse: FileSystemElement[] = await client.getFileSystemElementByTags([tag1]);
+        // print names of folder and file
+        console.log(fse[0].name);
+        console.log(fse[1].name);
+
+        // get list of file system elements with the tag1 and tag2
+        fse = await client.getFileSystemElementByTags([tag1, tag2]);
+        // print name of file
+        console.log(fse[0].name);
+
+        // delete the tags
+        await tag1.delete();
+        await tag2.delete();
+        // delete the folder including the file and share
+        await folder.delete();
+    } catch (e) {
+        // some error handling
+        console.log(e);
+    }
+})();
+```
 
 ## Quality
 Tested with nextcloud 17.0.1, 18.0.0
@@ -372,6 +416,13 @@ Tested with nextcloud 17.0.1, 18.0.0
 A code coverage of 100% is aspired
 
 ## Todo list
+
+### Access using tags
+<strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike>
+
+### Search
+* Search for files api
+* client in github actions - upload files
 
 ### User management
 User: 
@@ -410,15 +461,12 @@ Share with
 basic methods are available since 1.2.0 without strong typing
 * notification object
 
-### Access using tags
-Get files and folders by tag
-
 ### Refactoring
 * Introduction of exception classes instead of error codes (breaking change)
 * <strike>Move from codecov to coveralls</strike>
 
 ### Search
-Search for files api
+* Search for files api
 * client in github actions - upload files
 
 ## License

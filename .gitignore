@@ -6,6 +6,8 @@ logs
 *.log
 npm-debug.log*
 
+tmp
+
 # service defs
 userProvidedService.json
 
