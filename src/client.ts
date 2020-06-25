@@ -2,6 +2,9 @@
 import { config } from "dotenv";
 config();
 
+import UploadFilesCommand, { UploadFilesCommandOptions, ISourceTargetFileNames } from "./uploadFilesCommand";
+import UploadFolderCommand, { UploadFolderCommandOptions } from "./uploadFolderCommand";
+import { CommandStatus, CommandResult } from "./command";
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
@@ -30,6 +33,7 @@ import ClientError, {
 import FakeServer from "./fakeServer";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
+import FileSystemFolder, { IFileNameFormats } from "./fileSystemFolder";
 import Folder from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
 import RequestResponseLog from "./requestResponseLog";
@@ -78,6 +82,19 @@ export {
     IUserOptionsQuota,
     IUserQuotaUserFriendly,
 };
+
+// commands
+export {
+    CommandResult,
+    UploadFilesCommand,
+    UploadFilesCommandOptions,
+    UploadFolderCommand,
+    UploadFolderCommandOptions,
+    ISourceTargetFileNames,
+    FileSystemFolder,
+    IFileNameFormats,
+    CommandStatus,
+}
 
 const debug = debugFactory("NCClient");
 // const debug = console.log;

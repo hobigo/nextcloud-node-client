@@ -2,7 +2,7 @@
 const HttpProxyAgent = require('http-proxy-agent');
 
 import debugFactory from "debug";
-import  { HttpProxyAgentOptions } from "http-proxy-agent";
+import { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";
 import {
     Headers,
@@ -106,10 +106,19 @@ export class HttpClient {
                 return Buffer.from(responseText);
             };
 
+            let body: string = `<Body is ${typeof requestInit.body}>`;
+            if (requestInit.body && requestInit.body instanceof Buffer) {
+                body = `<Body is Buffer ${requestInit.body.length}>`;
+            }
+
+            if (typeof requestInit.body === "string") {
+                body = requestInit.body;
+            }
+
             const reqLogEntry: RequestLogEntry =
                 new RequestLogEntry(url.replace(this.origin, ""),
                     requestInit.method, context.description,
-                    requestInit.body as string);
+                    body);
 
             const resLogEntry: ResponseLogEntry =
                 new ResponseLogEntry(response.status,

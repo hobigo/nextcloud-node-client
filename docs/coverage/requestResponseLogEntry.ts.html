@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">23.08% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>3/13</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/3</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">23.08% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/13</span>
+                <span class='fraction'>3/13</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,10 +104,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -119,10 +119,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -131,8 +131,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
@@ -142,11 +142,11 @@ export class RequestLogEntry {
     public jsonBody?: any;
     public method: string;
     public url: string;
-    public constructor(url: string, method: string, description: string, body?: string) {
-        this.url = url;
-        this.method = method;
-        this.description = description;
-        this.body = body;
+<span class="fstat-no" title="function not covered" >    public constructor(u</span>rl: string, method: string, description: string, body?: string) {
+<span class="cstat-no" title="statement not covered" >        this.url = url;</span>
+<span class="cstat-no" title="statement not covered" >        this.method = method;</span>
+<span class="cstat-no" title="statement not covered" >        this.description = description;</span>
+<span class="cstat-no" title="statement not covered" >        this.body = body;</span>
     }
 }
 &nbsp;
@@ -157,11 +157,11 @@ export class ResponseLogEntry {
     public contentLocation?: string;
     public jsonBody?: any;
     public status: number;
-    public constructor(status: number, body?: string, contentType?: string, contentLocation?: string) {
-        this.status = status;
-        this.body = body;
-        this.contentType = contentType;
-        this.contentLocation = contentLocation;
+<span class="fstat-no" title="function not covered" >    public constructor(s</span>tatus: number, body?: string, contentType?: string, contentLocation?: string) {
+<span class="cstat-no" title="statement not covered" >        this.status = status;</span>
+<span class="cstat-no" title="statement not covered" >        this.body = body;</span>
+<span class="cstat-no" title="statement not covered" >        this.contentType = contentType;</span>
+<span class="cstat-no" title="statement not covered" >        this.contentLocation = contentLocation;</span>
     }
 }
 &nbsp;
@@ -169,9 +169,9 @@ export class ResponseLogEntry {
 export default class RequestResponseLogEntry {
     public request: RequestLogEntry;
     public response: ResponseLogEntry;
-    public constructor(request: RequestLogEntry, response: ResponseLogEntry) {
-        this.request = request;
-        this.response = response;
+<span class="fstat-no" title="function not covered" >    public constructor(r</span>equest: RequestLogEntry, response: ResponseLogEntry) {
+<span class="cstat-no" title="statement not covered" >        this.request = request;</span>
+<span class="cstat-no" title="statement not covered" >        this.response = response;</span>
     }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -181,7 +181,7 @@ export default class RequestResponseLogEntry {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Mon Jun 22 2020 18:36:03 GMT+0200 (GMT+02:00)
+                at Thu Jun 25 2020 10:28:39 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="prettify.js"></script>

@@ -35,6 +35,7 @@ export default class RequestResponseLog {
             debug("Error while recording, context not set");
             throw new Error("Error while recording, context not set");
         }
+
         if (logEntry.response.body && logEntry.response.contentType) {
             if (logEntry.response.contentType.indexOf("application/xml") !== -1) {
                 logEntry.response.jsonBody = this.xmlToJson(logEntry.response.body);

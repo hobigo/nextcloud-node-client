@@ -417,12 +417,20 @@ A code coverage of 100% is aspired
 
 ## Todo list
 
-### Access using tags
-<strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike>
+### Download
+* download file to local disk
+* download folder contents to disk recursively
+
+### Upload
+* upload local file on disk to nextcloud
+* upload local folder on disk to nextcloud recursively
 
 ### Search
 * Search for files api
 * client in github actions - upload files
+
+### Access using tags
+<strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike>
 
 ### User management
 User: 
