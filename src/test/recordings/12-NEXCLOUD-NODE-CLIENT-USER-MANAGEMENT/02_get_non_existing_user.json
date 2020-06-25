@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser02",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser04/welcome",
             "method": "POST",
-            "description": "Resend welcome email for user testUser04"
+            "description": "Resend welcome email for user testUser04",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

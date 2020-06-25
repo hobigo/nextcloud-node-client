@@ -15,7 +15,7 @@ describe("31-NEXCLOUD-NODE-FILE-SYSTEM-FOLDER", function () {
         const fileNames: IFileNameFormats[] = await fsf.getFileNames();
 
         // tslint:disable-next-line:no-console
-        console.log(fileNames);
+        // console.log(fileNames);
 
         expect(fileNames).to.be.an("array");
         expect(fileNames.length).to.be.greaterThan(1);

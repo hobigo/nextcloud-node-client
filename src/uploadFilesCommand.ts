@@ -6,13 +6,13 @@ import Command, { CommandStatus } from "./command";
 import util from "util";
 import fs from "fs";
 
-export interface ISourceTargetFileNames {
+export interface SourceTargetFileNames {
     sourceFileName: string;
     targetFileName: string;
 }
 
 export interface UploadFilesCommandOptions {
-    files: ISourceTargetFileNames[];
+    files: SourceTargetFileNames[];
     processFileAfterUpload?: (file: File) => Promise<void>;
 }
 
@@ -20,12 +20,12 @@ export interface UploadFilesCommandOptions {
  * Command to upload a set or files from local file system to nextcloud
  */
 export default class UploadFilesCommand extends Command {
-    private files: ISourceTargetFileNames[];
+    private files: SourceTargetFileNames[];
     private processFileAfterUpload?: (file: File) => Promise<void>;
 
     /**
      * @param {Client} client the client
-     * @param {ISourceTargetFileNames[]} files the files to be uploaded
+     * @param {SourceTargetFileNames[]} files the files to be uploaded
      * @param {(file: File) => void} processAfterUpload callback function to process the uploaded file
      */
     constructor(client: Client, options:UploadFilesCommandOptions) {

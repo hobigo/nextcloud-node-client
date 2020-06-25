@@ -68,7 +68,7 @@
 					<h1>nextcloud-node-client</h1>
 				</a>
 				<img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
-				<p>Access nextcloud remotely from node.js applications with a rich and simple TypeScript/JavaScript API.</p>
+				<p>Access nextcloud remotely from node.js applications with a rich and simple TypeScript / JavaScript API.</p>
 				<p><img src="https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg" alt="">
 					<a href="https://npmjs.org/package/nextcloud-node-client"><img src="https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat" alt="NPM Downloads"></a>
 					<a href="https://david-dm.org/hobigo/nextcloud-node-client"><img src="https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat" alt="Dependency Status"></a>
@@ -76,8 +76,7 @@
 					<a href="https://packagephobia.now.sh/result?p=nextcloud-node-client"><img src="https://packagephobia.now.sh/badge?p=commander" alt="Install Size"></a>
 					<a href="https://hobigo.github.io/nextcloud-node-client"><img src="https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website" alt="documentation"></a>
 				<a href="https://gitter.im/nextcloud-node-client/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/nextcloud-node-client/community.svg" alt="Gitter"></a></p>
-				<p>The nextcloud node client supports folder and file operations including tagging and comments.
-				User management, event subscription and event handling is on the roadmap.</p>
+				<p>The nextcloud node client is used to automate access to nextcloud server from node.js apppliactions. It supports folder and file operations including upload, tagging and comments. All user management funtions are supported. Event subscription and event handling are on the roadmap.</p>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h1>Example</h1>
 				</a>
@@ -116,6 +115,9 @@
 				</a>
 				<ul>
 					<li><a href="#installation">Installation</a></li>
+					<li><a href="./docs/upload.md">Upload files and folders</a></li>
+					<li><a href="./docs/userManagement.md">User Management</a></li>
+					<li><a href="./docs/tagging.md">Tagging</a></li>
 					<li><a href="#security-and-access-management">Security and access management</a></li>
 					<li><a href="#concepts-and-philosophy">Concepts and Philosophy</a></li>
 					<li><a href="#api">API</a></li>
@@ -441,6 +443,50 @@
         <span class="hljs-comment">// for error handling documented in @throws</span>
     }
 }</span>)<span class="hljs-params">()</span>;</span></code></pre>
+				<a href="#tagging" id="tagging" style="color: inherit; text-decoration: none;">
+					<h3>Tagging</h3>
+				</a>
+				<pre><code class="language-typescript"><span class="hljs-comment">// typescript</span>
+<span class="hljs-keyword">import</span> Client, { File, Folder, Share, Tag, FileSystemElement } <span class="hljs-keyword">from</span> <span class="hljs-string">"nextcloud-node-client"</span>;
+
+<span class="hljs-function">(<span class="hljs-params"><span class="hljs-keyword">async</span> (<span class="hljs-params"></span>) =&gt; {
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// create a new client using connectivity information from environment</span>
+        <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// create a folder structure if not available</span>
+        <span class="hljs-keyword">const</span> folder: Folder = <span class="hljs-keyword">await</span> client.createFolder(<span class="hljs-params">"folder/subfolder"</span>);
+        <span class="hljs-comment">// create file within the folder</span>
+        <span class="hljs-keyword">const</span> file: File = <span class="hljs-keyword">await</span> folder.createFile(<span class="hljs-params">"myFile.txt", Buffer.<span class="hljs-keyword">from</span>(<span class="hljs-params">"My file content"</span>)</span>);
+        <span class="hljs-comment">// create two tags</span>
+        <span class="hljs-keyword">const</span> tag1: Tag = <span class="hljs-keyword">await</span> client.createTag(<span class="hljs-params">"tag 1"</span>);
+        <span class="hljs-keyword">const</span> tag2: Tag = <span class="hljs-keyword">await</span> client.createTag(<span class="hljs-params">"tag 2"</span>);
+        <span class="hljs-comment">// assign tag to folder</span>
+        folder.addTag(<span class="hljs-params">tag1.name</span>);
+        <span class="hljs-comment">// assign tag to files</span>
+        file.addTag(<span class="hljs-params">tag1.name</span>);
+        file.addTag(<span class="hljs-params">tag2.name</span>);
+
+        <span class="hljs-comment">// get list of file system elements with the tag1 assigned</span>
+        <span class="hljs-keyword">let</span> fse: FileSystemElement[] = <span class="hljs-keyword">await</span> client.getFileSystemElementByTags(<span class="hljs-params">[tag1]</span>);
+        <span class="hljs-comment">// print names of folder and file</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-params">fse[0].name</span>);
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-params">fse[1].name</span>);
+
+        <span class="hljs-comment">// get list of file system elements with the tag1 and tag2</span>
+        fse = <span class="hljs-keyword">await</span> client.getFileSystemElementByTags(<span class="hljs-params">[tag1, tag2]</span>);
+        <span class="hljs-comment">// print name of file</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-params">fse[0].name</span>);
+
+        <span class="hljs-comment">// delete the tags</span>
+        <span class="hljs-keyword">await</span> tag1.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+        <span class="hljs-keyword">await</span> tag2.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+        <span class="hljs-comment">// delete the folder including the file and share</span>
+        <span class="hljs-keyword">await</span> folder.<span class="hljs-keyword">delete</span>(<span class="hljs-params"></span>);
+    } <span class="hljs-keyword">catch</span> (<span class="hljs-params">e</span>) {
+        <span class="hljs-comment">// some error handling</span>
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-params">e</span>);
+    }
+}</span>)<span class="hljs-params">()</span>;</span></code></pre>
 				<a href="#quality" id="quality" style="color: inherit; text-decoration: none;">
 					<h2>Quality</h2>
 				</a>
@@ -449,6 +495,31 @@
 				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
 					<h2>Todo list</h2>
 				</a>
+				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
+					<h3>Download</h3>
+				</a>
+				<ul>
+					<li>download file to local disk</li>
+					<li>download folder contents to disk recursively</li>
+				</ul>
+				<a href="#upload" id="upload" style="color: inherit; text-decoration: none;">
+					<h3>Upload</h3>
+				</a>
+				<ul>
+					<li>upload local file on disk to nextcloud</li>
+					<li>upload local folder on disk to nextcloud recursively</li>
+				</ul>
+				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
+					<h3>Search</h3>
+				</a>
+				<ul>
+					<li>Search for files api</li>
+					<li>client in github actions - upload files</li>
+				</ul>
+				<a href="#access-using-tags" id="access-using-tags" style="color: inherit; text-decoration: none;">
+					<h3>Access using tags</h3>
+				</a>
+				<p><strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike></p>
 				<a href="#user-management-1" id="user-management-1" style="color: inherit; text-decoration: none;">
 					<h3>User management</h3>
 				</a>
@@ -500,10 +571,6 @@
 				<ul>
 					<li>notification object</li>
 				</ul>
-				<a href="#access-using-tags" id="access-using-tags" style="color: inherit; text-decoration: none;">
-					<h3>Access using tags</h3>
-				</a>
-				<p>Get files and folders by tag</p>
 				<a href="#refactoring" id="refactoring" style="color: inherit; text-decoration: none;">
 					<h3>Refactoring</h3>
 				</a>
@@ -511,11 +578,11 @@
 					<li>Introduction of exception classes instead of error codes (breaking change)</li>
 					<li><strike>Move from codecov to coveralls</strike></li>
 				</ul>
-				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
+				<a href="#search-1" id="search-1" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>
 				</a>
-				<p>Search for files api</p>
 				<ul>
+					<li>Search for files api</li>
 					<li>client in github actions - upload files</li>
 				</ul>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
@@ -540,6 +607,9 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_command_.html">&quot;command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_environment_.html">&quot;environment&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -561,6 +631,9 @@
 						<a href="modules/_filesystemelement_.html">&quot;file<wbr>System<wbr>Element&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_filesystemfolder_.html">&quot;file<wbr>System<wbr>Folder&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_folder_.html">&quot;folder&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -580,6 +653,12 @@
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_tag_.html">&quot;tag&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_uploadfilescommand_.html">&quot;upload<wbr>Files<wbr>Command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_uploadfoldercommand_.html">&quot;upload<wbr>Folder<wbr>Command&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_user_.html">&quot;user&quot;</a>

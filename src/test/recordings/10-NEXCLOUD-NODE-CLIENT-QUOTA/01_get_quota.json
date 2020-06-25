@@ -3,54 +3,31 @@
         "request": {
             "url": "/remote.php/webdav/",
             "method": "PROPFIND",
-            "description": "Client get quota"
+            "description": "Client get quota",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 17 Jun 2020 18:03:40 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>1</d:quota-used-bytes><d:quota-available-bytes>179077681152</d:quota-available-bytes><d:getetag>&quot;5eea5afca888f&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Readme.md</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 17 Jun 2020 17:58:40 GMT</d:getlastmodified><d:getcontentlength>1</d:getcontentlength><d:resourcetype/><d:getetag>&quot;e03718dfd39d5b44e7c1b3695620baea&quot;</d:getetag><d:getcontenttype>text/markdown</d:getcontenttype></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:quota-used-bytes/><d:quota-available-bytes/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Thu, 25 Jun 2020 23:32:43 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>178117652480</d:quota-available-bytes><d:getetag>&quot;5ef5341bd1088&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
-                    "response": [
-                        {
-                            "href": "/remote.php/webdav/",
-                            "propstat": {
-                                "prop": {
-                                    "getlastmodified": "Wed, 17 Jun 2020 18:03:40 GMT",
-                                    "resourcetype": {
-                                        "collection": ""
-                                    },
-                                    "quota-used-bytes": 1,
-                                    "quota-available-bytes": 179077681152,
-                                    "getetag": "&quot;5eea5afca888f&quot;"
+                    "response": {
+                        "href": "/remote.php/webdav/",
+                        "propstat": {
+                            "prop": {
+                                "getlastmodified": "Thu, 25 Jun 2020 23:32:43 GMT",
+                                "resourcetype": {
+                                    "collection": ""
                                 },
-                                "status": "HTTP/1.1 200 OK"
-                            }
-                        },
-                        {
-                            "href": "/remote.php/webdav/Readme.md",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 17 Jun 2020 17:58:40 GMT",
-                                        "getcontentlength": 1,
-                                        "resourcetype": "",
-                                        "getetag": "&quot;e03718dfd39d5b44e7c1b3695620baea&quot;",
-                                        "getcontenttype": "text/markdown"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "quota-used-bytes": "",
-                                        "quota-available-bytes": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
+                                "quota-used-bytes": 0,
+                                "quota-available-bytes": 178117652480,
+                                "getetag": "&quot;5ef5341bd1088&quot;"
+                            },
+                            "status": "HTTP/1.1 200 OK"
                         }
-                    ]
+                    }
                 }
             }
         }

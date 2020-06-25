@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "DELETE",
-            "description": "User testUser60 delete"
+            "description": "User testUser60 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -28,7 +29,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup1",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -53,7 +55,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -106,7 +109,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -133,7 +137,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -188,7 +193,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -217,7 +223,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -266,7 +273,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60/disable",
             "method": "PUT",
-            "description": "User testUser60 disable"
+            "description": "User testUser60 disable",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -291,7 +299,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -366,7 +375,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -417,7 +427,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup1",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -496,7 +507,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -575,7 +587,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -628,7 +641,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup1",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -683,7 +697,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -738,7 +753,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -820,7 +836,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -902,7 +919,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -984,7 +1002,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1066,7 +1085,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1174,7 +1194,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1256,7 +1277,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1338,7 +1360,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1420,7 +1443,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1449,7 +1473,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1505,7 +1530,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60/enable",
             "method": "PUT",
-            "description": "User testUser60 enable"
+            "description": "User testUser60 enable",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1530,7 +1556,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1612,7 +1639,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1667,7 +1695,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=admin",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1722,7 +1751,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1804,7 +1834,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1833,7 +1864,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1889,7 +1921,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60/disable",
             "method": "PUT",
-            "description": "User testUser60 disable"
+            "description": "User testUser60 disable",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1914,7 +1947,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -1970,7 +2004,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup3",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2075,7 +2110,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2131,7 +2167,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup3",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2212,7 +2249,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2320,7 +2358,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2376,7 +2415,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60/welcome",
             "method": "POST",
-            "description": "Resend welcome email for user testUser60"
+            "description": "Resend welcome email for user testUser60",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2401,7 +2441,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2430,7 +2471,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2459,7 +2501,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2541,7 +2584,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2648,7 +2692,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2752,7 +2797,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2827,7 +2873,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -2902,7 +2949,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3029,7 +3077,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3130,7 +3179,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3205,7 +3255,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3280,7 +3331,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3355,7 +3407,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser60",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3384,7 +3437,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3433,7 +3487,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3488,7 +3543,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3539,7 +3595,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup2",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3594,7 +3651,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=testUserGroup4",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3673,7 +3731,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3753,7 +3812,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3833,7 +3893,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "GET",
-            "description": "User testUser60 get"
+            "description": "User testUser60 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -3991,7 +4052,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser60",
             "method": "DELETE",
-            "description": "User testUser60 delete"
+            "description": "User testUser60 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -4016,7 +4078,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup1",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -4041,7 +4104,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup2",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -4066,7 +4130,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup3",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -4091,7 +4156,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/testUserGroup4",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

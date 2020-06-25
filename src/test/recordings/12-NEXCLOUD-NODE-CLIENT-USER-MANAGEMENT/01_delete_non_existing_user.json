@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser01",
             "method": "DELETE",
-            "description": "User testUser01 delete"
+            "description": "User testUser01 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

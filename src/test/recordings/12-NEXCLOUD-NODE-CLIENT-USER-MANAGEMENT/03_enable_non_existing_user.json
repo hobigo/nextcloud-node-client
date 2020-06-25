@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser03/enable",
             "method": "PUT",
-            "description": "User testUser03 enable"
+            "description": "User testUser03 enable",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

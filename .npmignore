@@ -20,5 +20,6 @@ CONTRIBUTING.md
 ncnc-architecture.png
 ncnc-logo.png
 ncnc-object-model.png
+.gitattributes
 # exclude local environment definition .en
 .env

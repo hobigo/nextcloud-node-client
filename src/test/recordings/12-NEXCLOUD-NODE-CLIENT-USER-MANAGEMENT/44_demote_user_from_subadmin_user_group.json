@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/UserGroup44",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -54,7 +55,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "DELETE",
-            "description": "User TestUser44 delete"
+            "description": "User TestUser44 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -107,7 +109,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=TestUser44",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -162,7 +165,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "GET",
-            "description": "User TestUser44 get"
+            "description": "User TestUser44 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -239,7 +243,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "GET",
-            "description": "User TestUser44 get"
+            "description": "User TestUser44 get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -366,7 +371,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/TestUser44",
             "method": "DELETE",
-            "description": "User TestUser44 delete"
+            "description": "User TestUser44 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -391,7 +397,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/UserGroup44",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

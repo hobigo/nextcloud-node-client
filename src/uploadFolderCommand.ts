@@ -8,13 +8,13 @@ import Client,
     IFileNameFormats,
     UploadFilesCommand,
     UploadFilesCommandOptions,
-    ISourceTargetFileNames,
+    SourceTargetFileNames,
 } from "./client";
 import Command, { CommandStatus } from "./command";
 
 export interface UploadFolderCommandOptions {
     folderName: string;
-    getTargetFileNameBeforeUpload?: (fileNames: ISourceTargetFileNames) => string;
+    getTargetFileNameBeforeUpload?: (fileNames: SourceTargetFileNames) => string;
     processFileAfterUpload?: (file: File) => Promise<void>;
 }
 
@@ -24,7 +24,7 @@ export interface UploadFolderCommandOptions {
 export default class UploadFolderCommand extends Command {
     private folderName: string;
     private processFileAfterUpload?: (file: File) => Promise<void>;
-    private getTargetFileNameBeforeUpload: (fileNames: ISourceTargetFileNames) => string;
+    private getTargetFileNameBeforeUpload: (fileNames: SourceTargetFileNames) => string;
 
     /**
      * @param {Client} client the client
@@ -38,7 +38,7 @@ export default class UploadFolderCommand extends Command {
         if (options.getTargetFileNameBeforeUpload) {
             this.getTargetFileNameBeforeUpload = options.getTargetFileNameBeforeUpload;
         } else {
-            this.getTargetFileNameBeforeUpload = (fileNames: ISourceTargetFileNames): string => { return fileNames.targetFileName };
+            this.getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return fileNames.targetFileName };
         }
     }
 
@@ -53,7 +53,7 @@ export default class UploadFolderCommand extends Command {
         const fsf: FileSystemFolder = new FileSystemFolder(this.folderName);
         const fileNames: IFileNameFormats[] = await fsf.getFileNames();
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         for (const fileNameFormat of fileNames) {
             const targetFileName = this.getTargetFileNameBeforeUpload({ sourceFileName: fileNameFormat.absolute, targetFileName: fileNameFormat.relative });
             // add only files with a target name

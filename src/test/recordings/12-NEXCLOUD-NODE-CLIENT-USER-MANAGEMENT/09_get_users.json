@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-1",
             "method": "DELETE",
-            "description": "User testUser09-1 delete"
+            "description": "User testUser09-1 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -28,7 +29,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-2",
             "method": "DELETE",
-            "description": "User testUser09-2 delete"
+            "description": "User testUser09-2 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -53,7 +55,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-3",
             "method": "DELETE",
-            "description": "User testUser09-3 delete"
+            "description": "User testUser09-3 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -78,7 +81,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-4",
             "method": "DELETE",
-            "description": "User testUser09-4 delete"
+            "description": "User testUser09-4 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -103,7 +107,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-5",
             "method": "DELETE",
-            "description": "User testUser09-5 delete"
+            "description": "User testUser09-5 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -156,7 +161,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-1",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -213,7 +219,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-2",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -270,7 +277,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-3",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -327,7 +335,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-4",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -384,7 +393,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-5",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -413,7 +423,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -446,7 +457,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-&limit=2",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -476,7 +488,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users?search=testUser09-&limit=2&offset=4",
             "method": "GET",
-            "description": "Users get"
+            "description": "Users get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -505,7 +518,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-1",
             "method": "DELETE",
-            "description": "User testUser09-1 delete"
+            "description": "User testUser09-1 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -530,7 +544,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-2",
             "method": "DELETE",
-            "description": "User testUser09-2 delete"
+            "description": "User testUser09-2 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -555,7 +570,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-3",
             "method": "DELETE",
-            "description": "User testUser09-3 delete"
+            "description": "User testUser09-3 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -580,7 +596,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-4",
             "method": "DELETE",
-            "description": "User testUser09-4 delete"
+            "description": "User testUser09-4 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -605,7 +622,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser09-5",
             "method": "DELETE",
-            "description": "User testUser09-5 delete"
+            "description": "User testUser09-5 delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

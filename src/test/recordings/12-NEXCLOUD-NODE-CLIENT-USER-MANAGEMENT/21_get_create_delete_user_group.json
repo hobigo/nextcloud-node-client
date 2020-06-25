@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=test 11",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -82,7 +83,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=test 11 this group should never exist",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -109,7 +111,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=test 11",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -138,7 +141,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/test 11",
             "method": "DELETE",
-            "description": "UserGroup delete"
+            "description": "UserGroup delete",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

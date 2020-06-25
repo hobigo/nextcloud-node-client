@@ -1,11 +1,11 @@
+// nextcloud-node-client command tests
 
 import { expect, use } from "chai";
-// if you used the '@types/mocha' method to install mocha type definitions, uncomment the following line
 import "mocha";
 import {
     Client,
     UploadFilesCommand,
-    ISourceTargetFileNames,
+    SourceTargetFileNames,
     UploadFolderCommand,
     FileSystemFolder,
     IFileNameFormats,
@@ -20,7 +20,7 @@ let client: Client;
 
 // tslint:disable-next-line:only-arrow-functions
 // tslint:disable-next-line:space-before-function-paren
-describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
+describe("30-NEXCLOUD-NODE-COMMAND", function () {
 
     // tslint:disable-next-line:space-before-function-paren
     beforeEach(async function () {
@@ -39,7 +39,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
         const fsf: FileSystemFolder = new FileSystemFolder(sourceFolderName);
         const folderFileNames: IFileNameFormats[] = await fsf.getFileNames();
 
-        const getTargetFileNameBeforeUpload = (fileNames: ISourceTargetFileNames): string => { return `${targetFolderName}${fileNames.targetFileName}` };
+        const getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return `${targetFolderName}${fileNames.targetFileName}` };
         const options: UploadFolderCommandOptions = { folderName: sourceFolderName, getTargetFileNameBeforeUpload };
         const uc: UploadFolderCommand = new UploadFolderCommand(client, options);
         uc.execute();
@@ -68,7 +68,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
         const fsf: FileSystemFolder = new FileSystemFolder(sourceFolderName);
         const fileNames: IFileNameFormats[] = await fsf.getFileNames();
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         for (const fileNameFormat of fileNames) {
             files.push({ sourceFileName: fileNameFormat.absolute, targetFileName: `${targetFolderName}${fileNameFormat.relative}` });
         }
@@ -101,7 +101,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
         const sourceFileName: string = "./does/not/exist.txt";
         const targetFileName: string = "/test/30/03/uploadFilesCommand";
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         files.push({ sourceFileName, targetFileName });
 
         const options: UploadFilesCommandOptions = { files };
@@ -133,7 +133,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
         const sourceFileName: string = "./src/test/data/Borstenson/Company/Borstenson Company Profile.pdf";
         const targetFileName: string = " ";
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         files.push({ sourceFileName, targetFileName });
 
         const options: UploadFilesCommandOptions = { files };
@@ -169,7 +169,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
             expect(file.baseName).to.be.equal(baseName);
         };
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         files.push({ sourceFileName, targetFileName });
 
         const options: UploadFilesCommandOptions = { files, processFileAfterUpload };
@@ -207,7 +207,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
             throw new Error(errorMessage);
         };
 
-        const files: ISourceTargetFileNames[] = [];
+        const files: SourceTargetFileNames[] = [];
         files.push({ sourceFileName, targetFileName });
 
         const options: UploadFilesCommandOptions = { files, processFileAfterUpload };
@@ -271,7 +271,7 @@ describe.only("30-NEXCLOUD-NODE-COMMAND", function () {
         const fsf: FileSystemFolder = new FileSystemFolder(sourceFolderName);
         const folderFileNames: IFileNameFormats[] = await fsf.getFileNames();
 
-        const getTargetFileNameBeforeUpload = (fileNames: ISourceTargetFileNames): string => { return "" };
+        const getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return "" };
         const options: UploadFolderCommandOptions = { folderName: sourceFolderName, getTargetFileNameBeforeUpload };
         const uc: UploadFolderCommand = new UploadFolderCommand(client, options);
         uc.execute();

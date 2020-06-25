@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/admin",
             "method": "GET",
-            "description": "User group get members"
+            "description": "User group get members",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -33,7 +34,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/admin this group should never exist",
             "method": "GET",
-            "description": "User group get members"
+            "description": "User group get members",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -58,7 +60,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups?search=admin",
             "method": "GET",
-            "description": "User Groups get"
+            "description": "User Groups get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
@@ -87,7 +90,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/groups/admin",
             "method": "GET",
-            "description": "User group get members"
+            "description": "User group get members",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

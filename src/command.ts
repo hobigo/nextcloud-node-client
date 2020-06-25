@@ -16,11 +16,11 @@ export enum CommandStatus {
      */
     running = "running",
     /**
-     * After successfull  execution of the command, the status is "success"
+     * After successful  execution of the command, the status is "success"
      */
     success = "success",
     /**
-     * After unsuccessfull  execution of the command, the status is "failed"
+     * After unsuccessfull execution of the command, the status is "failed"
      */
     failed = "failed",
 }

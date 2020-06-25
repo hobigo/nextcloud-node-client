@@ -1,7 +1,7 @@
 # nextcloud-node-client
  <img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
 
-Access nextcloud remotely from node.js applications with a rich and simple TypeScript/JavaScript API.
+Access nextcloud remotely from node.js applications with a rich and simple TypeScript / JavaScript API.
 
 ![](https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg)
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
@@ -12,8 +12,7 @@ Access nextcloud remotely from node.js applications with a rich and simple TypeS
 [![Gitter](https://badges.gitter.im/nextcloud-node-client/community.svg)](https://gitter.im/nextcloud-node-client/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
-The nextcloud node client supports folder and file operations including tagging and comments.
-User management, event subscription and event handling is on the roadmap.
+The nextcloud node client is used to automate access to nextcloud server from node.js apppliactions. It supports folder and file operations including upload, tagging and comments. All user management funtions are supported. Event subscription and event handling are on the roadmap.
 
 # Example
 ```typescript
@@ -50,6 +49,9 @@ import Client, { File, Folder, Tag, Share } from "nextcloud-node-client";
 ```
 # Documentation
 * [Installation](#installation)
+* [Upload files and folders](./docs/upload.md)
+* [User Management](./docs/userManagement.md)
+* [Tagging](./docs/tagging.md)
 * [Security and access management](#security-and-access-management)
 * [Concepts and Philosophy](#concepts-and-philosophy)
 * [API](#api)

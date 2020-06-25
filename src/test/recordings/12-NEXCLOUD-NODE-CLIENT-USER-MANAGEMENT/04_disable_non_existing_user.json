@@ -3,7 +3,8 @@
         "request": {
             "url": "/ocs/v1.php/cloud/users/testUser04/disable",
             "method": "PUT",
-            "description": "User testUser04 disable"
+            "description": "User testUser04 disable",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,

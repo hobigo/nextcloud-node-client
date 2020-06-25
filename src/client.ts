@@ -2,7 +2,7 @@
 import { config } from "dotenv";
 config();
 
-import UploadFilesCommand, { UploadFilesCommandOptions, ISourceTargetFileNames } from "./uploadFilesCommand";
+import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./uploadFilesCommand";
 import UploadFolderCommand, { UploadFolderCommandOptions } from "./uploadFolderCommand";
 import { CommandStatus, CommandResult } from "./command";
 import debugFactory from "debug";
@@ -83,14 +83,14 @@ export {
     IUserQuotaUserFriendly,
 };
 
-// commands
+// command object for upload
 export {
     CommandResult,
     UploadFilesCommand,
     UploadFilesCommandOptions,
     UploadFolderCommand,
     UploadFolderCommandOptions,
-    ISourceTargetFileNames,
+    SourceTargetFileNames,
     FileSystemFolder,
     IFileNameFormats,
     CommandStatus,

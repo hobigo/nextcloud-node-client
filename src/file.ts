@@ -1,4 +1,3 @@
-
 import path from "path";
 import Client, { ClientError } from "./client";
 import FileSystemElement from "./fileSystemElement";

@@ -3,11 +3,12 @@
         "request": {
             "url": "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
             "method": "GET",
-            "description": "System Basic Data get"
+            "description": "System Basic Data get",
+            "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Wed Jun 17 20:03:41 CEST 2020\\n\",\"uptime\":\"up 3 weeks, 2 days, 19 hours, 1 minute\\n\",\"timeservers\":\" \"}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"servertime\":\"Fri Jun 26 01:32:44 CEST 2020\\n\",\"uptime\":\"up 4 weeks, 4 days, 30 minutes\\n\",\"timeservers\":\" \"}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -18,8 +19,8 @@
                         "message": "OK"
                     },
                     "data": {
-                        "servertime": "Wed Jun 17 20:03:41 CEST 2020\n",
-                        "uptime": "up 3 weeks, 2 days, 19 hours, 1 minute\n",
+                        "servertime": "Fri Jun 26 01:32:44 CEST 2020\n",
+                        "uptime": "up 4 weeks, 4 days, 30 minutes\n",
                         "timeservers": " "
                     }
                 }

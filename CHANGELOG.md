@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.5.0 - 2020-06-26
+### Added
+- Upload files and folder commands incl. documentation and tests
+
 ## 1.4.0 - 2020-06-22
 ### Added
 - client.getFileSystemObjectByTags - returns an array of file system objects that have all given tags assigned (AND)
