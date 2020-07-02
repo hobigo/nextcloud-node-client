@@ -1,7 +1,7 @@
 import Client from "./client";
 
 /**
- * the potential states that a command can have
+ * The potential states that a command can have.
  * When a command is created, the state is "initial"
  * When the execution has started, the status is "running"
  * When the execution has finsihed, the status can be "succes" or "failed"
@@ -37,9 +37,10 @@ export interface CommandResult {
 }
 
 /**
- * The command class represents wraps a lob running activity into an object
- * Create a command, set receiver information, execute the command and check the status and progress
- * check the result when finsished
+ * The command class represents a potential long running activity.
+ * This activity has been wrapped into an object to ease the tracking of the processing state.
+ * Create a command with  receiver information, execute the command and check the status and progress.
+ * Check the result when finsished.
  */
 export default abstract class Command {
     protected client: Client;

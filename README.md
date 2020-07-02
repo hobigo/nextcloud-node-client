@@ -423,13 +423,13 @@ A code coverage of 100% is aspired
 * download file to local disk
 * download folder contents to disk recursively
 
-### Upload
-* upload local file on disk to nextcloud
-* upload local folder on disk to nextcloud recursively
-
 ### Search
 * Search for files api
 * client in github actions - upload files
+
+### Upload
+* <strike>upload local file on disk to nextcloud</strike>
+* <strike>upload local folder on disk to nextcloud recursively</strike>
 
 ### Access using tags
 <strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike>

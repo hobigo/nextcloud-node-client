@@ -12,8 +12,19 @@ import Client,
 } from "./client";
 import Command, { CommandStatus } from "./command";
 
+/**
+ * options to create a upload folder command 
+ */
 export interface UploadFolderCommandOptions {
+    /**
+     * The name of the sourece folder with the file structure to be uploaded
+     */
     folderName: string;
+    /**
+     * the funtion to determine the target file name having the sourece file name.
+     * If the file should not be uploaded, return an empty string
+     * @param {SourceTargetFileNames} fileNames
+     */
     getTargetFileNameBeforeUpload?: (fileNames: SourceTargetFileNames) => string;
     processFileAfterUpload?: (file: File) => Promise<void>;
 }
