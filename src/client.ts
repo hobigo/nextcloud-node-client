@@ -4,6 +4,7 @@ config();
 
 import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./uploadFilesCommand";
 import UploadFolderCommand, { UploadFolderCommandOptions } from "./uploadFolderCommand";
+import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./getFilesRecursivelyCommand";
 import { CommandStatus, CommandResult } from "./command";
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
@@ -86,6 +87,8 @@ export {
 // command object for upload
 export {
     CommandResult,
+    GetFilesRecursivelyCommand,
+    GetFilesRecursivelyCommandOptions,
     UploadFilesCommand,
     UploadFilesCommandOptions,
     UploadFolderCommand,
@@ -610,7 +613,7 @@ export default class Client {
             if (fileName.endsWith("/")) {
                 fileName = fileName.slice(0, -1);
             }
-            if ((url + "/").endsWith(prop._href)) {
+            if ((url + "/").endsWith(decodeURI(prop._href))) {
                 continue;
             }
             const folderContentsEntry: any = {};

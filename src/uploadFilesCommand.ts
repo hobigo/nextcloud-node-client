@@ -28,7 +28,7 @@ export default class UploadFilesCommand extends Command {
      * @param {SourceTargetFileNames[]} files the files to be uploaded
      * @param {(file: File) => void} processAfterUpload callback function to process the uploaded file
      */
-    constructor(client: Client, options:UploadFilesCommandOptions) {
+    constructor(client: Client, options: UploadFilesCommandOptions) {
         super(client);
         this.files = options.files;
         this.processFileAfterUpload = options.processFileAfterUpload;
@@ -45,7 +45,12 @@ export default class UploadFilesCommand extends Command {
         try {
             const readfile = util.promisify(fs.readFile);
             let countCompleted = 0;
+
             this.percentCompleted = 0;
+            if (this.files.length === 0) {
+                this.percentCompleted = 100;
+            }
+
             let newFile: File | null;
 
             for (const file of this.files) {

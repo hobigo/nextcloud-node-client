@@ -60,9 +60,19 @@ export default class UploadFolderCommand extends Command {
      */
     public async execute(): Promise<void> {
         this.status = CommandStatus.running;
-
+        let fileNames: IFileNameFormats[] = [];
         const fsf: FileSystemFolder = new FileSystemFolder(this.folderName);
-        const fileNames: IFileNameFormats[] = await fsf.getFileNames();
+        try {
+            fileNames = await fsf.getFileNames();
+        } catch (e) {
+            this.result.errors.push(e);
+            this.status = CommandStatus.failed;
+            this.percentCompleted = 100;
+            this.result.status = this.status;
+            this.result.bytesUploaded = 0;
+            this.result.timeElapsed = 0;
+            return;
+        }
 
         const files: SourceTargetFileNames[] = [];
         for (const fileNameFormat of fileNames) {

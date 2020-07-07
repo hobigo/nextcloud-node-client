@@ -13,8 +13,11 @@ import {
     UploadFilesCommandOptions,
     UploadFolderCommandOptions,
     File,
+    Folder,
+    GetFilesRecursivelyCommandOptions,
 } from "../client";
 import { getNextcloudClient } from "./testUtils";
+import GetFilesRecursivelyCommand from "./../getFilesRecursivelyCommand";
 
 let client: Client;
 
@@ -293,5 +296,58 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
 
     });
 
+    it("09 execute upload folder command with non exisiting folder", async () => {
+
+        const sourceFolderName: string = "./this/folder/does/not/exist";
+        const targetFolderName: string = "/test/30/09/uploadFolderCommand";
+
+        const options: UploadFolderCommandOptions = { folderName: sourceFolderName };
+        const uc: UploadFolderCommand = new UploadFolderCommand(client, options);
+        uc.execute();
+
+        async function sleep(seconds: number) {
+            return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+        }
+
+        while (uc.isFinished() !== true) {
+            // tslint:disable-next-line:no-console
+            // console.log(uc.getPercentCompleted() + "%");
+            await sleep(0.1);
+        }
+        // tslint:disable-next-line:no-console
+        // console.log("result", uc.getResult());
+        expect(uc.getResult().errors.length, "result should contain one error").to.be.equal(1);
+        expect(uc.getResult().messages.length, "result should contain messages").to.be.equal(0)
+        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.failed);
+
+    });
+
+
+    it.only("10 get files recursively ", async () => {
+
+        // const sourceFolder: Folder = await client.getRootFolder();
+
+        const sourceFolder: Folder|null = await client.getFolder("/test");
+
+        const options: GetFilesRecursivelyCommandOptions = { sourceFolder:sourceFolder! };
+        const command: GetFilesRecursivelyCommand = new GetFilesRecursivelyCommand(client, options);
+        command.execute();
+
+        async function sleep(seconds: number) {
+            return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+        }
+
+        while (command.isFinished() !== true) {
+            // tslint:disable-next-line:no-console
+            console.log(command.getPercentCompleted() + "%");
+            await sleep(0.1);
+        }
+        // tslint:disable-next-line:no-console
+        console.log("result: ",JSON.stringify(command.getResult()));
+        expect(command.getResult().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(command.getResult().messages.length, "result should contain messages").to.be.equal(0)
+        expect(command.getResult().status, "command should be successfull").to.be.equal(CommandStatus.failed);
+
+    });
 
 });
