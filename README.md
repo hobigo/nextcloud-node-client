@@ -50,6 +50,7 @@ import Client, { File, Folder, Tag, Share } from "nextcloud-node-client";
 # Documentation
 * [Installation](#installation)
 * [Upload files and folders](./docs/upload.md)
+* [Get files recursively](./docs/getFiles.md)
 * [User Management](./docs/userManagement.md)
 * [Tagging](./docs/tagging.md)
 * [Security and access management](#security-and-access-management)

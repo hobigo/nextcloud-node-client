@@ -27,7 +27,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Thu, 25 Jun 2020 23:32:07 GMT</d:getlastmodified><d:getetag>&quot;5ef533f794037&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>48661</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>4508917</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 08 Jul 2020 12:54:23 GMT</d:getlastmodified><d:getetag>&quot;5f05c1ff43310&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>51457</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>16</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -37,14 +37,14 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Thu, 25 Jun 2020 23:32:07 GMT",
-                                    "getetag": "&quot;5ef533f794037&quot;",
+                                    "getlastmodified": "Wed, 08 Jul 2020 12:54:23 GMT",
+                                    "getetag": "&quot;5f05c1ff43310&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 48661,
+                                    "fileid": 51457,
                                     "permissions": "RGDNVCK",
-                                    "size": 4508917,
+                                    "size": 16,
                                     "has-preview": false,
                                     "favorite": 0,
                                     "comments-unread": 0,
@@ -94,7 +94,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Thu, 25 Jun 2020 23:32:07 GMT</d:getlastmodified><d:getetag>&quot;5ef533f794037&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>48661</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>4508917</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 08 Jul 2020 12:54:23 GMT</d:getlastmodified><d:getetag>&quot;5f05c1ff43310&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>51457</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>16</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -104,14 +104,14 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Thu, 25 Jun 2020 23:32:07 GMT",
-                                    "getetag": "&quot;5ef533f794037&quot;",
+                                    "getlastmodified": "Wed, 08 Jul 2020 12:54:23 GMT",
+                                    "getetag": "&quot;5f05c1ff43310&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 48661,
+                                    "fileid": 51457,
                                     "permissions": "RGDNVCK",
-                                    "size": 4508917,
+                                    "size": 16,
                                     "has-preview": false,
                                     "favorite": 0,
                                     "comments-unread": 0,

@@ -63,7 +63,7 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.greaterThan(0)
         expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
         const bytesUploaded = uc.getBytesUploaded();
-        expect(bytesUploaded, "expect a certain number of bytesUploaded").to.be.equal(3043731);
+        expect(bytesUploaded, "expect a certain number of bytesUploaded").to.be.greaterThan(3000000);
 
     });
 
