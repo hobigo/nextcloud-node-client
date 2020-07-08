@@ -40,8 +40,8 @@ export default class GetFilesRecursivelyCommand extends Command {
         try {
             this.percentCompleted = 0;
             await this.addFilesOfFolder(this.sourceFolder, 100);
-            console.log(this.files);
-            console.log("file count", this.files.length);
+            // consoleconsole.log(this.files);
+            // console.log("file count", this.files.length);
             this.result.messages.push(`${this.files.length} files found`);
         } catch (e) {
             debug(e.message);

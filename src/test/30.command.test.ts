@@ -323,13 +323,29 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
     });
 
 
-    it.only("10 get files recursively ", async () => {
+    it("10 get files recursively", async () => {
+
+        const sourceFolderName: string = "./src/test/data/Borstenson";
+        const targetFolderName: string = "/test/30/10/GetFilesRecursivelyCommand";
+        let sourceFolder: Folder | null = await client.getFolder(targetFolderName);
+        if (sourceFolder) {
+            await sourceFolder.delete();
+        }
+
+        // create the test files first
+        const getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return `${targetFolderName}${fileNames.targetFileName}` };
+        const ucfOptions: UploadFolderCommandOptions = { folderName: sourceFolderName, getTargetFileNameBeforeUpload };
+        const uc: UploadFolderCommand = new UploadFolderCommand(client, ucfOptions);
+        await uc.execute();
+        // tslint:disable-next-line:no-console
+        // console.log("result: ", JSON.stringify(uc.getResult()));
 
         // const sourceFolder: Folder = await client.getRootFolder();
 
-        const sourceFolder: Folder|null = await client.getFolder("/test");
+        sourceFolder = await client.getFolder(targetFolderName);
+        expect(sourceFolder).not.to.be.equal(null);
 
-        const options: GetFilesRecursivelyCommandOptions = { sourceFolder:sourceFolder! };
+        const options: GetFilesRecursivelyCommandOptions = { sourceFolder: sourceFolder! };
         const command: GetFilesRecursivelyCommand = new GetFilesRecursivelyCommand(client, options);
         command.execute();
 
@@ -339,15 +355,16 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
 
         while (command.isFinished() !== true) {
             // tslint:disable-next-line:no-console
-            console.log(command.getPercentCompleted() + "%");
+            // console.log(command.getPercentCompleted() + "%");
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        console.log("result: ",JSON.stringify(command.getResult()));
+        // console.log("result: ", JSON.stringify(command.getResult()));
         expect(command.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(command.getResult().messages.length, "result should contain messages").to.be.equal(0)
-        expect(command.getResult().status, "command should be successfull").to.be.equal(CommandStatus.failed);
+        expect(command.getResult().messages.length, "result should contain messages").to.be.equal(1)
+        expect(command.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
 
+        await sourceFolder!.delete();
     });
 
 });
