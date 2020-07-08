@@ -1,4 +1,9 @@
-import Client from "./client";
+// tslint:disable-next-line:no-var-requires
+const debug = require("debug").debug("Command");
+
+import Client, {
+    CommandAlreadyExecutedError,
+} from "./client";
 
 /**
  * The potential states that a command can have.
@@ -28,11 +33,9 @@ export enum CommandStatus {
 /**
  * when the command has finished, the client can get the result of the command execution
  */
-export interface CommandResult {
-    status: CommandStatus,
+export interface CommandResultMetaData {
     errors: string[],
     messages: string[],
-    bytesUploaded: number,
     timeElapsed: number,
 }
 
@@ -46,13 +49,30 @@ export default abstract class Command {
     protected client: Client;
     protected status: CommandStatus;
     protected percentCompleted: number;
-    protected result: CommandResult;
+    protected resultMetaData: CommandResultMetaData;
 
     constructor(client: Client) {
         this.client = client;
         this.status = CommandStatus.initial;
         this.percentCompleted = 0;
-        this.result = { status: this.status, messages: [], errors: [], bytesUploaded: 0, timeElapsed: 0 };
+        this.resultMetaData = { messages: [], errors: [], timeElapsed: 0 };
+    }
+
+    /**
+     * final execute the command
+     * @async
+     * @final
+     * @returns {Promise<void>}
+     */
+    public async execute(): Promise<void> {
+        debug("execute Command = " + this.constructor.name, this.status);
+        if (this.isFinished()) {
+            throw new CommandAlreadyExecutedError("Error: Command has already been executed. Command = " + this.constructor.name);
+        }
+        if (this.status === CommandStatus.initial) {
+            await this.onExecute();
+        }
+        // do nothing if already running
     }
 
     /**
@@ -60,7 +80,7 @@ export default abstract class Command {
      * @async
      * @returns {Promise<void>}
      */
-    public abstract async execute(): Promise<void>;
+    protected abstract async onExecute(): Promise<void>;
 
     /**
      * returns true, if the command has been finished
@@ -90,11 +110,11 @@ export default abstract class Command {
     }
 
     /**
-     * returns the result of the command
+     * returns the result meta data of the command
      * @returns {null|any} the result of the command
      */
-    public getResult(): CommandResult {
-        return this.result;
+    public getResultMetaData(): CommandResultMetaData {
+        return this.resultMetaData;
     }
 
 }

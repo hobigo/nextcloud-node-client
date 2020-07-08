@@ -15,8 +15,9 @@ Provide a list of source and traget file names and optionally a callback functio
 Example: Upload files synchronously
 ```typescript
 // typescript
+// upload files synchronously
 import Client, {
-    CommandResult, CommandStatus,
+    CommandResultMetaData, CommandStatus,
     UploadFilesCommand, SourceTargetFileNames,
 } from "nextcloud-node-client";
 
@@ -39,10 +40,11 @@ import Client, {
     await uc.execute();
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
+        console.log(uc.getBytesUploaded());
     } else {
         console.log(uploadResult.errors);
     }
@@ -54,8 +56,9 @@ Example: Upload files asynchronously and process file after upload
 ```typescript
 // typescript
 import Client, {
-    File, CommandResult, CommandStatus,
-    UploadFilesCommand, SourceTargetFileNames,
+    File, CommandResultMetaData,
+    CommandStatus, UploadFilesCommand,
+    SourceTargetFileNames,
 } from "nextcloud-node-client";
 
 (async () => {
@@ -65,7 +68,7 @@ import Client, {
     const files: SourceTargetFileNames[] = [
         {
             sourceFileName: "C:\\Users\\horst\\Documents\\Borstenson Company Profile.pdf",
-            targetFileName: "/Company Info/Borstenson Company Profile.pdf"
+            targetFileName: "/Company Info/Borstenson Company Profile.pdf"            
         },
         // add even more files ...
     ];
@@ -93,10 +96,11 @@ import Client, {
     }
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
+        console.log(uc.getBytesUploaded());
     } else {
         console.log(uploadResult.errors);
     }
@@ -109,26 +113,28 @@ Copy all files of a folder structure from the file system to Nextcloud.
 
 Example: Upload all files of a folder recursively and synchronously.
 ```typescript
-// tslint:disable:no-console
 // typescript
 import Client, {
-    CommandResult, CommandStatus, UploadFolderCommand,
+    CommandResultMetaData, CommandStatus, UploadFolderCommand,
 } from "nextcloud-node-client";
 
 (async () => {
     const client = new Client();
+
     // define a source folder
     const folderName: string = "c:\\Users\\horst\\Company";
+
     // create the command object
     const uc: UploadFolderCommand = new UploadFolderCommand(client, { folderName }
     );
+
     // start the upload synchronously
     await uc.execute();
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
     } else {
         console.log(uploadResult.errors);
@@ -142,7 +148,7 @@ Example: Upload all files of a folder recursively and ignore "*.tmp" files. Add 
 // typescript
 import Client, {
     File,
-    CommandResult,
+    CommandResultMetaData,
     CommandStatus,
     UploadFolderCommand,
     SourceTargetFileNames,
@@ -189,10 +195,11 @@ import Client, {
     }
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
+        console.log(uc.getBytesUploaded());
     } else {
         console.log(uploadResult.errors);
     }

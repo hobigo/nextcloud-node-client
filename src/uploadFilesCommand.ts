@@ -22,6 +22,7 @@ export interface UploadFilesCommandOptions {
 export default class UploadFilesCommand extends Command {
     private files: SourceTargetFileNames[];
     private processFileAfterUpload?: (file: File) => Promise<void>;
+    private bytesUploaded: number;
 
     /**
      * @param {Client} client the client
@@ -31,6 +32,7 @@ export default class UploadFilesCommand extends Command {
     constructor(client: Client, options: UploadFilesCommandOptions) {
         super(client);
         this.files = options.files;
+        this.bytesUploaded = 0;
         this.processFileAfterUpload = options.processFileAfterUpload;
     }
 
@@ -39,7 +41,7 @@ export default class UploadFilesCommand extends Command {
      * @async
      * @returns {Promise<void>}
      */
-    public async execute(): Promise<void> {
+    protected async onExecute(): Promise<void> {
         this.status = CommandStatus.running;
         const startTime = new Date();
         try {
@@ -60,14 +62,14 @@ export default class UploadFilesCommand extends Command {
                     data = await readfile(file.sourceFileName);
                     try {
                         newFile = await this.client.createFile(file.targetFileName, data);
-                        this.result.messages.push(`${file.targetFileName}`);
-                        this.result.bytesUploaded += data.length;
+                        this.resultMetaData.messages.push(`${file.targetFileName}`);
+                        this.bytesUploaded += data.length;
                     } catch (e) {
-                        this.result.errors.push(`${file.targetFileName}: ${e.message}`);
+                        this.resultMetaData.errors.push(`${file.targetFileName}: ${e.message}`);
                         debug(file.targetFileName, e);
                     }
                 } catch (e) {
-                    this.result.errors.push(`${file.targetFileName}: ${e.message}`);
+                    this.resultMetaData.errors.push(`${file.targetFileName}: ${e.message}`);
                 }
 
                 countCompleted++;
@@ -81,20 +83,23 @@ export default class UploadFilesCommand extends Command {
 
         } catch (e) {
             debug(e.message);
-            this.result.errors.push(e.message);
+            this.resultMetaData.errors.push(e.message);
             this.percentCompleted = 100;
         }
-        if (this.result.errors.length > 0) {
+        if (this.resultMetaData.errors.length > 0) {
             this.status = CommandStatus.failed;
         } else {
             this.status = CommandStatus.success;
         }
-        this.result.status = this.status;
-        this.result.timeElapsed = new Date().getTime() - startTime.getTime();
+        this.resultMetaData.timeElapsed = new Date().getTime() - startTime.getTime();
 
         debug("execute finished", this.percentCompleted, this.status);
 
         return;
     };
+
+    public getBytesUploaded(): number {
+        return this.bytesUploaded;
+    }
 
 }

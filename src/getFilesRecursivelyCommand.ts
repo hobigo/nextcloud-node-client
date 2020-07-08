@@ -34,37 +34,40 @@ export default class GetFilesRecursivelyCommand extends Command {
      * @async
      * @returns {Promise<void>}
      */
-    public async execute(): Promise<void> {
+    protected async onExecute(): Promise<void> {
         this.status = CommandStatus.running;
         const startTime = new Date();
         try {
             this.percentCompleted = 0;
-            await this.addFilesOfFolder(this.sourceFolder, 100);
-            // consoleconsole.log(this.files);
+            await this.processFolder(this.sourceFolder, 100);
             // console.log("file count", this.files.length);
-            this.result.messages.push(`${this.files.length} files found`);
+            this.resultMetaData.messages.push(`${this.files.length} files found`);
         } catch (e) {
             debug(e.message);
-            this.result.errors.push(e.message);
+            this.resultMetaData.errors.push(e.message);
         }
 
         this.percentCompleted = 100;
-        if (this.result.errors.length > 0) {
+        if (this.resultMetaData.errors.length > 0) {
             this.status = CommandStatus.failed;
         } else {
             this.status = CommandStatus.success;
         }
-        this.result.bytesUploaded = 0;
-        this.result.timeElapsed = new Date().getTime() - startTime.getTime();
-        this.result.status = this.status;
+        this.resultMetaData.timeElapsed = new Date().getTime() - startTime.getTime();
         return;
     };
 
+
+    public getFiles(): File[] {
+        return this.files;
+    }
+
     /**
-     * adds files of subfolders to the input file array
-     * @param {Folder} folder the folder
+     * adds files of folder and processes subordinated folders
+     * @param {Folder} folder the folder to process
+     * @param {number} percentagethe percentage that is finished, when the function returns
      */
-    private async addFilesOfFolder(folder: Folder, percentage: number): Promise<void> {
+    private async processFolder(folder: Folder, percentage: number): Promise<void> {
         // tslint:disable-next-line:no-console
         // console.log(folder.name);
         const folderFiles: File[] = await folder.getFiles();
@@ -78,7 +81,7 @@ export default class GetFilesRecursivelyCommand extends Command {
         }
         for (const subFolder of subFolders) {
             // console.log("folder", subFolder.name);
-            await this.addFilesOfFolder(subFolder, percentage / subFolders.length);
+            await this.processFolder(subFolder, percentage / subFolders.length);
         }
         return;
     }

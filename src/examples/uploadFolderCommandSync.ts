@@ -2,7 +2,7 @@
 // typescript
 // upload folder structure synchronously
 import Client, {
-    CommandResult, CommandStatus, UploadFolderCommand,
+    CommandResultMetaData, CommandStatus, UploadFolderCommand,
 } from "../client";
 
 (async () => {
@@ -19,9 +19,9 @@ import Client, {
     await uc.execute();
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
     } else {
         console.log(uploadResult.errors);

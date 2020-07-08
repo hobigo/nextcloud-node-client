@@ -89,3 +89,7 @@ export class InsufficientPrivilegesError extends BaseError { };
  */
 export class OperationFailedError extends BaseError { };
 
+/**
+ * the command is already executed
+ */
+export class CommandAlreadyExecutedError extends BaseError { };

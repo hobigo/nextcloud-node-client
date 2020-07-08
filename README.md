@@ -419,6 +419,11 @@ A code coverage of 100% is aspired
 
 ## Todo list
 
+### Get Files recursivelz
+* <strike>command get files recurively</strike>
+* filter get files recurively
+* example get files recurively
+
 ### Download
 * download file to local disk
 * download folder contents to disk recursively

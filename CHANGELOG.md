@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- new command to get all files of a folder recursively GetFilesRecursively
+
+### Fixed
+- endless loop in UploadFolderCommand if folder does not exist
+- Folder.getSubfolders() returns own folder if folder name contains a blank
+
+### Changed
+- Upload*Command replaced getResult with getResultMetaData - breaking change
+
 ## 1.5.0 - 2020-06-26
 ### Added
 - Upload files and folder commands incl. documentation and tests

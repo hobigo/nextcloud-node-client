@@ -2,7 +2,7 @@
 // typescript
 // upload files synchronously
 import Client, {
-    CommandResult, CommandStatus,
+    CommandResultMetaData, CommandStatus,
     UploadFilesCommand, SourceTargetFileNames,
 } from "../client";
 
@@ -25,10 +25,11 @@ import Client, {
     await uc.execute();
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
+        console.log(uc.getBytesUploaded());
     } else {
         console.log(uploadResult.errors);
     }

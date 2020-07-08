@@ -5,7 +5,7 @@ config();
 import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./uploadFilesCommand";
 import UploadFolderCommand, { UploadFolderCommandOptions } from "./uploadFolderCommand";
 import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./getFilesRecursivelyCommand";
-import { CommandStatus, CommandResult } from "./command";
+import { CommandStatus, CommandResultMetaData } from "./command";
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
@@ -17,6 +17,7 @@ import path, { basename } from "path";
 import Environment from "./environment";
 import EnvironmentVcapServices from "./environmentVcapServices";
 import ClientError, {
+    CommandAlreadyExecutedError,
     QueryLimitError,
     QueryOffsetError,
     InsufficientPrivilegesError,
@@ -46,6 +47,7 @@ import UserGroup from "./userGroup";
 import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
 
 export {
+    CommandAlreadyExecutedError,
     InvalidServiceResponseFormatError,
     InsufficientPrivilegesError,
     OperationFailedError,
@@ -86,7 +88,7 @@ export {
 
 // command object for upload
 export {
-    CommandResult,
+    CommandResultMetaData,
     GetFilesRecursivelyCommand,
     GetFilesRecursivelyCommandOptions,
     UploadFilesCommand,

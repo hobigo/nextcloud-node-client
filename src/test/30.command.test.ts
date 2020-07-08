@@ -15,6 +15,7 @@ import {
     File,
     Folder,
     GetFilesRecursivelyCommandOptions,
+    CommandAlreadyExecutedError,
 } from "../client";
 import { getNextcloudClient } from "./testUtils";
 import GetFilesRecursivelyCommand from "./../getFilesRecursivelyCommand";
@@ -57,10 +58,12 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
-        expect(uc.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(uc.getResult().messages.length, "result should contain messages").to.be.greaterThan(0)
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        // console.log("result", uc.getResultMetaData());
+        expect(uc.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.greaterThan(0)
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
+        const bytesUploaded = uc.getBytesUploaded();
+        expect(bytesUploaded, "expect a certain number of bytesUploaded").to.be.equal(3043731);
 
     });
 
@@ -92,10 +95,10 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
-        expect(uc.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(uc.getResult().messages.length, "result should contain messages").to.be.greaterThan(0)
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        // console.log("result", uc.getResultMetaData());
+        expect(uc.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.greaterThan(0)
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
 
     });
 
@@ -118,16 +121,25 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             return new Promise(resolve => setTimeout(resolve, seconds * 1000));
         }
 
+        let alreadyCalled = false;
         while (uc.isFinished() !== true) {
+
+            // only for code coverage
+            // if command is running this should not have an effect
+            if (!alreadyCalled) {
+                uc.execute();
+                alreadyCalled = true;
+            }
+
             // tslint:disable-next-line:no-console
             // console.log(uc.getPercentCompleted() + "%");
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
+        // console.log("result", uc.getResultMetaData());
 
-        expect(uc.getResult().errors.length, "result should contain an error").to.be.equal(1);
-        expect(uc.getResult().status, "command should fail").to.be.equal(CommandStatus.failed);
+        expect(uc.getResultMetaData().errors.length, "result should contain an error").to.be.equal(1);
+        expect(uc.getStatus(), "command should fail").to.be.equal(CommandStatus.failed);
 
     });
 
@@ -156,10 +168,10 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
+        // console.log("result", uc.getResultMetaData());
 
-        expect(uc.getResult().errors.length, "result should contain an error").to.be.equal(1);
-        expect(uc.getResult().status, "command should fail").to.be.equal(CommandStatus.failed);
+        expect(uc.getResultMetaData().errors.length, "result should contain an error").to.be.equal(1);
+        expect(uc.getStatus(), "command should fail").to.be.equal(CommandStatus.failed);
 
     });
 
@@ -192,11 +204,11 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
+        // console.log("result", uc.getResultMetaData());
 
-        expect(uc.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(uc.getResult().messages.length, "result should contain one message").to.be.equal(1);
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        expect(uc.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(uc.getResultMetaData().messages.length, "result should contain one message").to.be.equal(1);
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
 
     });
 
@@ -230,11 +242,11 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
+        // console.log("result", uc.getResultMetaData());
 
-        expect(uc.getResult().errors.length, "result should contain one error").to.be.equal(1);
-        expect(uc.getResult().errors[0]).to.be.equal(errorMessage);
-        expect(uc.getResult().status, "command should be fail").to.be.equal(CommandStatus.failed);
+        expect(uc.getResultMetaData().errors.length, "result should contain one error").to.be.equal(1);
+        expect(uc.getResultMetaData().errors[0]).to.be.equal(errorMessage);
+        expect(uc.getStatus(), "command should be fail").to.be.equal(CommandStatus.failed);
 
     });
 
@@ -259,10 +271,10 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
-        expect(uc.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(uc.getResult().messages.length, "result should contain messages").to.be.greaterThan(0)
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        // console.log("result", uc.getResultMetaData());
+        expect(uc.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.greaterThan(0)
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
 
     });
 
@@ -289,10 +301,10 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
-        expect(uc.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(uc.getResult().messages.length, "result should contain messages").to.be.equal(0)
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        // console.log("result", uc.getResultMetaData());
+        expect(uc.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.equal(0)
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
 
     });
 
@@ -315,13 +327,12 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
             await sleep(0.1);
         }
         // tslint:disable-next-line:no-console
-        // console.log("result", uc.getResult());
-        expect(uc.getResult().errors.length, "result should contain one error").to.be.equal(1);
-        expect(uc.getResult().messages.length, "result should contain messages").to.be.equal(0)
-        expect(uc.getResult().status, "command should be successfull").to.be.equal(CommandStatus.failed);
+        // console.log("result", uc.getResultMetaData());
+        expect(uc.getResultMetaData().errors.length, "result should contain one error").to.be.equal(1);
+        expect(uc.getResultMetaData().messages.length, "result should contain messages").to.be.equal(0)
+        expect(uc.getStatus(), "command should be successfull").to.be.equal(CommandStatus.failed);
 
     });
-
 
     it("10 get files recursively", async () => {
 
@@ -337,8 +348,9 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         const ucfOptions: UploadFolderCommandOptions = { folderName: sourceFolderName, getTargetFileNameBeforeUpload };
         const uc: UploadFolderCommand = new UploadFolderCommand(client, ucfOptions);
         await uc.execute();
+
         // tslint:disable-next-line:no-console
-        // console.log("result: ", JSON.stringify(uc.getResult()));
+        // console.log("result: ", JSON.stringify(uc.getResultMetaData()));
 
         // const sourceFolder: Folder = await client.getRootFolder();
 
@@ -360,11 +372,39 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         }
         // tslint:disable-next-line:no-console
         // console.log("result: ", JSON.stringify(command.getResult()));
-        expect(command.getResult().errors.length, "result should contain no errors").to.be.equal(0);
-        expect(command.getResult().messages.length, "result should contain messages").to.be.equal(1)
-        expect(command.getResult().status, "command should be successfull").to.be.equal(CommandStatus.success);
+        expect(command.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(command.getResultMetaData().messages.length, "result should contain messages").to.be.equal(1)
+        expect(command.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
+
+        const files: File[] = command.getFiles();
+        expect(files.length).to.be.equal(14);
+
+        let error: Error | null = null
+        try {
+            await command.execute();
+        } catch (e) {
+            error = e;
+        }
+        expect(error, "it should not be possible to execute a command again").to.be.instanceOf(CommandAlreadyExecutedError);
 
         await sourceFolder!.delete();
+
+    });
+
+    it("11 get files recursively fails", async () => {
+
+        const notARealFolder = {};
+        // this line will cause the error
+        const options: GetFilesRecursivelyCommandOptions = { sourceFolder: notARealFolder as Folder };
+        const command: GetFilesRecursivelyCommand = new GetFilesRecursivelyCommand(client, options);
+        await command.execute();
+
+        // tslint:disable-next-line:no-console
+        // console.log("result: ", JSON.stringify(command.getResultMetaData()));
+        expect(command.getResultMetaData().errors.length, "result should contain an error").to.be.equal(1);
+        expect(command.getResultMetaData().messages.length, "result should contain no messages").to.be.equal(0)
+        expect(command.getStatus(), "command should be successfull").to.be.equal(CommandStatus.failed);
+
     });
 
 });

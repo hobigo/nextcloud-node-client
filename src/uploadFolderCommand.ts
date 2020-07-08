@@ -13,7 +13,7 @@ import Client,
 import Command, { CommandStatus } from "./command";
 
 /**
- * options to create a upload folder command 
+ * options to create a upload folder command
  */
 export interface UploadFolderCommandOptions {
     /**
@@ -36,6 +36,7 @@ export default class UploadFolderCommand extends Command {
     private folderName: string;
     private processFileAfterUpload?: (file: File) => Promise<void>;
     private getTargetFileNameBeforeUpload: (fileNames: SourceTargetFileNames) => string;
+    private bytesUploaded: number;
 
     /**
      * @param {Client} client the client
@@ -51,6 +52,7 @@ export default class UploadFolderCommand extends Command {
         } else {
             this.getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return fileNames.targetFileName };
         }
+        this.bytesUploaded = 0;
     }
 
     /**
@@ -58,19 +60,18 @@ export default class UploadFolderCommand extends Command {
      * @async
      * @returns {Promise<void>}
      */
-    public async execute(): Promise<void> {
+    protected async onExecute(): Promise<void> {
         this.status = CommandStatus.running;
         let fileNames: IFileNameFormats[] = [];
         const fsf: FileSystemFolder = new FileSystemFolder(this.folderName);
         try {
             fileNames = await fsf.getFileNames();
         } catch (e) {
-            this.result.errors.push(e);
+            this.resultMetaData.errors.push(e);
             this.status = CommandStatus.failed;
             this.percentCompleted = 100;
-            this.result.status = this.status;
-            this.result.bytesUploaded = 0;
-            this.result.timeElapsed = 0;
+            this.bytesUploaded = 0;
+            this.resultMetaData.timeElapsed = 0;
             return;
         }
 
@@ -91,13 +92,20 @@ export default class UploadFolderCommand extends Command {
         while (uc.isFinished() !== true) {
             this.status = uc.getStatus();
             this.percentCompleted = uc.getPercentCompleted();
+            this.resultMetaData = uc.getResultMetaData();
+            this.bytesUploaded = uc.getBytesUploaded();
             // wait one second
             await (async () => { return new Promise(resolve => setTimeout(resolve, 1000)) })();
         }
+
         this.status = uc.getStatus();
         this.percentCompleted = uc.getPercentCompleted();
-        this.result = uc.getResult();
+        this.resultMetaData = uc.getResultMetaData();
+        this.bytesUploaded = uc.getBytesUploaded();
         return;
     };
+    public getBytesUploaded(): number {
+        return this.bytesUploaded;
+    }
 
 }

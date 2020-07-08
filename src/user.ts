@@ -505,6 +505,7 @@ export default class User {
      * @throws {OperationFailedError}
      */
     async demoteFromSuperAdmin(): Promise<void> {
+        /* istanbul ignore else */
         if (await this.isSuperAdmin()) {
             await this.removeFromMemberUserGroup(new UserGroup(this.client, "admin"));
             delete this.memento;

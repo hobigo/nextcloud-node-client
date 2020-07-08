@@ -3,7 +3,7 @@
 // upload files asynchronously
 import Client, {
     File,
-    CommandResult,
+    CommandResultMetaData,
     CommandStatus,
     UploadFilesCommand,
     SourceTargetFileNames,
@@ -44,10 +44,11 @@ import Client, {
     }
 
     // use the result to do the needful
-    const uploadResult: CommandResult = uc.getResult();
+    const uploadResult: CommandResultMetaData = uc.getResultMetaData();
 
-    if (uploadResult.status === CommandStatus.success) {
+    if (uc.getStatus() === CommandStatus.success) {
         console.log(uploadResult.messages);
+        console.log(uc.getBytesUploaded());
     } else {
         console.log(uploadResult.errors);
     }
