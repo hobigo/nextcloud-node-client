@@ -1,4 +1,5 @@
 # nextcloud-node-client
+
  <img src="https://raw.githubusercontent.com/hobigo/nextcloud-node-client/master/ncnc-logo.png" width="100"  style="max-width:100%;">
 
 Access nextcloud remotely from node.js applications with a rich and simple TypeScript / JavaScript API.
@@ -9,10 +10,14 @@ Access nextcloud remotely from node.js applications with a rich and simple TypeS
 [![Coverage Status](https://coveralls.io/repos/github/hobigo/nextcloud-node-client/badge.svg?branch=master)](https://coveralls.io/github/hobigo/nextcloud-node-client?branch=master)
 [![Install Size](https://packagephobia.now.sh/badge?p=commander)](https://packagephobia.now.sh/result?p=nextcloud-node-client)
 [![documentation](https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website)](https://hobigo.github.io/nextcloud-node-client)
-[![Gitter](https://badges.gitter.im/nextcloud-node-client/community.svg)](https://gitter.im/nextcloud-node-client/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+- upload and download files
+- create files and folder structures
+- all user management functions
+- create shares
+- tagging and commenting
 
-The nextcloud node client is used to automate access to nextcloud server from node.js apppliactions. It supports folder and file operations including upload, tagging and comments. All user management funtions are supported. Event subscription and event handling are on the roadmap.
+The nextcloud node client is used to automate access to nextcloud servers from node.js apppliactions. 
 
 # Example
 ```typescript
@@ -420,10 +425,8 @@ A code coverage of 100% is aspired
 
 ## Todo list
 
-### Get Files recursivelz
-* <strike>command get files recurively</strike>
-* filter get files recurively
-* example get files recurively
+### Server API
+* support also the nextcloud server url instead of the WebDAV url only
 
 ### Download
 * download file to local disk
@@ -436,6 +439,11 @@ A code coverage of 100% is aspired
 ### Upload
 * <strike>upload local file on disk to nextcloud</strike>
 * <strike>upload local folder on disk to nextcloud recursively</strike>
+
+### Get Files recursively
+* <strike>command get files recurively</strike>
+* <strike>filter get files recurively</strike>
+* <strike>example get files recurively</strike>
 
 ### Access using tags
 <strike>* Get files and folders by tags client.getFileSystemObjectByTags</strike>
