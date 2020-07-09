@@ -1,20 +1,11 @@
-## Get files of a folder recursively
-List all files of a given source folder including the complete subfolder structure. 
-The command is used, to keep track of the file listing process as this can be a long running process.
-
-### Example
-Get all files of a source folder and filter only PDFs and JPGs.
-This example shows asynchronous processing. Use await with the execute method for synchronous processing.
-
-```typescript
-// typescript
+// tslint:disable:no-console
 // get files recursively
 import Client, {
     File, Folder,
     CommandResultMetaData, CommandStatus,
     GetFilesRecursivelyCommand,
     GetFilesRecursivelyCommandOptions,
-} from "nextcloud-node-client";
+} from "../client";
 
 (async () => {
     const client = new Client();
@@ -62,4 +53,3 @@ import Client, {
     }
 
 })();
-```

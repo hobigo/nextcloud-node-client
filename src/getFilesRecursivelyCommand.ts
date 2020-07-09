@@ -1,12 +1,18 @@
 // tslint:disable-next-line:no-var-requires
 const debug = require("debug").debug("GetFilesRecursivelyCommand");
 
-import Client, { File, Folder } from "./client";
+import Client, { File, Folder, FolderGetFilesOptions } from "./client";
 import Command, { CommandStatus } from "./command";
 
 export interface GetFilesRecursivelyCommandOptions {
+    /**
+     * the source nextcloud folder to start listing the files
+     */
     sourceFolder: Folder;
-    filterFile?: (file: File) => Promise<File | null>;
+    /**
+     * function to filter files
+     */
+    filterFile?: (file: File) => File | null;
 }
 
 /**
@@ -14,7 +20,7 @@ export interface GetFilesRecursivelyCommandOptions {
  */
 export default class GetFilesRecursivelyCommand extends Command {
     private sourceFolder: Folder;
-    private filterFile?: (file: File) => Promise<File | null>;
+    private filterFile?: (file: File) => File | null;
     private files: File[];
 
     /**
@@ -70,7 +76,9 @@ export default class GetFilesRecursivelyCommand extends Command {
     private async processFolder(folder: Folder, percentage: number): Promise<void> {
         // tslint:disable-next-line:no-console
         // console.log(folder.name);
-        const folderFiles: File[] = await folder.getFiles();
+
+        const options: FolderGetFilesOptions = { filterFile: this.filterFile }
+        const folderFiles: File[] = await folder.getFiles(options);
         for (const fi of folderFiles) {
             this.files.push(fi);
         }

@@ -6,6 +6,13 @@ import ClientError from "./error";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 
+export interface FolderGetFilesOptions {
+    /**
+     * callback function to filter files
+     */
+    filterFile?: (file: File) => File | null;
+}
+
 export default class Folder implements FileSystemElement {
     private client: Client;
     private memento: {
@@ -72,9 +79,9 @@ export default class Folder implements FileSystemElement {
     /**
      * @returns all files of the folder
      */
-    public async getFiles(): Promise<File[]> {
+    public async getFiles(options?: FolderGetFilesOptions): Promise<File[]> {
         this.assertExistence();
-        return await this.client.getFiles(this.name);
+        return await this.client.getFiles(this.name, options);
     }
 
     /**

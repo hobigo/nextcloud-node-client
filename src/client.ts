@@ -36,7 +36,7 @@ import FakeServer from "./fakeServer";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import FileSystemFolder, { IFileNameFormats } from "./fileSystemFolder";
-import Folder from "./folder";
+import Folder, { FolderGetFilesOptions } from "./folder";
 import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
 import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
@@ -47,6 +47,7 @@ import UserGroup from "./userGroup";
 import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
 
 export {
+    FolderGetFilesOptions,
     CommandAlreadyExecutedError,
     InvalidServiceResponseFormatError,
     InsufficientPrivilegesError,
@@ -886,10 +887,11 @@ export default class Client {
 
     /**
      * get files of a folder
-     * @param folderName Name of the folder like "/company/branches/germany"
+     * @param {string} folderName Name of the folder like "/company/branches/germany"
+     * @param {FolderGetFilesOptions} options options for filtering and paging
      * @returns array of file objects
      */
-    public async getFiles(folderName: string): Promise<File[]> {
+    public async getFiles(folderName: string, options?: FolderGetFilesOptions): Promise<File[]> {
         debug("getFiles: folder %s", folderName);
         const files: File[] = [];
         folderName = this.sanitizeFolderName(folderName);
@@ -899,13 +901,20 @@ export default class Client {
         for (const folderElement of fileElements) {
             debug("getFiles: adding file %s", folderElement.filename);
             // debug("getFiles: adding file %O", folderElement);
-            files.push(new File(this,
+            let file: File | null = new File(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
                 folderElement.lastmod,
                 folderElement.size,
                 folderElement.mime,
-                folderElement.fileid));
+                folderElement.fileid);
+
+            if (options && options.filterFile) {
+                file = options.filterFile(file);
+            }
+            if (file) {
+                files.push(file);
+            }
         }
 
         return files;

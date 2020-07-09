@@ -379,6 +379,7 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         const files: File[] = command.getFiles();
         expect(files.length).to.be.equal(14);
 
+        // codecoverage check double execution
         let error: Error | null = null
         try {
             await command.execute();
@@ -387,6 +388,33 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         }
         expect(error, "it should not be possible to execute a command again").to.be.instanceOf(CommandAlreadyExecutedError);
 
+        // check filter function
+        const fileFilterFunction = (file: File): File | null => {
+
+            if (file.mime === "application/pdf") {
+                return file;
+            }
+
+            if (file.mime === "image/jpeg") {
+                return file;
+            }
+            return null;
+
+        }
+
+        const options2: GetFilesRecursivelyCommandOptions = {
+            sourceFolder: sourceFolder!,
+            filterFile: fileFilterFunction,
+        };
+
+        const command2: GetFilesRecursivelyCommand = new GetFilesRecursivelyCommand(client, options2);
+        await command2.execute();
+
+        const filteredFiles: File[] = command2.getFiles();
+        // 2xpdf and 1xjpg
+        expect(filteredFiles.length, "expect the number of filtered files is 3").to.be.equal(3);
+
+        // delete files
         await sourceFolder!.delete();
 
     });
