@@ -26,18 +26,18 @@ export default class FileSystemFolder {
     public async getFileNames(): Promise<IFileNameFormats[]> {
         const fileNames: IFileNameFormats[] = [];
 
-        for (const absoluteFileName of await this.getFileNamesRecursivley(this.name)) {
+        for (const absoluteFileName of await this.getFileNamesRecursively(this.name)) {
             fileNames.push({ absolute: absoluteFileName, relative: absoluteFileName.replace(path.resolve(this.getName().absolute), "").replace(/\\/g, "/") })
         }
         return (fileNames);
     };
 
-    private async getFileNamesRecursivley(name: string): Promise<string[]> {
+    private async getFileNamesRecursively(name: string): Promise<string[]> {
 
         const subdirs: string[] = await readdir(name);
         const files = await Promise.all(subdirs.map(async (subdir: string) => {
             const res: string = path.resolve(name, subdir);
-            return (await stat(res)).isDirectory() ? this.getFileNamesRecursivley(res) : res;
+            return (await stat(res)).isDirectory() ? this.getFileNamesRecursively(res) : res;
         }));
         return files.reduce((a: any, f: any) => a.concat(f), []);
     }

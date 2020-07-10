@@ -74,9 +74,15 @@
 					<a href="https://david-dm.org/hobigo/nextcloud-node-client"><img src="https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat" alt="Dependency Status"></a>
 					<a href="https://coveralls.io/github/hobigo/nextcloud-node-client?branch=master"><img src="https://coveralls.io/repos/github/hobigo/nextcloud-node-client/badge.svg?branch=master" alt="Coverage Status"></a>
 					<a href="https://packagephobia.now.sh/result?p=nextcloud-node-client"><img src="https://packagephobia.now.sh/badge?p=commander" alt="Install Size"></a>
-					<a href="https://hobigo.github.io/nextcloud-node-client"><img src="https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website" alt="documentation"></a>
-				<a href="https://gitter.im/nextcloud-node-client/community?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge"><img src="https://badges.gitter.im/nextcloud-node-client/community.svg" alt="Gitter"></a></p>
-				<p>The nextcloud node client is used to automate access to nextcloud server from node.js apppliactions. It supports folder and file operations including upload, tagging and comments. All user management funtions are supported. Event subscription and event handling are on the roadmap.</p>
+				<a href="https://hobigo.github.io/nextcloud-node-client"><img src="https://img.shields.io/website-up-down-green-red/https/hobigo.github.io/nextcloud-node-client.svg?label=documentation-website" alt="documentation"></a></p>
+				<ul>
+					<li>upload and download files</li>
+					<li>create files and folder structures</li>
+					<li>all user management functions</li>
+					<li>create shares</li>
+					<li>tagging and commenting</li>
+				</ul>
+				<p>The nextcloud node client is used to automate access to nextcloud servers from node.js apppliactions. </p>
 				<a href="#example" id="example" style="color: inherit; text-decoration: none;">
 					<h1>Example</h1>
 				</a>
@@ -116,6 +122,7 @@
 				<ul>
 					<li><a href="#installation">Installation</a></li>
 					<li><a href="./docs/upload.md">Upload files and folders</a></li>
+					<li><a href="./docs/getFiles.md">Get files recursively</a></li>
 					<li><a href="./docs/userManagement.md">User Management</a></li>
 					<li><a href="./docs/tagging.md">Tagging</a></li>
 					<li><a href="#security-and-access-management">Security and access management</a></li>
@@ -495,6 +502,12 @@
 				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
 					<h2>Todo list</h2>
 				</a>
+				<a href="#server-api" id="server-api" style="color: inherit; text-decoration: none;">
+					<h3>Server API</h3>
+				</a>
+				<ul>
+					<li>support also the nextcloud server url instead of the WebDAV url only</li>
+				</ul>
 				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
 					<h3>Download</h3>
 				</a>
@@ -502,19 +515,27 @@
 					<li>download file to local disk</li>
 					<li>download folder contents to disk recursively</li>
 				</ul>
-				<a href="#upload" id="upload" style="color: inherit; text-decoration: none;">
-					<h3>Upload</h3>
-				</a>
-				<ul>
-					<li>upload local file on disk to nextcloud</li>
-					<li>upload local folder on disk to nextcloud recursively</li>
-				</ul>
 				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>
 				</a>
 				<ul>
 					<li>Search for files api</li>
 					<li>client in github actions - upload files</li>
+				</ul>
+				<a href="#upload" id="upload" style="color: inherit; text-decoration: none;">
+					<h3>Upload</h3>
+				</a>
+				<ul>
+					<li><strike>upload local file on disk to nextcloud</strike></li>
+					<li><strike>upload local folder on disk to nextcloud recursively</strike></li>
+				</ul>
+				<a href="#get-files-recursively" id="get-files-recursively" style="color: inherit; text-decoration: none;">
+					<h3>Get Files recursively</h3>
+				</a>
+				<ul>
+					<li><strike>command get files recurively</strike></li>
+					<li><strike>filter get files recurively</strike></li>
+					<li><strike>example get files recurively</strike></li>
 				</ul>
 				<a href="#access-using-tags" id="access-using-tags" style="color: inherit; text-decoration: none;">
 					<h3>Access using tags</h3>
@@ -577,6 +598,8 @@
 				<ul>
 					<li>Introduction of exception classes instead of error codes (breaking change)</li>
 					<li><strike>Move from codecov to coveralls</strike></li>
+					<li>move to eslint instead of using tslint</li>
+					<li>remove I from all interfaces - (breaking change)</li>
 				</ul>
 				<a href="#search-1" id="search-1" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>
@@ -607,7 +630,19 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_command_.html">&quot;command&quot;</a>
+						<a href="modules/_command_command_.html">&quot;command/command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_command_downloadfoldercommand_.html">&quot;command/download<wbr>Folder<wbr>Command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_command_getfilesrecursivelycommand_.html">&quot;command/get<wbr>Files<wbr>Recursively<wbr>Command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_command_uploadfilescommand_.html">&quot;command/upload<wbr>Files<wbr>Command&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_command_uploadfoldercommand_.html">&quot;command/upload<wbr>Folder<wbr>Command&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_environment_.html">&quot;environment&quot;</a>
@@ -653,12 +688,6 @@
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_tag_.html">&quot;tag&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_uploadfilescommand_.html">&quot;upload<wbr>Files<wbr>Command&quot;</a>
-					</li>
-					<li class=" tsd-kind-external-module tsd-is-external">
-						<a href="modules/_uploadfoldercommand_.html">&quot;upload<wbr>Folder<wbr>Command&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_user_.html">&quot;user&quot;</a>

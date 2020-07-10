@@ -488,6 +488,8 @@ basic methods are available since 1.2.0 without strong typing
 ### Refactoring
 * Introduction of exception classes instead of error codes (breaking change)
 * <strike>Move from codecov to coveralls</strike>
+* move to eslint instead of using tslint
+* remove I from all interfaces - (breaking change)
 
 ### Search
 * Search for files api

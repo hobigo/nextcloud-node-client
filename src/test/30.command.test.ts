@@ -4,6 +4,8 @@ import { expect, use } from "chai";
 import "mocha";
 import {
     Client,
+    DownloadFolderCommand,
+    DownloadFolderCommandOptions,
     UploadFilesCommand,
     SourceTargetFileNames,
     UploadFolderCommand,
@@ -18,7 +20,7 @@ import {
     CommandAlreadyExecutedError,
 } from "../client";
 import { getNextcloudClient } from "./testUtils";
-import GetFilesRecursivelyCommand from "./../getFilesRecursivelyCommand";
+import GetFilesRecursivelyCommand from "../command/getFilesRecursivelyCommand";
 
 let client: Client;
 
@@ -432,6 +434,66 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
         expect(command.getResultMetaData().errors.length, "result should contain an error").to.be.equal(1);
         expect(command.getResultMetaData().messages.length, "result should contain no messages").to.be.equal(0)
         expect(command.getStatus(), "command should be successfull").to.be.equal(CommandStatus.failed);
+
+    });
+
+    it("12 download files recursively", async () => {
+
+        const sourceFolderName: string = "./src/test/data/Borstenson";
+        const targetFolderName: string = "/test/30/12/DownloadFilesRecursivelyCommand";
+        let sourceFolder: Folder | null = await client.getFolder(targetFolderName);
+        if (sourceFolder) {
+            await sourceFolder.delete();
+        }
+
+        // create the test files first
+        const getTargetFileNameBeforeUpload = (fileNames: SourceTargetFileNames): string => { return `${targetFolderName}${fileNames.targetFileName}` };
+        const ucfOptions: UploadFolderCommandOptions = { folderName: sourceFolderName, getTargetFileNameBeforeUpload };
+        const uc: UploadFolderCommand = new UploadFolderCommand(client, ucfOptions);
+        await uc.execute();
+
+        // tslint:disable-next-line:no-console
+        // console.log("result: ", JSON.stringify(uc.getResultMetaData()));
+
+        // const sourceFolder: Folder = await client.getRootFolder();
+
+        sourceFolder = await client.getFolder(targetFolderName);
+        expect(sourceFolder).not.to.be.equal(null);
+
+        // check filter function
+        const fileFilterFunction = (file: File): File | null => {
+            if (file.mime === "application/pdf" || file.mime === "image/jpeg") {
+                return file;
+            }
+            return null;
+        }
+
+        const options: DownloadFolderCommandOptions =
+        {
+            sourceFolder: sourceFolder!,
+            filterFile: fileFilterFunction,
+            getTargetFileNameBeforeDownload:
+                (fileNames: SourceTargetFileNames): string => { return "./tmp/" + fileNames.targetFileName }
+        };
+        const command: DownloadFolderCommand = new DownloadFolderCommand(client, options);
+        command.execute();
+
+        while (command.isFinished() !== true) {
+            // tslint:disable-next-line:no-console
+            // console.log(command.getPercentCompleted() + " %");
+            await (async () => { return new Promise(resolve => setTimeout(resolve, 100)) })();
+        }
+        // tslint:disable-next-line:no-console
+        // console.log("result: ", JSON.stringify(command.getResultMetaData()));
+
+        expect(command.getResultMetaData().errors.length, "result should contain no errors").to.be.equal(0);
+        expect(command.getResultMetaData().messages.length, "result should contain messages").to.be.equal(1)
+        expect(command.getStatus(), "command should be successfull").to.be.equal(CommandStatus.success);
+
+        expect(command.getBytesDownloaded()).to.be.greaterThan(100);
+
+        // delete files
+        await sourceFolder!.delete();
 
     });
 

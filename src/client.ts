@@ -2,10 +2,11 @@
 import { config } from "dotenv";
 config();
 
-import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./uploadFilesCommand";
-import UploadFolderCommand, { UploadFolderCommandOptions } from "./uploadFolderCommand";
-import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./getFilesRecursivelyCommand";
-import { CommandStatus, CommandResultMetaData } from "./command";
+import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./command/uploadFilesCommand";
+import UploadFolderCommand, { UploadFolderCommandOptions } from "./command/uploadFolderCommand";
+import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./command/getFilesRecursivelyCommand";
+import DownloadFolderCommand, { DownloadFolderCommandOptions } from "./command/downloadFolderCommand";
+import { CommandStatus, CommandResultMetaData } from "./command/command";
 import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
@@ -90,6 +91,8 @@ export {
 // command object for upload
 export {
     CommandResultMetaData,
+    DownloadFolderCommand,
+    DownloadFolderCommandOptions,
     GetFilesRecursivelyCommand,
     GetFilesRecursivelyCommandOptions,
     UploadFilesCommand,

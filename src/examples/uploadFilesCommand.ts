@@ -36,7 +36,7 @@ import Client, {
     // start the upload asynchronously (will not throw exceptions!)
     uc.execute();
 
-    // check the processing status as long as the comman is running
+    // check the processing status as long as the command is running
     while (uc.isFinished() !== true) {
         // wait one second
         await (async () => { return new Promise(resolve => setTimeout(resolve, 1000)) })();

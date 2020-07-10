@@ -1,6 +1,6 @@
 ## Upload 
 Copy files from the file system to Nextcloud.
-Upload multiple files or complete folders structures recursivley to Nextcloud with a single command.
+Upload multiple files or complete folders structures recursively to Nextcloud with a single command.
 As this process might take some time, the nextcloud-node-client supports also asynchronous processing.
 Just create an upload command, execute the it and get the result, when the command has finsished. 
 
@@ -88,7 +88,7 @@ import Client, {
     // start the upload asynchronously (will not throw exceptions!)
     uc.execute();
 
-    // check the processing status as long as the comman is running
+    // check the processing status as long as the command is running
     while (uc.isFinished() !== true) {
         // wait one second
         await (async () => { return new Promise(resolve => setTimeout(resolve, 1000)) })();
@@ -187,7 +187,7 @@ import Client, {
     // start the upload asynchronously (will not throw exceptions!)
     uc.execute();
 
-    // check the processing status as long as the comman is running
+    // check the processing status as long as the command is running
     while (uc.isFinished() !== true) {
         // wait one second
         await (async () => { return new Promise(resolve => setTimeout(resolve, 1000)) })();

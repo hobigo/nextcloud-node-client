@@ -33,7 +33,7 @@ import Client, {
     // get files asynchronously (will not throw exceptions!)
     command.execute();
 
-    // check the processing status as long as the comman is running
+    // check the processing status as long as the command is running
     while (command.isFinished() !== true) {
         // wait one second
         await (async () => { return new Promise(resolve => setTimeout(resolve, 1000)) })();
@@ -41,15 +41,15 @@ import Client, {
     }
 
     // use the result to do the needful
-    const uploadResult: CommandResultMetaData = command.getResultMetaData();
+    const commandResult: CommandResultMetaData = command.getResultMetaData();
 
     if (command.getStatus() === CommandStatus.success) {
-        console.log(uploadResult.messages);
+        console.log(commandResult.messages);
         for (const file of command.getFiles()) {
             console.log(file.name);
         }
     } else {
-        console.log(uploadResult.errors);
+        console.log(commandResult.errors);
     }
 
 })();
