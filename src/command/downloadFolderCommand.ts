@@ -29,7 +29,7 @@ export interface DownloadFolderCommandOptions {
      * If the file should not be downloaded, return an empty string
      * @param {SourceTargetFileNames} fileNames source and target file names
      */
-    getTargetFileNameBeforeDownload?: (fileNames: SourceTargetFileNames) => string;
+    getTargetFileNameBeforeDownload: (fileNames: SourceTargetFileNames) => string;
 }
 
 /**
@@ -48,11 +48,7 @@ export default class DownloadFolderCommand extends Command {
     constructor(client: Client, options: DownloadFolderCommandOptions) {
         super(client);
         this.sourceFolder = options.sourceFolder;
-        if (options.getTargetFileNameBeforeDownload) {
-            this.getTargetFileNameBeforeDownload = options.getTargetFileNameBeforeDownload;
-        } else {
-            this.getTargetFileNameBeforeDownload = (fileNames: SourceTargetFileNames): string => { return fileNames.targetFileName };
-        }
+        this.getTargetFileNameBeforeDownload = options.getTargetFileNameBeforeDownload;
         this.filterFile = options.filterFile;
         this.bytesDownloaded = 0;
     }
@@ -64,6 +60,8 @@ export default class DownloadFolderCommand extends Command {
      */
     protected async onExecute(): Promise<void> {
         this.status = CommandStatus.running;
+        const writeFile = util.promisify(fs.writeFile);
+        const mkdir = util.promisify(fs.mkdir);
         try {
 
             // determine all files to download
@@ -81,15 +79,8 @@ export default class DownloadFolderCommand extends Command {
             }
             this.resultMetaData.messages.concat(command.getResultMetaData().messages);
             this.resultMetaData.errors.concat(command.getResultMetaData().errors);
+
             const files: File[] = command.getFiles();
-            const writeFile = util.promisify(fs.writeFile);
-            const mkdir = util.promisify(fs.mkdir);
-
-            if (command.getStatus() === CommandStatus.failed) {
-                this.resultMetaData = command.getResultMetaData();
-                return;
-            }
-
             let bytesToDownload: number = 0;
             for (const file of files) {
                 bytesToDownload += file.size;

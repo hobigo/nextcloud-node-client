@@ -492,6 +492,21 @@ describe("30-NEXCLOUD-NODE-COMMAND", function () {
 
         expect(command.getBytesDownloaded()).to.be.greaterThan(100);
 
+        // check if error handling works
+        const options2: DownloadFolderCommandOptions =
+        {
+            sourceFolder: sourceFolder!,
+            filterFile: fileFilterFunction,
+            getTargetFileNameBeforeDownload:
+                (fileNames: SourceTargetFileNames): string => "tt:/\0/invalid filename/" + fileNames.targetFileName
+        };
+        const command2: DownloadFolderCommand = new DownloadFolderCommand(client, options2);
+        await command2.execute();
+
+        expect(command2.getResultMetaData().errors.length, "result should contain errors").to.be.equal(1);
+        expect(command2.getResultMetaData().messages.length, "result should contain no messages").to.be.equal(0)
+        expect(command2.getStatus(), "command should be successfull").to.be.equal(CommandStatus.failed);
+        // console.log(command2.getResultMetaData().errors);
         // delete files
         await sourceFolder!.delete();
 

@@ -55,6 +55,7 @@ import Client, { File, Folder, Tag, Share } from "nextcloud-node-client";
 # Documentation
 * [Installation](#installation)
 * [Upload files and folders](./docs/upload.md)
+* [Download files and folders](./docs/download.md)
 * [Get files recursively](./docs/getFiles.md)
 * [User Management](./docs/userManagement.md)
 * [Tagging](./docs/tagging.md)
@@ -429,8 +430,8 @@ A code coverage of 100% is aspired
 * support also the nextcloud server url instead of the WebDAV url only
 
 ### Download
-* download file to local disk
-* download folder contents to disk recursively
+* <strike>download folder contents example</strike>
+* <strike>download folder contents to disk recursively</strike>
 
 ### Search
 * Search for files api

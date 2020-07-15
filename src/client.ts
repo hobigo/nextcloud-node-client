@@ -607,11 +607,7 @@ export default class Client {
         const folderContents: any[] = [];
 
         let properties: any[];
-        try {
-            properties = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
-        } catch (e) {
-            return folderContents;
-        }
+        properties = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
 
         // tslint:disable-next-line:no-empty
         for (const prop of properties) {
@@ -634,9 +630,9 @@ export default class Client {
             } else {
                 folderContentsEntry.type = "directory";
             }
-            if (folderContentsEntry.basename !== "") {
-                folderContents.push(folderContentsEntry);
-            }
+            // if (folderContentsEntry.basename !== "") {
+            folderContents.push(folderContentsEntry);
+            // }
 
         }
 
