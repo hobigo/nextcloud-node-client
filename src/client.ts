@@ -208,7 +208,7 @@ export default class Client {
      * If no VCAP_SERVICES are available, the client uses the following variables
      * from the envirnonment for the connectivity:<br/>
      * <ul>
-     * <li>NEXTCLOUD_URL - the WebDAV url of the nextcloud server</li>
+     * <li>NEXTCLOUD_URL - the url of the nextcloud server</li>
      * <li>NEXTCLOUD_USERNAME - the user name</li>
      * <li>NEXTCLOUD_PASSWORD - the application password</li>
      * </ul>
@@ -239,13 +239,16 @@ export default class Client {
 
             this.proxy = server.proxy;
 
-            debug("constructor: webdav url %s", server.url);
+            debug("constructor: url %s", server.url);
 
             if (server.url.indexOf(Client.webDavUrlPath) === -1) {
-                // not a valid nextcloud url
-                throw new ClientError(`The provided nextcloud url "${server.url}" does not comply to the nextcloud url standard, "${Client.webDavUrlPath}" is missing`,
-                    "ERR_INVALID_NEXTCLOUD_WEBDAV_URL");
+
+                if (server.url.slice(-1) === "/") {
+                    server.url = server.url.slice(0, -1);
+                }
+                server.url = server.url + Client.webDavUrlPath;
             }
+
             this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(Client.webDavUrlPath));
 
             debug("constructor: nextcloud url %s", this.nextcloudOrigin);

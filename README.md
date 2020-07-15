@@ -71,7 +71,7 @@ npm install nextcloud-node-client
 ``
 
 ## Security and access management
-The client requires the WebDAV url of the nextcloud server and the credentials. 
+The client requires the url of the nextcloud server and the credentials. 
 
 Use an app specific password generated in the security - devices & sessions section of the nextcloud settings.
 
@@ -80,7 +80,7 @@ Credentials can be specified in the environment:
 ```
 NEXTCLOUD_USERNAME= "<your user name>"
 NEXTCLOUD_PASSWORD = "<your password>"
-NEXTCLOUD_URL= "https://<your nextcloud host>/remote.php/webdav"
+NEXTCLOUD_URL= "https://<your nextcloud host>"
 ```
 
 The cloud service configuration `VCAP_SERVICES` can be used alternativley (refer to the Cloud Foundry documentation for details).
@@ -93,7 +93,7 @@ The client is able to access the service credentials by providing the instance n
         {
             "credentials": {
                 "password": "<your password>",
-                "url": "https://<your nextcloud host>/remote.php/webdav",
+                "url": "https://<your nextcloud host>",
                 "username": "<your user name>"
             },
             "name": "<your service instance name>"
@@ -119,7 +119,7 @@ Creating a nextcloud client
                 { password: "<your password>",
                   username: "<your user name>",
                 },
-                url: "https://<your nextcloud host>/remote.php/webdav",
+                url: "https://<your nextcloud host>",
             });
 
   const client = new Client(server);
@@ -426,16 +426,22 @@ A code coverage of 100% is aspired
 
 ## Todo list
 
-### Server API
-* support also the nextcloud server url instead of the WebDAV url only
-
-### Download
-* <strike>download folder contents example</strike>
-* <strike>download folder contents to disk recursively</strike>
+### Sharing
+Share with 
+* user
+* usergroup
+* email-address
 
 ### Search
 * Search for files api
 * client in github actions - upload files
+
+### Server API
+* <strike>support also the nextcloud server url instead of the WebDAV url only</strike>
+
+### Download
+* <strike>download folder contents example</strike>
+* <strike>download folder contents to disk recursively</strike>
 
 ### Upload
 * <strike>upload local file on disk to nextcloud</strike>
@@ -476,12 +482,6 @@ Create file and get file using streams
 * subscribe to events and register handler functions
 * telegram support
 
-### Sharing
-Share with 
-* user
-* usergroup
-* email-address
-
 ### notifications
 basic methods are available since 1.2.0 without strong typing
 * notification object
@@ -490,7 +490,7 @@ basic methods are available since 1.2.0 without strong typing
 * Introduction of exception classes instead of error codes (breaking change)
 * <strike>Move from codecov to coveralls</strike>
 * move to eslint instead of using tslint
-* remove I from all interfaces - (breaking change)
+* remove "I" from all interfaces - (breaking change)
 
 ### Search
 * Search for files api

@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## 1.8.0 - 2020-07-15
+### Changed
+- Nextcloud url does not need to be the WebDAV Url - server url and WebDAV url are supported
+
 ## 1.7.0 - 2020-07-15
 ### Added
 - new command to download a folder

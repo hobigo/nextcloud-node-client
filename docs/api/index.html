@@ -139,7 +139,7 @@
 				<a href="#security-and-access-management" id="security-and-access-management" style="color: inherit; text-decoration: none;">
 					<h2>Security and access management</h2>
 				</a>
-				<p>The client requires the WebDAV url of the nextcloud server and the credentials. </p>
+				<p>The client requires the url of the nextcloud server and the credentials. </p>
 				<p>Use an app specific password generated in the security - devices &amp; sessions section of the nextcloud settings.</p>
 				<a href="#environment" id="environment" style="color: inherit; text-decoration: none;">
 					<h3>Environment</h3>
@@ -147,7 +147,7 @@
 				<p>Credentials can be specified in the environment:</p>
 				<pre><code><span class="hljs-attr">NEXTCLOUD_USERNAME</span>= <span class="hljs-string">"&lt;your user name&gt;"</span>
 <span class="hljs-attr">NEXTCLOUD_PASSWORD</span> = <span class="hljs-string">"&lt;your password&gt;"</span>
-<span class="hljs-attr">NEXTCLOUD_URL</span>= <span class="hljs-string">"https://&lt;your nextcloud host&gt;/remote.php/webdav"</span></code></pre><p>The cloud service configuration <code>VCAP_SERVICES</code> can be used alternativley (refer to the Cloud Foundry documentation for details).</p>
+<span class="hljs-attr">NEXTCLOUD_URL</span>= <span class="hljs-string">"https://&lt;your nextcloud host&gt;"</span></code></pre><p>The cloud service configuration <code>VCAP_SERVICES</code> can be used alternativley (refer to the Cloud Foundry documentation for details).</p>
 				<p>The nextcloud credentials are stored in the section for user provided services <code>user-provided</code>.
 				The client is able to access the service credentials by providing the instance name.</p>
 				<pre><code class="language-json">{
@@ -155,7 +155,7 @@
         {
             <span class="hljs-attr">"credentials"</span>: {
                 <span class="hljs-attr">"password"</span>: <span class="hljs-string">"&lt;your password&gt;"</span>,
-                <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://&lt;your nextcloud host&gt;/remote.php/webdav"</span>,
+                <span class="hljs-attr">"url"</span>: <span class="hljs-string">"https://&lt;your nextcloud host&gt;"</span>,
                 <span class="hljs-attr">"username"</span>: <span class="hljs-string">"&lt;your user name&gt;"</span>
             },
             <span class="hljs-attr">"name"</span>: <span class="hljs-string">"&lt;your service instance name&gt;"</span>
@@ -176,7 +176,7 @@
                 { password: <span class="hljs-string">"&lt;your password&gt;"</span>,
                   username: <span class="hljs-string">"&lt;your user name&gt;"</span>,
                 },
-                url: <span class="hljs-string">"https://&lt;your nextcloud host&gt;/remote.php/webdav"</span>,
+                url: <span class="hljs-string">"https://&lt;your nextcloud host&gt;"</span>,
             });
 
   <span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client(server);</code></pre>
@@ -503,18 +503,14 @@
 				<a href="#todo-list" id="todo-list" style="color: inherit; text-decoration: none;">
 					<h2>Todo list</h2>
 				</a>
-				<a href="#server-api" id="server-api" style="color: inherit; text-decoration: none;">
-					<h3>Server API</h3>
+				<a href="#sharing" id="sharing" style="color: inherit; text-decoration: none;">
+					<h3>Sharing</h3>
 				</a>
+				<p>Share with </p>
 				<ul>
-					<li>support also the nextcloud server url instead of the WebDAV url only</li>
-				</ul>
-				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
-					<h3>Download</h3>
-				</a>
-				<ul>
-					<li><strike>download folder contents example</strike></li>
-					<li><strike>download folder contents to disk recursively</strike></li>
+					<li>user</li>
+					<li>usergroup</li>
+					<li>email-address</li>
 				</ul>
 				<a href="#search" id="search" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>
@@ -522,6 +518,19 @@
 				<ul>
 					<li>Search for files api</li>
 					<li>client in github actions - upload files</li>
+				</ul>
+				<a href="#server-api" id="server-api" style="color: inherit; text-decoration: none;">
+					<h3>Server API</h3>
+				</a>
+				<ul>
+					<li><strike>support also the nextcloud server url instead of the WebDAV url only</strike></li>
+				</ul>
+				<a href="#download" id="download" style="color: inherit; text-decoration: none;">
+					<h3>Download</h3>
+				</a>
+				<ul>
+					<li><strike>download folder contents example</strike></li>
+					<li><strike>download folder contents to disk recursively</strike></li>
 				</ul>
 				<a href="#upload" id="upload" style="color: inherit; text-decoration: none;">
 					<h3>Upload</h3>
@@ -577,15 +586,6 @@
 					<li>subscribe to events and register handler functions</li>
 					<li>telegram support</li>
 				</ul>
-				<a href="#sharing" id="sharing" style="color: inherit; text-decoration: none;">
-					<h3>Sharing</h3>
-				</a>
-				<p>Share with </p>
-				<ul>
-					<li>user</li>
-					<li>usergroup</li>
-					<li>email-address</li>
-				</ul>
 				<a href="#notifications" id="notifications" style="color: inherit; text-decoration: none;">
 					<h3>notifications</h3>
 				</a>
@@ -600,7 +600,7 @@
 					<li>Introduction of exception classes instead of error codes (breaking change)</li>
 					<li><strike>Move from codecov to coveralls</strike></li>
 					<li>move to eslint instead of using tslint</li>
-					<li>remove I from all interfaces - (breaking change)</li>
+					<li>remove &quot;I&quot; from all interfaces - (breaking change)</li>
 				</ul>
 				<a href="#search-1" id="search-1" style="color: inherit; text-decoration: none;">
 					<h3>Search</h3>

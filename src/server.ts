@@ -8,8 +8,17 @@ export interface IBasicAuth {
     "password": string;
 }
 
+/**
+ * The options of a server constructor
+ */
 export interface IServerOptions {
+    /**
+     * the url of the nextcloud server like https://nextcloud.mydomain.com
+     */
     "url": string;
+    /**
+     * basic authentication informatin to access the nextcloud server
+     */
     "basicAuth": IBasicAuth;
     "proxy"?: IProxy;
     "logRequestResponse"?: boolean;
