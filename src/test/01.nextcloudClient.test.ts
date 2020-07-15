@@ -1608,6 +1608,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("76 create client with url ending with slash", async () => {
         const restore = mockedEnv({
             NEXTCLOUD_URL: "https://server.com/",
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_USERNAME: "SomeUser",
         });
         let error: Error | null = null;
         let o: any;
@@ -1629,6 +1631,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("77 create client with url not ending with slash", async () => {
         const restore = mockedEnv({
             NEXTCLOUD_URL: "https://server.com",
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_USERNAME: "SomeUser",
         });
         let error: Error | null = null;
         let o: any;
@@ -1650,6 +1654,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("78 create client with WebDAV url not ending with slash", async () => {
         const restore = mockedEnv({
             NEXTCLOUD_URL: "https://server.com/remote.php/webdav",
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_USERNAME: "SomeUser",
         });
         let error: Error | null = null;
         let o: any;
@@ -1671,6 +1677,8 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
     it("79 create client with WebDAV url ending with slash", async () => {
         const restore = mockedEnv({
             NEXTCLOUD_URL: "https://server.com/remote.php/webdav/",
+            NEXTCLOUD_PASSWORD: "SomePassword",
+            NEXTCLOUD_USERNAME: "SomeUser",
         });
         let error: Error | null = null;
         let o: any;
