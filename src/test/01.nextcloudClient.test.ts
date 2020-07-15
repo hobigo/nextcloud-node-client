@@ -1605,6 +1605,90 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(q).to.be.equal(undefined);
     });
 
+    it("76 create client with url ending with slash", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: "https://server.com/",
+        });
+        let error: Error | null = null;
+        let o: any;
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            const c: Client = new Client();
+            o = JSON.parse(JSON.stringify(c));
+            // console.log(o);
+        } catch (e) {
+            error = e;
+        } finally {
+            restore();
+        }
+
+        expect(error,).to.be.equal(null);
+        expect(o.nextcloudOrigin).to.be.equal("https://server.com");
+    });
+
+    it("77 create client with url not ending with slash", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: "https://server.com",
+        });
+        let error: Error | null = null;
+        let o: any;
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            const c: Client = new Client();
+            o = JSON.parse(JSON.stringify(c));
+            // console.log(o);
+        } catch (e) {
+            error = e;
+        } finally {
+            restore();
+        }
+
+        expect(error,).to.be.equal(null);
+        expect(o.nextcloudOrigin).to.be.equal("https://server.com");
+    });
+
+    it("78 create client with WebDAV url not ending with slash", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: "https://server.com/remote.php/webdav",
+        });
+        let error: Error | null = null;
+        let o: any;
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            const c: Client = new Client();
+            o = JSON.parse(JSON.stringify(c));
+            // console.log(o);
+        } catch (e) {
+            error = e;
+        } finally {
+            restore();
+        }
+
+        expect(error,).to.be.equal(null);
+        expect(o.nextcloudOrigin).to.be.equal("https://server.com");
+    });
+
+    it("79 create client with WebDAV url ending with slash", async () => {
+        const restore = mockedEnv({
+            NEXTCLOUD_URL: "https://server.com/remote.php/webdav/",
+        });
+        let error: Error | null = null;
+        let o: any;
+        try {
+            // tslint:disable-next-line:no-unused-expression
+            const c: Client = new Client();
+            o = JSON.parse(JSON.stringify(c));
+            // console.log(o);
+        } catch (e) {
+            error = e;
+        } finally {
+            restore();
+        }
+
+        expect(error,).to.be.equal(null);
+        expect(o.nextcloudOrigin).to.be.equal("https://server.com");
+    });
+
     it("99 delete folder", async () => {
 
         const dirName = "/test";
@@ -1617,3 +1701,4 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         expect(baseDir, "expect folder to be null").to.be.equal(null);
     });
 });
+
