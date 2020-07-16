@@ -228,8 +228,17 @@ export default class Client {
                 const env: EnvironmentVcapServices = new EnvironmentVcapServices("nextcloud");
                 server = env.getServer();
             } catch (e) {
-                const env: Environment = new Environment();
-                server = env.getServer();
+                const serverOptions: IServerOptions =
+                {
+                    url: Environment.getNextcloudUrl(),
+                    basicAuth: {
+                        username: Environment.getUserName(),
+                        password: Environment.getPassword(),
+                    },
+                    logRequestResponse: Environment.getRecordingActiveIndicator(),
+                };
+
+                server = new Server(serverOptions);
             }
         }
 

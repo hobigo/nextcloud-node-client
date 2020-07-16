@@ -800,7 +800,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -816,7 +816,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getUserName();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -832,7 +832,7 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getPassword();
         } catch (e) {
             expect(e).to.have.property("message");
             expect(e).to.have.property("code");
@@ -848,7 +848,9 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
+            Environment.getPassword();
+            Environment.getUserName();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -863,7 +865,10 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
+            Environment.getPassword();
+            Environment.getUserName();
+            Environment.getRecordingActiveIndicator();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -878,7 +883,10 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
+            Environment.getPassword();
+            Environment.getUserName();
+            Environment.getRecordingActiveIndicator();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -893,7 +901,10 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
+            Environment.getPassword();
+            Environment.getUserName();
+            Environment.getRecordingActiveIndicator();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {
@@ -908,7 +919,10 @@ describe("01-NEXCLOUD-NODE-CLIENT", function () {
         });
 
         try {
-            new Environment().getServer();
+            Environment.getNextcloudUrl();
+            Environment.getPassword();
+            Environment.getUserName();
+            Environment.getRecordingActiveIndicator();
         } catch (e) {
             expect(false, "do not expect an exception " + e.message).to.be.equal(true);
         } finally {

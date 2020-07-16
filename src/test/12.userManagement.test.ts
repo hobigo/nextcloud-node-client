@@ -25,6 +25,7 @@ import {
     OperationFailedError,
     IUpsertUserReport,
     Server,
+    IServerOptions,
 } from "../client";
 import FakeServer from "../fakeServer";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
@@ -810,7 +811,16 @@ describe("12-NEXCLOUD-NODE-CLIENT-USER-MANAGEMENT", function () {
         expect(quota.used).to.be.equal(0);
 
         if (recordingModeActive()) {
-            const ncserver: Server = new Environment().getServer();
+            const serverOptions: IServerOptions =
+            {
+                url: Environment.getNextcloudUrl(),
+                basicAuth: {
+                    username: Environment.getUserName(),
+                    password: Environment.getPassword(),
+                },
+                logRequestResponse: Environment.getRecordingActiveIndicator(),
+            };
+            const ncserver: Server = new Server(serverOptions);
             ncserver.basicAuth.username = userId;
             ncserver.basicAuth.password = password;
             // login with the new user

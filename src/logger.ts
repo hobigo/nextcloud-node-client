@@ -1,19 +1,17 @@
+import  Environment  from "./environment";
 import {
     Logger as TSLogLogger,
     ILogObject as LogObject,
     TLogLevelName
 } from "tslog";
-import Environment from "./environment";
 
 export default class Logger {
     private logger: TSLogLogger;
 
     public constructor() {
-
-        const env = new Environment();
-
         let minLevel: TLogLevelName;
-        switch (env.getMinLogLevel()) {
+
+        switch (Environment.getMinLogLevel()) {
             case "silly":
                 minLevel = "silly"
                 break;
@@ -38,6 +36,8 @@ export default class Logger {
             default:
                 minLevel = "error";
         }
+
+        minLevel = "error";
         this.logger = new TSLogLogger({ minLevel });
         // overload is required to get the real position for logging
         this.silly = this.logger.silly.bind(this.logger);
