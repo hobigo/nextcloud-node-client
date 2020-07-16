@@ -1,10 +1,9 @@
-// tslint:disable-next-line:no-var-requires
-const debug = require("debug").debug("Folder");
-
 import Client from "./client";
 import ClientError from "./error";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export interface FolderGetFilesOptions {
     /**
@@ -114,9 +113,9 @@ export default class Folder implements FileSystemElement {
     public async createFile(fileBaseName: string, data: Buffer | NodeJS.ReadableStream): Promise<File> {
         this.assertExistence();
         // must not contain :/\*"<>?
-        debug("createFile fileBaseName = %s", fileBaseName);
+        log.debug("createFile fileBaseName = ", fileBaseName);
         const invalidChars: string[] = [":", "*", "/", "\\", "\"", "?", "<", ">"];
-        // debug("createFile invalidChars = %O", invalidChars);
+        // log.debug("createFile invalidChars = ", invalidChars);
 
         for (const invalidChar of invalidChars) {
             if (fileBaseName.indexOf(invalidChar) !== -1) {
@@ -134,7 +133,7 @@ export default class Folder implements FileSystemElement {
      * @throws Error
      */
     public async delete(): Promise<void> {
-        debug("delete");
+        log.debug("delete");
         this.memento.deleted = true;
         return await this.client.deleteFolder(this.memento.name);
     }

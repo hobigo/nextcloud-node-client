@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>2/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>2/10</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -101,10 +101,8 @@
 <a name='L42'></a><a href='#L42'>42</a>
 <a name='L43'></a><a href='#L43'>43</a>
 <a name='L44'></a><a href='#L44'>44</a>
-<a name='L45'></a><a href='#L45'>45</a>
-<a name='L46'></a><a href='#L46'>46</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L45'></a><a href='#L45'>45</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -129,28 +127,27 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import debugFactory from "debug";
-import { IProxy } from "./httpClient";
-&nbsp;
-const debug = debugFactory("NCServer");
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { IProxy } from "./httpClient";
+import Logger from "./logger";
+const log: Logger = new Logger();
 &nbsp;
 export interface IBasicAuth {
     "username": string;
@@ -174,21 +171,21 @@ export interface IServerOptions {
 }
 &nbsp;
 // tslint:disable-next-line: max-classes-per-file
-export default class Server {
+<span class="cstat-no" title="statement not covered" >export default class S</span>erver {
     public url: string;
     public basicAuth: IBasicAuth;
     public proxy?: IProxy;
     public logRequestResponse: boolean;
     //    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse: boolean = false) {
-    public constructor(options: IServerOptions) {
-        debug("constructor");
-        this.url = options.url;
-        this.basicAuth = options.basicAuth;
-        this.proxy = options.proxy;
-        if (options.logRequestResponse) {
-            this.logRequestResponse = true;
+<span class="fstat-no" title="function not covered" >    public constructor(o</span>ptions: IServerOptions) {
+<span class="cstat-no" title="statement not covered" >        log.debug("constructor");</span>
+<span class="cstat-no" title="statement not covered" >        this.url = options.url;</span>
+<span class="cstat-no" title="statement not covered" >        this.basicAuth = options.basicAuth;</span>
+<span class="cstat-no" title="statement not covered" >        this.proxy = options.proxy;</span>
+<span class="cstat-no" title="statement not covered" >        if (options.logRequestResponse) {</span>
+<span class="cstat-no" title="statement not covered" >            this.logRequestResponse = true;</span>
         } else {
-            this.logRequestResponse = false;
+<span class="cstat-no" title="statement not covered" >            this.logRequestResponse = false;</span>
         }
     }
 }
@@ -199,7 +196,7 @@ export default class Server {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Wed Jul 15 2020 15:22:50 GMT+0200 (GMT+02:00)
+                at Thu Jul 16 2020 13:19:25 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

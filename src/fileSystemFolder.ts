@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-var-requires
-const debug = require("debug").debug("FileSystemFolder");
-
 import util from "util";
 import fs from "fs";
 import path from "path";

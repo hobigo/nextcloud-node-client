@@ -1,11 +1,10 @@
 
-import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import { promises as fsPromises } from "fs";
 import path from "path";
 import requestResponseLogEntry from "./requestResponseLogEntry";
-
-const debug = debugFactory("RequestResponseLog");
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export default class RequestResponseLog {
     public static readonly defaultLogDirectory: string = "RequestResponseLog/";
@@ -30,9 +29,9 @@ export default class RequestResponseLog {
     }
 
     public async addEntry(logEntry: requestResponseLogEntry) {
-        debug("addEntry");
+        log.debug("addEntry");
         if (!this.context) {
-            debug("Error while recording, context not set");
+            log.debug("Error while recording, context not set");
             throw new Error("Error while recording, context not set");
         }
 
@@ -56,9 +55,9 @@ export default class RequestResponseLog {
     }
 
     public async getEntries(): Promise<requestResponseLogEntry[]> {
-        debug("getEntries");
+        log.debug("getEntries");
         if (!this.context) {
-            debug("Error while getting recording request, context not set");
+            log.debug("Error while getting recording request, context not set");
             throw new Error("Error while getting recording request, context not set");
         }
 
@@ -67,7 +66,7 @@ export default class RequestResponseLog {
     }
 
     public async setContext(context: string) {
-        debug("setContext");
+        log.debug("setContext");
         const newContext: string = context.replace(/ |:|\./g, "_");
         // if (this.context !== newContext) {
         this.context = newContext;
@@ -103,10 +102,10 @@ export default class RequestResponseLog {
             try {
                 await fsPromises.mkdir(p);
                   /* istanbul ignore next */
-                debug(`directory "${p}" created`);
+                  log.debug(`directory "${p}" created`);
             } catch (e) {
-                  /* istanbul ignore next */                
-                debug(`directory "${p}" already exists`);
+                  /* istanbul ignore next */
+                  log.debug(`directory "${p}" already exists`);
             }
         }
     }

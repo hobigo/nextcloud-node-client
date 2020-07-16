@@ -1,7 +1,6 @@
-import debugFactory from "debug";
 import { IProxy } from "./httpClient";
-
-const debug = debugFactory("NCServer");
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export interface IBasicAuth {
     "username": string;
@@ -32,7 +31,7 @@ export default class Server {
     public logRequestResponse: boolean;
     //    public constructor(url: string, basicAuth: IBasicAuth, proxy?: IProxy, logRequestResponse: boolean = false) {
     public constructor(options: IServerOptions) {
-        debug("constructor");
+        log.debug("constructor");
         this.url = options.url;
         this.basicAuth = options.basicAuth;
         this.proxy = options.proxy;

@@ -1,7 +1,6 @@
 // tslint:disable-next-line:no-var-requires
 const HttpProxyAgent = require('http-proxy-agent');
 
-import debugFactory from "debug";
 import { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";
 import {
@@ -12,8 +11,8 @@ import {
 import ClientError from "./error";
 import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry, { RequestLogEntry, ResponseLogEntry } from "./requestResponseLogEntry";
-
-const debug = debugFactory("HttpClient");
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export interface IRequestContext {
     "description"?: string;
@@ -40,7 +39,7 @@ export class HttpClient {
     private origin: string;
 
     public constructor(options: IHttpClientOptions) {
-        debug("constructor");
+        log.debug("constructor");
         this.authorizationHeader = options.authorizationHeader;
         this.proxy = options.proxy;
         this.logRequestResponse = options.logRequestResponse || false;
@@ -67,7 +66,7 @@ export class HttpClient {
 
         // set the proxy
         if (this.proxy) {
-            debug("proxy agent used");
+            log.debug("proxy agent used");
             const options: HttpProxyAgentOptions = {
                 host: this.proxy.host,
                 port: this.proxy.port,
@@ -81,8 +80,8 @@ export class HttpClient {
             }
         }
 
-        debug("getHttpResponse request header %O", requestInit.headers);
-        debug("getHttpResponse url:%s, %O", url, requestInit);
+        log.debug("getHttpResponse request header:", requestInit.headers);
+        log.debug("getHttpResponse url", url, requestInit);
 
         const response: Response = await fetch(url, requestInit);
 
@@ -133,12 +132,12 @@ export class HttpClient {
         const responseContentType: string | null = response.headers.get("content-type");
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
-            debug("getHttpResponse description %s", context.description);
-            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
-            debug("getHttpResponse request body %s", requestInit.body);
-            debug("getHttpResponse text %s", await response.text());
+            log.debug("getHttpResponse unexpected status response "+ response.status + " " + response.statusText);
+            log.debug("getHttpResponse description "+ context.description);
+            log.debug("getHttpResponse expected "+ expectedHttpStatusCode.join(","));
+            log.debug("getHttpResponse headers ", JSON.stringify(response.headers, null, 4));
+            log.debug("getHttpResponse request body ", requestInit.body);
+            log.debug("getHttpResponse text:", await response.text());
             throw new ClientError(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`,
                 "ERR_UNEXPECTED_HTTP_STATUS",
                 {

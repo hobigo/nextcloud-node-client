@@ -1,4 +1,3 @@
-
 export class RequestLogEntry {
     public body?: string;
     public description: string;

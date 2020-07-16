@@ -7,7 +7,6 @@ import UploadFolderCommand, { UploadFolderCommandOptions } from "./command/uploa
 import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./command/getFilesRecursivelyCommand";
 import DownloadFolderCommand, { DownloadFolderCommandOptions } from "./command/downloadFolderCommand";
 import { CommandStatus, CommandResultMetaData } from "./command/command";
-import debugFactory from "debug";
 import parser from "fast-xml-parser";
 import {
     Headers,
@@ -46,6 +45,8 @@ import Share, { ICreateShare, SharePermission } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
 import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export {
     FolderGetFilesOptions,
@@ -104,9 +105,6 @@ export {
     IFileNameFormats,
     CommandStatus,
 }
-
-const debug = debugFactory("NCClient");
-// const debug = console.log;
 
 interface IStat {
     "type": string;
@@ -216,7 +214,7 @@ export default class Client {
      * @constructor
      */
     public constructor(server?: Server | FakeServer) {
-        debug("constructor");
+        log.debug("constructor");
         this.nextcloudOrigin = "";
         this.nextcloudAuthHeader = "";
         this.nextcloudRequestToken = "";
@@ -239,7 +237,7 @@ export default class Client {
 
             this.proxy = server.proxy;
 
-            debug("constructor: url %s", server.url);
+            log.debug("constructor: url ", server.url);
 
             if (server.url.indexOf(Client.webDavUrlPath) === -1) {
 
@@ -251,7 +249,7 @@ export default class Client {
 
             this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(Client.webDavUrlPath));
 
-            debug("constructor: nextcloud url %s", this.nextcloudOrigin);
+            log.debug("constructor: nextcloud url ", this.nextcloudOrigin);
             this.userId = server.basicAuth.username;
             this.nextcloudAuthHeader = "Basic " + Buffer.from(server.basicAuth.username + ":" + server.basicAuth.password).toString("base64");
             this.nextcloudRequestToken = "";
@@ -283,7 +281,7 @@ export default class Client {
      * returns the used and free quota of the nextcloud account
      */
     public async getQuota(): Promise<IQuota> {
-        debug("getQuota");
+        log.debug("getQuota");
         const requestInit: RequestInit = {
             method: "PROPFIND",
         };
@@ -310,10 +308,10 @@ export default class Client {
         }
 
         if (!quota) {
-            debug("Error, quota not available: %s ", JSON.stringify(properties, null, 4));
+            log.debug("Error, quota not available: ", JSON.stringify(properties, null, 4));
             throw new ClientError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
         }
-        debug("getQuota = %O", quota);
+        log.debug("getQuota =", quota);
         return quota;
     }
 
@@ -329,7 +327,7 @@ export default class Client {
      */
     public async createTag(tagName: string): Promise<Tag> {
 
-        debug("createTag");
+        log.debug("createTag");
         let tag: Tag | null;
         // is the tag already existing?
         tag = await this.getTagByName(tagName);
@@ -351,7 +349,7 @@ export default class Client {
             { description: "Tag create" },
         );
         const tagString: string | null = response.headers.get("Content-Location");
-        debug("createTag new tagId %s, tagName %s", tagString, tagName);
+        log.debug("createTag new tagId " + tagString + " tagName " + tagName);
         if (tagString === "" || tagString === null) {
             throw new ClientError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
         }
@@ -370,7 +368,7 @@ export default class Client {
      */
     public async getTagByName(tagName: string): Promise<Tag | null> {
 
-        debug("getTag");
+        log.debug("getTag");
 
         const tags: Tag[] = await this.getTags();
         for (const tag of tags) {
@@ -388,7 +386,7 @@ export default class Client {
      */
     public async getTagById(tagId: number): Promise<Tag | null> {
 
-        debug("getTagById");
+        log.debug("getTagById");
 
         const tags: Tag[] = await this.getTags();
         for (const tag of tags) {
@@ -406,7 +404,7 @@ export default class Client {
      */
     public async deleteTag(tagId: number): Promise<void> {
 
-        debug("deleteTag tagId: $s", tagId);
+        log.debug("deleteTag tagId: ", tagId);
 
         const requestInit: RequestInit = {
             method: "DELETE",
@@ -425,12 +423,12 @@ export default class Client {
      */
     public async deleteAllTags(): Promise<void> {
 
-        debug("deleteAllTags");
+        log.debug("deleteAllTags");
 
         const tags: Tag[] = await this.getTags();
 
         for (const tag of tags) {
-            // debug("deleteAllTags tag: %O", tag);
+            // log.debug("deleteAllTags tag: ", tag);
             await tag.delete();
         }
     }
@@ -440,7 +438,7 @@ export default class Client {
      * @returns array of tags
      */
     public async getTags(): Promise<Tag[]> {
-        debug("getTags PROPFIND %s", this.nextcloudOrigin + "/remote.php/dav/systemtags/");
+        log.debug("getTags PROPFIND " + this.nextcloudOrigin + "/remote.php/dav/systemtags/");
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
             <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -483,7 +481,7 @@ export default class Client {
      * @param fileId the id of the file
      */
     public async getTagsOfFile(fileId: number): Promise<Map<string, number>> {
-        debug("getTagsOfFile");
+        log.debug("getTagsOfFile");
 
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
@@ -513,7 +511,7 @@ export default class Client {
             tagMap.set(prop["display-name"], prop.id);
         }
 
-        debug("tags of file %O", tagMap);
+        log.debug("tags of file ", tagMap);
         return tagMap;
     }
 
@@ -523,7 +521,7 @@ export default class Client {
      * @param tagId the tag id
      */
     public async removeTagOfFile(fileId: number, tagId: number): Promise<void> {
-        debug("removeTagOfFile tagId: $s fileId:", tagId, fileId);
+        log.debug("removeTagOfFile tagId: " + tagId + " fileId:" + fileId);
 
         const requestInit: RequestInit = {
             method: "DELETE",
@@ -542,7 +540,7 @@ export default class Client {
      * @returns id of the file or -1 if not found
      */
     public async getFileId(fileUrl: string): Promise<number> {
-        debug("getFileId");
+        log.debug("getFileId");
 
         const requestInit: RequestInit = {
             body: `
@@ -568,12 +566,12 @@ export default class Client {
             }
         }
 
-        debug("getFileId no file id found for %s", fileUrl);
+        log.debug("getFileId no file id found for " + fileUrl);
         return -1;
     }
 
     public async getFolderContents(folderName: string): Promise<any[]> {
-        debug("getFolderContents");
+        log.debug("getFolderContents");
 
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
@@ -639,7 +637,7 @@ export default class Client {
 
         }
 
-        // debug("folderContentsEntry $s", JSON.stringify(folderContents, null, 4));
+        // log.debug("folderContentsEntry ", JSON.stringify(folderContents, null, 4));
         return folderContents;
     }
 
@@ -650,7 +648,7 @@ export default class Client {
      */
     public async createFolder(folderName: string): Promise<Folder> {
         folderName = this.sanitizeFolderName(folderName);
-        debug("createFolder: folderName=%s", folderName);
+        log.debug("createFolder: folderName=", folderName);
 
         const parts1: string[] = folderName.split("/");
         for (const p of parts1) {
@@ -663,34 +661,34 @@ export default class Client {
 
         folder = await this.getFolder(folderName);
         if (folder) {
-            debug("createFolder: folder already available %O", folder.name);
+            log.debug("createFolder: folder already available ", folder.name);
             return folder;
         } else {
             // try to do a simple create with the complete path
             try {
-                debug("createFolder: folder = %s", folderName);
+                log.debug("createFolder: folder = ", folderName);
                 await this.createFolderInternal(folderName);
             } catch (e) {
                 // create all folders in the path
                 const parts: string[] = folderName.split("/");
                 parts.shift();
                 let folderPath: string = "";
-                debug("createFolder: parts = %O", parts);
+                log.debug("createFolder: parts = ", parts);
 
                 for (const part of parts) {
 
-                    debug("createFolder: part = %O", part);
+                    log.debug("createFolder: part = ", part);
                     folderPath += "/" + part;
                     folder = await this.getFolder(folderPath);
 
                     if (folder === null) {
-                        debug("createFolder: folder not available");
+                        log.debug("createFolder: folder not available");
                         // folder not  available
 
-                        debug("createFolder: folder = %s", folderPath);
+                        log.debug("createFolder: folder = ", folderPath);
                         await this.createFolderInternal(folderPath);
                     } else {
-                        debug("createFolder: folder already available %s", folderPath);
+                        log.debug("createFolder: folder already available ", folderPath);
                     }
                 }
             }
@@ -698,7 +696,7 @@ export default class Client {
 
         folder = await this.getFolder(folderName);
         if (folder) {
-            debug("createFolder: new folder %O", folder.name);
+            log.debug("createFolder: new folder ", folder.name);
             return folder;
         } else {
             throw new ClientError(`Error creating folder, folder name "${folderName}"
@@ -714,7 +712,7 @@ export default class Client {
     public async deleteFile(fileName: string): Promise<void> {
 
         const url: string = this.webDAVUrl + fileName;
-        debug("deleteFile %s", url);
+        log.debug("deleteFile ", url);
 
         const requestInit: RequestInit = {
             method: "DELETE",
@@ -728,7 +726,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in deleteFile %s %s %s", err.message, requestInit.method, url);
+            log.debug("Error in deleteFile ", err.message, requestInit.method, url);
             throw err;
         }
     }
@@ -739,7 +737,7 @@ export default class Client {
      */
     public async deleteFolder(folderName: string): Promise<void> {
         folderName = this.sanitizeFolderName(folderName);
-        debug("deleteFolder:");
+        log.debug("deleteFolder:");
 
         const folder: Folder | null = await this.getFolder(folderName);
 
@@ -763,7 +761,7 @@ export default class Client {
      * @returns {Promise<FileSystemElement[]>} returns an array of file system objects
      */
     public async getFileSystemElementByTags(tags: Tag[]): Promise<FileSystemElement[]> {
-        debug("getFileSystemElementByTags %s", tags.join(", "));
+        log.debug("getFileSystemElementByTags ", tags.join(", "));
         let filterRule: string = "";
 
         for (const tag of tags) {
@@ -796,7 +794,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
+            log.debug("Error in stat ", err.message, requestInit.method, url);
             throw err;
         }
         const result: FileSystemElement[] = [];
@@ -837,7 +835,7 @@ export default class Client {
      */
     public async getFolder(folderName: string): Promise<Folder | null> {
         folderName = this.sanitizeFolderName(folderName);
-        debug("getFolder %s", folderName);
+        log.debug("getFolder", folderName);
 
         // return root folder
         if (folderName === "/" || folderName === "") {
@@ -846,7 +844,7 @@ export default class Client {
 
         try {
             const stat: IStat = await this.stat(folderName);
-            debug(": SUCCESS!!");
+            log.debug(": SUCCESS!!");
             if (stat.type !== "file") {
                 return new Folder(this,
                     stat.filename.replace(/\\/g, "/"),
@@ -854,11 +852,11 @@ export default class Client {
                     stat.lastmod,
                     stat.fileid);
             } else {
-                debug("getFolder: found object is file not a folder");
+                log.debug("getFolder: found object is file not a folder");
                 return null;
             }
         } catch (e) {
-            debug("getFolder: exception occurred calling stat %O", e.message);
+            log.debug("getFolder: exception occurred calling stat ", e.message);
             return null;
         }
     }
@@ -869,14 +867,14 @@ export default class Client {
      * @returns array of folder objects
      */
     public async getSubFolders(folderName: string): Promise<Folder[]> {
-        debug("getSubFolders: folder %s", folderName);
+        log.debug("getSubFolders: folder ", folderName);
         const folders: Folder[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
         const folderElements: any[] = await this.Contents(folderName, true);
 
         for (const folderElement of folderElements) {
-            debug("getSubFolders: adding subfolders %s", folderElement.filename);
+            log.debug("getSubFolders: adding subfolders ", folderElement.filename);
             folders.push(new Folder(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
@@ -894,15 +892,15 @@ export default class Client {
      * @returns array of file objects
      */
     public async getFiles(folderName: string, options?: FolderGetFilesOptions): Promise<File[]> {
-        debug("getFiles: folder %s", folderName);
+        log.debug("getFiles: folder ", folderName);
         const files: File[] = [];
         folderName = this.sanitizeFolderName(folderName);
 
         const fileElements: any[] = await this.Contents(folderName, false);
 
         for (const folderElement of fileElements) {
-            debug("getFiles: adding file %s", folderElement.filename);
-            // debug("getFiles: adding file %O", folderElement);
+            log.debug("getFiles: adding file ", folderElement.filename);
+            // log.debug("getFiles: adding file ", folderElement);
             let file: File | null = new File(this,
                 folderElement.filename.replace(/\\/g, "/"),
                 folderElement.basename,
@@ -936,7 +934,7 @@ export default class Client {
         const baseName: string = path.basename(fileName);
         const folderName: string = path.dirname(fileName);
 
-        debug("createFile folder name %s base name %s", folderName, baseName);
+        log.debug(`createFile folder name ${folderName} base name ${baseName}`);
 
         // ensure that we have a folder
         await this.createFolder(folderName);
@@ -956,11 +954,11 @@ export default class Client {
      * @param fileName the full file name /folder1/folder2/file.pdf
      */
     public async getFile(fileName: string): Promise<File | null> {
-        debug("getFile fileName = %s", fileName);
+        log.debug("getFile fileName = ", fileName);
 
         try {
             const stat: IStat = await this.stat(fileName);
-            debug(": SUCCESS!!");
+            log.debug(": SUCCESS!!");
             if (stat.type === "file") {
                 return new File(this,
                     stat.filename.replace(/\\/g, "/"),
@@ -970,11 +968,11 @@ export default class Client {
                     stat.mime || "",
                     stat.fileid || -1);
             } else {
-                debug("getFile: found object is a folder not a file");
+                log.debug("getFile: found object is a folder not a file");
                 return null;
             }
         } catch (e) {
-            debug("getFile: exception occurred calling stat %O", e.message);
+            log.debug("getFile: exception occurred calling stat ", e.message);
             return null;
         }
     }
@@ -989,7 +987,7 @@ export default class Client {
         const url: string = this.webDAVUrl + sourceFileName;
         const destinationUrl: string = this.webDAVUrl + targetFileName;
 
-        debug("moveFile from '%s' to '%s'", url, destinationUrl);
+        log.debug("moveFile from '" + url + "' to '" + destinationUrl + "'");
 
         const requestInit: RequestInit = {
             headers: new Headers({ Destination: destinationUrl }),
@@ -1004,7 +1002,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in move file %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
+            log.debug(`Error in move file ${err.message} ${requestInit.method} source: ${url} destination: ${destinationUrl}`);
             throw new ClientError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName + " - " + err.message, "ERR_FILE_MOVE_FAILED");
         }
 
@@ -1026,7 +1024,7 @@ export default class Client {
         const url: string = this.webDAVUrl + sourceFolderName;
         const destinationUrl: string = this.webDAVUrl + tarName;
 
-        debug("moveFolder from '%s' to '%s'", url, destinationUrl);
+        log.debug(`moveFolder from '${url}' to '${destinationUrl}'`);
 
         const requestInit: RequestInit = {
             headers: new Headers({ Destination: destinationUrl }),
@@ -1041,7 +1039,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in move folder %s %s source: %s destination: %s", err.message, requestInit.method, url, destinationUrl);
+            log.debug(`Error in move folder ${err.message} ${requestInit.method} source: ${url} destination: ${destinationUrl}`);
             throw new ClientError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName + " - " + err.message, "ERR_FOLDER_MOVE_FAILED");
         }
 
@@ -1060,7 +1058,7 @@ export default class Client {
      */
     public async getContent(fileName: string): Promise<Buffer> {
         const url = this.webDAVUrl + fileName;
-        debug("getContent GET %s", url);
+        log.debug("getContent GET ", url);
         const requestInit: RequestInit = {
             method: "GET",
         };
@@ -1072,7 +1070,7 @@ export default class Client {
                 [200],
                 { description: "File get content" });
         } catch (err) {
-            debug("Error getContent %s - error %s", url, err.message);
+            log.debug(`Error getContent ${url} - error ${err.message}`);
             throw err;
         }
 
@@ -1086,7 +1084,7 @@ export default class Client {
      */
     public async pipeContentStream(fileName: string, destination: NodeJS.WritableStream): Promise<void> {
         const url = this.webDAVUrl + fileName;
-        debug("getContent GET %s", url);
+        log.debug("getContent GET ", url);
         const requestInit: RequestInit = {
             method: "GET",
         };
@@ -1098,7 +1096,7 @@ export default class Client {
                 [200],
                 { description: "File pipe content stream" });
         } catch (err) {
-            debug("Error getContent %s - error %s", url, err.message);
+            log.debug(`Error getContent ${url} - error ${err.message}`);
             throw err;
         }
         response.body.pipe(destination);
@@ -1110,7 +1108,7 @@ export default class Client {
      * @returns url
      */
     public getLink(fileName: string): string {
-        debug("getLink of %s", fileName);
+        log.debug("getLink of ", fileName);
         return this.webDAVUrl + fileName;
     }
 
@@ -1119,7 +1117,7 @@ export default class Client {
      * @param fileId the id of the file
      */
     public getUILink(fileId: number): string {
-        debug("getUILink of %s", fileId);
+        log.debug("getUILink of ", fileId);
         return `${this.nextcloudOrigin}/apps/files/?fileid=${fileId}`;
     }
 
@@ -1133,7 +1131,7 @@ export default class Client {
      * @throws Error
      */
     public async addTagToFile(fileId: number, tagName: string): Promise<void> {
-        debug("addTagToFile file:%s tag:%s", fileId, tagName);
+        log.debug(`addTagToFile file: "${fileId}" tag: "${tagName}"`);
         const tag: Tag = await this.createTag(tagName);
 
         if (!tag.canAssign) {
@@ -1184,14 +1182,14 @@ export default class Client {
         // @todo
 
         for (const res of responseObject.ocs.data) {
-            debug(JSON.stringify({
+            log.debug(JSON.stringify({
                 acivityId: res.activity_id,
                 objects: res.objects,
                 type: res.type,
             }, null, 4));
         }
 
-        // debug("getActivities: responseObject %s", JSON.stringify(responseObject, null, 4));
+        // log.debug("getActivities: responseObject ", JSON.stringify(responseObject, null, 4));
 
         return result;
     }
@@ -1206,7 +1204,7 @@ export default class Client {
      * @param comment the comment to be added to the file
      */
     public async addCommentToFile(fileId: number, comment: string): Promise<void> {
-        debug("addCommentToFile file:%s comment:%s", fileId, comment);
+        log.debug(`addCommentToFile file:"${fileId}" comment:"${comment}"`);
 
         const addCommentBody: any = {
             actorType: "users",
@@ -1237,7 +1235,7 @@ export default class Client {
      * @throws Exception
      */
     public async getFileComments(fileId: number, top?: number, skip?: number): Promise<string[]> {
-        debug("getFileComments fileId:%s", fileId);
+        log.debug("getFileComments fileId: ", fileId);
         if (!top) {
             top = 30;
         }
@@ -1402,7 +1400,7 @@ export default class Client {
      * @throws QueryOffsetError
      */
     public async getUserGroups(search?: string, limit?: number, offset?: number): Promise<UserGroup[]> {
-        debug("getUserGroups");
+        log.debug("getUserGroups");
 
         const userGroupIds: string[] = await this.getUserGroupIds(search, limit, offset);
         const userGroups: UserGroup[] = [];
@@ -1422,7 +1420,7 @@ export default class Client {
      * @throws QueryOffsetError
      */
     public async getUserGroupIds(search?: string, limit?: number, offset?: number): Promise<string[]> {
-        debug("getUserGroupIds");
+        log.debug("getUserGroupIds");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
@@ -1448,7 +1446,7 @@ export default class Client {
         if (queryParameter.join("&").length > 1) {
             url += "?" + queryParameter.join("&");
         }
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1475,7 +1473,7 @@ export default class Client {
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data.groups) {
-            debug("groups", rawResult.ocs.data.groups);
+            log.debug("groups", rawResult.ocs.data.groups);
             rawResult.ocs.data.groups.forEach((value: string) => {
                 // userGroups.push(new UserGroup(this, value));
                 userGroups.push(value);
@@ -1504,14 +1502,14 @@ export default class Client {
      * @throws [UserGroupDoesNotExistError}
      */
     public async getUserGroupMembers(id: string): Promise<string[]> {
-        debug("getUserGroupMembers");
+        log.debug("getUserGroupMembers");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
         };
 
         const url = this.getOcsUrl(`/groups/${id}`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1528,7 +1526,7 @@ export default class Client {
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data.users) {
-            debug("members", rawResult.ocs.data.users);
+            log.debug("members", rawResult.ocs.data.users);
             rawResult.ocs.data.users.forEach((value: string) => {
                 userIds.push(value);
             });
@@ -1544,14 +1542,14 @@ export default class Client {
      * @throws [UserGroupDoesNotExistError}
      */
     public async getUserGroupSubadmins(id: string): Promise<string[]> {
-        debug("getUserGroupsubadmins");
+        log.debug("getUserGroupsubadmins");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
         };
 
         const url = this.getOcsUrl(`/groups/${id}/subadmins`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1567,7 +1565,7 @@ export default class Client {
 
         if (rawResult.ocs &&
             rawResult.ocs.data) {
-            debug("subadmins", rawResult.ocs.data);
+            log.debug("subadmins", rawResult.ocs.data);
             rawResult.ocs.data.forEach((value: string) => {
                 userIds.push(value);
             });
@@ -1584,13 +1582,13 @@ export default class Client {
      * @throws {UserGroupAlreadyExistsError}
      */
     public async createUserGroup(id: string): Promise<UserGroup> {
-        debug("createUserGroup id=", id);
+        log.debug("createUserGroup id=", id);
         const requestInit: RequestInit = {
             body: JSON.stringify({ groupid: id }),
             headers: this.getOcsHeaders(),
             method: "POST",
         };
-        debug("request body: ", requestInit.body);
+        log.debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             this.getOcsUrl(`/groups`),
             requestInit,
@@ -1616,12 +1614,12 @@ export default class Client {
      * @throws {UserGroupDeletionFailedError}
      */
     public async deleteUserGroup(id: string): Promise<void> {
-        debug("deleteUserGroup id=", id);
+        log.debug("deleteUserGroup id=", id);
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "DELETE",
         };
-        debug("request body: ", requestInit.body);
+        log.debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             this.getOcsUrl(`/groups/${id}`),
             requestInit,
@@ -1651,7 +1649,7 @@ export default class Client {
      * @param offset number
      */
     public async getUsers(search?: string, limit?: number, offset?: number): Promise<User[]> {
-        debug("getUsers");
+        log.debug("getUsers");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
@@ -1677,7 +1675,7 @@ export default class Client {
         if (queryParameter.join("&").length > 1) {
             url += "?" + queryParameter.join("&");
         }
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1704,7 +1702,7 @@ export default class Client {
         if (rawResult.ocs &&
             rawResult.ocs.data &&
             rawResult.ocs.data.users) {
-            debug("user ids", rawResult.ocs.data.users);
+            log.debug("user ids", rawResult.ocs.data.users);
             rawResult.ocs.data.users.forEach((value: string) => {
                 users.push(new User(this, value));
             });
@@ -1720,14 +1718,14 @@ export default class Client {
      * @throws {UserNotFoundError}
      */
     public async getUserData(id: string): Promise<IUserOptions> {
-        debug("getUserData");
+        log.debug("getUserData");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "GET",
         };
 
         const url = this.getOcsUrl(`/users/${id}`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1755,7 +1753,7 @@ export default class Client {
         */
 
         let userData: IUserOptions;
-        debug("user data", rawResult.ocs.data);
+        log.debug("user data", rawResult.ocs.data);
         userData = {
             enabled: rawResult.ocs.data.enabled,
             lastLogin: rawResult.ocs.data.lastLogin === 0 ? undefined : new Date(rawResult.ocs.data.lastLogin),
@@ -1801,14 +1799,14 @@ export default class Client {
      * @throws {UserNotFoundError}
      */
     public async enableUser(id: string): Promise<void> {
-        debug("enableUser");
+        log.debug("enableUser");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "PUT",
         };
 
         const url = this.getOcsUrl(`/users/${id}/enable`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1830,14 +1828,14 @@ export default class Client {
      * @throws {UserNotFoundError}
      */
     public async disableUser(id: string): Promise<void> {
-        debug("disableUser");
+        log.debug("disableUser");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "PUT",
         };
 
         const url = this.getOcsUrl(`/users/${id}/disable`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1859,14 +1857,14 @@ export default class Client {
      * @throws {UserNotFoundError}
      */
     public async deleteUser(id: string): Promise<void> {
-        debug("deleteUser");
+        log.debug("deleteUser");
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "DELETE",
         };
 
         const url = this.getOcsUrl(`/users/${id}`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -1887,7 +1885,7 @@ export default class Client {
      * @returns User | null
      */
     public async getUser(id: string): Promise<User | null> {
-        debug("getUser");
+        log.debug("getUser");
         const users: User[] = await this.getUsers(id);
         if (users[0]) {
             return users[0];
@@ -1904,7 +1902,7 @@ export default class Client {
      * @throws UserUpdateError
      */
     public async createUser(options: { id: string, email?: string, password?: string }): Promise<User> {
-        debug("createUser");
+        log.debug("createUser");
         const createUserBody: { userid: string, password?: string, email?: string } = { userid: options.id };
         if (options.email) {
             if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(options.email)) {
@@ -1922,7 +1920,7 @@ export default class Client {
             headers: this.getOcsHeaders(),
             method: "POST",
         };
-        debug("request body: ", requestInit.body);
+        log.debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             this.getOcsUrl(`/users`),
             requestInit,
@@ -1953,7 +1951,7 @@ export default class Client {
      * @throws  {UserUpdateError}
      */
     public async updateUserProperty(id: string, property: UserProperty, value: string): Promise<void> {
-        debug("updateUserProperty");
+        log.debug("updateUserProperty");
         const body: { key: string, value: string } = { key: property, value };
 
         const requestInit: RequestInit = {
@@ -1962,7 +1960,7 @@ export default class Client {
             method: "PUT",
         };
         const url = this.getOcsUrl(`/users/${id}`);
-        debug("request body: ", requestInit.body);
+        log.debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             url,
             requestInit,
@@ -2000,14 +1998,14 @@ export default class Client {
      * @throws  {UserResendWelcomeEmailError}
      */
     public async resendWelcomeEmail(id: string,): Promise<void> {
-        debug("resendWelcomeEmail");
+        log.debug("resendWelcomeEmail");
 
         const requestInit: RequestInit = {
             headers: this.getOcsHeaders(),
             method: "POST",
         };
         const url = this.getOcsUrl(`/users/${id}/welcome`);
-        debug("request body: ", requestInit.body);
+        log.debug("request body: ", requestInit.body);
         const response: Response = await this.getHttpResponse(
             url,
             requestInit,
@@ -2036,7 +2034,7 @@ export default class Client {
      * @throws {OperationFailedError}
      */
     public async addUserToMemberUserGroup(id: string, userGroupId: string): Promise<void> {
-        debug("addUserToUserGroup");
+        log.debug("addUserToUserGroup");
 
         const body: { groupid: string } = { groupid: userGroupId };
         const requestInit: RequestInit = {
@@ -2046,7 +2044,7 @@ export default class Client {
         };
 
         const url = this.getOcsUrl(`/users/${id}/groups`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -2085,7 +2083,7 @@ export default class Client {
      * @throws {OperationFailedError}
      */
     public async removeUserFromMemberUserGroup(id: string, userGroupId: string): Promise<void> {
-        debug("removeUserFromMemberUserGroup");
+        log.debug("removeUserFromMemberUserGroup");
 
         const body: { groupid: string } = { groupid: userGroupId };
         const requestInit: RequestInit = {
@@ -2095,7 +2093,7 @@ export default class Client {
         };
 
         const url = this.getOcsUrl(`/users/${id}/groups`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -2134,7 +2132,7 @@ export default class Client {
      * @throws {OperationFailedError}
      */
     public async promoteUserToUserGroupSubadmin(id: string, userGroupId: string): Promise<void> {
-        debug("promoteUserToUserGroupSubadmin");
+        log.debug("promoteUserToUserGroupSubadmin");
 
         const body: { groupid: string } = { groupid: userGroupId };
         const requestInit: RequestInit = {
@@ -2144,7 +2142,7 @@ export default class Client {
         };
 
         const url = this.getOcsUrl(`/users/${id}/subadmins`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -2181,7 +2179,7 @@ export default class Client {
      * @throws {OperationFailedError}
      */
     public async demoteUserFromSubadminUserGroup(id: string, userGroupId: string): Promise<void> {
-        debug("demoteUserFromSubadminUserGroup");
+        log.debug("demoteUserFromSubadminUserGroup");
 
         const body: { groupid: string } = { groupid: userGroupId };
         const requestInit: RequestInit = {
@@ -2191,7 +2189,7 @@ export default class Client {
         };
 
         const url = this.getOcsUrl(`/users/${id}/subadmins`);
-        debug("url ", url)
+        log.debug("url ", url)
 
         const response: Response = await this.getHttpResponse(
             url,
@@ -2601,7 +2599,7 @@ export default class Client {
     public async createShare(options: ICreateShare): Promise<Share> {
 
         const shareRequest = Share.createShareRequestBody(options);
-        debug(shareRequest);
+        log.debug(shareRequest);
 
         const requestInit: RequestInit = {
             body: shareRequest,
@@ -2618,13 +2616,13 @@ export default class Client {
             { description: "Share create" });
 
         const rawResult: any = await response.json();
-        debug(rawResult);
+        log.debug(rawResult);
         return Share.getShare(this, rawResult.ocs.data.id);
         /* } catch (e) {
-            debug("result " + e.message);
-            debug("requestInit ", JSON.stringify(requestInit, null, 4));
-            debug("headers " + JSON.stringify(headers, null, 4));
-            debug("url ", url);
+            log.debug("result " + e.message);
+            log.debug("requestInit ", JSON.stringify(requestInit, null, 4));
+            log.debug("headers " + JSON.stringify(headers, null, 4));
+            log.debug("url ", url);
             throw e;
         } */
     }
@@ -2634,7 +2632,7 @@ export default class Client {
      */
     public async updateShare(shareId: string, body: { password: string } | { expireDate: string } | { note: string }): Promise<void> {
 
-        debug("updateShare body ", body);
+        log.debug("updateShare body ", body);
 
         const requestInit: RequestInit = {
             body: JSON.stringify(body, null, 4),
@@ -2673,10 +2671,10 @@ export default class Client {
         return rawResult;
         /*
     } catch (e) {
-        debug("result " + e.message);
-        debug("requestInit ", JSON.stringify(requestInit, null, 4));
-        debug("headers " + JSON.stringify(headers, null, 4));
-        debug("url ", url);
+        log.debug("result " + e.message);
+        log.debug("requestInit ", JSON.stringify(requestInit, null, 4));
+        log.debug("headers " + JSON.stringify(headers, null, 4));
+        log.debug("url ", url);
         throw e;
     }
     */
@@ -2958,7 +2956,7 @@ export default class Client {
             const html = await response.text();
 
             const requestToken: string = html.substr(html.indexOf("data-requesttoken=") + 19, 89);
-            debug("getCSRFToken  %s", requestToken);
+            log.debug("getCSRFToken ", requestToken);
             return requestToken;
         }
     */
@@ -2984,22 +2982,22 @@ export default class Client {
      * @returns array of folder contents meta data
      */
     private async Contents(folderName: string, folderIndicator: boolean): Promise<any[]> {
-        debug("Contents: folder %s", folderName);
+        log.debug("Contents: folder ", folderName);
         const folders: Folder[] = [];
         folderName = this.sanitizeFolderName(folderName);
         const resultArray: any[] = [];
 
         if (folderIndicator === true) {
-            debug("Contents: get folders");
+            log.debug("Contents: get folders");
         } else {
-            debug("Contents: get files");
+            log.debug("Contents: get files");
         }
         try {
             const folderContentsArray = await this.getFolderContents(folderName);
 
-            // debug("###########################");
-            // debug("$s", JSON.stringify(folderContentsArray, null, 4));
-            // debug("###########################");
+            // log.debug("###########################");
+            // log.debug("$s", JSON.stringify(folderContentsArray, null, 4));
+            // log.debug("###########################");
 
             for (const folderElement of folderContentsArray) {
                 if (folderElement.type === "directory") {
@@ -3008,13 +3006,13 @@ export default class Client {
                     }
                 } else {
                     if (folderIndicator === false) {
-                        debug("Contents folder element file %O ", folderElement);
+                        log.debug("Contents folder element file ", folderElement);
                         resultArray.push(folderElement);
                     }
                 }
             }
         } catch (e) {
-            debug("Contents: exception occurred %s", e.message);
+            log.debug("Contents: exception occurred ", e.message);
         }
 
         return resultArray;
@@ -3040,7 +3038,7 @@ export default class Client {
     private async createFolderInternal(folderName: string): Promise<void> {
 
         const url: string = this.webDAVUrl + folderName;
-        debug("createFolderInternal %s", url);
+        log.debug("createFolderInternal ", url);
 
         const requestInit: RequestInit = {
             method: "MKCOL",
@@ -3054,7 +3052,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in createFolderInternal %s %s %s %s", err.message, requestInit.method, url);
+            log.debug(`Error in createFolderInternal ${err.message} ${requestInit.method} ${url}`);
             throw err;
         }
     }
@@ -3062,7 +3060,7 @@ export default class Client {
     private async stat(fileName: string): Promise<IStat> {
 
         const url: string = this.webDAVUrl + fileName;
-        debug("stat %s", url);
+        log.debug("stat ", url);
 
         const requestInit: RequestInit = {
             body: `<?xml version="1.0"?>
@@ -3096,7 +3094,7 @@ export default class Client {
             );
 
         } catch (err) {
-            debug("Error in stat %s %s %s %s", err.message, requestInit.method, url);
+            log.debug(`Error in stat ${err.message} ${requestInit.method} ${url}`);
             throw err;
         }
 
@@ -3124,7 +3122,7 @@ export default class Client {
         }
 
         if (!resultStat) {
-            debug("Error: response %s", JSON.stringify(properties, null, 4));
+            log.debug("Error: response ", JSON.stringify(properties, null, 4));
             throw new ClientError("Error getting status information from : " + url,
                 "ERR_STAT");
         }
@@ -3169,7 +3167,7 @@ export default class Client {
     private async putFileContents(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<Response> {
 
         const url: string = this.webDAVUrl + fileName;
-        debug("putFileContents %s", url);
+        log.debug("putFileContents ", url);
 
         const requestInit: RequestInit = {
             body: data,

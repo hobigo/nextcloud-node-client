@@ -1,8 +1,7 @@
-import debugFactory from "debug";
 import ClientError from "./error";
 import Server from "./server";
-
-const debug = debugFactory("NCEnvironment");
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export default class Environment {
     public readonly url?: string;
@@ -21,6 +20,10 @@ export default class Environment {
         } else {
             this.recordingActive = true;
         }
+    }
+
+    public getMinLogLevel(): string {
+        return process.env.MIN_LOG_LEVEL || "error";
     }
 
     /**

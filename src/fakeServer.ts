@@ -1,4 +1,3 @@
-import debugFactory from "debug";
 import {
     RequestInit,
     Response,
@@ -6,8 +5,8 @@ import {
 } from "node-fetch";
 import { IRequestContext } from "./httpClient";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
-
-const debug = debugFactory("NCFakeServer");
+import Logger from "./logger";
+const log: Logger = new Logger();
 
 export default class FakeServer {
     public fakeResponses: RequestResponseLogEntry[] = [];
@@ -15,7 +14,7 @@ export default class FakeServer {
         this.fakeResponses = fakeResponses;
     }
     public async getFakeHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
-        debug("getFakeHttpResponse");
+        log.debug("getFakeHttpResponse");
         if (!requestInit.method) {
             requestInit.method = "UNDEFINED";
         }
@@ -39,12 +38,12 @@ export default class FakeServer {
         }
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            debug("getHttpResponse unexpected status response %s", response.status + " " + response.statusText);
-            debug("getHttpResponse description %s", context.description);
-            debug("getHttpResponse expected %s", expectedHttpStatusCode.join(","));
-            debug("getHttpResponse headers %s", JSON.stringify(response.headers, null, 4));
-            debug("getHttpResponse request body %s", requestInit.body);
-            debug("getHttpResponse text %s", await response.text());
+            log.debug("getHttpResponse unexpected status response ", response.status + " " + response.statusText);
+            log.debug("getHttpResponse description ", context.description);
+            log.debug("getHttpResponse expected ", expectedHttpStatusCode.join(","));
+            log.debug("getHttpResponse headers ", JSON.stringify(response.headers, null, 4));
+            log.debug("getHttpResponse request body ", requestInit.body);
+            log.debug("getHttpResponse text ", await response.text());
             throw new Error(`HTTP response status ${response.status} not expected. Expected status: ${expectedHttpStatusCode.join(",")} - status text: ${response.statusText}`);
         }
         return response;

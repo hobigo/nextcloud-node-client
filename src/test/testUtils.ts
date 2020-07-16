@@ -2,16 +2,14 @@
 import { config } from "dotenv";
 config();
 
-import debugFactory from "debug";
 import Client from "../client";
 import Environment from "../environment";
 import FakeServer from "../fakeServer";
 import RequestResponseLog from "../requestResponseLog";
 import RequestResponseLogEntry from "../requestResponseLogEntry";
 import Server from "../server";
-
-export const debug = debugFactory("Test");
-// console.log(process.env);
+import Logger from "../logger";
+const log: Logger = new Logger();
 
 export const recordingModeActive = (): boolean => {
     if (process.argv.find((element) => element === "--record")) {
@@ -31,7 +29,7 @@ export const getNextcloudClient = async (context: string): Promise<Client> => {
         const ncserver: Server = new Environment().getServer();
         ncserver.logRequestResponse = true;
         // tslint:disable-next-line:no-console
-        console.log("Test recording: " + rrLog.getFileName());
+        log.info("Test recording: " + rrLog.getFileName());
         return new Client(ncserver);
     } else {
         let entries: RequestResponseLogEntry[];

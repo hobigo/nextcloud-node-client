@@ -1,12 +1,13 @@
 // tslint:disable-next-line:no-var-requires
 require("dotenv").config();
 
-import debugFactory from "debug";
 import ClientError from "./error";
 import Server from "./server";
 export { Server };
 
-const debug = debugFactory("NCEnvironmentVcapServices");
+import Logger from "./logger";
+const log: Logger = new Logger();
+
 
 /**
  * returns the nextcloud credentials that is defined in the
@@ -28,7 +29,7 @@ export default class EnvironmentVcapServices {
         const cred = vcapServices.getCredentials("user-provided", undefined, instanceName);
 
         if (!cred || cred === undefined || (!cred.url && !cred.username && !cred.password)) {
-            debug("NCEnvironmentVcapServices: error credentials not found or not fully specified %O", cred);
+            log.error("NCEnvironmentVcapServices: error credentials not found or not fully specified ", cred);
             throw new ClientError(`NCEnvironmentVcapServices: nextcloud credentials not found in environment VCAP_SERVICES. Service section: "user-provided", service instance name: "${instanceName}" `, "ERR_VCAP_SERVICES_NOT_FOUND");
         }
 

@@ -4,6 +4,7 @@
 
 Access nextcloud remotely from node.js applications with a rich and simple TypeScript / JavaScript API.
 
+[![lang: Typescript](https://img.shields.io/badge/Language-Typescript-Blue.svg?style=flat-square)](https://www.typescriptlang.org)
 ![](https://github.com/hobigo/nextcloud-node-client/workflows/CI/badge.svg)
 [![NPM Downloads](https://img.shields.io/npm/dm/nextcloud-node-client.svg?style=flat)](https://npmjs.org/package/nextcloud-node-client)
 [![Dependency Status](https://david-dm.org/hobigo/nextcloud-node-client.svg?style=flat)](https://david-dm.org/hobigo/nextcloud-node-client)
