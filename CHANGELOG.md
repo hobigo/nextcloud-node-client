@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- environment access changed to static methods
+
+### Added
+- logger support using tslog
+- typedoc config
+
+### Removed
+- usage of debug
+
 ## 1.8.0 - 2020-07-15
 ### Changed
 - Nextcloud url does not need to be the WebDAV Url - server url and WebDAV url are supported

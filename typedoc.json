@@ -1,0 +1,11 @@
+{
+  "out": "./docs/api/",
+  "readme": true,
+  "includes": "./src",
+  "exclude": ["./src/test","./src/examples"],
+  "mode": "file",
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "theme": "default"
+}

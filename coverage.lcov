@@ -2925,7 +2925,7 @@ FNH:7
 FNDA:1,(anonymous_7)
 FNDA:23,(anonymous_8)
 FNDA:25,(anonymous_9)
-FNDA:80,(anonymous_11)
+FNDA:79,(anonymous_11)
 FNDA:22,(anonymous_12)
 FNDA:11,(anonymous_13)
 FNDA:37,(anonymous_14)
@@ -2948,9 +2948,9 @@ DA:72,24
 DA:73,23
 DA:74,23
 DA:75,23
-DA:92,80
+DA:92,79
 DA:93,19
-DA:95,61
+DA:95,60
 DA:103,22
 DA:111,11
 DA:119,37
@@ -2963,9 +2963,9 @@ BRDA:69,1,1,24
 BRDA:72,2,0,23
 BRDA:72,2,1,1
 BRDA:92,3,0,19
-BRDA:92,3,1,61
-BRDA:92,4,0,80
-BRDA:92,4,1,76
+BRDA:92,3,1,60
+BRDA:92,4,0,79
+BRDA:92,4,1,75
 BRF:10
 BRH:10
 end_of_record
