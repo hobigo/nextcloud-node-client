@@ -1,4 +1,4 @@
-import  Environment  from "./environment";
+import Environment from "./environment";
 import {
     Logger as TSLogLogger,
     ILogObject as LogObject,
@@ -54,6 +54,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public silly(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.silly(...args);
     }
 
@@ -62,6 +63,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public trace(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.trace(...args);
     }
 
@@ -78,6 +80,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public info(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.info(...args);
     }
 
@@ -86,6 +89,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public warn(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.warn(...args);
     }
 
@@ -94,6 +98,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public error(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.error(...args);
     }
 
@@ -102,6 +107,7 @@ export default class Logger {
      * @param args  - Multiple log attributes that should be logged out.
      */
     public fatal(...args: unknown[]): LogObject {
+        /* istanbul ignore next */
         return this.logger.fatal(...args);
     }
 }

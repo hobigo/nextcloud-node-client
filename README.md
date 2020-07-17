@@ -427,6 +427,14 @@ A code coverage of 100% is aspired
 
 ## Todo list
 
+### Version 2.0
+- remove vcap services support
+- remove server object and replace with connection object
+- connection object handles all http requets (new Connection, conn.connect() ...)
+- refactor client - use connection instead of client in sub objects move client methods to sub objects
+- Move exceptions to relevant objects, prefix all exceptions with "Error"
+- Remove "I" from interface names
+
 ### Sharing
 Share with 
 * user
