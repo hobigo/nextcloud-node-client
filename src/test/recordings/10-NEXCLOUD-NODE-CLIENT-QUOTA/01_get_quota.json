@@ -8,7 +8,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:38:40 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>6346020</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef8d0c95ae&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Accounting/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:26:52 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>454782</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef60cc08c9&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Borstenson/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 10:27:10 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>3302289</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ed9febecbd&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Company/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:26:59 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>1112521</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef613f2eb7&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Contracts/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:27:01 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>61539</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef6156a47d&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Human%20Resources/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:27:07 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>352052</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef61b95e2d&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Marketing/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:27:10 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>141428</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef61eb3856&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Products/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:27:17 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>872544</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef62507f44&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/Sales/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:27:18 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>48865</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef626784b4&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/ncncTest/</d:href><d:propstat><d:prop><d:getlastmodified>Wed, 15 Jul 2020 12:24:39 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>175378710528</d:quota-available-bytes><d:getetag>&quot;5f0ef587c2e24&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:09:51 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>174511726592</d:quota-available-bytes><d:getetag>&quot;5f1e295f604d5&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/ncncTest/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:05:57 GMT</d:getlastmodified><d:resourcetype><d:collection/></d:resourcetype><d:quota-used-bytes>0</d:quota-used-bytes><d:quota-available-bytes>174511726592</d:quota-available-bytes><d:getetag>&quot;5f1e287561bf6&quot;</d:getetag></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontentlength/><d:getcontenttype/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -18,221 +18,29 @@
                             "href": "/remote.php/webdav/",
                             "propstat": {
                                 "prop": {
-                                    "getlastmodified": "Wed, 15 Jul 2020 12:38:40 GMT",
+                                    "getlastmodified": "Mon, 27 Jul 2020 01:09:51 GMT",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "quota-used-bytes": 6346020,
-                                    "quota-available-bytes": 175378710528,
-                                    "getetag": "&quot;5f0ef8d0c95ae&quot;"
+                                    "quota-used-bytes": 0,
+                                    "quota-available-bytes": 174511726592,
+                                    "getetag": "&quot;5f1e295f604d5&quot;"
                                 },
                                 "status": "HTTP/1.1 200 OK"
                             }
-                        },
-                        {
-                            "href": "/remote.php/webdav/Accounting/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:26:52 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 454782,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef60cc08c9&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Borstenson/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 10:27:10 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 3302289,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ed9febecbd&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Company/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:26:59 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 1112521,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef613f2eb7&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Contracts/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:27:01 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 61539,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef6156a47d&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Human%20Resources/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:27:07 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 352052,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef61b95e2d&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Marketing/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:27:10 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 141428,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef61eb3856&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Products/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:27:17 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 872544,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef62507f44&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
-                        },
-                        {
-                            "href": "/remote.php/webdav/Sales/",
-                            "propstat": [
-                                {
-                                    "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:27:18 GMT",
-                                        "resourcetype": {
-                                            "collection": ""
-                                        },
-                                        "quota-used-bytes": 48865,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef626784b4&quot;"
-                                    },
-                                    "status": "HTTP/1.1 200 OK"
-                                },
-                                {
-                                    "prop": {
-                                        "getcontentlength": "",
-                                        "getcontenttype": ""
-                                    },
-                                    "status": "HTTP/1.1 404 Not Found"
-                                }
-                            ]
                         },
                         {
                             "href": "/remote.php/webdav/ncncTest/",
                             "propstat": [
                                 {
                                     "prop": {
-                                        "getlastmodified": "Wed, 15 Jul 2020 12:24:39 GMT",
+                                        "getlastmodified": "Mon, 27 Jul 2020 01:05:57 GMT",
                                         "resourcetype": {
                                             "collection": ""
                                         },
                                         "quota-used-bytes": 0,
-                                        "quota-available-bytes": 175378710528,
-                                        "getetag": "&quot;5f0ef587c2e24&quot;"
+                                        "quota-available-bytes": 174511726592,
+                                        "getetag": "&quot;5f1e287561bf6&quot;"
                                     },
                                     "status": "HTTP/1.1 200 OK"
                                 },

@@ -41,7 +41,7 @@ import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpC
 import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server, { IServerOptions } from "./server";
-import Share, { ICreateShare, SharePermission } from "./share";
+import Share, { ICreateShare, SharePermission, ShareItemType } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
 import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
@@ -87,6 +87,7 @@ export {
     UserProperty,
     IUserOptionsQuota,
     IUserQuotaUserFriendly,
+    ShareItemType,
 };
 
 // command object for upload
@@ -2621,20 +2622,20 @@ export default class Client {
         const response: Response = await this.getHttpResponse(
             url,
             requestInit,
-            [200],
+            [200, 204],
             { description: "Share create" });
 
         const rawResult: any = await response.json();
         log.debug(rawResult);
 
+        const share: Share = await Share.getShare(this, rawResult.ocs.data.id);
+
         if (options.publicUpload) {
-            if (rawResult && rawResult.ocs && rawResult.ocs.data && rawResult.ocs.data.id) {
-                // read update upload
-                await this.updateShare(rawResult.ocs.data.id, { permissions: 15 });
-            }
+            await share.setPublicUpload();
         }
 
-        return Share.getShare(this, rawResult.ocs.data.id);
+        return share;
+
         /* } catch (e) {
             log.debug("result " + e.message);
             log.debug("requestInit ", JSON.stringify(requestInit, null, 4));

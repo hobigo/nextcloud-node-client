@@ -46,6 +46,238 @@
             "body": "<Body is undefined>"
         },
         "response": {
+            "status": 409,
+            "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\Conflict</s:exception>\n  <s:message>Parent node does not exist</s:message>\n</d:error>\n",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "error": {
+                    "exception": "Sabre\\DAV\\Exception\\Conflict",
+                    "message": "Parent node does not exist"
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest",
+            "method": "PROPFIND",
+            "description": "File/Folder get details",
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
+        },
+        "response": {
+            "status": 207,
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:33:41 GMT</d:getlastmodified><d:getetag>&quot;5f1e2ef501a15&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53834</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "multistatus": {
+                    "response": {
+                        "href": "/remote.php/webdav/ncncTest/",
+                        "propstat": [
+                            {
+                                "prop": {
+                                    "getlastmodified": "Mon, 27 Jul 2020 01:33:41 GMT",
+                                    "getetag": "&quot;5f1e2ef501a15&quot;",
+                                    "resourcetype": {
+                                        "collection": ""
+                                    },
+                                    "fileid": 53834,
+                                    "permissions": "RGDNVCK",
+                                    "size": 0,
+                                    "has-preview": false,
+                                    "favorite": 0,
+                                    "comments-unread": 0,
+                                    "owner-display-name": "Horst-Thorsten Borstenson",
+                                    "share-types": ""
+                                },
+                                "status": "HTTP/1.1 200 OK"
+                            },
+                            {
+                                "prop": {
+                                    "getcontenttype": "",
+                                    "getcontentlength": ""
+                                },
+                                "status": "HTTP/1.1 404 Not Found"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share",
+            "method": "PROPFIND",
+            "description": "File/Folder get details",
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
+        },
+        "response": {
+            "status": 404,
+            "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\NotFound</s:exception>\n  <s:message>File with name ncncTest/share could not be located</s:message>\n</d:error>\n",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "error": {
+                    "exception": "Sabre\\DAV\\Exception\\NotFound",
+                    "message": "File with name ncncTest/share could not be located"
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share",
+            "method": "MKCOL",
+            "description": "Folder create",
+            "body": "<Body is undefined>"
+        },
+        "response": {
+            "status": 201,
+            "body": "",
+            "contentType": "text/html; charset=UTF-8",
+            "contentLocation": ""
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share/03",
+            "method": "PROPFIND",
+            "description": "File/Folder get details",
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
+        },
+        "response": {
+            "status": 404,
+            "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\NotFound</s:exception>\n  <s:message>File with name ncncTest/share/03 could not be located</s:message>\n</d:error>\n",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "error": {
+                    "exception": "Sabre\\DAV\\Exception\\NotFound",
+                    "message": "File with name ncncTest/share/03 could not be located"
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share/03",
+            "method": "MKCOL",
+            "description": "Folder create",
+            "body": "<Body is undefined>"
+        },
+        "response": {
+            "status": 201,
+            "body": "",
+            "contentType": "text/html; charset=UTF-8",
+            "contentLocation": ""
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share/03/publicUploadFolder",
+            "method": "PROPFIND",
+            "description": "File/Folder get details",
+            "body": "<?xml version=\"1.0\"?>\n            <d:propfind  xmlns:d=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n            <d:prop>\n                  <d:getlastmodified />\n                  <d:getetag />\n                  <d:getcontenttype />\n                  <d:resourcetype />\n                  <oc:fileid />\n                  <oc:permissions />\n                  <oc:size />\n                  <d:getcontentlength />\n                  <nc:has-preview />\n                  <oc:favorite />\n                  <oc:comments-unread />\n                  <oc:owner-display-name />\n                  <oc:share-types />\n            </d:prop>\n          </d:propfind>",
+            "jsonBody": {
+                "propfind": {
+                    "prop": {
+                        "getlastmodified": "",
+                        "getetag": "",
+                        "getcontenttype": "",
+                        "resourcetype": "",
+                        "fileid": "",
+                        "permissions": "",
+                        "size": "",
+                        "getcontentlength": "",
+                        "has-preview": "",
+                        "favorite": "",
+                        "comments-unread": "",
+                        "owner-display-name": "",
+                        "share-types": ""
+                    }
+                }
+            }
+        },
+        "response": {
+            "status": 404,
+            "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<d:error xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\">\n  <s:exception>Sabre\\DAV\\Exception\\NotFound</s:exception>\n  <s:message>File with name ncncTest/share/03/publicUploadFolder could not be located</s:message>\n</d:error>\n",
+            "contentType": "application/xml; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "error": {
+                    "exception": "Sabre\\DAV\\Exception\\NotFound",
+                    "message": "File with name ncncTest/share/03/publicUploadFolder could not be located"
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/remote.php/webdav/ncncTest/share/03/publicUploadFolder",
+            "method": "MKCOL",
+            "description": "Folder create",
+            "body": "<Body is undefined>"
+        },
+        "response": {
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
@@ -80,7 +312,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share/03/publicUploadFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:05:56 GMT</d:getlastmodified><d:getetag>&quot;5f1e2874594d2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53840</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share/03/publicUploadFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:33:42 GMT</d:getlastmodified><d:getetag>&quot;5f1e2ef676ccf&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54089</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -90,12 +322,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jul 2020 01:05:56 GMT",
-                                    "getetag": "&quot;5f1e2874594d2&quot;",
+                                    "getlastmodified": "Mon, 27 Jul 2020 01:33:42 GMT",
+                                    "getetag": "&quot;5f1e2ef676ccf&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 53840,
+                                    "fileid": 54089,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -128,7 +360,7 @@
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"70\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1595811956,\"parent\":null,\"expiration\":null,\"token\":\"mYeCoDSGGj99anF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":53840,\"file_source\":53840,\"file_parent\":53836,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/mYeCoDSGGj99anF\",\"mail_send\":1,\"hide_download\":0}}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"79\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1595813622,\"parent\":null,\"expiration\":null,\"token\":\"7qPMcz3e3Ck98dJ\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":54089,\"file_source\":54089,\"file_parent\":54088,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/7qPMcz3e3Ck98dJ\",\"mail_send\":1,\"hide_download\":0}}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -139,17 +371,17 @@
                         "message": "OK"
                     },
                     "data": {
-                        "id": "70",
+                        "id": "79",
                         "share_type": 3,
                         "uid_owner": "horst",
                         "displayname_owner": "Horst-Thorsten Borstenson",
                         "permissions": 1,
                         "can_edit": true,
                         "can_delete": true,
-                        "stime": 1595811956,
+                        "stime": 1595813622,
                         "parent": null,
                         "expiration": null,
-                        "token": "mYeCoDSGGj99anF",
+                        "token": "7qPMcz3e3Ck98dJ",
                         "uid_file_owner": "horst",
                         "note": "",
                         "label": "",
@@ -159,15 +391,15 @@
                         "mimetype": "httpd/unix-directory",
                         "storage_id": "home::horst",
                         "storage": 4,
-                        "item_source": 53840,
-                        "file_source": 53840,
-                        "file_parent": 53836,
+                        "item_source": 54089,
+                        "file_source": 54089,
+                        "file_parent": 54088,
                         "file_target": "/publicUploadFolder",
                         "share_with": null,
                         "share_with_displayname": "(Geteilter Link)",
                         "password": null,
                         "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/mYeCoDSGGj99anF",
+                        "url": "https://cc.hobigo.de/s/7qPMcz3e3Ck98dJ",
                         "mail_send": 1,
                         "hide_download": 0
                     }
@@ -177,70 +409,14 @@
     },
     {
         "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/70",
-            "method": "PUT",
-            "description": "Share update",
-            "body": "{\n    \"permissions\": 15\n}"
-        },
-        "response": {
-            "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"70\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":15,\"can_edit\":true,\"can_delete\":true,\"stime\":1595811956,\"parent\":null,\"expiration\":null,\"token\":\"mYeCoDSGGj99anF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":53840,\"file_source\":53840,\"file_parent\":53836,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/mYeCoDSGGj99anF\",\"mail_send\":0,\"hide_download\":0}}}",
-            "contentType": "application/json; charset=utf-8",
-            "contentLocation": "",
-            "jsonBody": {
-                "ocs": {
-                    "meta": {
-                        "status": "ok",
-                        "statuscode": 200,
-                        "message": "OK"
-                    },
-                    "data": {
-                        "id": "70",
-                        "share_type": 3,
-                        "uid_owner": "horst",
-                        "displayname_owner": "Horst-Thorsten Borstenson",
-                        "permissions": 15,
-                        "can_edit": true,
-                        "can_delete": true,
-                        "stime": 1595811956,
-                        "parent": null,
-                        "expiration": null,
-                        "token": "mYeCoDSGGj99anF",
-                        "uid_file_owner": "horst",
-                        "note": "",
-                        "label": "",
-                        "displayname_file_owner": "Horst-Thorsten Borstenson",
-                        "path": "/ncncTest/share/03/publicUploadFolder",
-                        "item_type": "folder",
-                        "mimetype": "httpd/unix-directory",
-                        "storage_id": "home::horst",
-                        "storage": 4,
-                        "item_source": 53840,
-                        "file_source": 53840,
-                        "file_parent": 53836,
-                        "file_target": "/publicUploadFolder",
-                        "share_with": null,
-                        "share_with_displayname": "(Geteilter Link)",
-                        "password": null,
-                        "send_password_by_talk": false,
-                        "url": "https://cc.hobigo.de/s/mYeCoDSGGj99anF",
-                        "mail_send": 0,
-                        "hide_download": 0
-                    }
-                }
-            }
-        }
-    },
-    {
-        "request": {
-            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/70",
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/79",
             "method": "GET",
             "description": "Share get",
             "body": "<Body is undefined>"
         },
         "response": {
             "status": 200,
-            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"70\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":15,\"can_edit\":true,\"can_delete\":true,\"stime\":1595811956,\"parent\":null,\"expiration\":null,\"token\":\"mYeCoDSGGj99anF\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":53840,\"file_source\":53840,\"file_parent\":53836,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/mYeCoDSGGj99anF\",\"mail_send\":0,\"hide_download\":0}]}}",
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":[{\"id\":\"79\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":1,\"can_edit\":true,\"can_delete\":true,\"stime\":1595813622,\"parent\":null,\"expiration\":null,\"token\":\"7qPMcz3e3Ck98dJ\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":54089,\"file_source\":54089,\"file_parent\":54088,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/7qPMcz3e3Ck98dJ\",\"mail_send\":0,\"hide_download\":0}]}}",
             "contentType": "application/json; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -252,17 +428,17 @@
                     },
                     "data": [
                         {
-                            "id": "70",
+                            "id": "79",
                             "share_type": 3,
                             "uid_owner": "horst",
                             "displayname_owner": "Horst-Thorsten Borstenson",
-                            "permissions": 15,
+                            "permissions": 1,
                             "can_edit": true,
                             "can_delete": true,
-                            "stime": 1595811956,
+                            "stime": 1595813622,
                             "parent": null,
                             "expiration": null,
-                            "token": "mYeCoDSGGj99anF",
+                            "token": "7qPMcz3e3Ck98dJ",
                             "uid_file_owner": "horst",
                             "note": "",
                             "label": "",
@@ -272,19 +448,75 @@
                             "mimetype": "httpd/unix-directory",
                             "storage_id": "home::horst",
                             "storage": 4,
-                            "item_source": 53840,
-                            "file_source": 53840,
-                            "file_parent": 53836,
+                            "item_source": 54089,
+                            "file_source": 54089,
+                            "file_parent": 54088,
                             "file_target": "/publicUploadFolder",
                             "share_with": null,
                             "share_with_displayname": "(Geteilter Link)",
                             "password": null,
                             "send_password_by_talk": false,
-                            "url": "https://cc.hobigo.de/s/mYeCoDSGGj99anF",
+                            "url": "https://cc.hobigo.de/s/7qPMcz3e3Ck98dJ",
                             "mail_send": 0,
                             "hide_download": 0
                         }
                     ]
+                }
+            }
+        }
+    },
+    {
+        "request": {
+            "url": "/ocs/v2.php/apps/files_sharing/api/v1/shares/79",
+            "method": "PUT",
+            "description": "Share update",
+            "body": "{\n    \"permissions\": 15\n}"
+        },
+        "response": {
+            "status": 200,
+            "body": "{\"ocs\":{\"meta\":{\"status\":\"ok\",\"statuscode\":200,\"message\":\"OK\"},\"data\":{\"id\":\"79\",\"share_type\":3,\"uid_owner\":\"horst\",\"displayname_owner\":\"Horst-Thorsten Borstenson\",\"permissions\":15,\"can_edit\":true,\"can_delete\":true,\"stime\":1595813622,\"parent\":null,\"expiration\":null,\"token\":\"7qPMcz3e3Ck98dJ\",\"uid_file_owner\":\"horst\",\"note\":\"\",\"label\":\"\",\"displayname_file_owner\":\"Horst-Thorsten Borstenson\",\"path\":\"\\/ncncTest\\/share\\/03\\/publicUploadFolder\",\"item_type\":\"folder\",\"mimetype\":\"httpd\\/unix-directory\",\"storage_id\":\"home::horst\",\"storage\":4,\"item_source\":54089,\"file_source\":54089,\"file_parent\":54088,\"file_target\":\"\\/publicUploadFolder\",\"share_with\":null,\"share_with_displayname\":\"(Geteilter Link)\",\"password\":null,\"send_password_by_talk\":false,\"url\":\"https:\\/\\/cc.hobigo.de\\/s\\/7qPMcz3e3Ck98dJ\",\"mail_send\":0,\"hide_download\":0}}}",
+            "contentType": "application/json; charset=utf-8",
+            "contentLocation": "",
+            "jsonBody": {
+                "ocs": {
+                    "meta": {
+                        "status": "ok",
+                        "statuscode": 200,
+                        "message": "OK"
+                    },
+                    "data": {
+                        "id": "79",
+                        "share_type": 3,
+                        "uid_owner": "horst",
+                        "displayname_owner": "Horst-Thorsten Borstenson",
+                        "permissions": 15,
+                        "can_edit": true,
+                        "can_delete": true,
+                        "stime": 1595813622,
+                        "parent": null,
+                        "expiration": null,
+                        "token": "7qPMcz3e3Ck98dJ",
+                        "uid_file_owner": "horst",
+                        "note": "",
+                        "label": "",
+                        "displayname_file_owner": "Horst-Thorsten Borstenson",
+                        "path": "/ncncTest/share/03/publicUploadFolder",
+                        "item_type": "folder",
+                        "mimetype": "httpd/unix-directory",
+                        "storage_id": "home::horst",
+                        "storage": 4,
+                        "item_source": 54089,
+                        "file_source": 54089,
+                        "file_parent": 54088,
+                        "file_target": "/publicUploadFolder",
+                        "share_with": null,
+                        "share_with_displayname": "(Geteilter Link)",
+                        "password": null,
+                        "send_password_by_talk": false,
+                        "url": "https://cc.hobigo.de/s/7qPMcz3e3Ck98dJ",
+                        "mail_send": 0,
+                        "hide_download": 0
+                    }
                 }
             }
         }
@@ -317,7 +549,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share/03/publicUploadFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:05:56 GMT</d:getlastmodified><d:getetag>&quot;5f1e2874594d2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53840</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types><oc:share-type>3</oc:share-type></oc:share-types></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/ncncTest/share/03/publicUploadFolder/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:33:42 GMT</d:getlastmodified><d:getetag>&quot;5f1e2ef676ccf&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54089</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types><oc:share-type>3</oc:share-type></oc:share-types></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -327,12 +559,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jul 2020 01:05:56 GMT",
-                                    "getetag": "&quot;5f1e2874594d2&quot;",
+                                    "getlastmodified": "Mon, 27 Jul 2020 01:33:42 GMT",
+                                    "getetag": "&quot;5f1e2ef676ccf&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 53840,
+                                    "fileid": 54089,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,

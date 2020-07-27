@@ -26,7 +26,7 @@ export interface ICreateShare {
     "password"?: string;
 }
 
-enum ShareItemType {
+export enum ShareItemType {
     file = "file",
     folder = "folder",
 }
@@ -67,6 +67,7 @@ export default class Share {
         note: string,
         token: string,
         url: string,
+        publicUpload: boolean,
         // share_type: number,
         // "uid_owner": string,
         // "displayname_owner": string,
@@ -95,6 +96,7 @@ export default class Share {
             note: "",
             token: "",
             url: "",
+            publicUpload: false,
         };
     }
 
@@ -113,6 +115,13 @@ export default class Share {
      */
     public async setPassword(password: string): Promise<void> {
         await this.client.updateShare(this.memento.id, { password });
+    }
+
+    public async setPublicUpload(): Promise<void> {
+        if (this.memento.itemType === ShareItemType.folder) {
+            this.memento.publicUpload = true;
+            await this.client.updateShare(this.memento.id, { permissions: 15 });
+        }
     }
 
     public async setNote(note: string): Promise<void> {
@@ -196,6 +205,21 @@ export default class Share {
      */
     public get id(): string {
         return this.memento.id;
+    }
+
+    /**
+     * returns true if the share akkows upload
+     */
+    public get publicUpload(): boolean {
+        return this.memento.publicUpload;
+    }
+
+    /**
+     * item type
+     * The type of the share item file or folder
+     */
+    public get itemType(): ShareItemType {
+        return this.memento.itemType;
     }
 
 }

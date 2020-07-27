@@ -276,6 +276,8 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
             error = e;
         }
         expect(error).to.be.equal(null);
+        expect(share!.publicUpload).to.be.equal(true);
+
         await folder.delete();
     });
 
