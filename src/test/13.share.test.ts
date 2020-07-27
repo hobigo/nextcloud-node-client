@@ -269,21 +269,14 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
 
         let share: Share;
 
+        let error: Error | null = null;
         try {
             share = await client.createShare(createShare);
-
-            try {
-                //                await share.delete();
-            } catch (e) {
-                expect(e.message, "expect no exception deleting share").to.be.equal(null);
-            }
-
         } catch (e) {
-            expect(e.message, "expect no exception").to.be.equal(null);
+            error = e;
         }
-
-
-        // await folder.delete();
+        expect(error).to.be.equal(null);
+        await folder.delete();
     });
 
 });
