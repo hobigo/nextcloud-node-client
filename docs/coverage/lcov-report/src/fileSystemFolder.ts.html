@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">31.58% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>6/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/2</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>0/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">35.29% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>6/17</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -115,30 +115,30 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">289x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">288x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">97x</span>
-<span class="cline-any cline-yes">374x</span>
-<span class="cline-any cline-yes">374x</span>
-<span class="cline-any cline-yes">374x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">374x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,31 +157,31 @@ export interface IFileNameFormats {
 &nbsp;
 export default class FileSystemFolder {
     private name: string;
-    constructor(name: string) {
-        this.name = name;
+<span class="fstat-no" title="function not covered" >    constructor(n</span>ame: string) {
+<span class="cstat-no" title="statement not covered" >        this.name = name;</span>
     }
 &nbsp;
-    public getName(): IFileNameFormats {
-        return { relative: this.name, absolute: path.resolve(this.name) };
+    public <span class="fstat-no" title="function not covered" >getName(</span>): IFileNameFormats {
+<span class="cstat-no" title="statement not covered" >        return { relative: this.name, absolute: path.resolve(this.name) };</span>
     }
 &nbsp;
-    public async getFileNames(): Promise&lt;IFileNameFormats[]&gt; {
-        const fileNames: IFileNameFormats[] = [];
+    public async <span class="fstat-no" title="function not covered" >getFileNames(</span>): Promise&lt;IFileNameFormats[]&gt; {
+        const fileNames: IFileNameFormats[] = <span class="cstat-no" title="statement not covered" >[];</span>
 &nbsp;
-        for (const absoluteFileName of await this.getFileNamesRecursively(this.name)) {
-            fileNames.push({ absolute: absoluteFileName, relative: absoluteFileName.replace(path.resolve(this.getName().absolute), "").replace(/\\/g, "/") })
+<span class="cstat-no" title="statement not covered" >        for (const absoluteFileName of await this.getFileNamesRecursively(this.name)) {</span>
+<span class="cstat-no" title="statement not covered" >            fileNames.push({ absolute: absoluteFileName, relative: absoluteFileName.replace(path.resolve(this.getName().absolute), "").replace(/\\/g, "/") })</span>
         }
-        return (fileNames);
+<span class="cstat-no" title="statement not covered" >        return (fileNames);</span>
     };
 &nbsp;
-    private async getFileNamesRecursively(name: string): Promise&lt;string[]&gt; {
+    private async <span class="fstat-no" title="function not covered" >getFileNamesRecursively(</span>name: string): Promise&lt;string[]&gt; {
 &nbsp;
-        const subdirs: string[] = await readdir(name);
-        const files = await Promise.all(subdirs.map(async (subdir: string) =&gt; {
-            const res: string = path.resolve(name, subdir);
-            return (await stat(res)).isDirectory() ? this.getFileNamesRecursively(res) : res;
+        const subdirs: string[] = <span class="cstat-no" title="statement not covered" >await readdir(name);</span>
+        const files = <span class="cstat-no" title="statement not covered" >await Promise.all(subdirs.map(<span class="fstat-no" title="function not covered" >async (s</span>ubdir: string) =&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" > {</span></span></span>
+            const res: string = <span class="cstat-no" title="statement not covered" >path.resolve(name, subdir);</span>
+<span class="cstat-no" title="statement not covered" >            return (await stat(res)).isDirectory() ? this.getFileNamesRecursively(res) : res;</span>
         }));
-        return files.reduce((a: any, f: any) =&gt; a.concat(f), []);
+<span class="cstat-no" title="statement not covered" >        return files.reduce(<span class="fstat-no" title="function not covered" >(a</span>: any, f: any) =&gt; <span class="cstat-no" title="statement not covered" >a.concat(f),</span> []);</span>
     }
 &nbsp;
 &nbsp;
@@ -193,7 +193,7 @@ export default class FileSystemFolder {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Jul 18 2020 00:10:30 GMT+0200 (GMT+02:00)
+                at Mon Jul 27 2020 02:57:09 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="../prettify.js"></script>

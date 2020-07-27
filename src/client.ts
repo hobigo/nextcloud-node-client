@@ -2626,6 +2626,14 @@ export default class Client {
 
         const rawResult: any = await response.json();
         log.debug(rawResult);
+
+        if (options.publicUpload) {
+            if (rawResult && rawResult.ocs && rawResult.ocs.data && rawResult.ocs.data.id) {
+                // read update upload
+                await this.updateShare(rawResult.ocs.data.id, { permissions: 15 });
+            }
+        }
+
         return Share.getShare(this, rawResult.ocs.data.id);
         /* } catch (e) {
             log.debug("result " + e.message);
@@ -2639,7 +2647,7 @@ export default class Client {
     /**
      * update a new share
      */
-    public async updateShare(shareId: string, body: { password: string } | { expireDate: string } | { note: string }): Promise<void> {
+    public async updateShare(shareId: string, body: { password: string } | { expireDate: string } | { note: string } | { permissions: number }): Promise<void> {
 
         log.debug("updateShare body ", body);
 

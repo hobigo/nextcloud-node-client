@@ -46,18 +46,11 @@ export default class Share {
             shareType: number,
             // @todo   permissions: number | number[]
             password?: string,
-            publicUpload?: string,
         } = {
             path: createShare.fileSystemElement.name,
             //  @todo    permissions: 1,
             shareType,
         };
-
-        if (createShare.publicUpload && createShare.publicUpload === true) {
-            shareRequest.publicUpload = "enable";
-        } else {
-            shareRequest.publicUpload = "disable";
-        }
 
         if (createShare.password) {
             shareRequest.password = createShare.password;

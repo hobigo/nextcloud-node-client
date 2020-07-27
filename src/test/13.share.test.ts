@@ -5,6 +5,7 @@ import "mocha";
 import {
     Client,
     File,
+    Folder,
     ICreateShare,
 } from "../client";
 import FakeServer from "../fakeServer";
@@ -257,4 +258,32 @@ describe("13-NEXCLOUD-NODE-CLIENT-SHARE", function () {
         }
 
     });
+
+    it("03 create public share for folder", async () => {
+
+        const folderName = "/ncncTest/share/03/publicUploadFolder";
+
+        const folder: Folder = await client.createFolder(folderName);
+
+        const createShare: ICreateShare = { fileSystemElement: folder, publicUpload: true };
+
+        let share: Share;
+
+        try {
+            share = await client.createShare(createShare);
+
+            try {
+                //                await share.delete();
+            } catch (e) {
+                expect(e.message, "expect no exception deleting share").to.be.equal(null);
+            }
+
+        } catch (e) {
+            expect(e.message, "expect no exception").to.be.equal(null);
+        }
+
+
+        // await folder.delete();
+    });
+
 });
