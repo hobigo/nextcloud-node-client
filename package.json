@@ -16,7 +16,8 @@
     "cover": "nyc mocha -r ts-node/register src/test/*test.ts && nyc report --reporter=text-lcov > coverage.lcov",
     "record": "nyc mocha -r ts-node/register src/test/*test.ts --record",
     "documentation": "typedoc",
-    "create-lcov": "./node_modules/.bin/codecov -t <token>"
+    "create-lcov": "./node_modules/.bin/codecov -t <token>",
+    "eslint": "npx eslint"
   },
   "nyc": {
     "extension": [
@@ -52,31 +53,40 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "debug": "^4.1.0",
     "dotenv": "^8.2.0",
-    "fast-xml-parser": "^3.16.0",
+    "fast-xml-parser": "^3.17.4",
     "http-proxy-agent": "^4.0.1",
     "node-fetch": "^2.6.0",
     "tslog": "^2.6.2",
     "vcap_services": "^0.7.1"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.9",
+    "@types/chai": "^4.2.12",
     "@types/debug": "^4.1.5",
     "@types/http-proxy-agent": "^2.0.2",
+    "@types/joi": "^14.3.4",
     "@types/mocha": "^8.0.0",
-    "@types/node": "^14.0.6",
-    "@types/node-fetch": "^2.5.4",
+    "@types/node": "^14.0.27",
+    "@types/node-fetch": "^2.5.7",
+    "@typescript-eslint/eslint-plugin": "^3.7.1",
+    "@typescript-eslint/parser": "^3.7.1",
     "chai": "^4.2.0",
-    "codecov": "^3.6.5",
-    "mocha": "^8.0.1",
+    "codecov": "^3.7.2",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-jsdoc": "^30.0.3",
+    "eslint-plugin-prefer-arrow": "^1.2.2",
+    "eslint-plugin-prettier": "^3.1.4",
+    "mocha": "^8.1.3",
     "mocked-env": "^1.3.2",
-    "nyc": "^15.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.0.5",
     "ts-loader": "^8.0.0",
-    "ts-node": "^8.6.2",
-    "tslint": "^6.1.0",
+    "ts-node": "^8.10.2",
     "typedoc": "^0.17.7",
-    "typescript": "^3.7.5"
+    "typescript": "^3.9.7"
   },
   "bugs": {
     "url": "https://github.com/hobigo/nextcloud-node-client/issues"
