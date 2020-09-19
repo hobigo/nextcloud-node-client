@@ -86,41 +86,73 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:09:47 GMT</d:getlastmodified><d:getetag>&quot;5f1e295b5691e&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53906</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>18</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 31 Aug 2020 06:38:39 GMT</d:getlastmodified><d:getetag>&quot;5f4c9aefd2eb2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54492</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>18</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response><d:response><d:href>/remote.php/webdav/test/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 31 Aug 2020 06:38:39 GMT</d:getlastmodified><d:getetag>&quot;5f4c9aefd2eb2&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54493</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>18</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
-                    "response": {
-                        "href": "/remote.php/webdav/test/",
-                        "propstat": [
-                            {
-                                "prop": {
-                                    "getlastmodified": "Mon, 27 Jul 2020 01:09:47 GMT",
-                                    "getetag": "&quot;5f1e295b5691e&quot;",
-                                    "resourcetype": {
-                                        "collection": ""
+                    "response": [
+                        {
+                            "href": "/remote.php/webdav/test/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Mon, 31 Aug 2020 06:38:39 GMT",
+                                        "getetag": "&quot;5f4c9aefd2eb2&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 54492,
+                                        "permissions": "RGDNVCK",
+                                        "size": 18,
+                                        "has-preview": false,
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-display-name": "Horst-Thorsten Borstenson",
+                                        "share-types": ""
                                     },
-                                    "fileid": 53906,
-                                    "permissions": "RGDNVCK",
-                                    "size": 18,
-                                    "has-preview": false,
-                                    "favorite": 0,
-                                    "comments-unread": 0,
-                                    "owner-display-name": "Horst-Thorsten Borstenson",
-                                    "share-types": ""
+                                    "status": "HTTP/1.1 200 OK"
                                 },
-                                "status": "HTTP/1.1 200 OK"
-                            },
-                            {
-                                "prop": {
-                                    "getcontenttype": "",
-                                    "getcontentlength": ""
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        },
+                        {
+                            "href": "/remote.php/webdav/test/comments/",
+                            "propstat": [
+                                {
+                                    "prop": {
+                                        "getlastmodified": "Mon, 31 Aug 2020 06:38:39 GMT",
+                                        "getetag": "&quot;5f4c9aefd2eb2&quot;",
+                                        "resourcetype": {
+                                            "collection": ""
+                                        },
+                                        "fileid": 54493,
+                                        "permissions": "RGDNVCK",
+                                        "size": 18,
+                                        "has-preview": false,
+                                        "favorite": 0,
+                                        "comments-unread": 0,
+                                        "owner-display-name": "Horst-Thorsten Borstenson",
+                                        "share-types": ""
+                                    },
+                                    "status": "HTTP/1.1 200 OK"
                                 },
-                                "status": "HTTP/1.1 404 Not Found"
-                            }
-                        ]
-                    }
+                                {
+                                    "prop": {
+                                        "getcontenttype": "",
+                                        "getcontentlength": ""
+                                    },
+                                    "status": "HTTP/1.1 404 Not Found"
+                                }
+                            ]
+                        }
+                    ]
                 }
             }
         }
@@ -259,7 +291,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:09:49 GMT</d:getlastmodified><d:getetag>&quot;5f1e295d62afe&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53910</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 31 Aug 2020 06:38:41 GMT</d:getlastmodified><d:getetag>&quot;5f4c9af1e33fd&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54496</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -269,12 +301,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jul 2020 01:09:49 GMT",
-                                    "getetag": "&quot;5f1e295d62afe&quot;",
+                                    "getlastmodified": "Mon, 31 Aug 2020 06:38:41 GMT",
+                                    "getetag": "&quot;5f4c9af1e33fd&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 53910,
+                                    "fileid": 54496,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,
@@ -300,7 +332,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C1\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -309,12 +341,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/53910/471"
+            "contentLocation": "/remote.php/dav/comments/files/54496/479"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C2\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -323,12 +355,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/53910/472"
+            "contentLocation": "/remote.php/dav/comments/files/54496/480"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C3\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -337,12 +369,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/53910/473"
+            "contentLocation": "/remote.php/dav/comments/files/54496/481"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "POST",
             "description": "File add comment",
             "body": "{\n    \"actorType\": \"users\",\n    \"message\": \"C4\",\n    \"objectType\": \"files\",\n    \"verb\": \"comment\"\n}"
@@ -351,12 +383,12 @@
             "status": 201,
             "body": "",
             "contentType": "text/html; charset=UTF-8",
-            "contentLocation": "/remote.php/dav/comments/files/53910/474"
+            "contentLocation": "/remote.php/dav/comments/files/54496/482"
         }
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "REPORT",
             "description": "File get comments",
             "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n                    <oc:filter-comments xmlns:D=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n                        <oc:limit>1</oc:limit>\n                        <oc:offset>1</oc:offset>\n                    </oc:filter-comments>",
@@ -369,27 +401,27 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/53910/473</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>473</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 27 Jul 2020 01:09:50 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>53910</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/54496/481</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>481</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 31 Aug 2020 06:38:42 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>54496</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
                 "multistatus": {
                     "response": {
                         "status": "HTTP/1.1 200 OK",
-                        "href": "/remote.php/dav/comments/files/53910/473",
+                        "href": "/remote.php/dav/comments/files/54496/481",
                         "propstat": {
                             "prop": {
-                                "id": 473,
+                                "id": 481,
                                 "parentId": 0,
                                 "topmostParentId": 0,
                                 "childrenCount": 0,
                                 "verb": "comment",
                                 "actorType": "users",
                                 "actorId": "horst",
-                                "creationDateTime": "Mon, 27 Jul 2020 01:09:50 GMT",
+                                "creationDateTime": "Mon, 31 Aug 2020 06:38:42 GMT",
                                 "latestChildDateTime": "",
                                 "objectType": "files",
-                                "objectId": 53910,
+                                "objectId": 54496,
                                 "message": "C3",
                                 "actorDisplayName": "Horst-Thorsten Borstenson",
                                 "isUnread": false,
@@ -404,7 +436,7 @@
     },
     {
         "request": {
-            "url": "/remote.php/dav/comments/files/53910",
+            "url": "/remote.php/dav/comments/files/54496",
             "method": "REPORT",
             "description": "File get comments",
             "body": "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n                    <oc:filter-comments xmlns:D=\"DAV:\" xmlns:oc=\"http://owncloud.org/ns\">\n                        <oc:limit>30</oc:limit>\n                        <oc:offset>0</oc:offset>\n                    </oc:filter-comments>",
@@ -417,7 +449,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/53910/474</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>474</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 27 Jul 2020 01:09:50 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>53910</oc:objectId>\n    <oc:message>C4</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/53910/473</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>473</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 27 Jul 2020 01:09:50 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>53910</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/53910/472</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>472</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 27 Jul 2020 01:09:49 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>53910</oc:objectId>\n    <oc:message>C2</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/53910/471</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>471</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 27 Jul 2020 01:09:49 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>53910</oc:objectId>\n    <oc:message>C1</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\">\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/54496/482</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>482</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 31 Aug 2020 06:38:42 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>54496</oc:objectId>\n    <oc:message>C4</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/54496/481</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>481</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 31 Aug 2020 06:38:42 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>54496</oc:objectId>\n    <oc:message>C3</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/54496/480</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>480</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 31 Aug 2020 06:38:42 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>54496</oc:objectId>\n    <oc:message>C2</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n <d:response>\n  <d:status>HTTP/1.1 200 OK</d:status>\n  <d:href>/remote.php/dav/comments/files/54496/479</d:href>\n  <d:propstat>\n   <d:prop>\n    <oc:id>479</oc:id>\n    <oc:parentId>0</oc:parentId>\n    <oc:topmostParentId>0</oc:topmostParentId>\n    <oc:childrenCount>0</oc:childrenCount>\n    <oc:verb>comment</oc:verb>\n    <oc:actorType>users</oc:actorType>\n    <oc:actorId>horst</oc:actorId>\n    <oc:creationDateTime>Mon, 31 Aug 2020 06:38:42 GMT</oc:creationDateTime>\n    <oc:latestChildDateTime/>\n    <oc:objectType>files</oc:objectType>\n    <oc:objectId>54496</oc:objectId>\n    <oc:message>C1</oc:message>\n    <oc:actorDisplayName>Horst-Thorsten Borstenson</oc:actorDisplayName>\n    <oc:isUnread>false</oc:isUnread>\n    <oc:mentions/>\n   </d:prop>\n   <d:status>HTTP/1.1 200 OK</d:status>\n  </d:propstat>\n </d:response>\n</d:multistatus>\n",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -425,20 +457,20 @@
                     "response": [
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/53910/474",
+                            "href": "/remote.php/dav/comments/files/54496/482",
                             "propstat": {
                                 "prop": {
-                                    "id": 474,
+                                    "id": 482,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "horst",
-                                    "creationDateTime": "Mon, 27 Jul 2020 01:09:50 GMT",
+                                    "creationDateTime": "Mon, 31 Aug 2020 06:38:42 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 53910,
+                                    "objectId": 54496,
                                     "message": "C4",
                                     "actorDisplayName": "Horst-Thorsten Borstenson",
                                     "isUnread": false,
@@ -449,20 +481,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/53910/473",
+                            "href": "/remote.php/dav/comments/files/54496/481",
                             "propstat": {
                                 "prop": {
-                                    "id": 473,
+                                    "id": 481,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "horst",
-                                    "creationDateTime": "Mon, 27 Jul 2020 01:09:50 GMT",
+                                    "creationDateTime": "Mon, 31 Aug 2020 06:38:42 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 53910,
+                                    "objectId": 54496,
                                     "message": "C3",
                                     "actorDisplayName": "Horst-Thorsten Borstenson",
                                     "isUnread": false,
@@ -473,20 +505,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/53910/472",
+                            "href": "/remote.php/dav/comments/files/54496/480",
                             "propstat": {
                                 "prop": {
-                                    "id": 472,
+                                    "id": 480,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "horst",
-                                    "creationDateTime": "Mon, 27 Jul 2020 01:09:49 GMT",
+                                    "creationDateTime": "Mon, 31 Aug 2020 06:38:42 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 53910,
+                                    "objectId": 54496,
                                     "message": "C2",
                                     "actorDisplayName": "Horst-Thorsten Borstenson",
                                     "isUnread": false,
@@ -497,20 +529,20 @@
                         },
                         {
                             "status": "HTTP/1.1 200 OK",
-                            "href": "/remote.php/dav/comments/files/53910/471",
+                            "href": "/remote.php/dav/comments/files/54496/479",
                             "propstat": {
                                 "prop": {
-                                    "id": 471,
+                                    "id": 479,
                                     "parentId": 0,
                                     "topmostParentId": 0,
                                     "childrenCount": 0,
                                     "verb": "comment",
                                     "actorType": "users",
                                     "actorId": "horst",
-                                    "creationDateTime": "Mon, 27 Jul 2020 01:09:49 GMT",
+                                    "creationDateTime": "Mon, 31 Aug 2020 06:38:42 GMT",
                                     "latestChildDateTime": "",
                                     "objectType": "files",
-                                    "objectId": 53910,
+                                    "objectId": 54496,
                                     "message": "C1",
                                     "actorDisplayName": "Horst-Thorsten Borstenson",
                                     "isUnread": false,
@@ -552,7 +584,7 @@
         },
         "response": {
             "status": 207,
-            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 27 Jul 2020 01:09:49 GMT</d:getlastmodified><d:getetag>&quot;5f1e295d62afe&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>53910</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
+            "body": "<?xml version=\"1.0\"?>\n<d:multistatus xmlns:d=\"DAV:\" xmlns:s=\"http://sabredav.org/ns\" xmlns:oc=\"http://owncloud.org/ns\" xmlns:nc=\"http://nextcloud.org/ns\"><d:response><d:href>/remote.php/webdav/test/folder/comments/</d:href><d:propstat><d:prop><d:getlastmodified>Mon, 31 Aug 2020 06:38:41 GMT</d:getlastmodified><d:getetag>&quot;5f4c9af1e33fd&quot;</d:getetag><d:resourcetype><d:collection/></d:resourcetype><oc:fileid>54496</oc:fileid><oc:permissions>RGDNVCK</oc:permissions><oc:size>0</oc:size><nc:has-preview>false</nc:has-preview><oc:favorite>0</oc:favorite><oc:comments-unread>0</oc:comments-unread><oc:owner-display-name>Horst-Thorsten Borstenson</oc:owner-display-name><oc:share-types/></d:prop><d:status>HTTP/1.1 200 OK</d:status></d:propstat><d:propstat><d:prop><d:getcontenttype/><d:getcontentlength/></d:prop><d:status>HTTP/1.1 404 Not Found</d:status></d:propstat></d:response></d:multistatus>",
             "contentType": "application/xml; charset=utf-8",
             "contentLocation": "",
             "jsonBody": {
@@ -562,12 +594,12 @@
                         "propstat": [
                             {
                                 "prop": {
-                                    "getlastmodified": "Mon, 27 Jul 2020 01:09:49 GMT",
-                                    "getetag": "&quot;5f1e295d62afe&quot;",
+                                    "getlastmodified": "Mon, 31 Aug 2020 06:38:41 GMT",
+                                    "getetag": "&quot;5f4c9af1e33fd&quot;",
                                     "resourcetype": {
                                         "collection": ""
                                     },
-                                    "fileid": 53910,
+                                    "fileid": 54496,
                                     "permissions": "RGDNVCK",
                                     "size": 0,
                                     "has-preview": false,

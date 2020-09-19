@@ -3,7 +3,6 @@
 import { config } from "dotenv";
 config();
 import Joi from "joi";
-
 import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./command/uploadFilesCommand";
 import UploadFolderCommand, { UploadFolderCommandOptions } from "./command/uploadFolderCommand";
 import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./command/getFilesRecursivelyCommand";
@@ -211,6 +210,7 @@ export default class Client {
    * <li>NEXTCLOUD_USERNAME - the user name</li>
    * <li>NEXTCLOUD_PASSWORD - the application password</li>
    * </ul>
+   *
    * @param server optional server information to connection to a nextcloud server
    * @constructor
    */
@@ -325,6 +325,7 @@ export default class Client {
   /**
    * creates a new tag, if not already existing
    * this function will fail with http 403 if the user does not have admin privileges
+   *
    * @param tagName the name of the tag
    * @returns tagId
    */
@@ -363,6 +364,7 @@ export default class Client {
 
   /**
    * returns a tag identified by the name or null if not found
+   *
    * @param tagName the name of the tag
    * @returns tag or null
    */
@@ -380,6 +382,7 @@ export default class Client {
 
   /**
    * returns a tag identified by the id or null if not found
+   *
    * @param tagId the id of the tag
    * @returns tag or null
    */
@@ -398,6 +401,7 @@ export default class Client {
   /**
    * deletes the tag by id
    * this function will fail with http 403 if the user does not have admin privileges
+   *
    * @param tagId the id of the tag like "/remote.php/dav/systemtags/234"
    */
   public async deleteTag(tagId: number): Promise<void> {
@@ -412,6 +416,7 @@ export default class Client {
 
   /**
    * deletes all visible assignable tags
+   *
    * @throws Error
    */
   public async deleteAllTags(): Promise<void> {
@@ -427,6 +432,7 @@ export default class Client {
 
   /**
    * returns a list of tags
+   *
    * @returns array of tags
    */
   public async getTags(): Promise<Tag[]> {
@@ -462,6 +468,7 @@ export default class Client {
 
   /**
    * returns the list of tag names and the tag ids
+   *
    * @param fileId the id of the file
    */
   public async getTagsOfFile(fileId: number): Promise<Map<string, number>> {
@@ -498,6 +505,7 @@ export default class Client {
 
   /**
    * removes the tag from the file
+   *
    * @param fileId the file id
    * @param tagId the tag id
    */
@@ -514,6 +522,7 @@ export default class Client {
 
   /**
    * returns the id of the file or -1 of not found
+   *
    * @returns id of the file or -1 if not found
    */
   public async getFileId(fileUrl: string): Promise<number> {
@@ -630,6 +639,7 @@ export default class Client {
 
   /**
    * creates a folder and all parent folders in the path if they do not exist
+   *
    * @param folderName name of the folder /folder/subfolder/subfolder
    * @returns a folder object
    */
@@ -695,6 +705,7 @@ export default class Client {
 
   /**
    * deletes a file
+   *
    * @param fileName name of folder "/f1/f2/f3/x.txt"
    */
   public async deleteFile(fileName: string): Promise<void> {
@@ -714,6 +725,7 @@ export default class Client {
 
   /**
    * deletes a folder
+   *
    * @param folderName name of folder "/f1/f2/f3"
    */
   public async deleteFolder(folderName: string): Promise<void> {
@@ -729,6 +741,7 @@ export default class Client {
 
   /**
    * get the root folder object
+   *
    * @returns {Promise<Folder>} the root folder
    */
   public getRootFolder(): Folder {
@@ -737,6 +750,7 @@ export default class Client {
 
   /**
    * returns an array of file system objects that have all given tags assigned (AND)
+   *
    * @param {Tag[]} tags array of tags
    * @async
    * @returns {Promise<FileSystemElement[]>} returns an array of file system objects
@@ -805,6 +819,7 @@ export default class Client {
 
   /**
    * get a folder object from a path string
+   *
    * @param {string} folderName Name of the folder like "/company/branches/germany"
    * @returns {Promise<Folder | null>} null if the folder does not exist or an folder object
    */
@@ -834,6 +849,7 @@ export default class Client {
 
   /**
    * get a array of folders from a folder path string
+   *
    * @param folderName Name of the folder like "/company/branches/germany"
    * @returns array of folder objects
    */
@@ -855,6 +871,7 @@ export default class Client {
 
   /**
    * get files of a folder
+   *
    * @param {string} folderName Name of the folder like "/company/branches/germany"
    * @param {FolderGetFilesOptions} options options for filtering and paging
    * @returns array of file objects
@@ -885,6 +902,7 @@ export default class Client {
 
   /**
    * create a new file of overwrites an existing file
+   *
    * @param fileName the file name /folder1/folder2/filename.txt
    * @param data the buffer object
    */
@@ -912,6 +930,7 @@ export default class Client {
 
   /**
    * returns a nextcloud file object
+   *
    * @param fileName the full file name /folder1/folder2/file.pdf
    */
   public async getFile(fileName: string): Promise<File | null> {
@@ -934,6 +953,7 @@ export default class Client {
 
   /**
    * renames the file or moves it to an other location
+   *
    * @param sourceFileName source file name
    * @param targetFileName target file name
    */
@@ -965,6 +985,7 @@ export default class Client {
 
   /**
    * renames the folder or moves it to an other location
+   *
    * @param sourceFolderName source folder name
    * @param tarName target folder name
    */
@@ -996,6 +1017,7 @@ export default class Client {
 
   /**
    * returns the content of a file
+   *
    * @param fileName name of the file /d1/file1.txt
    * @returns Buffer with file content
    */
@@ -1018,6 +1040,7 @@ export default class Client {
 
   /**
    * returns the content of a file
+   *
    * @param fileName name of the file /d1/file1.txt
    * @returns Buffer with file content
    */
@@ -1039,6 +1062,7 @@ export default class Client {
 
   /**
    * returns the link to a file for downloading
+   *
    * @param fileName name of the file /folder1/folder1.txt
    * @returns url
    */
@@ -1049,6 +1073,7 @@ export default class Client {
 
   /**
    * returns the url to the file in the nextcloud UI
+   *
    * @param fileId the id of the file
    */
   public getUILink(fileId: number): string {
@@ -1060,6 +1085,7 @@ export default class Client {
    * adds a tag to a file or folder
    * if the tag does not exist, it is automatically created
    * if the tag is created, the user must have damin privileges
+   *
    * @param fileId the id of the file
    * @param tagName the name of the tag
    * @returns nothing
@@ -1132,6 +1158,7 @@ export default class Client {
 
   /**
    * adds a comment to a file
+   *
    * @param fileId the id of the file
    * @param comment the comment to be added to the file
    */
@@ -1157,6 +1184,7 @@ export default class Client {
 
   /**
    * returns comments of a file / folder
+   *
    * @param fileId the id of the file / folder
    * @param top number of comments to return
    * @param skip the offset
@@ -1305,6 +1333,7 @@ export default class Client {
 
   /**
    * returns a list of user groups
+   *
    * @param search string
    * @param limit number
    * @param offset number
@@ -1325,6 +1354,7 @@ export default class Client {
 
   /**
    * returns a list of user groups
+   *
    * @param search string
    * @param limit number
    * @param offset number
@@ -1391,7 +1421,9 @@ export default class Client {
   }
 
   /**
+   *
    * get user group
+   *
    * @param id string
    * @returns Promise<UserGroup|null>
    */
@@ -1405,6 +1437,7 @@ export default class Client {
 
   /**
    * returns a list of user ids that are members of the user group
+   *
    * @param id string
    * @returns list of member user ids
    * @throws [UserGroupDoesNotExistError}
@@ -1440,6 +1473,7 @@ export default class Client {
 
   /**
    * returns a list of user ids that are subadmins of the user group
+   *
    * @param id string
    * @returns list of subadmin user ids
    * @throws [UserGroupDoesNotExistError}
@@ -1475,6 +1509,7 @@ export default class Client {
 
   /**
    * create a new user group
+   *
    * @async
    * @param {string} id user group id
    * @returns {Promise<UserGroup>}
@@ -1503,6 +1538,7 @@ export default class Client {
 
   /**
    * deletes an existing user group
+   *
    * @param id string
    * @returns {Promise<void>}
    * @throws {UserGroupDowsNotExistError}
@@ -1535,6 +1571,7 @@ export default class Client {
   /**
    * returns a list of users
    * https://docs.nextcloud.com/server/latest/admin_manual/configuration_user/instruction_set_for_users.html#search-get-users
+   *
    * @param search string
    * @param limit number
    * @param offset number
@@ -1599,6 +1636,7 @@ export default class Client {
 
   /**
    * returns user data
+   *
    * @param id string the user id
    * @returns Promise<IUserOptions> user data
    * @throws {UserNotFoundError}
@@ -1675,6 +1713,7 @@ export default class Client {
 
   /**
    * enables the user
+   *
    * @param id string the user id
    * @returns {Promise<void>}
    * @throws {UserNotFoundError}
@@ -1700,6 +1739,7 @@ export default class Client {
 
   /**
    * disables the user
+   *
    * @param id string the user id
    * @returns {Promise<void>}
    * @throws {UserNotFoundError}
@@ -1725,6 +1765,7 @@ export default class Client {
 
   /**
    * deletes the user
+   *
    * @param id string the user id
    * @returns {Promise<void>}
    * @throws {UserNotFoundError}
@@ -1750,6 +1791,7 @@ export default class Client {
 
   /**
    * returns a user or null if not found
+   *
    * @param id string
    * @returns User | null
    */
@@ -1764,6 +1806,7 @@ export default class Client {
 
   /**
    * creates a new user with email or password
+   *
    * @param options
    * @returns User
    * @throws UserAlreadyExistsError
@@ -1807,6 +1850,7 @@ export default class Client {
 
   /**
    * updates a user property
+   *
    * @async
    * @param {string} id user id
    * @param {UserProperty} property property name
@@ -1855,6 +1899,7 @@ export default class Client {
 
   /**
    * resend the welcome email
+   *
    * @param id user id
    * @throws  {UserResendWelcomeEmailError}
    */
@@ -1882,6 +1927,7 @@ export default class Client {
 
   /**
    * adds a user to a group as member
+   *
    * @param id string the user id
    * @param userGroupId string the user group id
    * @returns {Promise<void>}
@@ -1927,6 +1973,7 @@ export default class Client {
 
   /**
    * removes a user from a group as member
+   *
    * @param id string the user id
    * @param userGroupId string the user group id
    * @returns {Promise<void>}
@@ -1972,6 +2019,7 @@ export default class Client {
 
   /**
    * promotes a user to a user group subadmin
+   *
    * @param id string the user id
    * @param userGroupId string the user group id
    * @returns {Promise<void>}
@@ -2017,6 +2065,7 @@ export default class Client {
 
   /**
    * Removes the subadmin rights for the user specified from the group specified
+   *
    * @param id string the user id
    * @param userGroupId string the user group id
    * @returns {Promise<void>}
@@ -2063,6 +2112,7 @@ export default class Client {
 
   /**
    * insert or update complete user data
+   *
    * @param options IUpsertUserOptions[]
    * @returns Promise<IUpsertUserReport[]
    */
@@ -2534,6 +2584,7 @@ export default class Client {
 
   /**
    * get share information
+   *
    * @param shareId
    */
   public async getShare(shareId: string): Promise<any> {
@@ -2561,6 +2612,7 @@ export default class Client {
 
   /**
    * get share information
+   *
    * @param shareId
    */
   public async deleteShare(shareId: string): Promise<any> {
@@ -2655,7 +2707,7 @@ export default class Client {
     }
     longMessage = `&longMessage=${encodeURIComponent(longMessage)}`;
     const queryString = `${encodeURIComponent(userId)}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
-    await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`, requestInit, [200], { description: "User create" });    
+    await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`, requestInit, [200], { description: "User create" });
     // const response: Response = await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`, requestInit, [200], { description: "User create" });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     // const rawResult: any = await response.json();
@@ -2728,6 +2780,7 @@ export default class Client {
    * asserts multistatus response
    * asserts that a href is available in the multistatus response
    * asserts propstats and prop
+   *
    * @param response the http response
    * @param href get only properties that match the href
    * @returns array of properties
@@ -2808,6 +2861,7 @@ export default class Client {
    * nextcloud creates a csrf token and stores it in the html header attribute
    * data-requesttoken
    * this function is currently not used
+   *
    * @returns the csrf token / requesttoken
    */
   /*
@@ -2846,6 +2900,7 @@ export default class Client {
 
   /**
    * get contents array of a folder
+   *
    * @param folderName Name of the folder like "/company/branches/germany"
    * @param folderIndicator true if folders are requested otherwise files
    * @returns array of folder contents meta data

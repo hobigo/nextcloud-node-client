@@ -27,7 +27,9 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "jsdoc",
+        "prefer-arrow"
     ],
     "rules": {
         "@typescript-eslint/adjacent-overload-signatures": "error",

@@ -58,6 +58,7 @@
     "dotenv": "^8.2.0",
     "fast-xml-parser": "^3.17.4",
     "http-proxy-agent": "^4.0.1",
+    "joi": "^17.2.1",
     "node-fetch": "^2.6.0",
     "tslog": "^2.6.2",
     "vcap_services": "^0.7.1"
@@ -76,7 +77,7 @@
     "codecov": "^3.7.2",
     "eslint": "^7.5.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-jsdoc": "^30.0.3",
+    "eslint-plugin-jsdoc": "^30.3.0",
     "eslint-plugin-prefer-arrow": "^1.2.2",
     "eslint-plugin-prettier": "^3.1.4",
     "mocha": "^8.1.3",
