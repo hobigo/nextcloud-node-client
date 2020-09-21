@@ -84,9 +84,9 @@
     "mocked-env": "^1.3.2",
     "nyc": "^15.1.0",
     "prettier": "^2.0.5",
-    "ts-loader": "^8.0.0",
+    "ts-loader": "^8.0.0",  
+    "typedoc": "^0.19.2",
     "ts-node": "^9.0.0",
-    "typedoc": "^0.17.7",
     "typescript": "^3.9.7"
   },
   "bugs": {
