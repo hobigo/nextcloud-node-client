@@ -60,7 +60,7 @@
     "http-proxy-agent": "^4.0.1",
     "joi": "^17.2.1",
     "node-fetch": "^2.6.0",
-    "tslog": "^2.6.2",
+    "tslog": "^3.0.2",
     "vcap_services": "^0.7.1"
   },
   "devDependencies": {
