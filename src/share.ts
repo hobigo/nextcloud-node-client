@@ -79,8 +79,8 @@ export default class Share {
         id: string;
         itemType: ShareItemType,
         note: string,
-        token: string,
-        url: string,
+        token: string | null,
+        url: string | null,
         publicUpload: boolean,
         shareType: number,
         // "uid_owner": string,
@@ -95,7 +95,7 @@ export default class Share {
         // "displayname_file_owner": string,
         // "path": string,
         // "mimetype"?: string,
-        "shareWith"?: User | UserGroup,
+        "shareWith": User | UserGroup | null,
         // "share_with_displayname"?: string,
         // "mail_send": boolean,
         // "hide_download": boolean,
@@ -108,8 +108,8 @@ export default class Share {
             id,
             itemType: ShareItemType.file,
             note: "",
-            token: "",
-            url: "",
+            token: null,
+            url: null,
             publicUpload: false,
             shareType: ShareType.publicLink,
         };
@@ -152,16 +152,6 @@ export default class Share {
             throw new ClientError(`Error invalid share data received "ocs.data" missing`, "ERR_INVALID_SHARE_RESPONSE");
         }
 
-        if (!rawShareData.ocs.data[0].url) {
-            throw new ClientError(`Error invalid share data received "url" missing`, "ERR_INVALID_SHARE_RESPONSE");
-        }
-        this.memento.url = rawShareData.ocs.data[0].url;
-
-        if (!rawShareData.ocs.data[0].token) {
-            throw new ClientError(`Error invalid share data received "token" missing`, "ERR_INVALID_SHARE_RESPONSE");
-        }
-        this.memento.token = rawShareData.ocs.data[0].token;
-
         if (!rawShareData.ocs.data[0].item_type) {
             throw new ClientError(`Error invalid share data received "item_type" missing`, "ERR_INVALID_SHARE_RESPONSE");
         }
@@ -199,6 +189,15 @@ export default class Share {
                     break;
                 case ShareType.publicLink.valueOf():
                     this.memento.shareType = ShareType.publicLink;
+                    if (!rawShareData.ocs.data[0].url) {
+                        throw new ClientError(`Error invalid share data received "url" missing`, "ERR_INVALID_SHARE_RESPONSE");
+                    }
+                    this.memento.url = rawShareData.ocs.data[0].url;
+                    if (!rawShareData.ocs.data[0].token) {
+                        throw new ClientError(`Error invalid share data received "token" missing`, "ERR_INVALID_SHARE_RESPONSE");
+                    }
+                    this.memento.token = rawShareData.ocs.data[0].token;
+
                     break;
                 default:
                     throw new ClientError(`Error unsupported share type`, "ERR_UNSUPPORTED_SHARE_TYPE");
@@ -214,7 +213,7 @@ export default class Share {
      * token
      * The token is readonly
      */
-    public get token(): string {
+    public get token(): string | null {
         return this.memento.token;
     }
 
@@ -222,7 +221,7 @@ export default class Share {
      * share url
      * The share url is readonly
      */
-    public get url(): string {
+    public get url(): string | null {
         return this.memento.url;
     }
 
@@ -277,7 +276,7 @@ export default class Share {
      * share with
      * The entity the share is shared with
      */
-    public get shareWith(): User | UserGroup | undefined {
+    public get shareWith(): User | UserGroup | null {
         return this.memento.shareWith;
     }
 }
