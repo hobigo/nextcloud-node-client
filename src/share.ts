@@ -2,6 +2,8 @@ import Client, { ClientError } from "./client";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import Folder from "./folder";
+import UserGroup from "./userGroup";
+import User from "./user";
 
 export enum SharePermission {
     all = 31,
@@ -12,7 +14,7 @@ export enum SharePermission {
     share = 16,
 }
 
-enum ShareType {
+export enum ShareType {
     user = 0,
     group = 1,
     publicLink = 3,
@@ -21,9 +23,10 @@ enum ShareType {
 
 export interface ICreateShare {
     "fileSystemElement": FileSystemElement;
-    // @todo "shareWith"?: User | UserGroup | EMail;
     "publicUpload"?: boolean;
     "password"?: string;
+    "shareType"?: ShareType;
+    "shareWith"?: User | UserGroup;
 }
 
 export enum ShareItemType {
@@ -39,11 +42,18 @@ export default class Share {
     }
 
     public static createShareRequestBody(createShare: ICreateShare): string {
-        const shareType: ShareType = ShareType.publicLink;
+        // for backwards compatibility, default sharetype is public link
+        const shareType: ShareType = createShare.shareType == null ? ShareType.publicLink : createShare.shareType;
+        if (shareType === ShareType.user || shareType === ShareType.group) {
+            if (createShare.shareWith == null) {
+                throw new ClientError("Error, when using ShareType user or usergroup, you need to specify shareWith", "ERR_SHARETYPE_USER_GROUP_WITHOUT_SHAREWITH");
+            }
+        }
 
         const shareRequest: {
             path: string,
             shareType: number,
+            shareWith?: string,
             // @todo   permissions: number | number[]
             password?: string,
         } = {
@@ -51,6 +61,10 @@ export default class Share {
             //  @todo    permissions: 1,
             shareType,
         };
+
+        if (createShare.shareWith) {
+            shareRequest.shareWith = createShare.shareWith.id;
+        }
 
         if (createShare.password) {
             shareRequest.password = createShare.password;
@@ -68,7 +82,7 @@ export default class Share {
         token: string,
         url: string,
         publicUpload: boolean,
-        // share_type: number,
+        shareType: number,
         // "uid_owner": string,
         // "displayname_owner": string,
         // "permissions": SharePermission,
@@ -81,7 +95,7 @@ export default class Share {
         // "displayname_file_owner": string,
         // "path": string,
         // "mimetype"?: string,
-        // "share_with"?: string,
+        "shareWith"?: User | UserGroup,
         // "share_with_displayname"?: string,
         // "mail_send": boolean,
         // "hide_download": boolean,
@@ -97,6 +111,7 @@ export default class Share {
             token: "",
             url: "",
             publicUpload: false,
+            shareType: ShareType.publicLink,
         };
     }
 
@@ -111,6 +126,7 @@ export default class Share {
 
     /**
      * set a new password
+     *
      * @param password
      */
     public async setPassword(password: string): Promise<void> {
@@ -161,6 +177,33 @@ export default class Share {
 
         if (rawShareData.ocs.data[0].note) {
             this.memento.note = rawShareData.ocs.data[0].note;
+        }
+
+        if (rawShareData.ocs.data[0].share_type) {
+            switch (rawShareData.ocs.data[0].share_type) {
+                case ShareType.user.valueOf():
+                    this.memento.shareType = ShareType.user;
+                    if (rawShareData.ocs.data[0].share_with) {
+                        this.memento.shareWith = new User(this.client, rawShareData.ocs.data[0].share_with)
+                    } else {
+                        throw new ClientError(`Error user share without target user`, "ERR_USER_SHARE_NO_USER");
+                    }
+                    break;
+                case ShareType.group.valueOf():
+                    this.memento.shareType = ShareType.group;
+                    if (rawShareData.ocs.data[0].share_with) {
+                        this.memento.shareWith = new UserGroup(this.client, rawShareData.ocs.data[0].share_with)
+                    } else {
+                        throw new ClientError(`Error usergroup share without target usergroup`, "ERR_USERGROUP_SHARE_NO_USERGROUP");
+                    }
+                    break;
+                case ShareType.publicLink.valueOf():
+                    this.memento.shareType = ShareType.publicLink;
+                    break;
+                default:
+                    throw new ClientError(`Error unsupported share type`, "ERR_UNSUPPORTED_SHARE_TYPE");
+            }
+
         }
 
         // console.log(JSON.stringify(rawShareData, null, 4));
@@ -222,4 +265,19 @@ export default class Share {
         return this.memento.itemType;
     }
 
+    /**
+     * share type
+     * The type of the share
+     */
+    public get shareType(): ShareType {
+        return this.memento.shareType;
+    }
+
+    /**
+     * share with
+     * The entity the share is shared with
+     */
+    public get shareWith(): User | UserGroup | undefined {
+        return this.memento.shareWith;
+    }
 }
