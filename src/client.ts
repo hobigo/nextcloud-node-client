@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
-
 import { config } from "dotenv";
 config();
 import Joi from "joi";
@@ -8,7 +6,7 @@ import UploadFolderCommand, { UploadFolderCommandOptions } from "./command/uploa
 import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./command/getFilesRecursivelyCommand";
 import DownloadFolderCommand, { DownloadFolderCommandOptions } from "./command/downloadFolderCommand";
 import { CommandStatus, CommandResultMetaData } from "./command/command";
-import parser from "fast-xml-parser";
+import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { Headers, RequestInit, Response } from "node-fetch";
 import path, { basename } from "path";
 import Environment from "./environment";
@@ -1057,7 +1055,7 @@ export default class Client {
       log.debug(`Error getContent ${url} - error ${err.message as string}`);
       throw err;
     }
-    response.body.pipe(destination);
+    response.body?.pipe(destination);
   }
 
   /**
@@ -2799,12 +2797,14 @@ export default class Client {
 
     const xmlBody: string = await response.text();
 
-    if (parser.validate(xmlBody) !== true) {
+    if (XMLValidator.validate(xmlBody) !== true) {
       throw new ClientError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
     }
     const options: any = {
       ignoreNameSpace: true,
     };
+
+    const parser = new XMLParser();
     const body: any = parser.parse(xmlBody, options);
 
     // ensure that we have a multistatus response

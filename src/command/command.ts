@@ -82,7 +82,7 @@ export default abstract class Command {
      * @async
      * @returns {Promise<void>}
      */
-    protected abstract async onExecute(): Promise<void>;
+    protected abstract onExecute(): Promise<void>;
 
     /**
      * returns true, if the command has been finished

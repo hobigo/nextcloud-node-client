@@ -33,7 +33,7 @@ export default abstract class FileSystemElement {
      * deletes a file system element
      * @throws Error
      */
-    public abstract async delete(): Promise<void>;
+    public abstract delete(): Promise<void>;
 
     /**
      * moves or renames the current file system element to the new location
@@ -41,7 +41,7 @@ export default abstract class FileSystemElement {
      * @param targetFileName the name of the target file /f1/f2/myfile.txt
      * @throws Error
      */
-    public abstract async move(targetName: string): Promise<FileSystemElement>;
+    public abstract move(targetName: string): Promise<FileSystemElement>;
 
     /**
      * @returns the url of the file sytsem element
@@ -59,25 +59,25 @@ export default abstract class FileSystemElement {
      * adds a tag name to the file system element
      * @param tagName name of the tag
      */
-    public abstract async addTag(tagName: string): Promise<void>;
+    public abstract addTag(tagName: string): Promise<void>;
 
     /**
      * get tag names
      * @returns array of tag names
      */
-    public abstract async getTags(): Promise<string[]>;
+    public abstract getTags(): Promise<string[]>;
 
     /**
      * removes a tag of the file system element
      * @param tagName the name of the tag
      */
-    public abstract async removeTag(tagName: string): Promise<void>;
+    public abstract removeTag(tagName: string): Promise<void>;
 
     /**
      * add comment to file
      * @param comment the comment
      */
-    public abstract async addComment(comment: string): Promise<void>;
+    public abstract addComment(comment: string): Promise<void>;
 
     /**
      * get list of comments of file
@@ -86,5 +86,5 @@ export default abstract class FileSystemElement {
      * @returns array of comment strings
      * @throws Exception
      */
-    public abstract async getComments(top?: number, skip?: number): Promise<string[]>;
+    public abstract getComments(top?: number, skip?: number): Promise<string[]>;
 }

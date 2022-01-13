@@ -1,6 +1,5 @@
-// tslint:disable-next-line:no-var-requires
-const HttpProxyAgent = require('http-proxy-agent');
-
+// // tslint:disable-next-line:no-var-requires
+import httpProxyAgent from "http-proxy-agent";
 import { HttpProxyAgentOptions } from "http-proxy-agent";
 import fetch from "node-fetch";
 import {
@@ -73,7 +72,7 @@ export class HttpClient {
                 protocol: this.proxy.protocol,
             };
 
-            requestInit.agent = new HttpProxyAgent(options);
+            requestInit.agent = httpProxyAgent(options);
 
             if (this.proxy.proxyAuthorizationHeader) {
                 (requestInit.headers as Headers).append("Proxy-Authorization", this.proxy.proxyAuthorizationHeader);
@@ -89,23 +88,25 @@ export class HttpClient {
             const responseText = await response.text();
 
             // overwrite response functions as the body uses a stearm object...
-            response.text = async () => {
-                return responseText;
+            response.text = () => {
+                return Promise.resolve(responseText);
             };
 
-            response.body.pipe = (destination: NodeJS.WritableStream, options?: { end?: boolean; }): any => {
-                destination.write(responseText);
+            if (response.body) {
+                response.body.pipe = (destination: NodeJS.WritableStream, options?: { end?: boolean; }): any => {
+                    destination.write(responseText);
+                };
+            }
+
+            response.json = () => {
+                return Promise.resolve(JSON.parse(responseText));
             };
 
-            response.json = async () => {
-                return JSON.parse(responseText);
+            response.arrayBuffer = () => {
+                return Promise.resolve(Buffer.from(responseText));
             };
 
-            response.buffer = async () => {
-                return Buffer.from(responseText);
-            };
-
-            let body: string = `<Body is ${typeof requestInit.body}>`;
+            let body = `<Body is ${typeof requestInit.body}>`;
             if (requestInit.body && requestInit.body instanceof Buffer) {
                 body = `<Body is Buffer ${requestInit.body.length}>`;
             }
@@ -129,10 +130,10 @@ export class HttpClient {
             await rrLog.addEntry(new RequestResponseLogEntry(reqLogEntry, resLogEntry));
         }
 
-        const responseContentType: string | null = response.headers.get("content-type");
+        // const responseContentType: string | null = response.headers.get("content-type");
 
         if (expectedHttpStatusCode.indexOf(response.status) === -1) {
-            log.debug("getHttpResponse unexpected status response "+ response.status + " " + response.statusText);
+            log.debug(`getHttpResponse unexpected status response ${response.status} ${response.statusText}`);
             log.debug("getHttpResponse description "+ context.description);
             log.debug("getHttpResponse expected "+ expectedHttpStatusCode.join(","));
             log.debug("getHttpResponse headers ", JSON.stringify(response.headers, null, 4));

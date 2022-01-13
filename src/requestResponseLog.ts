@@ -1,5 +1,5 @@
 
-import parser from "fast-xml-parser";
+import { XMLParser, XMLValidator } from "fast-xml-parser";
 import { promises as fsPromises } from "fs";
 import path from "path";
 import requestResponseLogEntry from "./requestResponseLogEntry";
@@ -81,8 +81,9 @@ export default class RequestResponseLog {
     }
 
     private xmlToJson(xml: string): any {
-        if (parser.validate(xml) === true) {
-            return parser.parse(xml, { ignoreNameSpace: true });
+        if (XMLValidator.validate(xml) === true) {
+            const parser = new XMLParser({ removeNSPrefix: true });
+            return parser.parse(xml);
         }
         return { info: "invalid xml" };
     }
