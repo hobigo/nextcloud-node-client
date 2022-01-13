@@ -1,3 +1,5 @@
+_src
+
 # exclude local environment definition .en
 .env
 

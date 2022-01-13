@@ -1,16 +1,26 @@
 import { config } from "dotenv";
 config();
 import Joi from "joi";
-import UploadFilesCommand, { UploadFilesCommandOptions, SourceTargetFileNames } from "./command/uploadFilesCommand";
-import UploadFolderCommand, { UploadFolderCommandOptions } from "./command/uploadFolderCommand";
-import GetFilesRecursivelyCommand, { GetFilesRecursivelyCommandOptions } from "./command/getFilesRecursivelyCommand";
-import DownloadFolderCommand, { DownloadFolderCommandOptions } from "./command/downloadFolderCommand";
+import UploadFilesCommand, {
+  UploadFilesCommandOptions,
+  SourceTargetFileNames
+} from "./command/uploadFilesCommand";
+import UploadFolderCommand, {
+  UploadFolderCommandOptions
+} from "./command/uploadFolderCommand";
+import GetFilesRecursivelyCommand, {
+  GetFilesRecursivelyCommandOptions
+} from "./command/getFilesRecursivelyCommand";
+import DownloadFolderCommand, {
+  DownloadFolderCommandOptions
+} from "./command/downloadFolderCommand";
 import { CommandStatus, CommandResultMetaData } from "./command/command";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
-import { Headers, RequestInit, Response } from "node-fetch";
+import { BodyInit, Headers, RequestInit, Response } from "node-fetch";
 import path, { basename } from "path";
 import Environment from "./environment";
 import EnvironmentVcapServices from "./environmentVcapServices";
+
 import ClientError, {
   CommandAlreadyExecutedError,
   QueryLimitError,
@@ -25,21 +35,31 @@ import ClientError, {
   UserNotFoundError,
   UserAlreadyExistsError,
   UserCreateError,
-  UserUpdateError,
+  UserUpdateError
 } from "./error";
 import FakeServer from "./fakeServer";
 import File from "./file";
 import FileSystemElement from "./fileSystemElement";
 import FileSystemFolder, { IFileNameFormats } from "./fileSystemFolder";
 import Folder, { FolderGetFilesOptions } from "./folder";
-import { HttpClient, IHttpClientOptions, IProxy, IRequestContext } from "./httpClient";
+import {
+  HttpClient,
+  IHttpClientOptions,
+  IProxy,
+  IRequestContext
+} from "./httpClient";
 import RequestResponseLog from "./requestResponseLog";
 import RequestResponseLogEntry from "./requestResponseLogEntry";
 import Server, { IServerOptions } from "./server";
 import Share, { ICreateShare, SharePermission, ShareItemType } from "./share";
 import Tag from "./tag";
 import UserGroup from "./userGroup";
-import User, { IUserOptions, IUserOptionsQuota, IUserQuotaUserFriendly, UserProperty } from "./user";
+import User, {
+  IUserOptions,
+  IUserOptionsQuota,
+  IUserQuotaUserFriendly,
+  UserProperty
+} from "./user";
 import Logger from "./logger";
 import { isNumber } from "util";
 const log: Logger = new Logger();
@@ -59,7 +79,7 @@ export {
   UserUpdateError,
   UserGroupAlreadyExistsError,
   UserGroupDeletionFailedError,
-  UserGroupDoesNotExistError,
+  UserGroupDoesNotExistError
 };
 
 export {
@@ -83,7 +103,7 @@ export {
   UserProperty,
   IUserOptionsQuota,
   IUserQuotaUserFriendly,
-  ShareItemType,
+  ShareItemType
 };
 
 // command object for upload
@@ -100,7 +120,7 @@ export {
   SourceTargetFileNames,
   FileSystemFolder,
   IFileNameFormats,
-  CommandStatus,
+  CommandStatus
 };
 
 interface IStat {
@@ -224,16 +244,18 @@ export default class Client {
     // If no VCAP_S environment exists try from environment
     if (!server) {
       try {
-        const env: EnvironmentVcapServices = new EnvironmentVcapServices("nextcloud");
+        const env: EnvironmentVcapServices = new EnvironmentVcapServices(
+          "nextcloud"
+        );
         server = env.getServer();
       } catch (e) {
         const serverOptions: IServerOptions = {
           url: Environment.getNextcloudUrl(),
           basicAuth: {
             username: Environment.getUserName(),
-            password: Environment.getPassword(),
+            password: Environment.getPassword()
           },
-          logRequestResponse: Environment.getRecordingActiveIndicator(),
+          logRequestResponse: Environment.getRecordingActiveIndicator()
         };
 
         server = new Server(serverOptions);
@@ -252,11 +274,18 @@ export default class Client {
         server.url = server.url + Client.webDavUrlPath;
       }
 
-      this.nextcloudOrigin = server.url.substr(0, server.url.indexOf(Client.webDavUrlPath));
+      this.nextcloudOrigin = server.url.substr(
+        0,
+        server.url.indexOf(Client.webDavUrlPath)
+      );
 
       log.debug("constructor: nextcloud url ", this.nextcloudOrigin);
       this.userId = server.basicAuth.username;
-      this.nextcloudAuthHeader = "Basic " + Buffer.from(server.basicAuth.username + ":" + server.basicAuth.password).toString("base64");
+      this.nextcloudAuthHeader =
+        "Basic " +
+        Buffer.from(
+          server.basicAuth.username + ":" + server.basicAuth.password
+        ).toString("base64");
       this.nextcloudRequestToken = "";
       if (server.url.slice(-1) === "/") {
         this.webDAVUrl = server.url.slice(0, -1);
@@ -270,7 +299,7 @@ export default class Client {
         authorizationHeader: this.nextcloudAuthHeader,
         logRequestResponse: this.logRequestResponse,
         origin: this.nextcloudOrigin,
-        proxy: this.proxy,
+        proxy: this.proxy
       };
 
       this.httpClient = new HttpClient(options);
@@ -288,19 +317,30 @@ export default class Client {
   public async getQuota(): Promise<IQuota> {
     log.debug("getQuota");
     const requestInit: RequestInit = {
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
 
-    const response: Response = await this.getHttpResponse(this.webDAVUrl + "/", requestInit, [207], { description: "Client get quota" });
+    const response: Response = await this.getHttpResponse(
+      this.webDAVUrl + "/",
+      requestInit,
+      [207],
+      {
+        description: "Client get quota"
+      }
+    );
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, Client.webDavUrlPath + "/");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(
+        response,
+        Client.webDavUrlPath + "/"
+      );
 
     let quota: IQuota | null = null;
     for (const prop of properties) {
       if (prop["quota-available-bytes"]) {
         quota = {
           available: "unlimited",
-          used: prop["quota-used-bytes"],
+          used: prop["quota-used-bytes"]
         };
         if (prop["quota-available-bytes"] > 0) {
           quota.available = prop["quota-available-bytes"];
@@ -309,8 +349,14 @@ export default class Client {
     }
 
     if (!quota) {
-      log.debug("Error, quota not available: ", JSON.stringify(properties, null, 4));
-      throw new ClientError(`Error, quota not available`, "ERR_QUOTA_NOT_AVAILABLE");
+      log.debug(
+        "Error, quota not available: ",
+        JSON.stringify(properties, null, 4)
+      );
+      throw new ClientError(
+        `Error, quota not available`,
+        "ERR_QUOTA_NOT_AVAILABLE"
+      );
     }
     log.debug("getQuota =", quota);
     return quota;
@@ -341,15 +387,23 @@ export default class Client {
       body: `{ "name": "${tagName}", "userVisible": true, "userAssignable": true, "canAssign": true }`,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new Headers({ "Content-Type": "application/json" }),
-      method: "POST",
+      method: "POST"
     };
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + "/remote.php/dav/systemtags/", requestInit, [201], { description: "Tag create" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin + "/remote.php/dav/systemtags/",
+      requestInit,
+      [201],
+      { description: "Tag create" }
+    );
     const tagString: string | null = response.headers.get("Content-Location");
 
     if (tagString === "" || tagString === null) {
       log.error(`createTag 'tagName' ${tagName}`);
-      throw new ClientError(`Error, tag with name '${tagName}' could not be created`, "ERR_TAG_CREATE_FAILED");
+      throw new ClientError(
+        `Error, tag with name '${tagName}' could not be created`,
+        "ERR_TAG_CREATE_FAILED"
+      );
     }
     log.debug(`createTag new tagId ${tagString} tagName ${tagName}`);
 
@@ -406,10 +460,15 @@ export default class Client {
     log.debug("deleteTag tagId: ", tagId);
 
     const requestInit: RequestInit = {
-      method: "DELETE",
+      method: "DELETE"
     };
 
-    const response: Response = await this.getHttpResponse(`${this.nextcloudOrigin}/remote.php/dav/systemtags/${tagId}`, requestInit, [204, 404], { description: "Tag delete" });
+    const response: Response = await this.getHttpResponse(
+      `${this.nextcloudOrigin}/remote.php/dav/systemtags/${tagId}`,
+      requestInit,
+      [204, 404],
+      { description: "Tag delete" }
+    );
   }
 
   /**
@@ -434,7 +493,9 @@ export default class Client {
    * @returns array of tags
    */
   public async getTags(): Promise<Tag[]> {
-    log.debug("getTags PROPFIND " + this.nextcloudOrigin + "/remote.php/dav/systemtags/");
+    log.debug(
+      "getTags PROPFIND " + this.nextcloudOrigin + "/remote.php/dav/systemtags/"
+    );
     const requestInit: RequestInit = {
       body: `<?xml version="1.0"?>
             <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns">
@@ -446,19 +507,39 @@ export default class Client {
                 <oc:can-assign />
               </d:prop>
             </d:propfind>`,
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
 
     const relUrl = `/remote.php/dav/systemtags/`;
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + relUrl, requestInit, [207], { description: "Tags get" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin + relUrl,
+      requestInit,
+      [207],
+      {
+        description: "Tags get"
+      }
+    );
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, relUrl + "/*");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(
+        response,
+        relUrl + "/*"
+      );
     const tags: Tag[] = [];
 
     for (const prop of properties) {
       // eslint-disable-next-line no-underscore-dangle
-      tags.push(new Tag(this, this.getTagIdFromHref(prop._href), prop["display-name"], prop["user-visible"], prop["user-assignable"], prop["can-assign"]));
+      tags.push(
+        new Tag(
+          this,
+          this.getTagIdFromHref(prop._href),
+          prop["display-name"],
+          prop["user-visible"],
+          prop["user-assignable"],
+          prop["can-assign"]
+        )
+      );
     }
 
     return tags;
@@ -483,13 +564,22 @@ export default class Client {
                 <oc:can-assign />
               </d:prop>
             </d:propfind>`,
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
 
     const relUrl = `/remote.php/dav/systemtags-relations/files/${fileId}`;
-    const response: Response = await this.getHttpResponse(`${this.nextcloudOrigin}${relUrl}`, requestInit, [207], { description: "File get tags" });
+    const response: Response = await this.getHttpResponse(
+      `${this.nextcloudOrigin}${relUrl}`,
+      requestInit,
+      [207],
+      { description: "File get tags" }
+    );
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, relUrl + "/*");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(
+        response,
+        relUrl + "/*"
+      );
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const tagMap: Map<string, number> = new Map();
 
@@ -511,10 +601,15 @@ export default class Client {
     log.debug(`removeTagOfFile tagId: ${tagId} fileId:${fileId}`);
 
     const requestInit: RequestInit = {
-      method: "DELETE",
+      method: "DELETE"
     };
 
-    await this.getHttpResponse(`${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tagId}`, requestInit, [204, 404], { description: "File remove tag" });
+    await this.getHttpResponse(
+      `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tagId}`,
+      requestInit,
+      [204, 404],
+      { description: "File remove tag" }
+    );
     return;
   }
 
@@ -533,12 +628,20 @@ export default class Client {
                   <oc:fileid />
               </d:prop>
             </d:propfind>`,
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
 
-    const response: Response = await this.getHttpResponse(fileUrl, requestInit, [207], { description: "File get id" });
+    const response: Response = await this.getHttpResponse(
+      fileUrl,
+      requestInit,
+      [207],
+      {
+        description: "File get id"
+      }
+    );
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
 
     for (const prop of properties) {
       if (prop.fileid !== undefined) {
@@ -581,10 +684,17 @@ export default class Client {
                 <oc:share-types />
               </d:prop>
             </d:propfind>`,
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
     const url = `${this.webDAVUrl}${folderName}`;
-    const response: Response = await this.getHttpResponse(url, requestInit, [207], { description: "Folder get contents" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [207],
+      {
+        description: "Folder get contents"
+      }
+    );
     const folderContents: any[] = [];
 
     const schema: Joi.ObjectSchema = Joi.object({
@@ -592,20 +702,26 @@ export default class Client {
       getlastmodified: Joi.string().required(),
       fileid: Joi.number().integer().required(),
       getcontenttype: Joi.string(),
-      getcontentlength: Joi.number().integer(),
+      getcontentlength: Joi.number().integer()
     });
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
 
     // validate the properties
     const { error, value } = schema.validate(properties);
     if (error) {
-      throw new ClientError(`Error get folder contents - folder name "${folderName}" error ${error.message};`, "INVALID");
+      throw new ClientError(
+        `Error get folder contents - folder name "${folderName}" error ${error.message};`,
+        "INVALID"
+      );
     }
 
     for (const prop of properties) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call, no-underscore-dangle, @typescript-eslint/restrict-plus-operands
-      let fileName = decodeURI(prop._href.substr(prop._href.indexOf(Client.webDavUrlPath) + 18));
+      let fileName = decodeURI(
+        prop._href.substr(prop._href.indexOf(Client.webDavUrlPath) + 18)
+      );
       if (fileName.endsWith("/")) {
         fileName = fileName.slice(0, -1);
       }
@@ -648,7 +764,10 @@ export default class Client {
     const parts1: string[] = folderName.split("/");
     for (const p of parts1) {
       if (p === "." || p === "..") {
-        throw new ClientError(`Error creating folder, folder name "${folderName}" invalid`, "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME");
+        throw new ClientError(
+          `Error creating folder, folder name "${folderName}" invalid`,
+          "ERR_CREATE_FOLDER_INVALID_FOLDER_NAME"
+        );
       }
     }
 
@@ -711,10 +830,12 @@ export default class Client {
     log.debug("deleteFile ", url);
 
     const requestInit: RequestInit = {
-      method: "DELETE",
+      method: "DELETE"
     };
     try {
-      await this.getHttpResponse(url, requestInit, [204], { description: "File delete" });
+      await this.getHttpResponse(url, requestInit, [204], {
+        description: "File delete"
+      });
     } catch (err) {
       log.debug("Error in deleteFile ", err.message, requestInit.method, url);
       throw err;
@@ -753,7 +874,9 @@ export default class Client {
    * @async
    * @returns {Promise<FileSystemElement[]>} returns an array of file system objects
    */
-  public async getFileSystemElementByTags(tags: Tag[]): Promise<FileSystemElement[]> {
+  public async getFileSystemElementByTags(
+    tags: Tag[]
+  ): Promise<FileSystemElement[]> {
     log.debug("getFileSystemElementByTags ", tags.join(", "));
     let filterRule: string = "";
 
@@ -775,11 +898,13 @@ export default class Client {
     const requestInit: RequestInit = {
       body,
       // headers: new Headers({ Depth: "0" }),
-      method: "REPORT",
+      method: "REPORT"
     };
     let response: Response;
     try {
-      response = await this.getHttpResponse(url, requestInit, [207], { description: "Get FileSystemElements by tags" });
+      response = await this.getHttpResponse(url, requestInit, [207], {
+        description: "Get FileSystemElements by tags"
+      });
     } catch (err) {
       log.debug("Error in stat ", err.message, requestInit.method, url);
       throw err;
@@ -788,7 +913,10 @@ export default class Client {
 
     let properties: any[] = [];
     try {
-      properties = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+      properties = await this.getPropertiesFromWebDAVMultistatusResponse(
+        response,
+        ""
+      );
     } catch (e) {
       return result;
     }
@@ -831,10 +959,16 @@ export default class Client {
     }
 
     try {
-      const stat: IStat = await this.stat(folderName);
+      const stat: IStat = await this.statForDirectory(folderName);
       log.debug(": SUCCESS!!");
       if (stat.type !== "file") {
-        return new Folder(this, stat.filename.replace(/\\/g, "/"), stat.basename, stat.lastmod, stat.fileid);
+        return new Folder(
+          this,
+          stat.filename.replace(/\\/g, "/"),
+          stat.basename,
+          stat.lastmod,
+          stat.fileid
+        );
       } else {
         log.debug("getFolder: found object is file not a folder");
         return null;
@@ -861,7 +995,15 @@ export default class Client {
     for (const folderElement of folderElements) {
       log.debug("getSubFolders: adding subfolders ", folderElement.filename);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      folders.push(new Folder(this, folderElement.filename.replace(/\\/g, "/"), folderElement.basename, folderElement.lastmod, folderElement.fileid));
+      folders.push(
+        new Folder(
+          this,
+          folderElement.filename.replace(/\\/g, "/"),
+          folderElement.basename,
+          folderElement.lastmod,
+          folderElement.fileid
+        )
+      );
     }
 
     return folders;
@@ -874,7 +1016,10 @@ export default class Client {
    * @param {FolderGetFilesOptions} options options for filtering and paging
    * @returns array of file objects
    */
-  public async getFiles(folderName: string, options?: FolderGetFilesOptions): Promise<File[]> {
+  public async getFiles(
+    folderName: string,
+    options?: FolderGetFilesOptions
+  ): Promise<File[]> {
     log.debug("getFiles: folder ", folderName);
     const files: File[] = [];
     folderName = this.sanitizeFolderName(folderName);
@@ -885,7 +1030,15 @@ export default class Client {
       log.debug("getFiles: adding file ", folderElement.filename);
       // log.debug("getFiles: adding file ", folderElement);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      let file: File | null = new File(this, folderElement.filename.replace(/\\/g, "/"), folderElement.basename, folderElement.lastmod, folderElement.size, folderElement.mime, folderElement.fileid);
+      let file: File | null = new File(
+        this,
+        folderElement.filename.replace(/\\/g, "/"),
+        folderElement.basename,
+        folderElement.lastmod,
+        folderElement.size,
+        folderElement.mime,
+        folderElement.fileid
+      );
 
       if (options && options.filterFile) {
         file = options.filterFile(file);
@@ -904,7 +1057,10 @@ export default class Client {
    * @param fileName the file name /folder1/folder2/filename.txt
    * @param data the buffer object
    */
-  public async createFile(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<File> {
+  public async createFile(
+    fileName: string,
+    data: Buffer | NodeJS.ReadableStream
+  ): Promise<File> {
     if (fileName.startsWith("./")) {
       fileName = fileName.replace("./", "/");
     }
@@ -921,7 +1077,10 @@ export default class Client {
     const file: File | null = await this.getFile(fileName);
 
     if (!file) {
-      throw new ClientError(`Error creating file, file name "${fileName}"`, "ERR_CREATE_FILE_FAILED");
+      throw new ClientError(
+        `Error creating file, file name "${fileName}"`,
+        "ERR_CREATE_FILE_FAILED"
+      );
     }
     return file;
   }
@@ -938,7 +1097,15 @@ export default class Client {
       const stat: IStat = await this.stat(fileName);
       log.debug(": SUCCESS!!");
       if (stat.type === "file") {
-        return new File(this, stat.filename.replace(/\\/g, "/"), stat.basename, stat.lastmod, stat.size!, stat.mime || "", stat.fileid || -1);
+        return new File(
+          this,
+          stat.filename.replace(/\\/g, "/"),
+          stat.basename,
+          stat.lastmod,
+          stat.size!,
+          stat.mime || "",
+          stat.fileid || -1
+        );
       } else {
         log.debug("getFile: found object is a folder not a file");
         return null;
@@ -955,7 +1122,10 @@ export default class Client {
    * @param sourceFileName source file name
    * @param targetFileName target file name
    */
-  public async moveFile(sourceFileName: string, targetFileName: string): Promise<File> {
+  public async moveFile(
+    sourceFileName: string,
+    targetFileName: string
+  ): Promise<File> {
     const url: string = this.webDAVUrl + sourceFileName;
     const destinationUrl: string = this.webDAVUrl + targetFileName;
 
@@ -964,18 +1134,35 @@ export default class Client {
     const requestInit: RequestInit = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new Headers({ Destination: destinationUrl }),
-      method: "MOVE",
+      method: "MOVE"
     };
     try {
-      await this.getHttpResponse(url, requestInit, [201], { description: "File move" });
+      await this.getHttpResponse(url, requestInit, [201], {
+        description: "File move"
+      });
     } catch (err) {
-      log.debug(`Error in move file ${err.message as string} ${requestInit.method || ""} source: ${url} destination: ${destinationUrl}`);
-      throw new ClientError(`Error: moving file failed: source=" ${sourceFileName} target= ${targetFileName} - ${err.message as string}`, "ERR_FILE_MOVE_FAILED");
+      log.debug(
+        `Error in move file ${err.message as string} ${
+          requestInit.method || ""
+        } source: ${url} destination: ${destinationUrl}`
+      );
+      throw new ClientError(
+        `Error: moving file failed: source=" ${sourceFileName} target= ${targetFileName} - ${
+          err.message as string
+        }`,
+        "ERR_FILE_MOVE_FAILED"
+      );
     }
 
     const targetFile: File | null = await this.getFile(targetFileName);
     if (!targetFile) {
-      throw new ClientError("Error: moving file failed: source=" + sourceFileName + " target=" + targetFileName, "ERR_FILE_MOVE_FAILED");
+      throw new ClientError(
+        "Error: moving file failed: source=" +
+          sourceFileName +
+          " target=" +
+          targetFileName,
+        "ERR_FILE_MOVE_FAILED"
+      );
     }
 
     return targetFile;
@@ -987,7 +1174,10 @@ export default class Client {
    * @param sourceFolderName source folder name
    * @param tarName target folder name
    */
-  public async moveFolder(sourceFolderName: string, tarName: string): Promise<Folder> {
+  public async moveFolder(
+    sourceFolderName: string,
+    tarName: string
+  ): Promise<Folder> {
     const url: string = this.webDAVUrl + sourceFolderName;
     const destinationUrl: string = this.webDAVUrl + tarName;
 
@@ -996,18 +1186,35 @@ export default class Client {
     const requestInit: RequestInit = {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new Headers({ Destination: destinationUrl }),
-      method: "MOVE",
+      method: "MOVE"
     };
     try {
-      await this.getHttpResponse(url, requestInit, [201], { description: "Folder move" });
+      await this.getHttpResponse(url, requestInit, [201], {
+        description: "Folder move"
+      });
     } catch (err) {
-      log.debug(`Error in move folder ${err.message as string} ${requestInit.method || ""} source: ${url} destination: ${destinationUrl}`);
-      throw new ClientError(`Error: moving folder failed: source=${sourceFolderName} target=${tarName} - ${err.message as string}`, "ERR_FOLDER_MOVE_FAILED");
+      log.debug(
+        `Error in move folder ${err.message as string} ${
+          requestInit.method || ""
+        } source: ${url} destination: ${destinationUrl}`
+      );
+      throw new ClientError(
+        `Error: moving folder failed: source=${sourceFolderName} target=${tarName} - ${
+          err.message as string
+        }`,
+        "ERR_FOLDER_MOVE_FAILED"
+      );
     }
 
     const tar: Folder | null = await this.getFolder(tarName);
     if (!tar) {
-      throw new ClientError("Error: moving folder failed: source=" + sourceFolderName + " target=" + tarName, "ERR_FOLDER_MOVE_FAILED");
+      throw new ClientError(
+        "Error: moving folder failed: source=" +
+          sourceFolderName +
+          " target=" +
+          tarName,
+        "ERR_FOLDER_MOVE_FAILED"
+      );
     }
 
     return tar;
@@ -1023,11 +1230,13 @@ export default class Client {
     const url = this.webDAVUrl + fileName;
     log.debug("getContent GET ", url);
     const requestInit: RequestInit = {
-      method: "GET",
+      method: "GET"
     };
     let response: Response;
     try {
-      response = await this.getHttpResponse(url, requestInit, [200], { description: "File get content" });
+      response = await this.getHttpResponse(url, requestInit, [200], {
+        description: "File get content"
+      });
     } catch (err) {
       log.debug(`Error getContent ${url} - error ${err.message as string}`);
       throw err;
@@ -1042,15 +1251,20 @@ export default class Client {
    * @param fileName name of the file /d1/file1.txt
    * @returns Buffer with file content
    */
-  public async pipeContentStream(fileName: string, destination: NodeJS.WritableStream): Promise<void> {
+  public async pipeContentStream(
+    fileName: string,
+    destination: NodeJS.WritableStream
+  ): Promise<void> {
     const url = this.webDAVUrl + fileName;
     log.debug("getContent GET ", url);
     const requestInit: RequestInit = {
-      method: "GET",
+      method: "GET"
     };
     let response: Response;
     try {
-      response = await this.getHttpResponse(url, requestInit, [200], { description: "File pipe content stream" });
+      response = await this.getHttpResponse(url, requestInit, [200], {
+        description: "File pipe content stream"
+      });
     } catch (err) {
       log.debug(`Error getContent ${url} - error ${err.message as string}`);
       throw err;
@@ -1094,7 +1308,10 @@ export default class Client {
     const tag: Tag = await this.createTag(tagName);
 
     if (!tag.canAssign) {
-      throw new ClientError(`Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`, "ERR_TAG_NOT_ASSIGNABLE");
+      throw new ClientError(
+        `Error: No permission to assign tag "${tagName}" to file. Tag is not assignable`,
+        "ERR_TAG_NOT_ASSIGNABLE"
+      );
     }
 
     const addTagBody: any = {
@@ -1102,17 +1319,22 @@ export default class Client {
       id: tag.id,
       name: tag.name,
       userAssignable: tag.assignable,
-      userVisible: tag.visible,
+      userVisible: tag.visible
     };
 
     const requestInit: RequestInit = {
       body: JSON.stringify(addTagBody, null, 4),
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new Headers({ "Content-Type": "application/json" }),
-      method: "PUT",
+      method: "PUT"
     };
 
-    await this.getHttpResponse(`${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.id}`, requestInit, [201, 409], { description: "File add tag" }); // created or conflict
+    await this.getHttpResponse(
+      `${this.nextcloudOrigin}/remote.php/dav/systemtags-relations/files/${fileId}/${tag.id}`,
+      requestInit,
+      [201, 409],
+      { description: "File add tag" }
+    ); // created or conflict
   }
 
   // ***************************************************************************************
@@ -1160,24 +1382,32 @@ export default class Client {
    * @param fileId the id of the file
    * @param comment the comment to be added to the file
    */
-  public async addCommentToFile(fileId: number, comment: string): Promise<void> {
+  public async addCommentToFile(
+    fileId: number,
+    comment: string
+  ): Promise<void> {
     log.debug(`addCommentToFile file:"${fileId}" comment:"${comment}"`);
 
     const addCommentBody: any = {
       actorType: "users",
       message: comment,
       objectType: "files",
-      verb: "comment",
+      verb: "comment"
     };
 
     const requestInit: RequestInit = {
       body: JSON.stringify(addCommentBody, null, 4),
       // eslint-disable-next-line @typescript-eslint/naming-convention
       headers: new Headers({ "Content-Type": "application/json" }),
-      method: "POST",
+      method: "POST"
     };
 
-    await this.getHttpResponse(`${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`, requestInit, [201], { description: "File add comment" }); // created
+    await this.getHttpResponse(
+      `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
+      requestInit,
+      [201],
+      { description: "File add comment" }
+    ); // created
   }
 
   /**
@@ -1189,7 +1419,11 @@ export default class Client {
    * @returns array of comment strings
    * @throws Exception
    */
-  public async getFileComments(fileId: number, top?: number, skip?: number): Promise<string[]> {
+  public async getFileComments(
+    fileId: number,
+    top?: number,
+    skip?: number
+  ): Promise<string[]> {
     log.debug("getFileComments fileId: ", fileId);
     if (!top) {
       top = 30;
@@ -1205,12 +1439,18 @@ export default class Client {
                         <oc:limit>${top}</oc:limit>
                         <oc:offset>${skip}</oc:offset>
                     </oc:filter-comments>`,
-      method: "REPORT",
+      method: "REPORT"
     };
 
-    const response: Response = await this.getHttpResponse(`${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`, requestInit, [207], { description: "File get comments" });
+    const response: Response = await this.getHttpResponse(
+      `${this.nextcloudOrigin}/remote.php/dav/comments/files/${fileId}`,
+      requestInit,
+      [207],
+      { description: "File get comments" }
+    );
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
     const comments: string[] = [];
     for (const prop of properties) {
       comments.push(prop.message);
@@ -1225,10 +1465,15 @@ export default class Client {
   public async getSystemInfo(): Promise<ISystemInfo> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info", requestInit, [200], { description: "SystemInfo get" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/info",
+      requestInit,
+      [200],
+      { description: "SystemInfo get" }
+    );
 
     const rawResult: any = await response.json();
     // validate the raw result
@@ -1243,37 +1488,58 @@ export default class Client {
         if (rawResult.ocs.data.nextcloud.system) {
           system = rawResult.ocs.data.nextcloud.system;
         } else {
-          throw new ClientError("Fatal Error: nextcloud data.nextcloud.system missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+          throw new ClientError(
+            "Fatal Error: nextcloud data.nextcloud.system missing",
+            "ERR_SYSTEM_INFO_MISSING_DATA"
+          );
         }
 
         if (rawResult.ocs.data.nextcloud.storage) {
           storage = rawResult.ocs.data.nextcloud.storage;
         } else {
-          throw new ClientError("Fatal Error: nextcloud data.nextcloud.storage missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+          throw new ClientError(
+            "Fatal Error: nextcloud data.nextcloud.storage missing",
+            "ERR_SYSTEM_INFO_MISSING_DATA"
+          );
         }
 
         if (rawResult.ocs.data.nextcloud.shares) {
           shares = rawResult.ocs.data.nextcloud.shares;
         } else {
-          throw new ClientError("Fatal Error: nextcloud data.nextcloud.shares missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+          throw new ClientError(
+            "Fatal Error: nextcloud data.nextcloud.shares missing",
+            "ERR_SYSTEM_INFO_MISSING_DATA"
+          );
         }
       } else {
-        throw new ClientError("Fatal Error: nextcloud data.nextcloud missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        throw new ClientError(
+          "Fatal Error: nextcloud data.nextcloud missing",
+          "ERR_SYSTEM_INFO_MISSING_DATA"
+        );
       }
 
       if (rawResult.ocs.data.server) {
         server = rawResult.ocs.data.server;
       } else {
-        throw new ClientError("Fatal Error: nextcloud data.server missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        throw new ClientError(
+          "Fatal Error: nextcloud data.server missing",
+          "ERR_SYSTEM_INFO_MISSING_DATA"
+        );
       }
 
       if (rawResult.ocs.data.activeUsers) {
         activeUsers = rawResult.ocs.data.activeUsers;
       } else {
-        throw new ClientError("Fatal Error: nextcloud data.activeUsers missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+        throw new ClientError(
+          "Fatal Error: nextcloud data.activeUsers missing",
+          "ERR_SYSTEM_INFO_MISSING_DATA"
+        );
       }
     } else {
-      throw new ClientError("Fatal Error: nextcloud system data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+      throw new ClientError(
+        "Fatal Error: nextcloud system data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      );
     }
 
     const result: ISystemInfo = {
@@ -1281,13 +1547,13 @@ export default class Client {
       nextcloud: {
         shares,
         storage,
-        system,
+        system
       },
       nextcloudClient: {
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        version: require("../package.json").version,
+        version: require("../package.json").version
       },
-      server,
+      server
     };
     return result;
   }
@@ -1295,26 +1561,41 @@ export default class Client {
   public async getSystemBasicData(): Promise<ISysBasicData> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/basicdata", requestInit, [200], { description: "System Basic Data get" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin + "/ocs/v2.php/apps/serverinfo/api/v1/basicdata",
+      requestInit,
+      [200],
+      { description: "System Basic Data get" }
+    );
 
     const rawResult: any = await response.json();
     // console.log("Basic Data\n", JSON.stringify(rawResult));
     let result: ISysBasicData;
 
-    if (rawResult && rawResult.ocs && rawResult.ocs.data && rawResult.ocs.data.servertime && rawResult.ocs.data.uptime && rawResult.ocs.data.timeservers) {
+    if (
+      rawResult &&
+      rawResult.ocs &&
+      rawResult.ocs.data &&
+      rawResult.ocs.data.servertime &&
+      rawResult.ocs.data.uptime &&
+      rawResult.ocs.data.timeservers
+    ) {
       result = {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         serverTimeString: rawResult.ocs.data.servertime.replace("\n", ""),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         uptimeString: rawResult.ocs.data.uptime.replace("\n", ""),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        timeServersString: rawResult.ocs.data.timeservers.trim(),
+        timeServersString: rawResult.ocs.data.timeservers.trim()
       };
     } else {
-      throw new ClientError("Fatal Error: nextcloud basic data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+      throw new ClientError(
+        "Fatal Error: nextcloud basic data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      );
     }
 
     return result;
@@ -1339,10 +1620,18 @@ export default class Client {
    * @throws QueryLimitError
    * @throws QueryOffsetError
    */
-  public async getUserGroups(search?: string, limit?: number, offset?: number): Promise<UserGroup[]> {
+  public async getUserGroups(
+    search?: string,
+    limit?: number,
+    offset?: number
+  ): Promise<UserGroup[]> {
     log.debug("getUserGroups");
 
-    const userGroupIds: string[] = await this.getUserGroupIds(search, limit, offset);
+    const userGroupIds: string[] = await this.getUserGroupIds(
+      search,
+      limit,
+      offset
+    );
     const userGroups: UserGroup[] = [];
     for (const userGroupId of userGroupIds) {
       userGroups.push(new UserGroup(this, userGroupId));
@@ -1360,11 +1649,15 @@ export default class Client {
    * @throws QueryLimitError
    * @throws QueryOffsetError
    */
-  public async getUserGroupIds(search?: string, limit?: number, offset?: number): Promise<string[]> {
+  public async getUserGroupIds(
+    search?: string,
+    limit?: number,
+    offset?: number
+  ): Promise<string[]> {
     log.debug("getUserGroupIds");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
     let url = this.getOcsUrl(`/groups`);
@@ -1389,7 +1682,14 @@ export default class Client {
     }
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "User Groups get" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "User Groups get"
+      }
+    );
     const rawResult: any = await response.json();
     /*
         {
@@ -1444,13 +1744,20 @@ export default class Client {
     log.debug("getUserGroupMembers");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
     const url = this.getOcsUrl(`/groups/${id}`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "User group get members" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "User group get members"
+      }
+    );
     const rawResult: any = await response.json();
     const userIds: string[] = [];
 
@@ -1480,13 +1787,20 @@ export default class Client {
     log.debug("getUserGroupsubadmins");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
     const url = this.getOcsUrl(`/groups/${id}/subadmins`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "User group get subadmins" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "User group get subadmins"
+      }
+    );
     const rawResult: any = await response.json();
     const userIds: string[] = [];
 
@@ -1518,10 +1832,17 @@ export default class Client {
     const requestInit: RequestInit = {
       body: JSON.stringify({ groupid: id }),
       headers: this.getOcsHeaders(),
-      method: "POST",
+      method: "POST"
     };
     log.debug("request body: ", requestInit.body);
-    const response: Response = await this.getHttpResponse(this.getOcsUrl(`/groups`), requestInit, [200], { description: "UserGroup create" });
+    const response: Response = await this.getHttpResponse(
+      this.getOcsUrl(`/groups`),
+      requestInit,
+      [200],
+      {
+        description: "UserGroup create"
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
@@ -1531,7 +1852,11 @@ export default class Client {
     if (this.getOcsMetaStatus(rawResult).code === 100) {
       return new UserGroup(this, id);
     }
-    throw new OperationFailedError(`User group ${id} could not be created: ${this.getOcsMetaStatus(rawResult).message}`);
+    throw new OperationFailedError(
+      `User group ${id} could not be created: ${
+        this.getOcsMetaStatus(rawResult).message
+      }`
+    );
   }
 
   /**
@@ -1546,10 +1871,15 @@ export default class Client {
     log.debug("deleteUserGroup id=", id);
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "DELETE",
+      method: "DELETE"
     };
     log.debug("request body: ", requestInit.body);
-    const response: Response = await this.getHttpResponse(this.getOcsUrl(`/groups/${id}`), requestInit, [200], { description: "UserGroup delete" });
+    const response: Response = await this.getHttpResponse(
+      this.getOcsUrl(`/groups/${id}`),
+      requestInit,
+      [200],
+      { description: "UserGroup delete" }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 101) {
@@ -1557,7 +1887,9 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
-      throw new UserGroupDeletionFailedError(`User Group ${id} could not be deleted`);
+      throw new UserGroupDeletionFailedError(
+        `User Group ${id} could not be deleted`
+      );
     }
   }
 
@@ -1574,11 +1906,15 @@ export default class Client {
    * @param limit number
    * @param offset number
    */
-  public async getUsers(search?: string, limit?: number, offset?: number): Promise<User[]> {
+  public async getUsers(
+    search?: string,
+    limit?: number,
+    offset?: number
+  ): Promise<User[]> {
     log.debug("getUsers");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
     let url = this.getOcsUrl(`/users`);
@@ -1603,7 +1939,14 @@ export default class Client {
     }
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "Users get" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "Users get"
+      }
+    );
     const rawResult: any = await response.json();
     /*
         {
@@ -1643,13 +1986,20 @@ export default class Client {
     log.debug("getUserData");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
     const url = this.getOcsUrl(`/users/${id}`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `User ${id} get` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `User ${id} get`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 404) {
@@ -1673,7 +2023,10 @@ export default class Client {
     log.debug("user data", rawResult.ocs.data);
     const userData: IUserOptions = {
       enabled: rawResult.ocs.data.enabled,
-      lastLogin: rawResult.ocs.data.lastLogin === 0 ? undefined : new Date(rawResult.ocs.data.lastLogin),
+      lastLogin:
+        rawResult.ocs.data.lastLogin === 0
+          ? undefined
+          : new Date(rawResult.ocs.data.lastLogin),
       subadminGroups: rawResult.ocs.data.subadmin,
       memberGroups: rawResult.ocs.data.groups,
       quota: {
@@ -1681,7 +2034,7 @@ export default class Client {
         used: 0,
         total: 0,
         relative: 0,
-        quota: 0,
+        quota: 0
       },
       email: rawResult.ocs.data.email,
       displayName: rawResult.ocs.data.displayname,
@@ -1690,7 +2043,7 @@ export default class Client {
       website: rawResult.ocs.data.website,
       twitter: rawResult.ocs.data.twitter,
       language: rawResult.ocs.data.language,
-      locale: rawResult.ocs.data.locale,
+      locale: rawResult.ocs.data.locale
     };
     if (rawResult.ocs.data.quota.quota === "none") {
       userData.quota = { quota: 0, relative: 0, used: 0 };
@@ -1698,7 +2051,11 @@ export default class Client {
       if (!rawResult.ocs.data.quota.relative) {
         rawResult.ocs.data.quota.relative = 0;
       }
-      userData.quota = { quota: rawResult.ocs.data.quota.quota, relative: rawResult.ocs.data.quota.relative, used: rawResult.ocs.data.quota.used };
+      userData.quota = {
+        quota: rawResult.ocs.data.quota.quota,
+        relative: rawResult.ocs.data.quota.relative,
+        used: rawResult.ocs.data.quota.used
+      };
       if (rawResult.ocs.data.quota.free) {
         userData.quota.free = rawResult.ocs.data.quota.free;
       }
@@ -1720,13 +2077,20 @@ export default class Client {
     log.debug("enableUser");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "PUT",
+      method: "PUT"
     };
 
     const url = this.getOcsUrl(`/users/${id}/enable`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `User ${id} enable` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `User ${id} enable`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -1746,13 +2110,20 @@ export default class Client {
     log.debug("disableUser");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "PUT",
+      method: "PUT"
     };
 
     const url = this.getOcsUrl(`/users/${id}/disable`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `User ${id} disable` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `User ${id} disable`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -1772,13 +2143,20 @@ export default class Client {
     log.debug("deleteUser");
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "DELETE",
+      method: "DELETE"
     };
 
     const url = this.getOcsUrl(`/users/${id}`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `User ${id} delete` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `User ${id} delete`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -1811,14 +2189,24 @@ export default class Client {
    * @throws {UserNotFoundError}
    * @throws UserUpdateError
    */
-  public async createUser(options: { id: string; email?: string; password?: string }): Promise<User> {
+  public async createUser(options: {
+    id: string;
+    email?: string;
+    password?: string;
+  }): Promise<User> {
     log.debug("createUser");
-    const createUserBody: { userid: string; password?: string; email?: string } = { userid: options.id };
+    const createUserBody: {
+      userid: string;
+      password?: string;
+      email?: string;
+    } = { userid: options.id };
     if (options.email) {
       if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(options.email)) {
         createUserBody.email = options.email;
       } else {
-        throw new UserCreateError(`Error creating user '${options.id}' - invalid email address '${options.email}'`);
+        throw new UserCreateError(
+          `Error creating user '${options.id}' - invalid email address '${options.email}'`
+        );
       }
     }
     if (options.password) {
@@ -1828,14 +2216,23 @@ export default class Client {
     const requestInit: RequestInit = {
       body: JSON.stringify(createUserBody, null, 4),
       headers: this.getOcsHeaders(),
-      method: "POST",
+      method: "POST"
     };
     log.debug("request body: ", requestInit.body);
-    const response: Response = await this.getHttpResponse(this.getOcsUrl(`/users`), requestInit, [200], { description: `User ${options.id} create` });
+    const response: Response = await this.getHttpResponse(
+      this.getOcsUrl(`/users`),
+      requestInit,
+      [200],
+      {
+        description: `User ${options.id} create`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
-      throw new UserAlreadyExistsError(`User with id '${options.id}' already exists`);
+      throw new UserAlreadyExistsError(
+        `User with id '${options.id}' already exists`
+      );
     }
 
     const user: User | null = await this.getUser(options.id);
@@ -1843,7 +2240,11 @@ export default class Client {
       return user;
     }
 
-    throw new UserCreateError(`Error creating user '${options.id}' - ${this.getOcsMetaStatus(rawResult).message} (${this.getOcsMetaStatus(rawResult).code})`);
+    throw new UserCreateError(
+      `Error creating user '${options.id}' - ${
+        this.getOcsMetaStatus(rawResult).message
+      } (${this.getOcsMetaStatus(rawResult).code})`
+    );
   }
 
   /**
@@ -1857,18 +2258,29 @@ export default class Client {
    * @throws  {UserNotFoundError}
    * @throws  {UserUpdateError}
    */
-  public async updateUserProperty(id: string, property: UserProperty, value: string): Promise<void> {
+  public async updateUserProperty(
+    id: string,
+    property: UserProperty,
+    value: string
+  ): Promise<void> {
     log.debug("updateUserProperty");
     const body: { key: string; value: string } = { key: property, value };
 
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "PUT",
+      method: "PUT"
     };
     const url = this.getOcsUrl(`/users/${id}`);
     log.debug("request body: ", requestInit.body);
-    const response: Response = await this.getHttpResponse(url, requestInit, [200, 401], { description: `User ${id} update ${property}=${value}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200, 401],
+      {
+        description: `User ${id} update ${property}=${value}`
+      }
+    );
     const rawResult: any = await response.json();
 
     // This service operation returns a 401, if the user does not exist - very strange...
@@ -1892,7 +2304,11 @@ export default class Client {
       value = "********";
     }
     // code 102 or 103
-    throw new UserUpdateError(`User with id '${id}' could not be updated - ${property}=${value}. ${rawResult.ocs.meta.message as string}`);
+    throw new UserUpdateError(
+      `User with id '${id}' could not be updated - ${property}=${value}. ${
+        rawResult.ocs.meta.message as string
+      }`
+    );
   }
 
   /**
@@ -1906,21 +2322,32 @@ export default class Client {
 
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "POST",
+      method: "POST"
     };
     const url = this.getOcsUrl(`/users/${id}/welcome`);
     log.debug("request body: ", requestInit.body);
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `Resend welcome email for user ${id}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `Resend welcome email for user ${id}`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 101) {
-      throw new UserResendWelcomeEmailError(`Error sending welcome email for '${id}': Email address not available`);
+      throw new UserResendWelcomeEmailError(
+        `Error sending welcome email for '${id}': Email address not available`
+      );
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
       return;
     }
-    throw new UserResendWelcomeEmailError(`Error sending welcome email for '${id}' failed`);
+    throw new UserResendWelcomeEmailError(
+      `Error sending welcome email for '${id}' failed`
+    );
   }
 
   /**
@@ -1934,20 +2361,30 @@ export default class Client {
    * @throws {InsufficientPrivilegesError}
    * @throws {OperationFailedError}
    */
-  public async addUserToMemberUserGroup(id: string, userGroupId: string): Promise<void> {
+  public async addUserToMemberUserGroup(
+    id: string,
+    userGroupId: string
+  ): Promise<void> {
     log.debug("addUserToUserGroup");
 
     const body: { groupid: string } = { groupid: userGroupId };
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "POST",
+      method: "POST"
     };
 
     const url = this.getOcsUrl(`/users/${id}/groups`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `Add user ${id} to user group ${userGroupId}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `Add user ${id} to user group ${userGroupId}`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -1955,7 +2392,9 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
-      throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`);
+      throw new UserGroupDoesNotExistError(
+        `User group ${userGroupId} does not exist`
+      );
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 103) {
@@ -1963,10 +2402,16 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 104) {
-      throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+      throw new InsufficientPrivilegesError(
+        `Insufficient privileges to add a user to a group`
+      );
     }
 
-    throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    throw new OperationFailedError(
+      `User ${id} could not be added to user group ${userGroupId}: ${
+        this.getOcsMetaStatus(rawResult).message
+      }`
+    );
   }
 
   /**
@@ -1980,20 +2425,30 @@ export default class Client {
    * @throws {InsufficientPrivilegesError}
    * @throws {OperationFailedError}
    */
-  public async removeUserFromMemberUserGroup(id: string, userGroupId: string): Promise<void> {
+  public async removeUserFromMemberUserGroup(
+    id: string,
+    userGroupId: string
+  ): Promise<void> {
     log.debug("removeUserFromMemberUserGroup");
 
     const body: { groupid: string } = { groupid: userGroupId };
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "DELETE",
+      method: "DELETE"
     };
 
     const url = this.getOcsUrl(`/users/${id}/groups`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `Remove user ${id} from user group ${userGroupId}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `Remove user ${id} from user group ${userGroupId}`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -2001,7 +2456,9 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
-      throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`);
+      throw new UserGroupDoesNotExistError(
+        `User group ${userGroupId} does not exist`
+      );
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 103) {
@@ -2009,10 +2466,16 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 104) {
-      throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+      throw new InsufficientPrivilegesError(
+        `Insufficient privileges to add a user to a group`
+      );
     }
 
-    throw new OperationFailedError(`User ${id} could not be added to user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    throw new OperationFailedError(
+      `User ${id} could not be added to user group ${userGroupId}: ${
+        this.getOcsMetaStatus(rawResult).message
+      }`
+    );
   }
 
   /**
@@ -2026,20 +2489,30 @@ export default class Client {
    * @throws {InsufficientPrivilegesError}
    * @throws {OperationFailedError}
    */
-  public async promoteUserToUserGroupSubadmin(id: string, userGroupId: string): Promise<void> {
+  public async promoteUserToUserGroupSubadmin(
+    id: string,
+    userGroupId: string
+  ): Promise<void> {
     log.debug("promoteUserToUserGroupSubadmin");
 
     const body: { groupid: string } = { groupid: userGroupId };
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "POST",
+      method: "POST"
     };
 
     const url = this.getOcsUrl(`/users/${id}/subadmins`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `Promote User ${id} to user group subadmin ${userGroupId}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `Promote User ${id} to user group subadmin ${userGroupId}`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -2047,7 +2520,9 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 102) {
-      throw new UserGroupDoesNotExistError(`User group ${userGroupId} does not exist`);
+      throw new UserGroupDoesNotExistError(
+        `User group ${userGroupId} does not exist`
+      );
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 101) {
@@ -2055,10 +2530,16 @@ export default class Client {
     }
 
     if (this.getOcsMetaStatus(rawResult).code === 104) {
-      throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+      throw new InsufficientPrivilegesError(
+        `Insufficient privileges to add a user to a group`
+      );
     }
 
-    throw new OperationFailedError(`User ${id} could not be removed from user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    throw new OperationFailedError(
+      `User ${id} could not be removed from user group ${userGroupId}: ${
+        this.getOcsMetaStatus(rawResult).message
+      }`
+    );
   }
 
   /**
@@ -2070,20 +2551,30 @@ export default class Client {
    * @throws {InsufficientPrivilegesError}
    * @throws {OperationFailedError}
    */
-  public async demoteUserFromSubadminUserGroup(id: string, userGroupId: string): Promise<void> {
+  public async demoteUserFromSubadminUserGroup(
+    id: string,
+    userGroupId: string
+  ): Promise<void> {
     log.debug("demoteUserFromSubadminUserGroup");
 
     const body: { groupid: string } = { groupid: userGroupId };
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "DELETE",
+      method: "DELETE"
     };
 
     const url = this.getOcsUrl(`/users/${id}/subadmins`);
     log.debug("url ", url);
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: `Demotes user ${id} from subadmin user group ${userGroupId}` });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: `Demotes user ${id} from subadmin user group ${userGroupId}`
+      }
+    );
     const rawResult: any = await response.json();
 
     if (this.getOcsMetaStatus(rawResult).code === 100) {
@@ -2102,10 +2593,16 @@ export default class Client {
             }
         */
     if (this.getOcsMetaStatus(rawResult).code === 104) {
-      throw new InsufficientPrivilegesError(`Insufficient privileges to add a user to a group`);
+      throw new InsufficientPrivilegesError(
+        `Insufficient privileges to add a user to a group`
+      );
     }
 
-    throw new OperationFailedError(`User ${id} could not be demoted from subadmin user group ${userGroupId}: ${this.getOcsMetaStatus(rawResult).message}`);
+    throw new OperationFailedError(
+      `User ${id} could not be demoted from subadmin user group ${userGroupId}: ${
+        this.getOcsMetaStatus(rawResult).message
+      }`
+    );
   }
 
   /**
@@ -2114,19 +2611,31 @@ export default class Client {
    * @param options IUpsertUserOptions[]
    * @returns Promise<IUpsertUserReport[]
    */
-  public async upsertUsers(options: IUpsertUserOptions[]): Promise<IUpsertUserReport[]> {
+  public async upsertUsers(
+    options: IUpsertUserOptions[]
+  ): Promise<IUpsertUserReport[]> {
     const report: IUpsertUserReport[] = [];
     for (const option of options) {
-      const userReport: IUpsertUserReport = { id: option.id, message: "", changes: [] };
+      const userReport: IUpsertUserReport = {
+        id: option.id,
+        message: "",
+        changes: []
+      };
       let user: User | null = await this.getUser(option.id);
       // create or update user?
 
       if (!user) {
         try {
-          user = await this.createUser({ id: option.id, email: option.email, password: option.password });
+          user = await this.createUser({
+            id: option.id,
+            email: option.email,
+            password: option.password
+          });
           userReport.message = `User ${option.id} created`;
         } catch (e) {
-          userReport.message = `Create user ${option.id} failed ${e.message as string}`;
+          userReport.message = `Create user ${option.id} failed ${
+            e.message as string
+          }`;
           report.push(userReport);
           continue;
         }
@@ -2145,18 +2654,36 @@ export default class Client {
         if ((await user.isEnabled()) && option.enabled === false) {
           try {
             await user.disable();
-            userReport.changes.push({ property: "enabled", previousValue: "true", newValue: "false" });
+            userReport.changes.push({
+              property: "enabled",
+              previousValue: "true",
+              newValue: "false"
+            });
           } catch (e) {
-            userReport.changes.push({ property: "enabled", previousValue: "true", newValue: "true", error: e.message });
+            userReport.changes.push({
+              property: "enabled",
+              previousValue: "true",
+              newValue: "true",
+              error: e.message
+            });
           }
         }
 
         if ((await user.isEnabled()) === false && option.enabled === true) {
           try {
             await user.enable();
-            userReport.changes.push({ property: "enabled", previousValue: "false", newValue: "true" });
+            userReport.changes.push({
+              property: "enabled",
+              previousValue: "false",
+              newValue: "true"
+            });
           } catch (e) {
-            userReport.changes.push({ property: "enabled", previousValue: "false", newValue: "false", error: e.message });
+            userReport.changes.push({
+              property: "enabled",
+              previousValue: "false",
+              newValue: "false",
+              error: e.message
+            });
           }
         }
       }
@@ -2168,18 +2695,39 @@ export default class Client {
         if ((await user.isSuperAdmin()) && option.superAdmin === false) {
           try {
             await user.demoteFromSuperAdmin();
-            userReport.changes.push({ property: "superAdmin", previousValue: "true", newValue: "false" });
+            userReport.changes.push({
+              property: "superAdmin",
+              previousValue: "true",
+              newValue: "false"
+            });
           } catch (e) {
-            userReport.changes.push({ property: "superAdmin", previousValue: "true", newValue: "true", error: e.message });
+            userReport.changes.push({
+              property: "superAdmin",
+              previousValue: "true",
+              newValue: "true",
+              error: e.message
+            });
           }
         }
 
-        if ((await user.isSuperAdmin()) === false && option.superAdmin === true) {
+        if (
+          (await user.isSuperAdmin()) === false &&
+          option.superAdmin === true
+        ) {
           try {
             await user.promoteToSuperAdmin();
-            userReport.changes.push({ property: "superAdmin", previousValue: "false", newValue: "true" });
+            userReport.changes.push({
+              property: "superAdmin",
+              previousValue: "false",
+              newValue: "true"
+            });
           } catch (e) {
-            userReport.changes.push({ property: "superAdmin", previousValue: "false", newValue: "false", error: e.message });
+            userReport.changes.push({
+              property: "superAdmin",
+              previousValue: "false",
+              newValue: "false",
+              error: e.message
+            });
           }
         }
       }
@@ -2197,8 +2745,12 @@ export default class Client {
             }
           }
         }
-        const groupsToAdd: string[] = newGroups.filter((x) => !previousGroups.includes(x));
-        const groupsToRemove: string[] = previousGroups.filter((x) => !newGroups.includes(x));
+        const groupsToAdd: string[] = newGroups.filter(
+          x => !previousGroups.includes(x)
+        );
+        const groupsToRemove: string[] = previousGroups.filter(
+          x => !newGroups.includes(x)
+        );
         let userGroup: UserGroup | null;
         property = "memberGroups";
         let error: Error | null = null;
@@ -2229,10 +2781,19 @@ export default class Client {
           }
         }
         if (error) {
-          userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: previousGroups.join(", "), error: error.message });
+          userReport.changes.push({
+            property,
+            previousValue: previousGroups.join(", "),
+            newValue: previousGroups.join(", "),
+            error: error.message
+          });
         } else {
           if (groupsToAdd.length > 0 || groupsToRemove.length > 0) {
-            userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+            userReport.changes.push({
+              property,
+              previousValue: previousGroups.join(", "),
+              newValue: newGroups.join(", ")
+            });
           }
         }
       }
@@ -2243,8 +2804,12 @@ export default class Client {
       if (option.subadminGroups !== undefined) {
         const previousGroups: string[] = await user.getSubadminUserGroupIds();
         const newGroups: string[] = option.subadminGroups;
-        const groupsToAdd: string[] = newGroups.filter((x) => !previousGroups.includes(x));
-        const groupsToRemove: string[] = previousGroups.filter((x) => !newGroups.includes(x));
+        const groupsToAdd: string[] = newGroups.filter(
+          x => !previousGroups.includes(x)
+        );
+        const groupsToRemove: string[] = previousGroups.filter(
+          x => !newGroups.includes(x)
+        );
         let userGroup: UserGroup | null;
         property = "subadminGroups";
         let error: Error | null = null;
@@ -2268,16 +2833,27 @@ export default class Client {
 
         for (const groupId of groupsToRemove) {
           try {
-            await user.demoteFromSubadminUserGroup(new UserGroup(this, groupId));
+            await user.demoteFromSubadminUserGroup(
+              new UserGroup(this, groupId)
+            );
           } catch (e) {
             error = e as Error;
             break;
           }
         }
         if (error) {
-          userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: previousGroups.join(", "), error: error.message });
+          userReport.changes.push({
+            property,
+            previousValue: previousGroups.join(", "),
+            newValue: previousGroups.join(", "),
+            error: error.message
+          });
         } else {
-          userReport.changes.push({ property, previousValue: previousGroups.join(", "), newValue: newGroups.join(", ") });
+          userReport.changes.push({
+            property,
+            previousValue: previousGroups.join(", "),
+            newValue: newGroups.join(", ")
+          });
         }
       }
 
@@ -2297,7 +2873,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2318,7 +2899,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2339,7 +2925,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2360,7 +2951,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2381,7 +2977,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2403,7 +3004,12 @@ export default class Client {
               message = e.message;
             }
 
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2417,13 +3023,22 @@ export default class Client {
         property = "password";
         try {
           await user.setPassword(option.password);
-          userReport.changes.push({ property, previousValue, newValue: previousValue });
+          userReport.changes.push({
+            property,
+            previousValue,
+            newValue: previousValue
+          });
         } catch (e) {
           let message = "";
           if (e instanceof Error) {
             message = e.message;
           }
-          userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+          userReport.changes.push({
+            property,
+            previousValue,
+            newValue: previousValue,
+            error: message
+          });
         }
       }
 
@@ -2443,7 +3058,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2464,7 +3084,12 @@ export default class Client {
             if (e instanceof Error) {
               message = e.message;
             }
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2486,7 +3111,12 @@ export default class Client {
               message = e.message;
             }
 
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2508,7 +3138,12 @@ export default class Client {
               message = e.message;
             }
 
-            userReport.changes.push({ property, previousValue, newValue: previousValue, error: message });
+            userReport.changes.push({
+              property,
+              previousValue,
+              newValue: previousValue,
+              error: message
+            });
           }
         }
       }
@@ -2533,21 +3168,45 @@ export default class Client {
     const shareRequest = Share.createShareRequestBody(options);
     log.debug(shareRequest);
 
+    const headers = this.getOcsHeaders();
+
+    headers.set(
+      "Content-Type",
+      "multipart/form-data;boundary=" + shareRequest.getBoundary()
+    );
+
     const requestInit: RequestInit = {
       body: shareRequest,
-      headers: this.getOcsHeaders(),
-      method: "POST",
+      headers,
+      method: "POST"
     };
-    const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares";
+
+    const url =
+      this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares";
 
     // try {
-    const response: Response = await this.getHttpResponse(url, requestInit, [200, 204], { description: "Share create" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200, 204],
+      {
+        description: "Share create"
+      }
+    );
 
-    const rawResult: { ocs: { data: { id: string } } } = (await response.json()) as { ocs: { data: { id: string } } };
+    const rawResult: { ocs: { data: { id: string } } } =
+      (await response.json()) as {
+        ocs: { data: { id: string } };
+      };
 
     log.debug(rawResult);
 
-    const share: Share = await Share.getShare(this, rawResult.ocs.data.id);
+    const share: Share = await Share.getShare(
+      this,
+      options.shareType,
+      options.permissions,
+      rawResult.ocs.data.id
+    );
 
     if (options.publicUpload) {
       await share.setPublicUpload();
@@ -2567,17 +3226,29 @@ export default class Client {
   /**
    * update a new share
    */
-  public async updateShare(shareId: string, body: { password: string } | { expireDate: string } | { note: string } | { permissions: number }): Promise<void> {
+  public async updateShare(
+    shareId: string,
+    body:
+      | { password: string }
+      | { expireDate: string }
+      | { note: string }
+      | { permissions: number }
+  ): Promise<void> {
     log.debug("updateShare body ", body);
 
     const requestInit: RequestInit = {
       body: JSON.stringify(body, null, 4),
       headers: this.getOcsHeaders(),
-      method: "PUT",
+      method: "PUT"
     };
-    const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
+    const url =
+      this.nextcloudOrigin +
+      "/ocs/v2.php/apps/files_sharing/api/v1/shares/" +
+      shareId;
 
-    await this.getHttpResponse(url, requestInit, [200], { description: "Share update" });
+    await this.getHttpResponse(url, requestInit, [200], {
+      description: "Share update"
+    });
   }
 
   /**
@@ -2588,11 +3259,21 @@ export default class Client {
   public async getShare(shareId: string): Promise<any> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
-    const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
+    const url =
+      this.nextcloudOrigin +
+      "/ocs/v2.php/apps/files_sharing/api/v1/shares/" +
+      shareId;
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "Share get" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "Share get"
+      }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return await response.json();
@@ -2616,11 +3297,21 @@ export default class Client {
   public async deleteShare(shareId: string): Promise<any> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "DELETE",
+      method: "DELETE"
     };
-    const url = this.nextcloudOrigin + "/ocs/v2.php/apps/files_sharing/api/v1/shares/" + shareId;
+    const url =
+      this.nextcloudOrigin +
+      "/ocs/v2.php/apps/files_sharing/api/v1/shares/" +
+      shareId;
 
-    const response: Response = await this.getHttpResponse(url, requestInit, [200], { description: "Share delete" });
+    const response: Response = await this.getHttpResponse(
+      url,
+      requestInit,
+      [200],
+      {
+        description: "Share delete"
+      }
+    );
   }
 
   // ***************************************************************************************
@@ -2633,10 +3324,16 @@ export default class Client {
   public async getNotifications(): Promise<object[]> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + "/ocs/v2.php/apps/notifications/api/v2/notifications", requestInit, [200, 404], { description: "Notifications get" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin +
+        "/ocs/v2.php/apps/notifications/api/v2/notifications",
+      requestInit,
+      [200, 404],
+      { description: "Notifications get" }
+    );
 
     // no notification found
     if (response.status === 404) {
@@ -2650,7 +3347,10 @@ export default class Client {
     if (rawResult && rawResult.ocs && rawResult.ocs.data) {
       notifications = rawResult.ocs.data;
     } else {
-      throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA"); // @todo wrong error message
+      throw new ClientError(
+        "Fatal Error: nextcloud notifications data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      ); // @todo wrong error message
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -2664,10 +3364,16 @@ export default class Client {
 
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`, requestInit, [200], { description: "UpdateNotifications get" });
+    const response: Response = await this.getHttpResponse(
+      this.nextcloudOrigin +
+        `/ocs/v2.php/apps/updatenotification/api/v1/applist/${version}`,
+      requestInit,
+      [200],
+      { description: "UpdateNotifications get" }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const rawResult: any = await response.json();
@@ -2678,7 +3384,10 @@ export default class Client {
     if (rawResult && rawResult.ocs && rawResult.ocs.data) {
       updateNotification = rawResult.ocs.data;
     } else {
-      throw new ClientError("Fatal Error: nextcloud notifications data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+      throw new ClientError(
+        "Fatal Error: nextcloud notifications data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      );
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -2687,7 +3396,11 @@ export default class Client {
   }
 
   // @todo to be refactored to user
-  public async sendNotificationToUser(userId: string, shortMessage: string, longMessage?: string): Promise<void> {
+  public async sendNotificationToUser(
+    userId: string,
+    shortMessage: string,
+    longMessage?: string
+  ): Promise<void> {
     const requestInit: RequestInit = {
       headers: new Headers({
         // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -2695,17 +3408,25 @@ export default class Client {
         // eslint-disable-next-line @typescript-eslint/naming-convention
         "Content-Type": "application/x-www-form-urlencoded",
         // eslint-disable-next-line @typescript-eslint/naming-convention
-        "OCS-APIRequest": "true",
+        "OCS-APIRequest": "true"
       }),
-      method: "POST",
+      method: "POST"
     };
 
     if (!longMessage) {
       longMessage = "";
     }
     longMessage = `&longMessage=${encodeURIComponent(longMessage)}`;
-    const queryString = `${encodeURIComponent(userId)}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
-    await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`, requestInit, [200], { description: "User create" });
+    const queryString = `${encodeURIComponent(
+      userId
+    )}?shortMessage=${encodeURIComponent(shortMessage)}${longMessage}`;
+    await this.getHttpResponse(
+      this.nextcloudOrigin +
+        `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`,
+      requestInit,
+      [200],
+      { description: "User create" }
+    );
     // const response: Response = await this.getHttpResponse(this.nextcloudOrigin + `/ocs/v2.php/apps/admin_notifications/api/v1/notifications/${queryString}`, requestInit, [200], { description: "User create" });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     // const rawResult: any = await response.json();
@@ -2721,10 +3442,17 @@ export default class Client {
   public async getApps(): Promise<string[]> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.getOcsUrl(`/apps`), requestInit, [200], { description: "Apps get" });
+    const response: Response = await this.getHttpResponse(
+      this.getOcsUrl(`/apps`),
+      requestInit,
+      [200],
+      {
+        description: "Apps get"
+      }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const rawResult: any = await response.json();
@@ -2735,7 +3463,10 @@ export default class Client {
     if (rawResult && rawResult.ocs && rawResult.ocs.data) {
       apps = rawResult.ocs.data;
     } else {
-      throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+      throw new ClientError(
+        "Fatal Error: nextcloud apps data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      );
     }
 
     const result: string[] = apps;
@@ -2746,10 +3477,15 @@ export default class Client {
   public async getAppInfos(appName: string): Promise<object> {
     const requestInit: RequestInit = {
       headers: this.getOcsHeaders(),
-      method: "GET",
+      method: "GET"
     };
 
-    const response: Response = await this.getHttpResponse(this.getOcsUrl(`/apps/${appName}`), requestInit, [200], { description: "App Infos get" });
+    const response: Response = await this.getHttpResponse(
+      this.getOcsUrl(`/apps/${appName}`),
+      requestInit,
+      [200],
+      { description: "App Infos get" }
+    );
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const rawResult: any = await response.json();
@@ -2760,7 +3496,10 @@ export default class Client {
     if (rawResult && rawResult.ocs && rawResult.ocs.data) {
       appInfo = rawResult.ocs.data;
     } else {
-      throw new ClientError("Fatal Error: nextcloud apps data missing", "ERR_SYSTEM_INFO_MISSING_DATA");
+      throw new ClientError(
+        "Fatal Error: nextcloud apps data missing",
+        "ERR_SYSTEM_INFO_MISSING_DATA"
+      );
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-types
@@ -2784,32 +3523,44 @@ export default class Client {
    * @returns array of properties
    * @throws GeneralError
    */
-  private async getPropertiesFromWebDAVMultistatusResponse(response: Response, href: string): Promise<any[]> {
-    const responseContentType: string | null = response.headers.get("Content-Type");
+  private async getPropertiesFromWebDAVMultistatusResponse(
+    response: Response,
+    href: string
+  ): Promise<any[]> {
+    const responseContentType: string | null =
+      response.headers.get("Content-Type");
 
     if (!responseContentType) {
-      throw new ClientError("Response content type expected", "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER");
+      throw new ClientError(
+        "Response content type expected",
+        "ERR_RESPONSE_WITHOUT_CONTENT_TYPE_HEADER"
+      );
     }
 
     if (responseContentType.indexOf("application/xml") === -1) {
-      throw new ClientError("XML response content type expected", "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED");
+      throw new ClientError(
+        "XML response content type expected",
+        "ERR_XML_RESPONSE_CONTENT_TYPE_EXPECTED"
+      );
     }
 
     const xmlBody: string = await response.text();
 
     if (XMLValidator.validate(xmlBody) !== true) {
-      throw new ClientError(`The response is not valid XML: ${xmlBody}`, "ERR_RESPONSE_NOT_INVALID_XML");
+      throw new ClientError(
+        `The response is not valid XML: ${xmlBody}`,
+        "ERR_RESPONSE_NOT_INVALID_XML"
+      );
     }
-    const options: any = {
-      ignoreNameSpace: true,
-    };
-
-    const parser = new XMLParser();
-    const body: any = parser.parse(xmlBody, options);
+    const parser = new XMLParser({ removeNSPrefix: true });
+    const body: any = parser.parse(xmlBody);
 
     // ensure that we have a multistatus response
     if (!body.multistatus || !body.multistatus.response) {
-      throw new ClientError(`The response is is not a WebDAV multistatus response`, "ERR_RESPONSE_NO_MULTISTATUS_XML");
+      throw new ClientError(
+        `The response is is not a WebDAV multistatus response`,
+        "ERR_RESPONSE_NO_MULTISTATUS_XML"
+      );
     }
 
     // ensure that response is always an array
@@ -2824,11 +3575,17 @@ export default class Client {
     const responseProperties: any[] = [];
     for (const res of body.multistatus.response) {
       if (!res.href) {
-        throw new ClientError(`The mulitstatus response must have a href`, "ERR_RESPONSE_MISSING_HREF_MULTISTATUS");
+        throw new ClientError(
+          `The mulitstatus response must have a href`,
+          "ERR_RESPONSE_MISSING_HREF_MULTISTATUS"
+        );
       }
 
       if (!res.propstat) {
-        throw new ClientError(`The mulitstatus response must have a "propstat" container`, "ERR_RESPONSE_MISSING_PROPSTAT");
+        throw new ClientError(
+          `The mulitstatus response must have a "propstat" container`,
+          "ERR_RESPONSE_MISSING_PROPSTAT"
+        );
       }
       let propStats = res.propstat;
 
@@ -2839,11 +3596,17 @@ export default class Client {
 
       for (const propStat of propStats) {
         if (!propStat.status) {
-          throw new ClientError(`The propstat must have a "status"`, "ERR_RESPONSE_MISSING_PROPSTAT_STATUS");
+          throw new ClientError(
+            `The propstat must have a "status"`,
+            "ERR_RESPONSE_MISSING_PROPSTAT_STATUS"
+          );
         }
         if (propStat.status === "HTTP/1.1 200 OK") {
           if (!propStat.prop) {
-            throw new ClientError(`The propstat must have a "prop"`, "ERR_RESPONSE_MISSING_PROPSTAT_PROP");
+            throw new ClientError(
+              `The propstat must have a "prop"`,
+              "ERR_RESPONSE_MISSING_PROPSTAT_PROP"
+            );
           }
           const property: any = propStat.prop;
           // eslint-disable-next-line no-underscore-dangle
@@ -2885,16 +3648,31 @@ export default class Client {
         }
     */
 
-  private async getHttpResponse(url: string, requestInit: RequestInit, expectedHttpStatusCode: number[], context: IRequestContext): Promise<Response> {
+  private async getHttpResponse(
+    url: string,
+    requestInit: RequestInit,
+    expectedHttpStatusCode: number[],
+    context: IRequestContext
+  ): Promise<Response> {
     if (!requestInit.headers) {
       requestInit.headers = new Headers();
     }
 
     /* istanbul ignore else */
     if (this.fakeServer) {
-      return await this.fakeServer.getFakeHttpResponse(url, requestInit, expectedHttpStatusCode, context);
+      return await this.fakeServer.getFakeHttpResponse(
+        url,
+        requestInit,
+        expectedHttpStatusCode,
+        context
+      );
     } else {
-      return await this.httpClient!.getHttpResponse(url, requestInit, expectedHttpStatusCode, context);
+      return await this.httpClient!.getHttpResponse(
+        url,
+        requestInit,
+        expectedHttpStatusCode,
+        context
+      );
     }
   }
 
@@ -2905,7 +3683,10 @@ export default class Client {
    * @param folderIndicator true if folders are requested otherwise files
    * @returns array of folder contents meta data
    */
-  private async contents(folderName: string, folderIndicator: boolean): Promise<any[]> {
+  private async contents(
+    folderName: string,
+    folderIndicator: boolean
+  ): Promise<any[]> {
     log.debug("Contents: folder ", folderName);
     const folders: Folder[] = [];
     folderName = this.sanitizeFolderName(folderName);
@@ -2965,12 +3746,18 @@ export default class Client {
     log.debug("createFolderInternal ", url);
 
     const requestInit: RequestInit = {
-      method: "MKCOL",
+      method: "MKCOL"
     };
     try {
-      await this.getHttpResponse(url, requestInit, [201], { description: "Folder create" });
+      await this.getHttpResponse(url, requestInit, [201], {
+        description: "Folder create"
+      });
     } catch (err) {
-      log.debug(`Error in createFolderInternal ${err.message as string} ${requestInit.method || ""} ${url}`);
+      log.debug(
+        `Error in createFolderInternal ${err.message as string} ${
+          requestInit.method || ""
+        } ${url}`
+      );
       throw err;
     }
   }
@@ -3000,17 +3787,25 @@ export default class Client {
           </d:propfind>`,
       // headers: new Headers({ Depth: "0" }),
       headers: new Headers(),
-      method: "PROPFIND",
+      method: "PROPFIND"
     };
     let response: Response;
     try {
-      response = await this.getHttpResponse(url, requestInit, [207], { description: "File/Folder get details" });
+      response = await this.getHttpResponse(url, requestInit, [207], {
+        description: "File/Folder get details"
+      });
     } catch (err) {
-      log.debug(`Error in stat ${err.message as string} ${requestInit.method || ""} ${url}`);
+      log.debug(
+        `Error in stat ${err.message as string} ${
+          requestInit.method || ""
+        } ${url}`
+      );
       throw err;
     }
 
-    const properties: any[] = await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+
     let resultStat: IStat | null = null;
 
     for (const prop of properties) {
@@ -3019,7 +3814,7 @@ export default class Client {
         fileid: prop.fileid,
         filename: fileName,
         lastmod: prop.getlastmodified,
-        type: "file",
+        type: "file"
       };
 
       if (prop.getcontentlength) {
@@ -3035,7 +3830,86 @@ export default class Client {
 
     if (!resultStat) {
       log.debug("Error: response ", JSON.stringify(properties, null, 4));
-      throw new ClientError("Error getting status information from : " + url, "ERR_STAT");
+      throw new ClientError(
+        "Error getting status information from : " + url,
+        "ERR_STAT"
+      );
+    }
+    return resultStat;
+  }
+
+  private async statForDirectory(fileName: string): Promise<IStat> {
+    const url: string = this.webDAVUrl + fileName;
+    log.debug("stat ", url);
+
+    const requestInit: RequestInit = {
+      body: `<?xml version="1.0"?>
+            <d:propfind  xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+            <d:prop>
+                  <d:getlastmodified />
+                  <d:getetag />
+                  <d:getcontenttype />
+                  <d:resourcetype />
+                  <oc:fileid />
+                  <oc:permissions />
+                  <oc:size />
+                  <d:getcontentlength />
+                  <nc:has-preview />
+                  <oc:favorite />
+                  <oc:comments-unread />
+                  <oc:owner-display-name />
+                  <oc:share-types />
+            </d:prop>
+          </d:propfind>`,
+      // headers: new Headers({ Depth: "0" }),
+      headers: new Headers(),
+      method: "PROPFIND"
+    };
+    let response: Response;
+    try {
+      response = await this.getHttpResponse(url, requestInit, [207], {
+        description: "File/Folder get details"
+      });
+    } catch (err) {
+      log.debug(
+        `Error in stat ${err.message as string} ${
+          requestInit.method || ""
+        } ${url}`
+      );
+      throw err;
+    }
+
+    const properties: any[] =
+      await this.getPropertiesFromWebDAVMultistatusResponse(response, "");
+
+    let resultStat: IStat | null = null;
+
+    for (const prop of [properties[0]]) {
+      resultStat = {
+        basename: basename(fileName),
+        fileid: prop.fileid,
+        filename: fileName,
+        lastmod: prop.getlastmodified,
+        type: "file"
+      };
+
+      if (prop.getcontentlength) {
+        resultStat.size = prop.getcontentlength;
+      } else {
+        resultStat.type = "directory";
+      }
+
+      if (prop.getcontenttype) {
+        resultStat.mime = prop.getcontenttype;
+      }
+    }
+
+    if (!resultStat) {
+      log.debug("Error: response ", JSON.stringify(properties, null, 4));
+      throw new ClientError(
+        "Error getting status information from : " + url,
+        "ERR_STAT"
+      );
     }
     return resultStat;
   }
@@ -3050,7 +3924,9 @@ export default class Client {
       }
       return { code, message };
     }
-    throw new InvalidServiceResponseFormatError("Fatal Error: The OCS meta status could not be retrieved from OCS response");
+    throw new InvalidServiceResponseFormatError(
+      "Fatal Error: The OCS meta status could not be retrieved from OCS response"
+    );
   }
 
   private getOcsHeaders(): Headers {
@@ -3060,7 +3936,7 @@ export default class Client {
       // eslint-disable-next-line @typescript-eslint/naming-convention
       "Content-Type": "application/json",
       // eslint-disable-next-line @typescript-eslint/naming-convention
-      Accept: "application/json",
+      Accept: "application/json"
     });
   }
 
@@ -3076,13 +3952,16 @@ export default class Client {
     return `${this.nextcloudOrigin}/ocs/v1.php/cloud${suffix}`;
   }
 
-  private async putFileContents(fileName: string, data: Buffer | NodeJS.ReadableStream): Promise<Response> {
+  private async putFileContents(
+    fileName: string,
+    data: Buffer | NodeJS.ReadableStream
+  ): Promise<Response> {
     const url: string = this.webDAVUrl + fileName;
     log.debug("putFileContents ", url);
 
     const requestInit: RequestInit = {
       body: data,
-      method: "PUT",
+      method: "PUT"
     };
 
     let description = "File save content ";
@@ -3091,6 +3970,8 @@ export default class Client {
     } else {
       description += "from stream";
     }
-    return await this.getHttpResponse(url, requestInit, [201, 204], { description });
+    return await this.getHttpResponse(url, requestInit, [201, 204], {
+      description
+    });
   }
 }
