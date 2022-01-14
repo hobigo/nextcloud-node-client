@@ -9,6 +9,7 @@
     "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
+    "prepublishOnly": "npm run build-release",
     "build-watch": "tsc --watch",
     "build": "tsc",
     "build-release": "npm run build && npm run typedoc",
