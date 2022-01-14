@@ -9,14 +9,14 @@
     "url": "git+https://github.com/hobigo/nextcloud-node-client.git"
   },
   "scripts": {
-    "build-watch": "node ./node_modules/typescript/bin/tsc -w",
-    "build": "node ./node_modules/typescript/bin/tsc",
-    "build-release": "node ./node_modules/typescript/bin/tsc && typedoc --out ./docs/ ./src/client.ts",
+    "build-watch": "tsc --watch",
+    "build": "tsc",
+    "build-release": "npm run build && npm run typedoc",
     "test": "mocha -r ts-node/register src/test/*test.ts",
     "cover": "nyc mocha -r ts-node/register src/test/*test.ts && nyc report --reporter=text-lcov > coverage.lcov",
     "record": "nyc mocha -r ts-node/register src/test/*test.ts --record",
-    "documentation": "typedoc",
-    "create-lcov": "./node_modules/.bin/codecov -t <token>",
+    "typedoc": "typedoc --out ./docs/ ./src/client.ts",
+    "create-lcov": "codecov -t <token>",
     "eslint": "npx eslint"
   },
   "nyc": {
