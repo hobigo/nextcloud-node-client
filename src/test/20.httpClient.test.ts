@@ -38,7 +38,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
 
         const requestInit: RequestInit = {
             method: "GET",
-            timeout: 1,
+            // timeout: 1,
         };
         const url: string = "https://this.server.does.not.exist:1234/root";
 
@@ -210,7 +210,7 @@ describe("20-NEXCLOUD-NODE-CLIENT-HTTP-CLIENT", function () {
         const httpClient: HttpClient = new HttpClient(options);
 
         const requestInit: RequestInit = {
-            timeout: 1,
+            // timeout: 1,
         };
         const url: string = "https://this.server.does.not.exist:1234/root";
 

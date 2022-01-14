@@ -1,3 +1,5 @@
+docs
+
 # exclude local environment definition .en
 .env
 
