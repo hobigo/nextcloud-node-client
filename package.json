@@ -55,7 +55,7 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "debug": "^4.1.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.2",
     "fast-xml-parser": "^3.17.4",
     "http-proxy-agent": "^4.0.1",
     "joi": "^17.2.1",
